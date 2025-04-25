@@ -114,9 +114,20 @@
   
       <div class="container-med">
         <section class="layout" id="inventory">
-          <!-- Medicine items will be rendered here -->
+         <!----
+          <div class="grid-item">
+            <div class="item-image">
+              <img src="../pictures/nurse.png" alt="Item Name">
+            </div>
+            <div class="item-name">Sword</div>
+            <div class="item-qty">x2</div>
+            <button class="view-button" onclick="viewItem(this)">View</button>
+          </div>
+          
+        --->
         </section>
       </div>
+      
       
     </div>
   </div>
@@ -131,7 +142,7 @@
   <div class="form-content" id="popupContainer">
     <div class="new-data">
       <div class="title-container">
-        <div class="title">MEDICAL RECORD FORM</div>
+        <div class="title">MEDICINE INVENTORY</div>
         <button class="close-btn" onclick="closePopup()">×</button>
       </div>
   
@@ -178,7 +189,64 @@
     </div>
   </div>
   
-   
+
+  <!-- View Medicine Popup (Hidden initially) -->
+
+<!-- View Medicine Details Popup (initially hidden) -->
+<!-- View Medicine Details Popup (initially hidden) -->
+<div id="viewPopup" class="form-content" style="display: none;">
+  <div class="new-data">
+    <div class="title-container">
+      <div class="title">VIEW MEDICINE DETAILS</div>
+      <button class="close-btn" onclick="closeViewPopup()">×</button>
+    </div>
+
+    <div class="medical-fields">
+      <div class="field-group">
+        <label for="viewMedicineImage">Medicine Image</label>
+        <img id="viewMedicineImage" src="" alt="Medicine Image" style="max-width: 300%; height: auto;">
+      </div>
+
+      <div class="field-group">
+        <label for="viewMedicineName">Medicine Name</label>
+        <input id="viewMedicineName" type="text" readonly>
+      </div>
+
+      <div class="field-group">
+        <label for="viewMedicineType">Type of Medicine</label>
+        <input id="viewMedicineType" type="text" readonly>
+      </div>
+
+      <div class="field-group">
+        <label for="viewDosage">Dosage</label>
+        <input id="viewDosage" type="text" readonly>
+      </div>
+
+      <div class="field-group">
+        <label for="viewRemarks">Remarks</label>
+        <textarea id="viewRemarks" readonly></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="viewQuantityStock">Quantity in Stock</label>
+        <input id="viewQuantityStock" type="text" readonly>
+      </div>
+
+      <div class="field-group">
+        <label for="viewDescription">Description</label>
+        <textarea id="viewDescription" readonly></textarea>
+      </div>
+    </div>
+
+
+    <div style="display: flex; justify-content: right;">
+      <button id="saveChangesBtn" class="save-button" style="display:none;">Save Changes</button>
+    </div>
+    
+  </div>
+</div>
+
+  
  <script src="../js/medinvjs.js"></script>
 
 
