@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/user_interfacestyle.css">
+</head>
+<body>
+  <img src="/pictures/logo_user.png" alt="Logo" class="logo_img">
+  <div class="time">
+    <p class="clock" id="clock"></p>
+    <p class="weekday" id="weekday"></p>
+    <p class="date" id="date"></p>
+  </div>
+
+  <div class="time_in">
+    <h2>TIME IN</h2>
+    <form action="/forms/login.html" class="transition-link" method="post">
+      <div class="row1">
+        <div class="row_email">
+          <label>Email:</label><br> 
+          <input type="text" name="email" ><br>
+        </div>
+        <div class="row_id">
+          <label>ID Number:</label> <br>
+          <input type="text" name="id_number" ><br>
+        </div>
+
+        
+      </div>
+
+      <div class="row2">
+        <div class="row_category">
+          <label>Category:</label><br>
+          <select name="category" id="category" >
+            <option value="" disabled selected>Select Category</option>
+            <option value="Student">Student</option>
+            <option value="Teaching">Teaching</option>
+            <option value="Non-Teaching">Non-Teaching</option>
+          </select>
+        </div>
+        
+        <div class="row_reason">
+          <label>Reason for Visit:</label><br>
+          <select name="yearLevel" id="yearLevel">
+            <option value="" disabled selected>Select Reason</option>
+            <option value="Headache">Headache</option>
+            <option value="Toothache">Toothache</option>
+            <option value="Menstrual cramps">Menstrual cramps</option>
+            <option value="Asthma">Asthma attack or difficulty breathing</option>
+            <option value="Borrow">Borrow</option>
+            <option value="Return">Return</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="other">
+        <label>Other:</label><br>
+        <input type="text" name="other_reason" ><br>
+      </div>
+      
+      <button type="submit" name="addStudent">Submit</button>
+    </form>
+
+    <script src="/js/time.js"></script>
+    <script>
+   // Fade-in on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+  });
+
+  // Fade-out when clicking links with class 'transition-link'
+  document.querySelectorAll('a.transition-link').forEach(link => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault(); // stop the default behavior
+      const target = this.href;
+
+      document.body.classList.remove("loaded");
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        window.location.href = target;
+      }, 500); // match the CSS transition time
+    });
+  });
+    </script>
+    
+</body>
+</html>
