@@ -1,0 +1,752 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 78px;
+  background: #fafafa;
+  padding: 6px 14px;
+  transition: all 0.5s ease;
+  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+
+.sidebar.active {
+  width: 240px;
+}
+
+.sidebar .logo-content .logo {
+  color: #1a1259;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.5s ease;
+}
+
+.sidebar.active .logo-content .logo {
+  opacity: 1;
+  margin-right: 1px;
+  pointer-events: auto;
+}
+
+.sidebar.active .logo-content .logo .logo-name {
+  opacity: 1;
+  transition: all 0.5s ease;
+}
+
+.logo-content .logo i {
+  font-size: 28px;
+  margin-right: 1px;
+}
+
+.logo-content .logo .logo-name {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  margin-right: 5px;
+}
+
+.logo {
+  padding-left: 5px;
+}
+
+.sidebar #btn {
+  position: absolute;
+  color: #fff;
+  left: 50%;
+  top: 6px;
+  font-size: 20px;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+  transform: translateX(-50%);
+}
+
+.sidebar.active #btn {
+  left: 90%;
+}
+
+.sidebar ul {
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  list-style: none;
+  height: 50px;
+  position: relative;
+  width: 100%;
+  margin: 0 5px;
+  line-height: 50px;
+  border-radius: 12px;
+  font-weight: 400;
+  margin: 0 5px 12px 5px;
+}
+
+.sidebar ul li .tooltip {
+  position: absolute;
+  height: 35px;
+  width: 170px;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  left: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 6px;
+  line-height: 35px;
+  text-align: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  display: block;
+  z-index: 9999;
+}
+
+.sidebar ul li:hover .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 9999;
+}
+
+.sidebar.active ul li .tooltip {
+  left: 240px;
+  z-index: 999;
+}
+
+.sidebar ul li:hover .tooltip {
+  transition: all 0.5s ease;
+  opacity: 1;
+  top: 50%;
+}
+
+.tooltip {
+  z-index: 10001;
+}
+
+.sidebar ul li a {
+  color: #1a1259;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  border-radius: 12px;
+}
+
+.sidebar ul li a:hover {
+  background: #1a1259;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.sidebar ul li a i {
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.sidebar .link-name {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+.sidebar.active .link-name {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar a.active {
+  background-color: #1a1259;
+  color: #fff;
+}
+
+.header-content {
+  position: absolute;
+  height: 100px;
+  width: calc(100% - 78px);
+  left: 78px;
+  transition: all 0.5s ease;
+  z-index: 100;
+  overflow: hidden;
+}
+.header-content .text {
+  font-size: 25px;
+  font-weight: 800;
+  font-style: italic;
+  color: #fff;
+  padding: 15px 20px;
+  margin: 10px auto;
+  background: #1a1259;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  letter-spacing: 1px;
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+.sidebar.active ~ .header-content {
+  width: calc(100% - 240px);
+  left: 240px;
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.sidebar.active ~ .home-content {
+  width: calc(80% - -45px);
+  left: 250px;
+  top: 90px;
+  transition: all 0.5s ease;
+  z-index: 1;
+}
+
+.home-content {
+  position: absolute;
+  top: 90px;
+  width: calc(80% - -205px);
+  left: 90px;
+  height: calc(100vh - 90px);
+  transition: all 0.5s ease;
+  z-index: 101;
+  top: 90px;
+}
+
+
+.home-content .data {
+  font-size: 25px;
+  font-weight: 800;
+  font-style: italic;
+  color: #000000;
+  padding: 15px 20px;
+  margin: 10px auto;
+  background: #ffffff;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  top: 1px;
+  border: #000000 solid 1px;
+  font-style: normal;
+}
+
+.styled-table th {
+  background-color: #1a1259;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  border: #000000 solid 1px;
+  font-size: medium;
+  font-style: normal;
+}
+
+.styled-table thead th {
+  background-color: #1a1259;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  border: #000000 solid 1px;
+  font-size: medium;
+  font-style: normal;
+  position: sticky;
+  top: 0; 
+  z-index: 1; 
+}
+
+.styled-table td {
+  position: relative;
+  padding: 8px;
+  text-align: left;
+  font-size: 12px;
+  border: #000000 solid 1px;
+  font-style: normal;
+  height: 30px;
+}
+
+.styled-table td button {
+  background-color: #1a1259;
+  color: white;
+  border: none;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100px;
+}
+
+.styled-table td.action-cell {
+  padding: 0;
+}
+
+.styled-table td button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.styled-table td button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end; 
+  margin-bottom: 10px;
+  gap: 10px; 
+  margin-top: 10px;
+
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-container input[type="text"] {
+  padding: 8px 45px 8px 10px; 
+  font-size: 14px;
+  width: 250px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  outline: none;
+  border: #000000 solid;
+
+}
+
+.search-btn {
+  position: absolute;
+  right: 5px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #1a1259;
+  color: white;
+  padding: 5px 5px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 30px
+  
+}
+
+.search-btn:hover {
+  background-color: #1a1259;
+
+}
+
+.search-btn:focus {
+  outline: none; 
+}
+
+.add-btn {
+  color: #ffffff;
+  background-color: #1a1259;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #1a1259;
+  transform: scale(1.05);
+
+}
+
+.add-btn:focus {
+  outline: none; 
+}
+
+
+.control-button {
+  color: #1a1259;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: transparent;
+}
+
+.control-button:hover {
+  transform: scale(1.15);
+
+}
+
+.control-button i {
+  font-size: 25px; 
+  transform: scale(1.05);
+
+
+}
+
+.table-data {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #ccc; 
+}
+
+
+
+/*TO BE EDITED!! */
+
+.filler {
+  background-color: transparent;
+  height: 100px; 
+  width: 100%; 
+  padding: 10px;  
+  border: #000000 solid 1px;
+}
+
+.form-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(96, 96, 96, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding-bottom: 30px;
+  display: none;
+}
+
+.new-data {
+  position: fixed; 
+  top: 50%; 
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); 
+  width: 1200px; 
+  height: 600px; 
+  max-width: 1200px;
+  background: #e6ebef;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  background-color: #2e266d;
+  color: #fff;
+  padding: 20px;
+  justify-content: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+.close-btn {
+  font-size: 24px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  width: 100%;
+}
+
+.items div {
+  padding: 15px 20px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.items div:hover {
+  background: #cbdffe;
+}
+
+.items .category-item {
+  background: linear-gradient(to top, #afb4db, #e6e9f0); 
+}
+
+
+.user-type {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  padding: 20px;
+  transform: translateX(30px);
+}
+
+.user-type label {
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.user-type input[type="checkbox"] {
+  margin-right: 10px; 
+}
+
+.underline1 {
+  height: 2px;
+  background: #ccc;
+  margin: 10px 40px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+.styled-checkbox {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.styled-checkbox span {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.submit-button {
+  position: absolute;
+  top: 500px;
+  right: 43px;
+  color: #010440;
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  background-color: #afb4db;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #40379a;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 20px 40px;
+}
+
+#studentFields,
+#personnelFields{
+  flex: 1;
+}
+
+/*POP-UP PATIENT DATA */
+
+#popupPatient {
+  display: none;
+}
+
+.title-with-underline {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  padding: 25px;
+  opacity: 0.6; 
+}
+
+.underline3 {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #000; 
+}
+
+.scrollable-table {
+  max-height: 450px; 
+  overflow-y: auto;
+}
+
+
+.data-patients {
+  width: 100%;
+  max-width: 900px;
+  margin-top: -50px;
+  margin-left: 30px;
+  background-color: transparent;
+  padding: 20px;
+
+  border-collapse: separate;
+  border-spacing: 20px 15px; 
+}
+
+.data-patients td{
+  padding: 10px;
+  text-align: left;
+  width: 33.33%;
+}
+
+.data-patients th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+  padding: 10px;
+  text-align: left;
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px; 
+  display: block; 
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fefefe;
+  transition: 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-row td {
+  flex: 1 1 200px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  width: 100%;
+}
+
+.item div {
+  padding: 15px 20px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.item div:hover {
+  background: #cbdffe;
+}
+
+
+.item .patient-item {
+  background: linear-gradient(to top, #afb4db, #e6e9f0); 
+}
+
+@media (max-width: 768px) {
+  .data-patients {
+      width: 100%;
+  }
+
+  .form-row td {
+      display: block;
+      width: 100%;
+  }
+}
+
+
