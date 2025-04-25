@@ -14,18 +14,7 @@ body {
   overflow: hidden;
   background-color: #f1f1f1;
 }
-body {
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out;
-}
 
-body.fade-in {
-  opacity: 1;
-}
-
-body.fade-out {
-  opacity: 0;
-}
 .sidebar {
   position: fixed;
   top: 0;
