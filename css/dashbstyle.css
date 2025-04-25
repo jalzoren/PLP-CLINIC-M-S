@@ -236,7 +236,7 @@ body {
   border-radius: 10px;
   box-sizing: border-box;
 
-  background-image: url("/pictures/waves.png");
+  background-image: url("../pictures/waves.png");
   background-size: cover;
 }
 
