@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Records / PLP Clinic Monitoring System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
+    
+  </head>
+
+  <body>
+    
+ <!-- Pop-up container for category -->
+ <div class="form-content" id="popupContainer">
+    <div class="new-data">
+      <div class="text">
+        <div class="title-container">
+          <div class="title">MEDICAL RECORD FORM</div>
+          <button class="close-btn" onclick="closePopup()">×</button>
+        </div>
+  
+        <div class="items">
+          <div class="category-item">CATEGORY</div>
+          <div>PATIENT'S DATA</div>
+          <div>PERSONAL HISTORY</div>
+          <div>FAMILY HISTORY</div>
+        </div>
+  
+        <div class="user-type">
+          <label><input type="checkbox" id="studentCheckbox" name="user" value="student" /> Student</label>
+          <label><input type="checkbox" id="personnelCheckbox" name="user" value="personnel" /> Personnel</label>
+        </div>
+  
+        <div class="underline1"></div>
+  
+      <div class="flex-wrapper">
+          <!-- Student Fields -->
+          <div id="studentFields" style="display: none">
+            <div class="field-group">
+              <label for="college">College Department</label>
+              <select id="college">
+                <option value="">-- Select Department --</option>
+                <option>CAS</option>
+                <option>CBA</option>
+                <option>CCIS</option>
+                <option>COE</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="program">Degree Program</label>
+              <select id="program">
+                <option value="">-- Select Program --</option>
+                <option>BSIT</option>
+                <option>BSCS</option>
+                <option>BSECE</option>
+                <option>BSBA</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="batch">Batch</label>
+              <input type="text" id="batch" placeholder="Enter Batch (e.g., 2024)" />
+            </div>
+          </div>
+  
+          <!-- Personnel Fields -->
+          <div id="personnelFields" style="display: none">
+            <div class="checkbox-group">
+              <label class="styled-checkbox">
+                <input type="checkbox" id="teaching" />
+                <span>Teaching</span>
+              </label>
+              <label class="styled-checkbox">
+                <input type="checkbox" id="nonTeaching" />
+                <span>Non-teaching</span>
+              </label>
+            </div>
+            <div style="display: flex; gap: 20px">
+              <div class="field-group">
+                <label for="department">Department</label>
+                <select id="department">
+                  <option value="">-- Select Department --</option>
+                  <option>HR</option>
+                  <option>Finance</option>
+                  <option>Maintenance</option>
+                  <option>IT</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="departmentSection">Department Section</label>
+                <select id="departmentSection">
+                  <option value="">-- Select Section --</option>
+                  <option>Section A</option>
+                  <option>Section B</option>
+                  <option>Section C</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      </div>
+  
+        <button class="submit-button" onclick="openPopupPatient()">
+          NEXT
+        </button>
+        
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pop-up container for patient's data -->
+  <div class="form-content" id="popupPatient">
+      <div class="new-data">
+          <div class="text">
+              <div class="title-container">
+                <div class="title">MEDICAL RECORD FORM</div>
+                <button class="close-btn" onclick="closePopup()">×</button>
+              </div>
+        
+              <div class="item">
+                <div class="category-item">CATEGORY</div>
+                <div class="patient-item">PATIENT'S DATA</div>
+                <div>PERSONAL HISTORY</div>
+                <div>FAMILY HISTORY</div>
+              </div>
+              <div class="scrollable-table">
+                  <div class="title-with-underline">
+                      <div class="section-title">Patient's Data</div>
+                      <div class="underline3"></div>
+                  </div>
+  
+                  <table class="data-patients" id="dataTable">
+                      <tr>
+                          <td>
+                              <label for="identification">Identification Number</label>
+                              <input type="text" id="identification" placeholder="Enter Identification Number" />
+                          </td>
+  
+                          <td>
+                              <label for="lastname">Last Name</label>
+                              <input type="text" id="lastname" placeholder="Enter Last Name" />
+                          </td>
+  
+                          <td>
+                              <label for="firstname">First Name</label>
+                              <input type="text" id="firstname" placeholder="Enter First Name" />
+                          </td>
+  
+                          <td>
+                            <label for="middlename">Middle Name</label>
+                            <input type="text" id="middlename" placeholder="Enter Middle Name" />
+                        </td>  
+                      </tr>
+                      <tr>
+                          <td><label for="gender">Sex</label>
+                              <select id="gender">
+                                  <option value="">-- Select Sex --</option>
+                                  <option>Male</option>
+                                  <option>Female</option>
+                              </select>
+                          </td>
+          
+                          <td><label for="age">Age</label>
+                              <input type="text" id="age" placeholder="Enter Age" />
+                          </td>
+  
+                          <td><label for="birthdate">Birthdate</label>
+                            <input type="date" id="birthdate" />
+                          </td>
+  
+                          <td><label for="religion">Religion</label>
+                              <input type="text" id="religion" placeholder="Enter Religion" />
+                          </td>
+                      </tr>
+  
+                      <tr>
+                          <td>
+                              <label for="nationality">Nationality</label>
+                              <input type="text" id="nationality" placeholder="Enter Nationality" />
+                          </td>
+  
+                          <td>
+                            <label for="contact">Contact Number</label>
+                            <input type="text" id="contact" placeholder="Enter Contact Number" />
+                          </td>
+  
+                        <td>
+                            <label for="civilstatus">Civil Status</label>
+                            <select id="civilstatus">
+                                <option value="">-- Select Civil Status --</option>
+                                <option>Single</option>
+                                <option>Married</option>
+                                <option>Divorced</option>
+                                <option>Widowed</option>
+                                <option>Separated</option>
+                            </select>
+                        </td>
+  
+                        <td>
+                          <label for="address">Address</label>
+                          <input type="text" id="address" placeholder="No. Street, Village/Subdivision, Barangay" />
+                        </td>
+  
+                      </tr>
+                      <tr>
+                          <td>
+                              <label for="city">City</label>
+                              <input type="text" id="city" placeholder="Enter City" />
+                          </td>
+          
+                          <td>
+                              <label for="province">Province</label>
+                              <input type="text" id="province" placeholder="Enter Province" />
+                          </td>
+                          
+                          <td>
+                              <label for="zipcode">Zip Code</label>
+                              <input type="text" id="zipcode" placeholder="Enter Zip Code" />
+                          </td>    
+                      </tr>
+                  </table>
+  
+                  <div class="title-section-underline">
+                    <div class="section">Person to contact in case of emergency</div>
+                    <div class="underline3"></div>
+                  </div>
+  
+                  <table class="emergencycont-table" id="contactTable">
+                      <tr>
+                          <td>
+                              <label for="emergencylastname">Last Name</label>
+                              <input type="text" id="emergencyname" placeholder="Enter Last Name" />
+                          </td>
+  
+                          <td>
+                            <label for="emergencfirstname">First Name</label>
+                            <input type="text" id="emergencyname" placeholder="Enter First Name" />
+                          </td>
+  
+                          <td>
+                            <label for="emergencymiddlename">Middle Name</label>
+                            <input type="text" id="emergencymiddlename" placeholder="Enter Middle Name" />
+                          </td>   
+                          
+                          <td>
+                            <label for="relationship">Relationship</label>
+                            <input type="text" id="relationship" placeholder="Enter Relationship" />
+                          </td>  
+                      </tr>
+  
+                      <tr>
+                        <td>
+                            <label for="emergencycontact">Contact Number</label>
+                            <input type="text" id="emergencycontact" placeholder="Enter Contact Number" />
+                        </td>
+  
+                        <td>
+                            <label for="emergencyaddress">Address</label>
+                            <input type="text" id="emergencyaddress" placeholder="No. Street, Village/Subdivision, Barangay" />
+                        </td>
+  
+                        <td>
+                          <label for="emergencycity">City</label> 
+                          <input type="text" id="emergencycity" placeholder="Enter City" />
+                        </td>
+  
+                        <td>
+                          <label for="emergencyprovince">Province</label>
+                          <input type="text" id="emergencyprovince" placeholder="Enter Province" />
+                        </td>
+                      </tr>
+  
+                      <tr>
+                        <td>
+                          <label for="emergencyzipcode">Zip Code</label>
+                          <input type="text" id="emergencyzipcode" placeholder="Enter Zip Code" />
+                        </td>
+                      </tr>
+                  </table>
+  
+                  <div class="back-submit-patient">
+                    <button class="back-button" onclick="goBackToCategory()">BACK</button>
+                    <button class="submit2-button" onclick="goToPersonalHistoPopUp()">NEXT</button>
+                  </div>
+              </div>
+          </div>   
+      </div>
+  </div>
+  
+  
+   <!-- Pop-up container for Personal History -->
+   <div class="form-content" id="popupPersonalHistory">
+    <div class="new-data">
+      <div class="text">
+        <div class="title-container">
+          <div class="title">MEDICAL RECORD FORM</div>
+          <button class="close-btn" onclick="closePopup()">×</button>
+        </div>
+  
+        <div class="item1">
+          <div class="category-item">CATEGORY</div>
+          <div>PATIENT'S DATA</div>
+          <div class="personal-item">PERSONAL HISTORY</div>
+          <div>FAMILY HISTORY</div>
+        </div>
+        <div class="scrollable-table">
+          <div class="generalline-personal">
+            <div class="medicaltitle-underline">
+              <div class="section-medicaltitle">Medical</div>
+              <div class="underline4"></div>
+            </div>
+  
+            <div class="maternaltitle-underline">
+              <div class="section-maternaltitle">Maternal (for Female patients)</div>
+              <div class="underline5"></div>
+            </div>
+          </div>
+  
+            <div class="flex-wrapper2">
+                <!-- Medical -->
+              <table class="medical-table" id="medicalTable">
+                  <tr>     
+                    <td>
+                      <label>
+                        <input type="checkbox" id="hypertension" /> Hypertension
+                      </label>
+                    </td>
+  
+                    <td>
+                      <label>
+                        <input type="checkbox" id="tubercolosis" /> Tubercolosis
+                      </label>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="highCholesterol" /> High Cholesterol
+                      </label>
+                    </td>
+  
+                    <td>
+                      <label>
+                        <input type="checkbox" id="alergies" /> Alergies:
+                        <input type="text" id="alergiesText" placeholder="Specify" />
+                      </label>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="diabetes" /> Diabetes
+                      </label>
+                    </td>
+  
+                    <td>
+                      <label>
+                        <input type="checkbox" id="thyroidProblems" /> Thyroid Problems
+                      </label>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="cancer" /> Cancer
+                      </label>
+                    </td>
+  
+                    <td>
+                      <label>
+                        <input type="checkbox" id="asthma" /> Asthma
+                      </label>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td>
+                      <label>
+                        <input type="checkbox" id="emphysema" /> Emphysema
+                      </label>
+                    </td>
+  
+                    <td>
+                      <label>
+                        <input type="checkbox" id="otherMedical" /> OTHERs/specify:
+                        <input type="text" id="otherMedicalText" placeholder="Specify" />
+                      </label>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td colspan="2">
+                      <label for="maintenanceMedication/s">Maintenance Medication/s</label>
+                      <textarea id="medicalHistory" rows="4" placeholder="Enter Medical History"></textarea>
+                    </td>
+                  </tr>
+              </table>
+  
+              <table class="maternal" id="maternalTable">
+                <tr>     
+                    <td>
+                        <label>
+                            <span>Number of Pregnancies:</span>
+                            <span class="separator">.................................................................................</span>
+                            <input type="text" id="numberOfPreg" />
+                        </label>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td>
+                        <label>
+                            <span>Number of Miscarriage/s:</span>
+                            <span class="separator">..............................................................................</span>
+                            <input type="text" id="numberOfMiscarriage" />
+                        </label>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td>
+                        <label>
+                            <span>Number of Term deliveries:</span>
+                            <span class="separator">...........................................................................</span>
+                            <input type="text" id="numberOfTermdeliveries" />
+                        </label>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td>
+                        <label>
+                            <span>Number of Premature deliveries:</span>
+                            <span class="separator">.............................................................</span>
+                            <input type="text" id="numberOfPrematureDeliveries" />
+                        </label>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td>
+                        <label>
+                            <span>Total Number of Children:</span>
+                            <span class="separator">..............................................................................</span>
+                            <input type="text" id="totalnumberofChildren" />
+                        </label>
+                    </td>
+                </tr>
+            </table>
+  
+            <div class="alcosur-personal">
+              <div class="alcoholtitle-underline">
+                <div class="section-alcoholtitle">Alcohol</div>
+                <div class="underline6"></div>
+              </div>
+    
+              <div class="surgicaltitle-underline">
+                <div class="section-surgicaltitle">Surgical</div>
+                <div class="underline7"></div>
+              </div>
+            </div>
+  
+            <table class="alcoholsugical-table" id="alcoholsugicalTable">
+              <tr>     
+                <td>
+                  <label>
+                    <input type="checkbox" id="oncePerWeek" /> Once per week
+                  </label>
+                </td>
+                <td>
+                  <label>
+                    <input type="checkbox" id="surgical" /> Yes / specify
+                    <input type="text" id="surgicalText" placeholder="Specify" />
+                  </label>
+                </td>
+              </tr>
+  
+              <tr>
+                <td>
+                  <label>
+                    <input type="checkbox" id="moreThanonceperweek" /> More Than Once Per Week
+                  </label>
+                </td>
+  
+                <td>
+                  <label>
+                    <input type="checkbox" id="noneSurgery" /> None
+                  </label>
+                </td>
+              </tr>
+  
+              <tr>
+                <td colspan="2">
+                  <label>
+                    <input type="checkbox" id="totalperconsupAlcho" />
+                    Total estimated amount per consumption of alcohol
+                    <input type="text" id="totalperconsupAlchoText" placeholder="Specify" />
+                  </label>
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+            <div class="smodrug-personal">
+              <div class="smokingtitle-underline">
+                <div class="smoking-alcoholtitle">Smoking</div>
+                <div class="underline8"></div>
+              </div>
+    
+              <div class="drugtitle-underline">
+                <div class="section-drugtitle">Prohibited/Regulated use of drugs or substance</div>
+                <div class="underline9"></div>
+              </div>
+            </div>
+  
+            <div class="flex-wrapper3"> 
+               
+            </div> 
+  
+           
+          </div>     
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/popup-medical.js"></script>
+
+  </body>
+
+</html>
