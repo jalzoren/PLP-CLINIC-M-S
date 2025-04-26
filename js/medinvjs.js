@@ -15,7 +15,7 @@ function addRow() {
 }
 
 function searchTable() {
-  alert("Add function triggered.");
+  alert("Search function triggered.");
 }
 
 function showPopup() {
@@ -64,6 +64,7 @@ function viewItem(index) {
       medicine.quantity = document.getElementById('viewQuantityStock').value;
       medicine.description = document.getElementById('viewDescription').value;
       
+      updateGridItem(index, medicine);
       closeViewPopup();
     };
   }
@@ -76,15 +77,24 @@ function closeViewPopup() {
   }
 }
 
-function closeViewPopup() {
-  const viewPopup = document.getElementById('viewPopup');
-  if (viewPopup) {
-    viewPopup.style.display = 'none';
+// Update grid item when edited
+function updateGridItem(index, medicine) {
+  const inventory = document.getElementById('inventory');
+  const gridItem = inventory.children[index];
+  
+  if (gridItem) {
+    gridItem.innerHTML = `
+      <div class="item-image">
+        <img src="${medicine.image}" alt="${medicine.name}">
+      </div>
+      <div class="item-name">${medicine.name}</div>
+      <div class="item-qty">x${medicine.quantity}</div>
+      <div class="item-buttons">
+        <button class="view-button" onclick="viewItem(${index})">View</button>
+        <button class="delete-button" onclick="deleteItem(${index})">Delete</button>
+      </div>
+    `;
   }
-}
-
-function closePopup() {
-  document.getElementById("popupContainer").style.display = "none";
 }
 
 function showLayoutBox() {
@@ -115,17 +125,16 @@ function showLayoutBox() {
     const gridItem = document.createElement('div');
     gridItem.className = 'grid-item';
     gridItem.innerHTML = `
-    <div class="item-image">
-      <img src="${imageURL}" alt="${name}">
-    </div>
-    <div class="item-name">${name}</div>
-    <div class="item-qty">x${quantity}</div>
-    <div class="item-buttons">
-      <button class="view-button" onclick="viewItem(${medicines.length - 1})">View</button>
-      <button class="delete-button" onclick="deleteItem(${medicines.length - 1})">Delete</button>
-    </div>
-  `;
-  
+      <div class="item-image">
+        <img src="${imageURL}" alt="${name}">
+      </div>
+      <div class="item-name">${name}</div>
+      <div class="item-qty">x${quantity}</div>
+      <div class="item-buttons">
+        <button class="view-button" onclick="viewItem(${medicines.length - 1})">View</button>
+        <button class="delete-button" onclick="deleteItem(${medicines.length - 1})">Delete</button>
+      </div>
+    `;
 
     const inventory = document.getElementById('inventory');
     inventory.appendChild(gridItem);
@@ -144,13 +153,13 @@ function showLayoutBox() {
 }
 
 function resetForm() {
-  document.getElementById('medicineImage').value = ''; // Clear the file input
-  document.getElementById('medicineName').value = ''; // Clear the medicine name
-  document.getElementById('medicineType').value = ''; // Clear the medicine type
-  document.getElementById('dosage').value = ''; // Clear the dosage
-  document.getElementById('remarks').value = ''; // Clear remarks
-  document.getElementById('quantityStock').value = ''; // Clear quantity
-  document.getElementById('description').value = ''; // Clear description
+  document.getElementById('medicineImage').value = '';
+  document.getElementById('medicineName').value = '';
+  document.getElementById('medicineType').value = '';
+  document.getElementById('dosage').value = '';
+  document.getElementById('remarks').value = '';
+  document.getElementById('quantityStock').value = '';
+  document.getElementById('description').value = '';
 }
 
 function deleteItem(index) {
@@ -162,6 +171,23 @@ function deleteItem(index) {
   const countSpan = document.getElementById('box-count');
   const currentCount = parseInt(countSpan.textContent, 10);
   countSpan.textContent = currentCount - 1;
+
+  rebuildGridButtons();
+}
+
+function rebuildGridButtons() {
+  const inventory = document.getElementById('inventory');
+  const gridItems = inventory.children;
+  
+  for (let i = 0; i < gridItems.length; i++) {
+    const buttonsDiv = gridItems[i].querySelector('.item-buttons');
+    if (buttonsDiv) {
+      buttonsDiv.innerHTML = `
+        <button class="view-button" onclick="viewItem(${i})">View</button>
+        <button class="delete-button" onclick="deleteItem(${i})">Delete</button>
+      `;
+    }
+  }
 }
 
 let btn = document.querySelector("#logo");
