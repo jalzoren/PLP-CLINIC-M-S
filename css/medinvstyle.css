@@ -668,7 +668,6 @@ body {
   outline: none;
 }
 
-/* Submit Button */
 .submit-button {
   margin: 25px auto;
   background-color: #1a1259;
@@ -691,7 +690,7 @@ body {
 */
 
 .form-content {
-  display: none; /* Initially hidden */
+  display: none; 
   position: fixed;
   top: 0;
   left: 0;
@@ -792,7 +791,7 @@ body {
 
 .field-group input[readonly],
 .field-group textarea[readonly] {
-  background-color: #f0f0f0; /* Disable editing */
+  background-color: #f0f0f0;
   cursor: not-allowed;
 }
 
