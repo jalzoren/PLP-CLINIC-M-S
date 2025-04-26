@@ -37,7 +37,6 @@ function viewItem(index) {
   const viewPopup = document.getElementById('viewPopup');
   
   if (viewPopup) {
-    // Fill the fields with current medicine data
     document.getElementById('viewMedicineImage').src = medicine.image;
     document.getElementById('viewMedicineName').value = medicine.name;
     document.getElementById('viewMedicineType').value = medicine.type || 'N/A';
@@ -46,7 +45,6 @@ function viewItem(index) {
     document.getElementById('viewQuantityStock').value = medicine.quantity;
     document.getElementById('viewDescription').value = medicine.description || 'N/A';
 
-    // editable
     document.getElementById('viewMedicineName').readOnly = false;
     document.getElementById('viewMedicineType').readOnly = false;
     document.getElementById('viewDosage').readOnly = false;
@@ -54,15 +52,11 @@ function viewItem(index) {
     document.getElementById('viewQuantityStock').readOnly = false;
     document.getElementById('viewDescription').readOnly = false;
     
-    // save button
     document.getElementById('saveChangesBtn').style.display = 'block';
     
-    //  popup
     viewPopup.style.display = 'flex';
     
-    
     document.getElementById('saveChangesBtn').onclick = function() {
-      // Save changes to the medicine data
       medicine.name = document.getElementById('viewMedicineName').value;
       medicine.type = document.getElementById('viewMedicineType').value;
       medicine.dosage = document.getElementById('viewDosage').value;
@@ -70,7 +64,6 @@ function viewItem(index) {
       medicine.quantity = document.getElementById('viewQuantityStock').value;
       medicine.description = document.getElementById('viewDescription').value;
       
-     
       closeViewPopup();
     };
   }
@@ -142,7 +135,6 @@ function showLayoutBox() {
     const currentCount = parseInt(countSpan.textContent, 10);
     countSpan.textContent = currentCount + 1;
 
-    // Clear the form after adding the medicine
     resetForm();
 
     closePopup();
@@ -152,7 +144,6 @@ function showLayoutBox() {
 }
 
 function resetForm() {
-  // Clear the form fields
   document.getElementById('medicineImage').value = ''; // Clear the file input
   document.getElementById('medicineName').value = ''; // Clear the medicine name
   document.getElementById('medicineType').value = ''; // Clear the medicine type
