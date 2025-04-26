@@ -15,7 +15,6 @@ body {
   background-color: #f1f1f1;
 }
 
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -603,7 +602,8 @@ body {
   transition: 0.3s;
 }
 
-.submit-button:hover {
+.submit-button:hover,
+.submit2-button:hover {
   background-color: #40379a;
 }
 
@@ -619,123 +619,8 @@ body {
   flex: 1;
 }
 
-/*POP-UP PATIENT DATA */
-
-#popupPatient {
-  display: none;
-}
-
-.title-with-underline {
-  display: flex;
-  align-items: center;
-  gap: 10px; 
-  padding: 25px;
-  opacity: 0.6; 
-}
-
-.underline3 {
-  flex-grow: 1;
-  height: 2px;
-  background-color: #000; 
-}
-
-.scrollable-table {
-  max-height: 450px; 
-  overflow-y: auto;
-}
-
-
-.data-patients {
+#pop-up-med{
   width: 100%;
-  max-width: 900px;
-  margin-top: -50px;
-  margin-left: 30px;
-  background-color: transparent;
-  padding: 20px;
-
-  border-collapse: separate;
-  border-spacing: 20px 15px; 
+  height: 100%;
+  overflow: hidden;
 }
-
-.data-patients td{
-  padding: 10px;
-  text-align: left;
-  width: 33.33%;
-}
-
-.data-patients th {
-  background-color: #f2f2f2;
-  font-weight: 600;
-  padding: 10px;
-  text-align: left;
-}
-
-label {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px; 
-  display: block; 
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #fefefe;
-  transition: 0.2s ease;
-}
-
-input:focus, select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.form-row td {
-  flex: 1 1 200px;
-}
-
-.item {
-  display: flex;
-  justify-content: space-between;
-  gap: 1px;
-  width: 100%;
-}
-
-.item div {
-  padding: 15px 20px;
-  background: transparent;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
-  flex: 1;
-  text-align: center;
-}
-
-.item div:hover {
-  background: #cbdffe;
-}
-
-
-.item .patient-item {
-  background: linear-gradient(to top, #afb4db, #e6e9f0); 
-}
-
-@media (max-width: 768px) {
-  .data-patients {
-      width: 100%;
-  }
-
-  .form-row td {
-      display: block;
-      width: 100%;
-  }
-}
-
-
