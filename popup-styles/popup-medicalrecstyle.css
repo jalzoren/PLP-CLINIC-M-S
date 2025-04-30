@@ -160,7 +160,7 @@ body {
 
 .submit-button {
   position: absolute;
-  top: 500px;
+  top: 509px;
   right: 43px;
   color: #010440;
   width: 150px;
@@ -199,13 +199,21 @@ body {
     display: flex;
     align-items: center;
     gap: 10px; 
-    padding: 25px;
+    padding-top: 25px;
+    padding-left: 50px; 
     opacity: 0.6; 
   }
   
   .underline3 {
-    flex-grow: 1;
+    width: 85%;
     height: 1px;
+    background-color: #000; 
+    
+  }
+
+  .underline11 {
+    width: 68%;
+    height: 0.5px;
     background-color: #000; 
   }
   
@@ -317,6 +325,7 @@ body {
     gap: 10px; 
     padding: 25px;
     opacity: 0.6; 
+    padding-left: 50px;
   }
   
   .emergencycont-table {
@@ -464,7 +473,6 @@ body {
   .section-medicaltitle,
   .section-maternaltitle {
     font-size: 16px;
-    font-weight: bold;
     white-space: nowrap;        
     flex-shrink: 0;            
   }
@@ -552,10 +560,11 @@ body {
   }
   
   .maternal {
-    width: 50%;                 
+    width: 50%;
+    height: 10%;                 
     border-collapse: collapse;    
     margin-top: -15px;
-    margin-left: 100px; 
+    margin-left: 20px; 
     position: relative;           
     padding-bottom: 40px;             
   }
@@ -594,10 +603,12 @@ body {
     display: flex;                  
     justify-content: space-between; 
     position: relative;            
-    top: 130px;                        
-    width: 50%;                   
+    top: 150px;                        
+    width: 50%;
+    height: 20%;                   
     padding: 10px 0;                
-    margin-left: -510px; 
+    margin-left: -570px;
+    margin-right: 130px;
     opacity: 0.6;             
   }
   
@@ -610,7 +621,6 @@ body {
   
   .section-alcoholtitle {
     font-size: 16px;
-    font-weight: bold;
     margin-right: 10px;            
   }
   
@@ -631,12 +641,11 @@ body {
   
   .section-surgicaltitle {
     font-size: 16px;
-    font-weight: bold;
     margin-right: 10px;             
   }
   
   .underline7 {
-    width: 170px;                  
+    width: 180px;                  
     height: 0.5px;
     background-color: #000; 
     margin-top: 3px; 
@@ -648,14 +657,16 @@ body {
   
   .alcoholsugical-table {
     position: relative;
-    margin-left: -570px; 
-    top: 170px;
+    margin-left: -700px;
+    margin-right: 10px; 
+    top: 190px;
     width: 50%;
+    height: 50%;
     border-collapse: collapse;
   }
   
   .alcoholsugical-table td {
-    padding: 8px;
+    padding: 10px;
     vertical-align: top;
   }
   
@@ -673,16 +684,19 @@ body {
     padding: 4px;
     font-size: 13px;
   }
+  #surgicalText,
+  #totalperconsupAlchoText{
+    font-size: 10px;
+  }
   
   
   
   .smodrug-personal {
     display: flex;
     justify-content: space-between; 
-    margin-top: 50px;              
+    margin-top: 20px;              
     padding: 10px 50px;            
-    opacity: 0.6; 
-    overflow-y: hidden;            
+    opacity: 0.6;             
   }
   
   .smokingtitle-underline{
@@ -694,29 +708,303 @@ body {
   .drugtitle-underline{
     display: flex;
     align-items: center;
-    gap: 10px;               
+    gap: 10px; 
+    margin-left: 100px;     
+    margin-right: 30px;         
   }
   
-  .section-smokingtitle,
-  .section-drugtitle {
+  .section-smokingtitle {
+    font-size: 16px;     
+  }
+
+  .section-drugtitle{
     font-size: 16px;
-    font-weight: bold;
-    white-space: nowrap;        
+    white-space: nowrap;     
   }
   
   .underline8 {
-    height: 1px;               
+    height: 0.5px;               
     background-color: #000;    
-    width: 380px;             
+    width: 370px;             
     display: block;          
     margin-top: 3px;          
   }
   
   
   .underline9 {
-    height: 1px;               
+    height: 0.5px;               
     background-color: #000;     
-    width: 280px;               
+    width: 140px;               
     display: block;            
     margin-top: 3px;          
   }
+
+
+
+
+
+
+  .checkbox-wrapper {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    gap: 40px;
+    margin-top: 15px;
+    width: 100%;
+    position: relative; 
+  }
+  
+
+  .smoke-checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex:none;
+    text-align: left;
+    width: 100%; 
+    flex: none; 
+    align-items: flex-start;
+    margin-left: 80px;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;  
+  }
+  
+  .checkbox-item span {
+    font-size: 13px;
+    white-space: nowrap;
+    margin-left: 0;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  
+  #flex-wrapper3 table {
+    width: 100%;
+    margin-left: 30px;
+    margin-top: -10px ;
+  }
+  
+  #flex-wrapper3 table tr:first-child {
+    display: flex;      
+    justify-content: start; 
+    gap: 30px;           
+  }
+  
+  #flex-wrapper3 table td {
+    padding: 5px 10px;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #flex-wrapper3 table td label {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #sticksperday,
+  #cigaretteStartedDate,
+  #stoppedDate {
+    width: 100px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .drugs-checkbox {
+    position: absolute; 
+    top: -1px; 
+    left: 65%; 
+    transform: translateX(-50%); 
+    width: 250px; 
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  #flex-wrapper4 table {
+    position: relative;
+    width: 100%;
+    margin-top: -45px;
+    margin-left: 80px;
+
+  }
+
+  #flex-wrapper4 table tr {
+    display: flex;            
+    justify-content: flex-start; 
+    gap: 30px;               
+  }
+  
+
+  #flex-wrapper4 table td label {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #flex-wrapper4 table td {
+    padding: 5px 10px;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap:10px;
+  }
+
+  .rehab-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .question-text {
+    font-weight: bold;
+  }
+  
+  .answers-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px; 
+    gap: 5px;
+  }
+  
+  .answers-wrapper label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .back-submit-personalhistory {
+    margin-left: -645px;
+    padding-bottom: 80px;
+  }
+
+
+
+/*POP-UP Family History */
+
+#popupFamilyHistory {
+  display: none;
+}
+
+.item2 {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  width: 100%;
+}
+
+.item2 div {
+  padding: 15px 20px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.item2 div:hover {
+  background: #cbdffe;
+}
+
+.item2 .family-item {
+  background: linear-gradient(to top, #afb4db, #e6e9f0); 
+}
+
+.FamHistorytitle-underline{
+  display: flex;              
+  align-items: center;        
+  gap: 10px;  
+  margin-top: 20px;
+  margin-left: 50px; 
+  opacity: 0.6;                
+}
+
+.section-FamHistorytitle {
+  font-size: 16px;
+  white-space: nowrap;        
+  flex-shrink: 0;            
+}
+
+.underline10 {
+  width: 85%;
+  height: 1px;
+  background-color: #000;         
+}
+
+
+.flex-wrapper5 {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+}
+
+.familyHistory-table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-left: 140px; 
+  margin-top: 10px;
+}
+
+.familyHistory-table label {
+  white-space: nowrap;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.familyHistory-table td {
+  padding-left: 100px;
+  padding-bottom: 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.familyHistory-table .checkbox-label-group {
+  display: inline-flex; /* this makes checkbox and label stick together */
+  align-items: center; /* vertically center checkbox and label */
+  gap: 10px; /* optional small gap between checkbox and label */
+}
+
+.checkbox-label-group input[type="text"] {
+  display: inline-block;
+}
+
+
+.familyHistory-table input[type="text"] {
+  width: 100px;
+  height: 20px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.back-submit-familyhistory {
+  position: absolute;
+  margin-left: -10px;
+  margin-top: 280px;
+  padding-bottom: 80px;
+}
+
+
+
+
+
+
+
+  
+
+  
