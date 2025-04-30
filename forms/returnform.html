@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="/css/returnformstyle.css">
+</head>
+<body>
+   <img src="/pictures/logo_user.png" alt="Logo" class="logo_img">
+   <div class="time">
+      <p class="clock" id="clock"></p>
+      <p class="weekday" id="weekday"></p>
+      <p class="date" id="date"></p>
+   </div>
+
+   <div class="time_in">
+      <h2>RETURN ITEM FORM</h2>
+
+      <form action="/forms/login.html" class="transition-link" method="post">
+         
+         <div class="container">
+
+            <div class="take_photo">
+               <img src="/pictures/take_photo.png" alt="Take Photo">
+
+               <button type="button" class="capture" >Capture Photo</button>
+            </div>  
+
+            <div class="form_container">
+
+               <div class="row1">
+                  <div class="row_id">
+                     <label>ID Number:</label> <br>
+                     <input type="text" name="id_number" ><br>
+                  </div>
+
+                  <div class="row_status">
+                     <label>Item Status:</label><br>
+                     <select name="category" id="category" >
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Returned (Good Condition) ">Returned (Good Condition) </option>
+                        <option value="Returned (Damage)">Returned (Damage)</option>
+                        <option value="Overdue">Overdue</option>
+                        <option value="Lost">Lost</option>
+                     </select>
+                  </div> 
+               </div>
+
+               <div class="row2">
+                  <p>LastName, FirstName, MiddleName</p>
+                  <p>Department</p>
+                  <p>Borrowed Item</p>
+               </div>
+            </div>
+         </div>
+         <button class="submit" type="submit" name="addStudent">Submit</button>
+      </form>
+   </div>
+   
+
+   <script src="/js/time.js"></script>
+   <script>
+      // Fade-in on page load
+      window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("loaded");
+      });
+   
+      // Fade-out when clicking links with class 'transition-link'
+      document.querySelectorAll('a.transition-link').forEach(link => {
+      link.addEventListener("click", function (e) {
+         e.preventDefault(); // stop the default behavior
+         const target = this.href;
+
+         document.body.classList.remove("loaded");
+         document.body.classList.add("fade-out");
+
+         setTimeout(() => {
+            window.location.href = target;
+          }, 500); // match the CSS transition time
+         });
+      });
+   </script>
+
+</body>
+</html>
