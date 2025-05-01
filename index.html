@@ -8,6 +8,7 @@
 
 </head>
 <body>
+  <div class="background"></div>
   <img src="pictures/logo_user.png" alt="Logo" class="logo_img">
   <div class="time">
     <p class="clock" id="clock"></p>
@@ -21,14 +22,12 @@
       <div class="row1">
         <div class="row_email">
           <label>Email:</label><br> 
-          <input type="text" name="email" ><br>
+          <input type="text" name="email" placeholder="Enter your email" ><br>
         </div>
         <div class="row_id">
           <label>ID Number:</label> <br>
-          <input type="text" name="id_number" ><br>
+          <input type="text" name="id_number" placeholder="Enter your ID Number"  ><br>
         </div>
-
-        
       </div>
 
       <div class="row2">
@@ -57,12 +56,11 @@
       </div>
       
       <div class="other">
-        <label>Other:</label><br>
-        <input type="text" name="other_reason" ><br>
+        <label>Other Reason:</label><br>
+        <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
       </div>
       
-<button type="button" onclick="window.location.href='forms/login.html'">Submit</button>
-
+      <button type="button" onclick="window.location.href='forms/login.html'">Submit</button>
     </form>
 
     <script src="js/time.js"></script>
