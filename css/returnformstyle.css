@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+      
+
+.logo_img{
+  height: 150px;
+  width: 350px;
+  border-radius: 50%;
+}
+
+.time{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 30px;
+  border: 2px solid #1a1259;
+  box-sizing: border-box;
+
+}
+
+.time p{
+  margin: 8px
+}
+
+.time_in{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  margin-top: 30px;
+  box-sizing: border-box;
+}
+
+.time_in h2{
+  text-align: center;
+  background-color: #afb4db;
+  color:#1a1259;
+  padding: 10px;
+  width: 660px;
+  border-radius: 5px;
+}
+
+.container{
+  display: flex;
+}
+
+.container .take_photo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #afb4db;
+  margin-top: 30px;
+}
+.container .take_photo img{
+  width: 130px;
+  height: 130px;
+}
+
+.container .take_photo .capture{
+  width: 130px;
+  height: 40px;
+  background-color: #c8d9e6;
+  color: #1a1259;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+  border: 2px outset #1a1259;
+}
+
+.container .form_container {
+  background-color: aquamarine;
+  margin-top: 30px;
+}
+
+
+.container .form_container .row1{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 5px;
+  margin-right: 0px;
+}
+
+.container .form_container .row2{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.row_status{
+  margin: 0px 20px;
+  margin-right: 0px;
+}
+
+.row_id{
+  margin: 0px 20px;
+}
+
+
+.container .form_container .row1 input, select{
+  width: 230px;
+  height: 45px;
+
+  padding: 5px;
+  padding-left: 10px;
+
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+
+.submit{
+  width: 660px;
+  height: 50px;
+  padding: 5px;
+  margin-top: 30px;
+  border-radius: 5px;
+  background-color: #1a1259;
+  border: 2px outset #c8d9e6;
+  color: white;
+  font-size: 15px;
+  font-weight: 400;
+  transition: 0.4s;
+}
+
+.submit:hover{
+  background-color: white;
+  color: #1a1259;
+}
+
