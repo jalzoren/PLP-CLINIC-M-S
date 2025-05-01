@@ -3,16 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Borrowing Forms / PLP Clinic Monitoring System</title>
+    <title>Patient Records / PLP Clinic Monitoring System</title>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="patientrestyle.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
+    <link rel="stylesheet" href="/css/patientrestyle.css">
+
   </head>
   <body>
     <div class="sidebar">
@@ -33,7 +34,7 @@
         </li>
 
         <li>
-          <a href="/forms/medrecords.html" class="transition-link">
+          <a href="/forms/medrecords.html" class="active">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
@@ -42,7 +43,6 @@
         <li>
           <a
             href="/forms/borrowing.html"
-            class="active"
             class="transition-link"
           >
             <i class="bx bxs-cabinet"></i>
@@ -50,13 +50,7 @@
           </a>
           <span class="tooltip">Borrowing Form</span>
         </li>
-        <li>
-          <a href="/forms/dental.html" class="transition-link">
-            <i class="bx bxs-clinic"></i>
-            <span class="link-name">Dental</span>
-          </a>
-          <span class="tooltip">Dental Form</span>
-        </li>
+        
         <li>
           <a href="/forms/transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
@@ -78,6 +72,7 @@
           <br />
           <br />
           <br />
+          <br>
 
           <a href="#">
             <i class="bx bx-log-out bx-rotate-180"></i>
@@ -92,14 +87,13 @@
     </div>
 
     <div class="home-content">
-      <!-- Breadcrumbs -->
       <div class="breadcrumbs">
-        <p><strong>Patient Records &lt; Dela Cruz</strong></p>
+        <a href="/forms/medrecords.html"><i class='bx bx-arrow-back'on ></i></a>
+        <p class="p-rec"><strong>Patient Records &lt;<span> Alpuerto, Lynn Czyla </strong></span> </p>
       </div>
 
       <div class="status-container">
         <aside class="status-box">
-          <!-- Patient Details + Add Button -->
           <div class="patient-details">
             <div class="details-group">
               <p><strong>Patient Name :</strong> Alpuerto, Lynn Czyla</p>
@@ -113,7 +107,7 @@
         </aside>
         
       
-      <button class = "btn-add">Add New Form</button>
+      <button class = "add-btn">Add New Form</button>
       
       </div>
 

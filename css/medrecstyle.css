@@ -242,17 +242,16 @@ body {
   font-weight: 800;
   font-style: italic;
   color: #000000;
-  padding: 15px 20px;
-  margin: 10px auto;
   background: #ffffff;
   border-top: 2px solid #fff;
   border-left: 2px solid #fff;
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
   letter-spacing: 1px;
-  width: 100%;
+  width: 97%;
   box-sizing: border-box;
-  padding: 55px;
+  padding: 30px 30px;
+  margin-left: 20px;
 }
 
 .styled-table {

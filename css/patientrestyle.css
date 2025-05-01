@@ -274,7 +274,7 @@ body {
 }
 
 .status-container {
-  margin-left: 50px;
+  margin-left: 30px;
   display: flex;
 
 }
@@ -284,9 +284,10 @@ body {
   margin-right: 30px;
   width: 85%;
   background-color: #f0f4f7;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 20px;
   gap:20px;
+  border-radius: 20px;
 }
 
 .status-box ul {
@@ -320,12 +321,35 @@ body {
 }
 
 .breadcrumbs {
-  font-size: 20px;
+  font-size: 18px;
   margin: 20px 0 10px 20px;
   color: black;
   margin: 10px 20px;
-  margin-left: 55px;
+  margin-left: 35px;
+  display: flex;
 }
+
+i {
+  margin-top: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s ease; 
+}
+
+i:hover {
+  transform: scale(1.1);
+}
+
+span{
+  font-weight: 400;
+}
+.p-rec{
+  font-size: 18px;
+  margin: 20px 0 10px 20px;
+  color: black;
+}
+
 
 .breadcrumbs p {
   margin: 0;
@@ -361,11 +385,33 @@ gap: 20px;
 
 .container {
   padding: 20px 20px;
-  margin: 20PX;
-  margin-left: 40px;
+  margin: 10PX;
+  margin-left: 20px;
 
 }
 
+.add-btn {
+  color: #ffffff;
+  background-color: #1a1259;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  height: 70px;
+  margin-top: 30px;
+
+}
+
+.add-btn:hover {
+  background-color: #1a1259;
+  transform: scale(1.05);
+
+}
 
 
 table {
@@ -391,32 +437,15 @@ tbody td {
   height: 40px;
 }
 
-.btn-add {
-background-color:#afb4db;
-border: none;
-border-radius: 10px;
-padding: 20px 10px;
-font-size: 14px;
-cursor: pointer;
-display: inline;
-align-items: center;
-gap: 5px;
-height: 10vh;
-margin-top: 30px;
-}
 
 
 
-
-button.btn:hover {
-background-color: #e6d2c4;
-}
 
 
 .controls {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* pushes content to the right */
+  justify-content: flex-end;
   gap: 12px;
   padding: 10px 20px;
   border-radius: 12px;
@@ -431,7 +460,7 @@ background-color: #e6d2c4;
 
 .search-container input {
   width: 100%;
-  padding: 8px 40px 8px 15px; /* space for icon on right */
+  padding: 8px 40px 8px 15px; 
   border-radius: 20px;
   border: 2px solid black;
 }
