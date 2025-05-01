@@ -20,20 +20,30 @@
     <h2>TIME IN</h2>
     <form action="/forms/login.html" class="transition-link" method="post">
       <div class="row1">
-        <div class="row_email">
-          <label>Email:</label><br> 
-          <input type="text" name="email" placeholder="Enter your email" ><br>
-        </div>
         <div class="row_id">
           <label>ID Number:</label> <br>
-          <input type="text" name="id_number" placeholder="Enter your ID Number"  ><br>
+          <input type="text" name="id_number" placeholder="Enter your ID Number" required ><br>
         </div>
+        <div class="row_department">
+          <label>Department:</label><br> 
+          <select name="department" id="department" required>
+            <option value="" disabled selected>Select Department</option>
+            <option value="College of Nursing">College of Nursing</option>
+            <option value="College of International Hospitality Management">College of International Hospitality Management </option>
+            <option value="College of Business Administration">College of Business Administration</option>
+            <option value="College of Computer Studies">College of Computer Studies</option>
+            <option value="College of Engineering">College of Engineering</option>
+            <option value="College of Education">College of Education </option>
+            <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+        </select>
+        </div>
+        
       </div>
 
       <div class="row2">
         <div class="row_category">
           <label>Category:</label><br>
-          <select name="category" id="category" >
+          <select name="category" id="category" required>
             <option value="" disabled selected>Select Category</option>
             <option value="Student">Student</option>
             <option value="Teaching">Teaching</option>
@@ -43,7 +53,7 @@
         
         <div class="row_reason">
           <label>Reason for Visit:</label><br>
-          <select name="yearLevel" id="yearLevel">
+          <select name="yearLevel" id="yearLevel" required>
             <option value="" disabled selected>Select Reason</option>
             <option value="Headache">Headache</option>
             <option value="Toothache">Toothache</option>
@@ -51,6 +61,7 @@
             <option value="Asthma">Asthma attack or difficulty breathing</option>
             <option value="Borrow">Borrow</option>
             <option value="Return">Return</option>
+            <option value="Other Reason">Other Reason</option>
           </select>
         </div>
       </div>
