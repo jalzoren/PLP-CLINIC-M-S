@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 01:00 PM
+-- Generation Time: May 01, 2025 at 03:51 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -151,6 +151,7 @@ CREATE TABLE `patient` (
   `Last_Name` varchar(50) NOT NULL,
   `Sex` enum('Male','Female','Intersex') NOT NULL,
   `Age` tinyint(4) NOT NULL,
+  `Birthdate` date NOT NULL,
   `Civil_Status` varchar(20) NOT NULL,
   `Religion` varchar(50) NOT NULL,
   `Nationality` varchar(50) NOT NULL,
@@ -160,6 +161,17 @@ CREATE TABLE `patient` (
   `Province` varchar(50) NOT NULL,
   `Zip_Code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient`
+--
+
+INSERT INTO `patient` (`Patient_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Sex`, `Age`, `Birthdate`, `Civil_Status`, `Religion`, `Nationality`, `Contact_Number`, `Address`, `City`, `Province`, `Zip_Code`) VALUES
+(1, 'lynn', 'merfw', 'alpuerto', 'Male', 15, '2025-05-13', 'Single', 'kdbjqhd', 'dnkejf', 16546126, 'jnedkwef', 'dkclwkjhfe', 'bwhjfebhwjfeb', '455'),
+(2, 'uhbgvgv', 'uvhgv', 'hbgvyv', 'Male', 127, '2025-05-01', 'Single', 'jcjwhbje', 'kbfjwheb', 468546, 'dnjhwfjehbwjfeh', 'nwjefhebf', 'ekfnjefjhwbfe', '65165'),
+(3, 'uhbgvgv', 'uvhgv', 'hbgvyv', 'Male', 127, '2025-05-01', 'Single', 'jcjwhbje', 'kbfjwheb', 468546, 'dnjhwfjehbwjfeh', 'nwjefhebf', 'ekfnjefjhwbfe', '65165'),
+(4, 'kjnqwjhjhefb', 'kqnkjenfj', 'nfjwhfjh', 'Male', 45, '2025-05-01', '', 'knfjebjhef', '', 0, '', '', '', ''),
+(5, 'jkddjheb', 'bjhwfeb', 'Lynn', 'Male', 56, '2025-05-01', '', 'dnqjbd', 'kjwdbqwbjhd', 4154554, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -184,9 +196,18 @@ CREATE TABLE `patient_condition` (
 CREATE TABLE `personnel_patient` (
   `Personnel_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Category` enum('Student','Teaching','Non-Teaching') NOT NULL,
-  `Department` enum('College of Nursing','College of International Hospitality Management','College of Business Administration','College of Computer Studies','College of Engineering','College of Education','College of Arts and Sciences','Student Success Office') NOT NULL
+  `Category` varchar(255) NOT NULL,
+  `Department` varchar(255) NOT NULL,
+  `DeptSection` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `personnel_patient`
+--
+
+INSERT INTO `personnel_patient` (`Personnel_ID`, `Patient_ID`, `Category`, `Department`, `DeptSection`) VALUES
+(0, 2, 'non-teaching', 'HR', 'Section A'),
+(235798, 5, 'teaching', 'Finance', 'Section A');
 
 -- --------------------------------------------------------
 
@@ -224,11 +245,17 @@ CREATE TABLE `smoking_typeused` (
 CREATE TABLE `student_patient` (
   `Student_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Category` enum('Student','Teaching','Non-Teaching') NOT NULL,
-  `Department` enum('College of Nursing','College of International Hospitality Management','College of Business Administration','College of Computer Studies','College of Engineering','College of Education','College of Arts and Sciences','Student Success Office') NOT NULL,
-  `Program` enum('Bachelor of Science in Nursing','Bachelor of Science in Hospitality Management','Bachelor of Science in Business Administration','Bachelor of Science in Accountancy','Bachelor of Science in Entrepreneurship','Bachelor of Science in Information Technology','Bachelor of Science in Computer Science','Bachelor of Science in Electronics and Communications Engineering','Bachelor of Secondary Education','Bachelor of Arts in Psychology') NOT NULL,
+  `Department` varchar(255) NOT NULL,
+  `Program` varchar(255) NOT NULL,
   `Batch` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_patient`
+--
+
+INSERT INTO `student_patient` (`Student_ID`, `Patient_ID`, `Department`, `Program`, `Batch`) VALUES
+(0, 1, '', '', '2024');
 
 -- --------------------------------------------------------
 
@@ -425,7 +452,7 @@ ALTER TABLE `maternal`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `smoking_history`
