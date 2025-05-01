@@ -4,6 +4,8 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="/css/borrowformstyle.css">
+   <link rel="icon" type="image/png" href="../pictures/logo.png">
+
 </head>
 <body>
    <img src="/pictures/logo_user.png" alt="Logo" class="logo_img">
@@ -71,12 +73,10 @@
 
    <script src="/js/time.js"></script>
    <script>
-      // Fade-in on page load
       window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("loaded");
       });
    
-      // Fade-out when clicking links with class 'transition-link'
       document.querySelectorAll('a.transition-link').forEach(link => {
       link.addEventListener("click", function (e) {
          e.preventDefault(); // stop the default behavior

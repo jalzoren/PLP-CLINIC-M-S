@@ -3,31 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Borrowing Forms / PLP Clinic Monitoring System</title>
+    <title>Patient Records / PLP Clinic Monitoring System</title>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/borrowstyle.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <link rel="stylesheet" href="/css/patientrestyle.css">
 
   </head>
   <body>
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <img src="/pictures/logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
 
       <ul class="nav-list">
         <li>
-          <a href="../forms/dashboard.html" class="transition-link">
+          <a href="/forms/dashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt bx-rotate-180"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -35,28 +34,32 @@
         </li>
 
         <li>
-          <a href="../forms/medrecords.html" class="transition-link">
+          <a href="/forms/medrecords.html" class="active">
             <i class="bx bxs-file"></i>
-            <span class="link-name">Records</span>
+            <span class="link-name">Medical</span>
           </a>
-          <span class="tooltip">Patient Records</span>
+          <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="../forms/borrowing.html" class="active" class="transition-link">
+          <a
+            href="/forms/borrowing.html"
+            class="transition-link"
+          >
             <i class="bx bxs-cabinet"></i>
-            <span class="link-name">Borrow</span>
-                </a>
-                <span class="tooltip">Borrowed Items</span>
-              </li>
+            <span class="link-name">Borrowing</span>
+          </a>
+          <span class="tooltip">Borrowing Form</span>
+        </li>
+        
         <li>
-          <a href="../forms/transac.html" class="transition-link">
+          <a href="/forms/transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
-            <span class="link-name">Visit</span>
-             </a>
-            <span class="tooltip">Visit Records</span>
+            <span class="link-name">Transactions</span>
+          </a>
+          <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="../forms/medinv.html" class="transition-link">
+          <a href="/forms/medinv.html" class="transition-link">
             <i class="bx bxs-capsule"></i>
             <span class="link-name">Inventory</span>
           </a>
@@ -68,10 +71,8 @@
           <br />
           <br />
           <br />
-          <br /> 
           <br />
-        
-     
+          <br>
 
           <a href="#">
             <i class="bx bx-log-out bx-rotate-180"></i>
@@ -82,64 +83,43 @@
     </div>
 
     <div class="header-content">
-      <div class="text">
-        BORROWING FORM// I'M LYN FROM LAS VEYGAS pls gumana ka na
-      </div>
+      <div class="text">PATIENT RECORDS</div>
     </div>
 
     <div class="home-content">
-      <div class="status-container">
-        <aside class="status-box">
-          <p><strong>STATUS</strong></p>
-          <ul>
-            <li>Borrowed</li>
-            <li>Returned</li>
-            <li>Overdue</li>
-            <li>Lost</li>
-            <li>Damage (Returned)</li>
-          </ul>
-        </aside>
+      <div class="breadcrumbs">
+        <a href="/forms/medrecords.html"><i class='bx bx-arrow-back'on ></i></a>
+        <p class="p-rec"><strong>Patient Records &lt;<span> Alpuerto, Lynn Czyla </strong></span> </p>
       </div>
 
-      <div class="controls-container">
+      <div class="status-container">
+        <aside class="status-box">
+          <div class="patient-details">
+            <div class="details-group">
+              <p><strong>Patient Name :</strong> Alpuerto, Lynn Czyla</p>
+              <p><strong>ID Number:</strong> 00-00000</p>
+            </div>
+            <div class="details-group">
+              <p><strong>Department:</strong> College of Computer Studies</p>
+              <p><strong>Role :</strong> Student</p>
+            </div>
+          </div>         
+        </aside>
         
-        <div class="controls">
-          <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search..." />
-            <button class="search-btn" onclick="searchTable()">
-              <i class="fa fa-search"></i> 
-            </button>
-          </div>
-          <button class="control-button" onclick="filterTable()">
-              <i class='bx bx-filter'></i>
-          </button>
-          <button class="control-button" onclick="sortTable()">
-              <i class='bx bx-sort-alt-2' ></i>
-          </button>
-
-          <button class="add-btn" id="load-btn">Add New Data</button>
-
-        </div>
+      
+      <button class = "add-btn">Add New Form</button>
+      
       </div>
 
       <div class="container">
-
         <!-- Now the table is directly below the controls -->
         <table>
           <thead>
             <tr>
               <th>No.</th>
-              <th>Identification Number</th>
-              <th>Full Name</th>
-              <th>Category</th>
-              <th>Department/Course Yr. & Sec.</th>
-              <th>Date Borrowed</th>
-              <th>Date Returned</th>
-              <th>Borrowed Item<br />(specify)</th>
-              <th>Qty.</th>
-              <th>Status</th>
-              <th>Photo<br />(Borrowed)</th>
-              <th>Photo<br />(Returned)</th>
+              <th>Date</th>
+              <th>File Name</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -168,9 +148,5 @@
         sidebar.classList.toggle("active");
       };
     </script>
-
- 
-
-
   </body>
 </html>
