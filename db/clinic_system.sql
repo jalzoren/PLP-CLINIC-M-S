@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 12:03 PM
+-- Generation Time: May 01, 2025 at 12:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -214,6 +214,23 @@ CREATE TABLE `surgical_history` (
   `Specify` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visit_records`
+--
+
+CREATE TABLE `visit_records` (
+  `Visit_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
+  `Time_In` datetime NOT NULL,
+  `Time_Out` datetime NOT NULL,
+  `Reason` varchar(255) NOT NULL,
+  `Medicine` varchar(255) DEFAULT NULL,
+  `Quantity` int(11) DEFAULT NULL,
+  `Remarks` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -278,8 +295,7 @@ ALTER TABLE `patient_condition`
 --
 ALTER TABLE `personnel_patient`
   ADD PRIMARY KEY (`Personnel_ID`),
-  ADD UNIQUE KEY `Personnel_ID` (`Personnel_ID`),
-  ADD KEY `Patient_ID` (`Patient_ID`);
+  ADD KEY `personnel_patient_ibfk` (`Patient_ID`);
 
 --
 -- Indexes for table `smoking_history`
@@ -300,8 +316,7 @@ ALTER TABLE `smoking_typeused`
 --
 ALTER TABLE `student_patient`
   ADD PRIMARY KEY (`Student_ID`),
-  ADD UNIQUE KEY `Student_ID` (`Student_ID`),
-  ADD KEY `Patient_ID` (`Patient_ID`);
+  ADD KEY `student_patient_ibfk` (`Patient_ID`);
 
 --
 -- Indexes for table `surgical_history`
@@ -309,6 +324,13 @@ ALTER TABLE `student_patient`
 ALTER TABLE `surgical_history`
   ADD PRIMARY KEY (`Surgical_ID`),
   ADD KEY `surgical_ibfk` (`Patient_ID`) USING BTREE;
+
+--
+-- Indexes for table `visit_records`
+--
+ALTER TABLE `visit_records`
+  ADD PRIMARY KEY (`Visit_ID`),
+  ADD KEY `visit_records_ibfk` (`Patient_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -367,6 +389,12 @@ ALTER TABLE `smoking_typeused`
 --
 ALTER TABLE `surgical_history`
   MODIFY `Surgical_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `visit_records`
+--
+ALTER TABLE `visit_records`
+  MODIFY `Visit_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -443,6 +471,12 @@ ALTER TABLE `student_patient`
 --
 ALTER TABLE `surgical_history`
   ADD CONSTRAINT `sugical_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `visit_records`
+--
+ALTER TABLE `visit_records`
+  ADD CONSTRAINT `visit_records_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
