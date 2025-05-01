@@ -12,7 +12,7 @@ body {
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: #ffffff;
 }
 
 .sidebar {
@@ -236,6 +236,7 @@ body {
 }
 
 
+
 .home-content .data {
   font-size: 25px;
   font-weight: 800;
@@ -251,7 +252,7 @@ body {
   letter-spacing: 1px;
   width: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 55px;
 }
 
 .styled-table {
