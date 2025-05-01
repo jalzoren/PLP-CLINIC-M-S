@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 12:35 PM
+-- Generation Time: May 01, 2025 at 01:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,6 +32,24 @@ CREATE TABLE `alcohol_history` (
   `Patient_ID` int(11) NOT NULL,
   `ESTperConsumption` varchar(100) DEFAULT NULL,
   `Frequency` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `borroweditem_records`
+--
+
+CREATE TABLE `borroweditem_records` (
+  `BorrowedItem_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
+  `Item_ID` int(11) NOT NULL,
+  `Quantity` int(11) NOT NULL,
+  `Date_Borrowed` datetime NOT NULL,
+  `Date_Returned` datetime DEFAULT NULL,
+  `Status` enum('Borrowed','Returned (Good)','Returned (Damage)','Overdue') NOT NULL,
+  `Photo_Borrowed` varchar(255) NOT NULL,
+  `Photo_Returned` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -91,6 +109,17 @@ CREATE TABLE `family_history` (
   `Patient_ID` int(11) NOT NULL,
   `Medical_Condition` varchar(255) DEFAULT NULL,
   `Details` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item`
+--
+
+CREATE TABLE `item` (
+  `Item_ID` int(11) NOT NULL,
+  `Item_Name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -243,6 +272,14 @@ ALTER TABLE `alcohol_history`
   ADD KEY `alcohol_history_ibfk` (`Patient_ID`);
 
 --
+-- Indexes for table `borroweditem_records`
+--
+ALTER TABLE `borroweditem_records`
+  ADD PRIMARY KEY (`BorrowedItem_ID`),
+  ADD KEY `borroweditem_patients_ibfk` (`Patient_ID`),
+  ADD KEY `borroweditem_records_ibfk` (`Item_ID`);
+
+--
 -- Indexes for table `drug_history`
 --
 ALTER TABLE `drug_history`
@@ -269,6 +306,12 @@ ALTER TABLE `emergency_contact`
 ALTER TABLE `family_history`
   ADD PRIMARY KEY (`FamHistory_ID`),
   ADD KEY `family_history_ibfk` (`Patient_ID`);
+
+--
+-- Indexes for table `item`
+--
+ALTER TABLE `item`
+  ADD PRIMARY KEY (`Item_ID`);
 
 --
 -- Indexes for table `maternal`
@@ -343,6 +386,12 @@ ALTER TABLE `alcohol_history`
   MODIFY `Alcohol_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `borroweditem_records`
+--
+ALTER TABLE `borroweditem_records`
+  MODIFY `BorrowedItem_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `drug_history`
 --
 ALTER TABLE `drug_history`
@@ -359,6 +408,12 @@ ALTER TABLE `drug_typeused`
 --
 ALTER TABLE `emergency_contact`
   MODIFY `EmergencyContact_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `item`
+--
+ALTER TABLE `item`
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `maternal`
@@ -405,6 +460,13 @@ ALTER TABLE `visit_records`
 --
 ALTER TABLE `alcohol_history`
   ADD CONSTRAINT `alcohol_history_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `borroweditem_records`
+--
+ALTER TABLE `borroweditem_records`
+  ADD CONSTRAINT `borroweditem_patients_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `borroweditem_records_ibfk` FOREIGN KEY (`Item_ID`) REFERENCES `item` (`Item_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `drug_history`
