@@ -136,10 +136,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isJsonRequest) {
     document.body.classList.add("loaded");
   });
 
-  // Fade-out when clicking links with class 'transition-link'
   document.querySelectorAll('a.transition-link').forEach(link => {
     link.addEventListener("click", function (e) {
-      e.preventDefault(); // stop the default behavior
+      e.preventDefault();
       const target = this.href;
 
       document.body.classList.remove("loaded");
