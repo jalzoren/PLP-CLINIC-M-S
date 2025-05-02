@@ -31,7 +31,7 @@ $result = $mysqli->query($query);
 
 </head>
 <body>
-       <div class="logo-content">
+    <!--   <div class="logo-content">
             <div class="logo" id="logo">
                 <img src="./pictures/logo.png" alt="Logo" class="logo-img">
                 <div class="logo-name">PLPClinic</div>
