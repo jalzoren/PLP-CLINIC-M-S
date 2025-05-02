@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isJsonRequest) {
         <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
       </div>
       
-      <button type="submit">Submit</button>
+      <button type="submit" id="timeInBtn" >Submit</button>
     </form>
   </div>
 
@@ -149,6 +149,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isJsonRequest) {
         window.location.href = target;
       }, 500); // match the CSS transition time
     });
+  });
+
+
+  document.getElementById('timeInBtn').addEventListener('click', () => {
+    const selected = document.getElementById('reason').value;
+
+    if (selected === "Borrow") {
+      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
+    } else if (selected === "Return") {
+      window.location.href = "./forms/returnform.html"; // Replace with your actual path
+    } else {
+      window.location.href = "./forms/login.html";
+    }
   });
     </script>
     
