@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Records / PLP Clinic Monitoring System</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="popup-medical.js" defer></script>
+  <link rel="stylesheet" href="/popup-styles/popup-assessstyle.css" />
+</head>
+
+<body>
+  <form action="" method="POST">
+    <div class="form-content" id="popupContainer">
+      <div class="new-data">
+        <div class="text">
+          <div class="title-container">
+            <div class="title">ASSESSMENT OF PATIENT</div>
+            <button class="close-btn" onclick="closePopup()">×</button>
+          </div>
+
+          <div class="time-box-wrapper">
+            <div class="time-box">
+              <div id="live-time">00 : 00 : 00</div>
+              <small id="live-date">MON DD / MM / YYYY</small>
+            </div>
+          </div>
+
+          <div class="main-container">
+            <div class="section-heading">Vital Signs</div>
+            <div class="form-grid">
+              <div class="form-group"><label>Temperature</label><input type="text" name="temperature" /></div>
+              <div class="form-group"><label>RR</label><input type="text" name="rr" /></div>
+              <div class="form-group"><label>Height</label><input type="text" name="height" /></div>
+              <div class="form-group"><label>BMI</label><input type="text" name="bmi" /></div>
+              <div class="form-group"><label>Pulse</label><input type="text" name="pulse" /></div>
+              <div class="form-group"><label>BP</label><input type="text" name="bp" /></div>
+              <div class="form-group"><label>Weight</label><input type="text" name="weight" /></div>
+            </div>
+
+            <div class="section-heading">Additional Notes</div>
+            <div class="textarea-group">
+              <label>Date and Time / Vital Sign</label>
+              <textarea name="datetime_vitalsign"></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Physician's Notes</label>
+              <textarea name="physician_notes"></textarea>
+            </div>
+            <div class="textarea-group">
+              <label>Nurse Notes</label>
+              <textarea name="nurse_notes"></textarea>
+            </div>
+
+            <div class="btn-next-container">
+              <button class="btn-next" type="submit">NEXT</button>
+            </div>
+          </div> <!-- end .main-container -->
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div id="emptyFieldPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <h3>Please fill out all fields!</h3>
+      <button onclick="closeEmptyFieldPopup()">OK</button>
+    </div>
+  </div>
+
+  <script src="../js/time-assessp.js"></script>
+
+</body>
+</html>
