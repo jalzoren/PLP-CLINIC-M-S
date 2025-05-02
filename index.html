@@ -61,7 +61,7 @@
         <input type="text" name="other_reason" ><br>
       </div>
       
-<button type="button" onclick="window.location.href='forms/login.html'">Submit</button>
+<button type="button" id="timeInBtn">Submit</button>
 
     </form>
 
@@ -86,6 +86,21 @@
       }, 500); // match the CSS transition time
     });
   });
+
+
+  document.getElementById('timeInBtn').addEventListener('click', () => {
+    const selected = document.getElementById('yearLevel').value;
+
+    if (selected === "Borrow") {
+      window.location.href = "/forms/borrowform.html"; // Replace with your actual path
+    } else if (selected === "Return") {
+      window.location.href = "/forms/returnform.html"; // Replace with your actual path
+    } else {
+      window.location.href = "/forms/login.html";
+    }
+  });
+
+
     </script>
     
 </body>
