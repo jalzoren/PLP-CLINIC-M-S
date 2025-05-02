@@ -446,25 +446,33 @@ body {
 
 .timedin_table{
   width: 100%;
-  padding: 15px;
+  height: 210px;
+  padding: 0px 15px;
+  overflow-y: auto;
 }
 
 .timedin_table table{
   width: 100%;
+  height: 150px;
   text-align: center;
   
   border: 2px solid #212161;
   border-collapse: collapse;
-  overflow-y: auto;
-  height: 160px;
+  
+  
 }
 
 .timedin_table table caption{
   font-weight: bold;
+  background-color: white;
   font-size: 14px;
+  position: sticky;
+  top: 0;
 }
 
 .timedin_table table thead th{
+  position: sticky;
+  top: 20px;
   background-color: #212161;
   color: white;
 }
