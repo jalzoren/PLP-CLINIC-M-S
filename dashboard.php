@@ -26,14 +26,14 @@ $result = $mysqli->query($query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard / PLP Clinic Monitoring System</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/dashbstyle.css">
-    <link rel="icon" type="image/png" href="pictures/logo.png">
+    <link rel="stylesheet" href="./css/dashbstyle.css">
+    <link rel="icon" type="image/png" href="./pictures/logo.png">
 
 </head>
 <body>
-    <!--   <div class="logo-content">
+       <div class="logo-content">
             <div class="logo" id="logo">
-                <img src="pictures/logo.png" alt="Logo" class="logo-img">
+                <img src="./pictures/logo.png" alt="Logo" class="logo-img">
                 <div class="logo-name">PLPClinic</div>
             </div>
         </div>
@@ -92,7 +92,7 @@ $result = $mysqli->query($query);
             </a>
         </li>
     </ul>
-    </div> -->
+    </div>
 
     <div class="home-content">
         <img src="pictures/clinic.png" class="clinic">
