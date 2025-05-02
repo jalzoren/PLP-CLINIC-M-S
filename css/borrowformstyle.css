@@ -9,15 +9,35 @@
 
 body {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   overflow: hidden;
-  
   
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  height: 100vh;
+  margin: 0;
+
+}
+
+.background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../pictures/background_waves.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+
+  -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  opacity: 0.1;
+  z-index: -1;
 }
       
 
@@ -47,6 +67,15 @@ body {
   padding: 30px;
   margin-top: 30px;
   box-sizing: border-box;
+  width: 50%;
+  height: 450px;
+}
+
+.time_in form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .time_in h2{
@@ -54,12 +83,16 @@ body {
   background-color: #afb4db;
   color:#1a1259;
   padding: 10px;
-  width: 660px;
+  width: 100%;
   border-radius: 5px;
 }
 
 .container{
   display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .container .take_photo{
@@ -67,16 +100,17 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: #afb4db;
-  margin-top: 30px;
+  border: 1px outset #1a1259;
+  width: 30%;
 }
 .container .take_photo .image-captured{
-  width: 150px;
+  width: 100%;
   height: 150px;
 }
 
 .container .take_photo .capture{
-  width: 150px;
-  height: 30px;
+  width: 100%;
+  height: 40px;
   background-color: #c8d9e6;
   color: #1a1259;
   font-size: 12px;
@@ -85,77 +119,69 @@ body {
 }
 
 .container .form_container {
-  background-color: rgb(255, 255, 255);
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 65%;
 }
 
 
 .container .form_container .row1{
   display: flex;
-  justify-content: space-evenly;
-  padding: 5px;
-  margin-right: 0px;
+  justify-content: space-between;
 }
 
 .container .form_container .row2{
   display: flex;
-  justify-content: space-evenly;
-  padding: 5px;
-  margin-top: 20px;
-  margin-right: 0px;
+  justify-content: space-between;
 }
 
 .row_category{
-  margin: 0px 20px;
+  width: 40%;
 }
 
 .row_id{
-  margin: 0px 20px;
-  margin-right: 0px;
+  width: 55%;
 }
 
 .row_quantity{
-  margin: 0px 20px;
+  width: 40%;
 } 
 
 .row_item{
-  margin: 0px 20px;
-  margin-right: 0px;
+  width: 55%;
 }
 
-.container .form_container .row1 input, select{
-  width: 230px;
-  height: 45px;
-
-  padding: 5px;
-  padding-left: 10px;
-
-  font-family: Poppins, sans-serif;
-  font-size: 16px;
-
-  border-radius: 5px;
-  border: 1px solid black;
-}
-
-
-.container .form_container .row2 input,select{
-  width: 230px;
-  height: 45px;
+.container .form_container .row1 input, 
+.container .form_container .row1 select,
+.container .form_container .row2 input,
+.container .form_container .row2 select{
+  width: 100%;
+  height: 55px;
   border-radius: 5px;
   color: #1a1259;
   padding: 5px;
   padding-left: 10px;
+  font-size: 16px;
 }
 
-
 .submit{
-  width: 660px;
-  height: 50px;
+  width: 100%;
+  height: 55px;
   padding: 5px;
   margin-top: 30px;
   border-radius: 5px;
   background-color: #1a1259;
+  border: 2px outset #c8d9e6;
   color: white;
+  font-size: 15px;
+  font-weight: 400;
+  transition: 0.4s;
+}
+
+.submit:hover{
+  background-color: white;
+  color: #1a1259;
 }
 
 .modal {

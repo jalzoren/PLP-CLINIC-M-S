@@ -19,6 +19,23 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../pictures/background_waves.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+
+  -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  opacity: 0.1;
+  z-index: -1;
+}
       
 
 .logo_img{
@@ -47,53 +64,64 @@ body {
   padding: 30px;
   margin-top: 30px;
   box-sizing: border-box;
+  width: 50%;
+  height: 450px;
+}
+
+.time_in form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 30px;
 }
 
 .time_in h2{
   text-align: center;
   background-color: #afb4db;
+  color:#1a1259;
   padding: 10px;
-  width: 460px;
+  width: 100%;
+  border-radius: 5px;
 }
 
 .time_in .row1{
   display: flex;
-  justify-content: space-evenly;
-  padding: 5px;
-  margin-top: 30px;
+  justify-content: space-between;
+  width: 100%;
 }
 
 
 .time_in .row2{
   display: flex;
-  justify-content: space-evenly;
-  padding: 5px;
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px;
 }
 
-.row_email{
-  margin: 0px 10px;
+.row_department{
+  width: 46%;
 }
 
 .row_id{
-  margin: 0px 10px;
+  width: 46%;
 }
 
 .row_category{
-  margin: 0px 10px;
+  width: 46%;
 } 
 
 .row_reason{
-  margin: 0px 10px;
+  width: 46%;
 }
 
-.time_in .row1 input{
-  width: 220px;
-  height: 40px;
+.time_in .row1 input,
+.time_in .row1 select{
+  width: 100%;
+  height: 55px;
 
   padding: 5px;
-  padding-left: 10px;
-
-  font-family: Poppins, sans-serif;
+  padding-left: 15px;
   font-size: 16px;
 
   border-radius: 5px;
@@ -102,8 +130,9 @@ body {
 
 
 .time_in .row2 select{
-  width: 220px;
-  height: 40px;
+  width: 100%;
+  height: 55px;
+  font-size: 16px;
   border-radius: 5px;
   color: #1a1259;
   padding: 5px;
@@ -111,26 +140,40 @@ body {
 }
 
 .time_in .other{
-  margin-left: 15px;
+  text-align: center;
+  width: 100%;
 }
 
-.time_in .other input{
-  width: 460px;
-  height: 50px;
+.time_in .other label{
+  position: relative;
+  left: 0;
+}
+
+.time_in .other textarea{
+  width: 100%;
+  height: 55px;
   padding: 5px;
   padding-left: 10px;
   border-radius: 5px;
   border: 1px solid black;
+  font-size: 15px;
 }
 
 .time_in button{
-  width: 460px;
-  height: 50px;
+  width: 100%;
+  height: 55px;
   padding: 5px;
   margin-top: 20px;
-  margin-left: 15px;
   border-radius: 5px;
   background-color: #1a1259;
+  border: 2px outset #c8d9e6;
   color: white;
+  font-size: 15px;
+  font-weight: 400;
+  transition: 0.4s;
 }
 
+.time_in button:hover{
+  background-color: white;
+  color: #1a1259;
+}

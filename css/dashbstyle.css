@@ -13,9 +13,9 @@ body {
   width: 100%;
   overflow: hidden;
   background-color: #ffffff;
+  overflow-y: auto;
 }
 
- 
 
 .sidebar {
   position: fixed;
@@ -397,7 +397,8 @@ body {
   padding: 15px 0px;
 }
 
-.hotlines_table table tr:nth-child(odd) {
+.hotlines_table table tr:nth-child(odd),
+.timedin_table table tr:nth-child(odd) {
   background-color: #D6EEEE;
 }
 
@@ -441,3 +442,33 @@ body {
   z-index: 1;
 }
 
+/* TIMED IN TABLE */
+
+.timedin_table{
+  width: 100%;
+  padding: 15px;
+}
+
+.timedin_table table{
+  width: 100%;
+  text-align: center;
+  
+  border: 2px solid #212161;
+  border-collapse: collapse;
+  overflow-y: auto;
+  height: 160px;
+}
+
+.timedin_table table caption{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.timedin_table table thead th{
+  background-color: #212161;
+  color: white;
+}
+
+.timedin_table table td{
+  padding: 5px 0px;
+}

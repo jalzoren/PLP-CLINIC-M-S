@@ -24,6 +24,23 @@ personnelCheckbox.addEventListener("change", () => {
   }
 });
 
+const nonTeaching = document.getElementById("nonTeaching");
+const teaching = document.getElementById("teaching");
+
+
+nonTeaching.addEventListener('change', function() {
+  if (this.checked) {
+    teaching.checked = false; 
+  }
+});
+
+teaching.addEventListener('change', function() {
+  if (this.checked) {
+    nonTeaching.checked = false; 
+  }
+});
+
+
 function closePopup() {
   document.getElementById("popupContainer").style.display = "none";
   document.getElementById("popupPatient").style.display = "none";
@@ -31,9 +48,53 @@ function closePopup() {
   document.getElementById("popupFamilyHistory").style.display = "none";
 }
 
-function openPopupPatient() {
-  document.getElementById('popupPatient').style.display = 'block';
+function closeEmptyFieldPopup() {
+  document.getElementById('emptyFieldPopup').style.display = "none";
+  document.getElementById('popupContainer').style.display = "block";        
 }
+
+function openPopupPatient() {
+  var studentCheckbox = document.getElementById('studentCheckbox').checked;
+  var personnelCheckbox = document.getElementById('personnelCheckbox').checked;
+  var collegeDepartment = document.getElementById('collegeDepartment').value.trim();
+  var program = document.getElementById('program').value.trim();
+  var batch = document.getElementById('batch').value.trim();
+  var teaching = document.getElementById('teaching').checked;
+  var nonTeaching = document.getElementById('nonTeaching').checked;
+  var departmentPersonnel = document.getElementById('departmentPersonnel').value.trim();
+  var departmentSection = document.getElementById('departmentSection').value.trim();
+
+  let hasError = false;
+
+  if (!studentCheckbox && !personnelCheckbox) {
+    hasError = true;
+  }
+
+  if (studentCheckbox) {
+    if (collegeDepartment === "" || program === "" || batch === "") {
+      hasError = true;
+    }
+  }
+
+  if (personnelCheckbox) {
+    if (!teaching && !nonTeaching) {
+      hasError = true;
+    }
+    if (departmentPersonnel === "" || departmentSection === "") {
+      hasError = true;
+    }
+  }
+
+  if (hasError) {
+    document.getElementById('emptyFieldPopup').style.display = "block";
+  } else {
+    document.getElementById('popupContainer').style.display = "none"; 
+    document.getElementById('popupPatient').style.display = "block"; 
+  }
+  
+}
+
+
 
 function goBackToCategory() {
   document.getElementById("popupPatient").style.display = "none"; 
@@ -210,7 +271,7 @@ preferNotDrugsCheckbox.addEventListener('change', function() {
 });
 
 document.getElementById("yesCheckbox").addEventListener("change", function() {
-  const flexWrapper4 = document.getElementById("flex-wrapper3");
+  const flexWrapper3 = document.getElementById("flex-wrapper3");
   
   if (this.checked) {
     flexWrapper3.style.display = "block";
@@ -271,6 +332,108 @@ preferNotCheckbox.addEventListener('change', function() {
     stoppedDate.style.display = 'none';
   }
 });
+
+
+
+
+function submitMedicalRecordForm() {
+  const formData = new FormData();
+
+  // Get category
+  if (document.getElementById("studentCheckbox").checked) {
+    formData.append("user", "student");
+    formData.append("collegeDepartment", document.getElementById("collegeDepartment").value);
+    formData.append("collegeProgram", document.getElementById("collegeProgram").value);
+    formData.append("batch", document.getElementById("batch").value);
+  } else if (document.getElementById("personnelCheckbox").checked) {
+    formData.append("user", "personnel");
+
+    if (document.getElementById("teaching").checked) {
+      formData.append("teaching", "1");
+    }
+    if (document.getElementById("nonTeaching").checked) {
+      formData.append("nonTeaching", "1");
+    }
+
+    formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
+    formData.append("departmentSection", document.getElementById("departmentSection").value);
+  }
+
+  // Patient's general data
+  formData.append("firstname", document.getElementById("firstname").value);
+  formData.append("middlename", document.getElementById("middlename").value);
+  formData.append("lastname", document.getElementById("lastname").value);
+  formData.append("gender", document.getElementById("gender").value);
+  formData.append("age", document.getElementById("age").value);
+  formData.append("birthdate", document.getElementById("birthdate").value);
+  formData.append("civilstatus", document.getElementById("civilstatus").value);
+  formData.append("religion", document.getElementById("religion").value);
+  formData.append("nationality", document.getElementById("nationality").value);
+  formData.append("contact", document.getElementById("contact").value);
+  formData.append("address", document.getElementById("address").value);
+  formData.append("city", document.getElementById("city").value);
+  formData.append("province", document.getElementById("province").value);
+  formData.append("zipcode", document.getElementById("zipcode").value);
+  formData.append("emergencyLastname", document.getElementById("emergencyLastname").value);
+  formData.append("emergencyFirstname", document.getElementById("emergencyFirstname").value);
+  formData.append("emergencymiddlename", document.getElementById("emergencymiddlename").value);
+  formData.append("relationship", document.getElementById("relationship").value);
+  formData.append("emergencycontact", document.getElementById("emergencycontact").value);
+  formData.append("emergencyaddress", document.getElementById("emergencyaddress").value);
+  formData.append("emergencycity", document.getElementById("emergencycity").value);
+  formData.append("emergencyprovince", document.getElementById("emergencyprovince").value);
+  formData.append("emergencyzipcode", document.getElementById("emergencyzipcode").value);
+
+  // Medical Conditions
+  const conditions = [
+    { id: "hypertension", label: "Hypertension" },
+    { id: "tubercolosis", label: "Tubercolosis" },
+    { id: "highCholesterol", label: "High Cholesterol" },
+    { id: "allergies", label: "Allergies", detailsId: "allergiesText" },
+    { id: "diabetes", label: "Diabetes" },
+    { id: "thyroidProblems", label: "Thyroid Problems" },
+    { id: "cancer", label: "Cancer" },
+    { id: "asthma", label: "Asthma" },
+    { id: "emphysema", label: "Emphysema" },
+    { id: "otherMedical", label: "Others", detailsId: "otherMedicalText" }
+  ];
+
+  conditions.forEach(condition => {
+    const checkbox = document.getElementById(condition.id);
+    if (checkbox && checkbox.checked) {
+      const details = condition.detailsId ? document.getElementById(condition.detailsId).value.trim() : "";
+      formData.append("conditions[]", JSON.stringify({
+        name: condition.label,
+        details: details
+      }));
+    }
+  });
+
+  const maintenance = document.getElementById("maintenanceMedications").value.trim();
+  formData.append("maintenanceMedications", maintenance);
+
+  // Submit the form
+  fetch("popup-medicalrec.php", {
+    method: "POST",
+    body: formData
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === "success") {
+        alert("Form submitted successfully!");
+        const form = document.getElementById("medicalRecordForm");
+        if (form) form.reset();
+      } else {
+        alert("Error: " + result.message);
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+      alert("An unexpected error occurred.");
+    });
+}
+
+
 
 
 
