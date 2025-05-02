@@ -71,7 +71,7 @@
         <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
       </div>
       
-      <button type="button" onclick="window.location.href='forms/login.html'">Submit</button>
+      <button type="button" id="timeInBtn" window.location.href='forms/login.html'">Submit</button>
     </form>
 
     <script src="js/time.js"></script>
@@ -81,7 +81,6 @@
     document.body.classList.add("loaded");
   });
 
-  // Fade-out when clicking links with class 'transition-link'
   document.querySelectorAll('a.transition-link').forEach(link => {
     link.addEventListener("click", function (e) {
       e.preventDefault(); // stop the default behavior
@@ -101,11 +100,11 @@
     const selected = document.getElementById('yearLevel').value;
 
     if (selected === "Borrow") {
-      window.location.href = "/forms/borrowform.html"; // Replace with your actual path
+      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
     } else if (selected === "Return") {
-      window.location.href = "/forms/returnform.html"; // Replace with your actual path
+      window.location.href = "./forms/returnform.html"; // Replace with your actual path
     } else {
-      window.location.href = "/forms/login.html";
+      window.location.href = "./forms/login.html";
     }
   });
 
