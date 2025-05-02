@@ -446,18 +446,19 @@ body {
 
 .timedin_table{
   width: 100%;
-  height: 210px;
-  padding: 0px 15px;
+  height: 160px;
+  padding: 0px 10px;
   overflow-y: auto;
 }
 
 .timedin_table table{
   width: 100%;
-  height: 150px;
+  height: 170px;
   text-align: center;
   
   border: 2px solid #212161;
   border-collapse: collapse;
+  top: 0;
   
   
 }
@@ -472,7 +473,7 @@ body {
 
 .timedin_table table thead th{
   position: sticky;
-  top: 20px;
+  top: 0px;
   background-color: #212161;
   color: white;
 }
@@ -480,3 +481,4 @@ body {
 .timedin_table table td{
   padding: 5px 0px;
 }
+
