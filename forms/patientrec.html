@@ -107,8 +107,8 @@
         </aside>
         
       
-      <button class = "add-btn">Add New Form</button>
-      
+        <button class="add-btn" id="load-btn">Add Assessment Record</button>
+     
       </div>
 
       <div class="container">
@@ -140,6 +140,9 @@
       </div>
     </div>
 
+    <div id="pop-up-med"></div>
+
+
     <script>
       let btn = document.querySelector("#logo");
       let sidebar = document.querySelector(".sidebar");
@@ -147,6 +150,38 @@
       btn.onclick = function () {
         sidebar.classList.toggle("active");
       };
+
+
+
+
+      document.getElementById('load-btn').addEventListener('click', function() {
+            fetch('../popup-forms/popup-assess.html')
+              .then(response => response.text())
+              .then(data => {
+                const container = document.getElementById('pop-up-med'); 
+                container.innerHTML = data;
+
+                const popupContainer = document.getElementById("popupContainer");
+                if (popupContainer) {
+                  popupContainer.style.display = "block";
+                }
+
+                const scripts = container.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                  const newScript = document.createElement('script');
+                  if (oldScript.src) {
+                    newScript.src = oldScript.src;
+                  } else {
+                    newScript.textContent = oldScript.textContent;
+                  }
+                  document.body.appendChild(newScript);
+                  oldScript.remove(); 
+                });
+              })
+              .catch(error => {
+                console.error('Error loading HTML:', error);
+              });
+          });
     </script>
   </body>
 </html>

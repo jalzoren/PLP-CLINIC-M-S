@@ -440,8 +440,9 @@ body {
   background-color: transparent;
   height: 100px; 
   width: 100%; 
-  padding: 10px;  
+  padding: 30px;  
   border: #000000 solid 1px;
+  height: 190px;
 }
 
 .form-content {
