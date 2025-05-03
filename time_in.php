@@ -155,11 +155,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $isJsonRequest) {
     const selected = document.getElementById('reason').value;
 
     if (selected === "Borrow") {
-      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
+      window.location.href = "./forms/borrowform.html"; 
     } else if (selected === "Return") {
-      window.location.href = "./forms/returnform.html"; // Replace with your actual path
+      window.location.href = "./forms/returnform.html"; 
     } else {
-      window.location.href = "./forms/login.html";
+      window.location.href = ".../forms/login.html";
     }
   });
     </script>
