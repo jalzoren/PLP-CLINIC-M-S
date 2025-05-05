@@ -11,11 +11,21 @@
 
 </head>
 <body>
+  <!--
   <div class="user-icon">
     <a href="./forms/login.html"><i class='bx bxs-user-circle'></i></a>
   </div>
+  -->
+
+  
+
+
     <div class="background"></div>
   <img src="pictures/logo_user.png" alt="Logo" class="logo_img">
+  
+  <!--  -->
+
+  
   <div class="time">
     <p class="clock" id="clock"></p>
     <p class="weekday" id="weekday"></p>
@@ -23,13 +33,18 @@
   </div>
 
   <div class="time_in">
-    <h2>TIME IN</h2>
     <form class="transition-link" method="post">
       <div class="row1">
         <div class="row_id">
           <label>ID Number:</label> <br>
-          <input type="text" name="id_number" id="id_number"   placeholder="Enter your ID Number" required ><br>
+          <input type="number" name="id_number" id="id_number"   placeholder="Enter your ID Number : " required ><br>
         </div>
+        <button type="button" id="timeInBtn" onclick="validateForm()">Submit</button>
+        <div class="admin-login-link">
+          <p>Admin access? Click here to <a href="../forms/login.html">Login as Admin</a></p>
+        </div>
+      </div>
+        <!--
         <div class="row_department">
           <label>Department:</label><br> 
           <select name="department" id="department" required>
@@ -77,7 +92,6 @@
         <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
       </div>
       
-      <button type="button" id="timeInBtn" onclick="validateForm()">Submit</button>
     </form>
 
     <!--<div id="emptyFieldPopup" class="popup">
@@ -85,7 +99,9 @@
         <h3>Please fill out all fields!</h3>
         <input type="button" value="OK" onclick="closepopup()" class="popup-btn" />
       </div>
-    </div>-->
+    </div>
+    -->
+
 
     <script src="js/time.js"></script>
     <script>
@@ -141,6 +157,5 @@
 
 
     </script>
-    
 </body>
 </html>
