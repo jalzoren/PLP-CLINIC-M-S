@@ -12,15 +12,14 @@ body {
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.background{
+.background {
   position: absolute;
   top: 0;
   left: 0;
@@ -31,97 +30,102 @@ body {
   background-repeat: no-repeat;
   background-position: top center;
 
-  -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
-  mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  -webkit-mask-image: radial-gradient(
+    circle,
+    transparent 0%,
+    transparent 10%,
+    black 70%
+  );
+  mask-image: radial-gradient(
+    circle,
+    transparent 0%,
+    transparent 10%,
+    black 70%
+  );
   opacity: 0.1;
   z-index: -1;
 }
-      
 
-.logo_img{
-  height: 150px;
-  width: 350px;
-  border-radius: 50%;
-  margin-bottom: 20px;
+.logo_img {
+  height: 300px;
+  width: 700px;
+  margin-top: -100px;
 }
 
-.time{
+.time {
   display: flex;
   justify-content: space-evenly;
   padding: 10px 30px;
   border: 2px solid #1a1259;
   box-sizing: border-box;
-
+  margin-bottom: 30px;
 }
 
-.time p{
-  margin: 8px
+.time p {
+  margin: 8px;
 }
 
-.time_in{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  width: 50%;
-  height: 450px;
-  top: 20px;
 
-}
 
-.time_in form{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: 10px;
-}
 
-.time_in h2{
+
+.time_in h2 {
   text-align: center;
   background-color: #afb4db;
-  color:#1a1259;
+  color: #1a1259;
   padding: 10px;
   width: 100%;
   border-radius: 5px;
 }
 
-.time_in .row1{
+.time_in .row1 {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  height: 100%; 
+  flex: 1;
+  gap: 30px
 }
 
 
-.time_in .row2{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 20px;
+
+
+
+label {
+  font-size: 20px;
+  font-weight: 800;
+  color: #000b5c;
 }
 
-.row_department{
+
+
+
+
+.row_category {
   width: 46%;
 }
 
-.row_id{
-  width: 46%;
-}
-
-.row_category{
-  width: 46%;
-} 
-
-.row_reason{
+.row_reason {
   width: 46%;
 }
 
 .time_in .row1 input,
-.time_in .row1 select{
+.time_in .row1 select {
   width: 100%;
   height: 55px;
+
+  padding: 5px;
+  padding-left: 15px;
+  font-size: 70px;
+
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.time_in .row_id input,
+.time_in .row1 select {
+  width: 100%;
+  height: 90px;
 
   padding: 5px;
   padding-left: 15px;
@@ -129,10 +133,16 @@ body {
 
   border-radius: 5px;
   border: 1px solid black;
+  margin-top: 10px;
+  font-size: 50px;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
 }
 
-
-.time_in .row2 select{
+.time_in .row2 select {
   width: 100%;
   height: 55px;
   font-size: 16px;
@@ -142,17 +152,17 @@ body {
   padding-left: 10px;
 }
 
-.time_in .other{
+.time_in .other {
   text-align: center;
   width: 100%;
 }
 
-.time_in .other label{
+.time_in .other label {
   position: relative;
   left: 0;
 }
 
-.time_in .other textarea{
+.time_in .other textarea {
   width: 100%;
   height: 55px;
   padding: 5px;
@@ -162,21 +172,38 @@ body {
   font-size: 15px;
 }
 
-.time_in button{
+.time_in button {
   width: 100%;
-  height: 55px;
-  padding: 5px;
-  margin-top: 20px;
-  border-radius: 5px;
+  height: 60px;
+  padding: 10px;
+  border-radius: 10px;
   background-color: #1a1259;
   border: 2px outset #c8d9e6;
   color: white;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 400;
   transition: 0.4s;
 }
 
-.time_in button:hover{
+.admin-login-link {
+  text-align: center;
+  font-size: 14px;
+}
+
+.admin-login-link a {
+  color: #1a1259;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.admin-login-link a:hover {
+  color: #000b5c;
+  text-decoration: underline;
+}
+
+
+.time_in button:hover {
   background-color: white;
   color: #1a1259;
 }
@@ -200,7 +227,7 @@ body {
 }
 
 .user-icon:visited {
-  color: #122298bd; 
+  color: #122298bd;
 }
 
 .user-icon a {
@@ -210,7 +237,7 @@ body {
 }
 
 .user-icon a:visited {
-  color: #122298bd; 
+  color: #122298bd;
 }
 
 .user-icon a:hover {
@@ -218,14 +245,8 @@ body {
   color: #000b5c;
 }
 
-
-
-
-
-
-
 .popup {
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
