@@ -7,13 +7,13 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="popup-medical.js" defer></script>
-    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
+    <link rel="stylesheet" href="popup-medicalrecstyle.css" />
     
   </head>
 
   <body>
 
-  <form action="" method="POST">
+    <form id="medicalRecordForm" action="popup-medicalrec.php" method="POST">
         
     <!-- Pop-up container for category -->
     <div class="form-content" id="popupContainer">
@@ -42,7 +42,7 @@
               <!-- Student Fields -->
               <div id="studentFields" style="display: none">
                 <div class="field-group">
-                  <label for="college">College Department</label>
+                  <label for="collegeDepartment">College Department</label>
                   <select id="collegeDepartment" name="collegeDepartment">
                     <option value="">-- Select Department --</option>
                     <option>CAS</option>
@@ -52,8 +52,8 @@
                   </select>
                 </div>
                 <div class="field-group">
-                  <label for="program">Degree Program</label>
-                  <select id="program" name="collegeProgram">
+                  <label for="collegeProgram">Degree Program</label>
+                  <select id="collegeProgram" name="collegeProgram">
                     <option value="">-- Select Program --</option>
                     <option>BSIT</option>
                     <option>BSCS</option>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="field-group">
                   <label for="batch">Batch</label>
-                  <input type="text" id="batch" name="batch" placeholder="Enter Batch (e.g., 2024)" />
+                  <input type="number" id="batch" name="batch" placeholder="Enter Batch (e.g., 2024)" />
                 </div>
               </div>
       
@@ -81,7 +81,7 @@
                 </div>
                 <div style="display: flex; gap: 20px">
                   <div class="field-group">
-                    <label for="department">Department</label>
+                    <label for="departmentPersonnel">Department</label>
                     <select id="departmentPersonnel" name="departmentPersonnel">
                       <option value="">-- Select Department --</option>
                       <option>HR</option>
@@ -137,7 +137,7 @@
                           <tr>
                               <td>
                                   <label for="identification">Identification Number</label>
-                                  <input type="text" id="identification" name="identification" placeholder="Enter Identification Number" />
+                                  <input type="number" id="identification" name="identification" placeholder="Enter Identification Number" />
                               </td>
       
                               <td>
@@ -165,7 +165,7 @@
                               </td>
               
                               <td><label for="age">Age</label>
-                                  <input type="text" id="age" name="age" placeholder="Enter Age" />
+                                  <input type="number" id="age" name="age" placeholder="Enter Age" />
                               </td>
       
                               <td><label for="birthdate">Birthdate</label>
@@ -185,7 +185,7 @@
       
                               <td>
                                 <label for="contact">Contact Number</label>
-                                <input type="text" id="contact" name="contact" placeholder="Enter Contact Number" />
+                                <input type="number" id="contact" name="contact" placeholder="Enter Contact Number" />
                               </td>
       
                             <td>
@@ -219,7 +219,7 @@
                               
                               <td>
                                   <label for="zipcode">Zip Code</label>
-                                  <input type="text" id="zipcode" name="zipcode" placeholder="Enter Zip Code" />
+                                  <input type="number" id="zipcode" name="zipcode" placeholder="Enter Zip Code" />
                               </td>    
                           </tr>
                       </table>
@@ -255,7 +255,7 @@
                           <tr>
                             <td>
                                 <label for="emergencycontact">Contact Number</label>
-                                <input type="text" id="emergencycontact" name="emergencycontact" placeholder="Enter Contact Number" />
+                                <input type="number" id="emergencycontact" name="emergencycontact" placeholder="Enter Contact Number" />
                             </td>
       
                             <td>
@@ -277,7 +277,7 @@
                           <tr>
                             <td>
                               <label for="emergencyzipcode">Zip Code</label>
-                              <input type="text" id="emergencyzipcode" name="emergencyzipcode" placeholder="Enter Zip Code" />
+                              <input type="number" id="emergencyzipcode" name="emergencyzipcode" placeholder="Enter Zip Code" />
                             </td>
                           </tr>
                       </table>
@@ -409,7 +409,7 @@
                             <label>
                                 <span>Number of Pregnancies:</span>
                                 <span class="separator">.................................................................................</span>
-                                <input type="text" id="numberOfPreg" />
+                                <input type="number" id="numberOfPreg" name="numberOfPreg" />
                             </label>
                         </td>
                     </tr>
@@ -419,7 +419,7 @@
                             <label>
                                 <span>Number of Miscarriage/s:</span>
                                 <span class="separator">..............................................................................</span>
-                                <input type="text" id="numberOfMiscarriage" />
+                                <input type="number" id="numberOfMiscarriage" name="numberOfMiscarriage" />
                             </label>
                         </td>
                     </tr>
@@ -429,7 +429,7 @@
                             <label>
                                 <span>Number of Term deliveries:</span>
                                 <span class="separator">...........................................................................</span>
-                                <input type="text" id="numberOfTermdeliveries" />
+                                <input type="number" id="numberOfTermdeliveries" name="numberOfTermdeliveries"  />
                             </label>
                         </td>
                     </tr>
@@ -439,7 +439,7 @@
                             <label>
                                 <span>Number of Premature deliveries:</span>
                                 <span class="separator">.............................................................</span>
-                                <input type="text" id="numberOfPrematureDeliveries" />
+                                <input type="number" id="numberOfPrematureDeliveries" name="numberOfPrematureDeliveries"  />
                             </label>
                         </td>
                     </tr>
@@ -449,7 +449,7 @@
                             <label>
                                 <span>Total Number of Children:</span>
                                 <span class="separator">..............................................................................</span>
-                                <input type="text" id="totalnumberofChildren" />
+                                <input type="number" id="totalnumberofChildren" name="totalnumberofChildren"  />
                             </label>
                         </td>
                     </tr>
@@ -471,13 +471,13 @@
                   <tr>     
                     <td>
                       <label>
-                        <input type="checkbox" id="oncePerWeekalcohol" /> Once per week
+                        <input type="checkbox" id="oncePerWeekalcohol" name="oncePerWeekalcohol" /> Once per week
                       </label>
                     </td>
                     <td>
                       <label>
-                        <input type="checkbox" id="surgical" /> Yes / specify
-                        <input type="text" id="surgicalText" placeholder="Specify" />
+                        <input type="checkbox" id="surgical" name="surgical" /> Yes / specify
+                        <input type="text" id="surgicalText" placeholder="Specify" name="surgicalText" />
                       </label>
                     </td>
                   </tr>
@@ -485,13 +485,13 @@
                   <tr>
                     <td>
                       <label>
-                        <input type="checkbox" id="moreThanonceperweekalcohol" /> More Than Once Per Week
+                        <input type="checkbox" id="moreThanonceperweekalcohol" name="moreThanonceperweekalcohol" /> More Than Once Per Week
                       </label>
                     </td>
       
                     <td>
                       <label>
-                        <input type="checkbox" id="noneSurgery" /> None
+                        <input type="checkbox" id="noneSurgery" name="noneSurgery" /> None
                       </label>
                     </td>
                   </tr>
@@ -500,7 +500,7 @@
                     <td colspan="2">
                       <label>
                         Total estimated amount per consumption of alcohol
-                        <input type="text" id="totalperconsupAlchoText" placeholder="Specify" />
+                        <input type="number" id="totalperconsupAlchoText"  name="totalperconsupAlchoText"  placeholder="Specify" />
                       </label>
                     </td>
                   </tr>
@@ -522,7 +522,7 @@
                   <div class="checkbox-wrapper">
                       <div class="smoke-checkbox">
                         <div class="checkbox-item">
-                          <input type="checkbox" id="yesCheckbox">
+                          <input type="checkbox" id="yesCheckbox" name="usageStatus" value="Yes">
                           <span>Yes and I use:</span>
                         </div>
                       
@@ -530,15 +530,15 @@
                             <table>
                               <tr>
                                 <td>
-                                  <input type="checkbox" id="cigarette" />
+                                  <input type="checkbox" id="cigarette" name="smokingTypes[]" value="Cigarette" />
                                   <label for="cigarette">Cigarette</label>
                                 </td>
                                 <td>
-                                  <input type="checkbox" id="vape" />
+                                  <input type="checkbox" id="vape" name="smokingTypes[]" value="Vape"  />
                                   <label for="vape">Vape</label>
                                 </td>
                                 <td>
-                                  <input type="checkbox" id="pipe" />
+                                  <input type="checkbox" id="pipe" name="smokingTypes[]" value="Pipe" />
                                   <label for="pipe">Pipe</label>
                                 </td>
                               </tr>
@@ -547,7 +547,7 @@
                                 <td colspan="3">
                                   <label>
                                     If Cigarette, indicate no. of sticks per day:
-                                    <input type="text" id="sticksperday" placeholder="Specify" />
+                                    <input type="number" id="sticksperday" name="sticksperday" placeholder="Specify" />
                                   </label>
                                 </td>
                               </tr>
@@ -556,7 +556,7 @@
                                 <td colspan="3">
                                   <label>
                                     I started since:
-                                    <input type="date" id="cigaretteStartedDate" />
+                                    <input type="date" id="cigaretteStartedDate" name="cigaretteStartedDate" />
                                   </label>
                                 </td>
                               </tr>
@@ -564,26 +564,26 @@
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="noCheckbox">
+                          <input type="checkbox" id="noCheckbox" name="usageStatus" value="never">
                           <span>Never</span>
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="sometimesCheckbox">
+                          <input type="checkbox" id="sometimesCheckbox" name="usageStatus" value="triedonce" >
                           <span>I tried only once</span>
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="preferNotCheckbox">
+                          <input type="checkbox" id="preferNotCheckbox" name="usageStatus" value="stopped">
                           <span>I stopped already since:</span>
-                          <input type="date" id="stoppedDate" style="display: none; margin-left: 10px;">
+                          <input type="date" id="stoppedDate" name="stoppedDate" style="display: none; margin-left: 10px;">
                         </div>
                         
                       </div>
 
                       <div class="drugs-checkbox">
                         <div class="checkbox-item">
-                          <input type="checkbox" id="yesDrugsCheckbox">
+                          <input type="checkbox" name="drugsStatus" id="yesDrugsCheckbox" value="Yes">
                           <span>Yes:</span>
                         </div>
                       
@@ -591,26 +591,26 @@
                           <table>
                             <tr>
                               <td>
-                                <input type="checkbox" id="shabu" />
+                                <input type="checkbox"  name="substances[]" id="shabu" value="shabu" />
                                 <label for="marijuana">Shabu</label>
                               </td>
                               <td>
-                                <input type="checkbox" id="ecstasy" />
+                                <input type="checkbox" name="substances[]" id="ecstasy" value="ecstasy" />
                                 <label for="ecstasy">Ecstasy</label>
                               </td>
                               <td>
-                                <input type="checkbox" id="othersub" />
+                                <input type="checkbox" name="substances[]" id="othersub" value="othersub" />
                                 <label for="othersub">Other</label>
                               </td>
                             </tr>
 
                             <tr>
                               <td>
-                                <input type="checkbox" id="marijuana" />
+                                <input type="checkbox" name="substances[]" id="marijuana" value="marijuana" />
                                 <label for="marijuana">Marijuana</label>
                               </td>
                               <td>
-                                <input type="checkbox" id="lsd" />
+                                <input type="checkbox" name="substances[]" id="lsd" value="lsd" />
                                 <label for="lsd">LSD</label>
                               </td>
                             </tr>
@@ -621,11 +621,11 @@
                                   <span class="question-text">If yes, have you received or undergone rehabilitation?</span>
                                   <div class="answers-wrapper">
                                     <label>
-                                      <input type="checkbox" id="yesRehab" />
+                                      <input type="checkbox" name="rehabilitation" id="yesRehab" value="Yes" />
                                       <span>Yes</span>
                                     </label>
                                     <label>
-                                      <input type="checkbox" id="noRehab" />
+                                      <input type="checkbox" name="rehabilitation" id="noRehab" value="No" />
                                       <span>No</span>
                                     </label>
                                   </div>
@@ -638,17 +638,17 @@
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="noDrugsCheckbox">
+                          <input type="checkbox" name="drugsStatus" id="NeverDrugsCheckbox" value="Never">
                           <span>Never</span>
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="sometimesDrugsCheckbox">
+                          <input type="checkbox" name="drugsStatus" id="TriedDrugsCheckbox" value="Tried">
                           <span>I have tried before and did not continue</span>
                         </div>
                       
                         <div class="checkbox-item">
-                          <input type="checkbox" id="preferNotDrugsCheckbox">
+                          <input type="checkbox" name="drugsStatus" id="SometimesDrugsCheckbox" value="Sometimes">
                           <span>Sometimes</span>
                         </div>
 
@@ -688,13 +688,13 @@
                 <tr>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHishypertension" />
+                    <input type="checkbox" id="FamHishypertension" name="family_history[]" value="Hypertension" />
                     <label for="FamHishypertension">Hypertension</label>
                     </div>
                   </td>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHisdiabetes" />
+                    <input type="checkbox" id="FamHisdiabetes" name="family_history[]" value="Diabetes" />
                     <label for="FamHisdiabetes">Diabetes</label>
                     <div class="checkbox-label-group"></div>
                   </td>
@@ -711,13 +711,13 @@
                 <tr>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHishighCholesterol" />
+                    <input type="checkbox" id="FamHishighCholesterol" name="family_history[]" value="High Cholesterol" />
                     <label for="FamHishighCholesterol">High Cholesterol</label>
                   </div>
                   </td>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHiscancer" />
+                    <input type="checkbox" id="FamHiscancer" name="family_history[]" value="Cancer" />
                     <label for="FamHiscancer">Cancer</label>
                     </div>
                   </td>
@@ -726,19 +726,19 @@
                 <tr>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHisasthma" />
+                    <input type="checkbox" id="FamHisasthma" name="family_history[]" value="Asthma" />
                     <label for="FamHisasthma">Asthma</label>
                     </div>
                   </td>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHistubercolosis" />
+                    <input type="checkbox" id="FamHistubercolosis" name="family_history[]" value="Tubercolosis" />
                     <label for="FamHistubercolosis">Tubercolosis</label>
                     </div>
                   </td>
                   <td>
                     <div class="checkbox-label-group">
-                      <input type="checkbox" id="SpecifyFamHisCheckbox" />
+                      <input type="checkbox" id="SpecifyFamHisCheckbox"/>
                       <label for="SpecifyFamHisCheckbox">OTHERs/specify:</label>
                       <input type="text" id="SpecifyFamHisText" placeholder="Specify" />
                     </div>
@@ -749,13 +749,13 @@
                 <tr>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHisemphysema" />
+                    <input type="checkbox" id="FamHisemphysema" name="family_history[]" value="Emphysema" />
                     <label for="FamHisemphysema">Emphysema</label>
                     </div>
                   </td>
                   <td>
                     <div class="checkbox-label-group">
-                    <input type="checkbox" id="FamHisthyroidProblems" />
+                    <input type="checkbox" id="FamHisthyroidProblems" name="family_history[]" value="Thyroid Problems"  />
                     <label for="FamHisthyroidProblems">Thyroid Problems</label>
                     </div>
                   </td>
@@ -764,7 +764,7 @@
 
               <div class="back-submit-familyhistory">
                 <button type="button" class="back-button" onclick="goBackToPersonalHistoPopUp()">BACK</button>
-                <button type="button" onclick="submitMedicalRecordForm()">Submit</button>
+                <button type="submit" class="submit2-button">Submit</button>
               </div>
             </div>
 
