@@ -1,20 +1,23 @@
 <?php
+class Database {
+    private $host = 'localhost';
+    private $user = 'root';
+    private $password = '';
+    private $database = 'clinic_system';
+    public $conn;
 
-define("HOSTNAME", "localhost");
-define("USERNAME", "root");
-define("PASSWORD", "");
-define("DATABASE", "clinic_system");
+    public function __construct() {
+        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+        if ($this->conn->connect_error) {
+            throw new Exception("Connection failed: " . $this->conn->connect_error);
+        }
+    }
 
-$mysqli = mysqli_connect(HOSTNAME, USERNAME, PASSWORD, DATABASE);
+    public function getConnection() {
+        return $this->conn;
+    }
 
-$status = "";
-$connected = false;
-
-if(!$mysqli){
-    $status = "Disconnected";
-    $connected = false;
-} else {
-    $status = "Connected";
-    $connected = true;
+    public function close() {
+        $this->conn->close();
+    }
 }
-?>
