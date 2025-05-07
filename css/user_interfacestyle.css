@@ -57,6 +57,7 @@ body {
   justify-content: space-evenly;
   padding: 10px 30px;
   border: 2px solid #1a1259;
+  border-radius: 50px;
   box-sizing: border-box;
   margin-bottom: 30px;
 }
@@ -84,7 +85,7 @@ body {
   justify-content: space-between;
   height: 100%; 
   flex: 1;
-  gap: 30px
+  gap: 15px
 }
 
 
@@ -134,11 +135,14 @@ label {
   border-radius: 5px;
   border: 1px solid black;
   margin-top: 10px;
+  margin-bottom: 10px;
+
   font-size: 50px;
   font-weight: 700;
   align-items: center;
   justify-content: center;
   text-align: center;
+
 
 }
 

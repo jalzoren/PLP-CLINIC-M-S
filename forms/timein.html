@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/timeinstyle.css">
+  <link rel="icon" type="image/png" href="./pictures/logo.png">
+  <title>PLP Clinic - Time In</title>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+  <!--
+  <div class="user-icon">
+    <a href="./forms/login.html"><i class='bx bxs-user-circle'></i></a>
+  </div>
+  -->
+
+  
+
+
+    <div class="background"></div>
+  <img src="../pictures/logo_user.png" alt="Logo" class="logo_img">
+  
+  <!--  -->
+
+  
+  <div class="time">
+    <p class="clock" id="clock"></p>
+    <p class="weekday" id="weekday"></p>
+    <p class="date" id="date"></p>
+  </div>
+  <h2> TIME IN</h2>
+
+  <div class="time_in">
+    <form class="transition-link" method="post">
+      <div class="row1">
+        <div class="row_reason">
+            <label>Reason for Visit:</label><br>
+            <select name="yearLevel" id="yearLevel" required>
+              <option value="" disabled selected>Select Reason</option>
+              <option value="Headache">Headache</option>
+              <option value="Toothache">Toothache</option>
+              <option value="Menstrual cramps">Menstrual cramps</option>
+              <option value="Asthma">Asthma attack or difficulty breathing</option>
+              <option value="Borrow">Borrow</option>
+              <option value="Return">Return</option>
+              <option value="Other Reason">Other Reason</option>
+            </select>
+          </div>
+          <div class="other">
+            <label>Other Reason:</label><br>
+            <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
+          </div>
+        <button type="button" id="timeInBtn" onclick="validateForm()">Submit</button>
+       
+      </div>
+        <!--
+        <div class="row_department">
+          <label>Department:</label><br> 
+          <select name="department" id="department" required>
+            <option value="" disabled selected>Select Department</option>
+            <option value="College of Nursing">College of Nursing</option>
+            <option value="College of International Hospitality Management">College of International Hospitality Management </option>
+            <option value="College of Business Administration">College of Business Administration</option>
+            <option value="College of Computer Studies">College of Computer Studies</option>
+            <option value="College of Engineering">College of Engineering</option>
+            <option value="College of Education">College of Education </option>
+            <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+        </select>
+        </div>
+        
+      </div>
+
+      <div class="row2">
+        <div class="row_category">
+          <label>Category:</label><br>
+          <select name="category" id="category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Student">Student</option>
+            <option value="Teaching">Teaching</option>
+            <option value="Non-Teaching">Non-Teaching</option>
+          </select>
+        </div>
+        
+        <div class="row_reason">
+          <label>Reason for Visit:</label><br>
+          <select name="yearLevel" id="yearLevel" required>
+            <option value="" disabled selected>Select Reason</option>
+            <option value="Headache">Headache</option>
+            <option value="Toothache">Toothache</option>
+            <option value="Menstrual cramps">Menstrual cramps</option>
+            <option value="Asthma">Asthma attack or difficulty breathing</option>
+            <option value="Borrow">Borrow</option>
+            <option value="Return">Return</option>
+            <option value="Other Reason">Other Reason</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="other">
+        <label>Other Reason:</label><br>
+        <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
+      </div>
+      
+    </form>
+
+    <!--<div id="emptyFieldPopup" class="popup">
+      <div class="popup-content">
+        <h3>Please fill out all fields!</h3>
+        <input type="button" value="OK" onclick="closepopup()" class="popup-btn" />
+      </div>
+    </div>
+    -->
+
+
+    <script src="../js/time.js"></script>
+    <script>
+   // Fade-in on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+  });
+
+  document.querySelectorAll('a.transition-link').forEach(link => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault(); // stop the default behavior
+      const target = this.href;
+
+      document.body.classList.remove("loaded");
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        window.location.href = target;
+      }, 500); // match the CSS transition time
+    });
+  });
+
+
+  document.getElementById('timeInBtn').addEventListener('click', () => {
+    const selected = document.getElementById('yearLevel').value;
+
+    if (selected === "Borrow") {
+      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
+    } else if (selected === "Return") {
+      window.location.href = "./forms/returnform.html"; // Replace with your actual path
+    } else {
+    }
+  });
+
+  function validateForm() {
+    const id_number = document.getElementById("id_number").value.trim();
+    const category = document.getElementById("category").value.trim();
+    const department = document.getElementById("department").value.trim();
+    const yearLevel = document.getElementById("yearLevel").value.trim();
+    const remarks = document.getElementById("remarks").value.trim();
+
+    if (!id_number || !category || !department || !yearLevel || !remarks) {
+      document.getElementById("emptyFieldPopup").classList.add("show");
+      return false;
+    }
+
+    document.getElementById("studentReg").submit();
+  }
+
+  function closepopup() {
+    document.getElementById("emptyFieldPopup").classList.remove("show");
+  }
+
+
+    </script>
+</body>
+</html>
