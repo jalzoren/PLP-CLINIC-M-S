@@ -53,8 +53,8 @@
             <label>Other Reason:</label><br>
             <textarea id="remarks" name="other_reason" placeholder="Other Reason"></textarea>
           </div>
-        <button type="button" id="timeInBtn" onclick="validateForm()">Submit</button>
-       
+          <a href="../index.html"><button type="button" id="timeInBtn" onclick="validateForm()">Submit</button> </a>
+          
       </div>
         <!--
         <div class="row_department">
@@ -137,16 +137,7 @@
   });
 
 
-  document.getElementById('timeInBtn').addEventListener('click', () => {
-    const selected = document.getElementById('yearLevel').value;
 
-    if (selected === "Borrow") {
-      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
-    } else if (selected === "Return") {
-      window.location.href = "./forms/returnform.html"; // Replace with your actual path
-    } else {
-    }
-  });
 
   function validateForm() {
     const id_number = document.getElementById("id_number").value.trim();
