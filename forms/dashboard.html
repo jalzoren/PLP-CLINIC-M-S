@@ -235,5 +235,35 @@
         }
     </script>
 
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+        
+            // Time formatting
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+        
+            // Date formatting
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const year = now.getFullYear();
+            const dateString = `${month}/${day}/${year}`;
+        
+            // Day of the week
+            const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const weekday = weekdays[now.getDay()];
+        
+            // Update HTML content
+            document.getElementById('date').innerText = `Date: ${dateString}`;
+            document.getElementById('time').innerText = `${weekday} | ${timeString}`;
+        }
+    
+        // Run every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call
+    </script>
+
 </body>
 </html>

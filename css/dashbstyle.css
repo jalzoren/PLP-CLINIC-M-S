@@ -284,6 +284,7 @@ body {
 
 .desk .greetings .date, .time{
   font-style: italic;
+  font-weight: 600;
   text-shadow: 1px 1px 2px rgb(255, 255, 255), 0 0 25px rgb(255, 255, 255), 0 0 5px rgb(255, 255, 255);
 }
 
