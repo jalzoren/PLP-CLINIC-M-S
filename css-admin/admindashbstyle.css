@@ -218,7 +218,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a1259;
+  background: transparent;
   margin-top: 11px;
   box-sizing: border-box;
   padding: 0 20px;
@@ -228,9 +228,8 @@ body {
   font-size: 25px;
   font-weight: 800;
   font-style: italic;
-  color: #fff;
+  color: #1a1259;
   letter-spacing: 0px;
-  background: transparent;
   margin: 10px;
   padding: 15px 0;
 }
@@ -245,7 +244,7 @@ body {
   font-size: 11px;
   font-weight: 600;
   font-style: italic;
-  color: #fff;
+  color: #1a1259;
   letter-spacing: 1px;
   margin-right: 10px;
 }
@@ -265,13 +264,30 @@ body {
 
 .home-content {
   position: absolute;
-  top: 90px;
+  top: 10px;
   width: calc(80% - -205px);
   left: 90px;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 10px);
   overflow-y: auto;
   transition: all 0.5s ease;
   z-index: 101;
+}
+.home-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.home-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.home-content::-webkit-scrollbar-thumb {
+  background: #1a1259;
+  border-radius: 10px;
+}
+
+.home-content::-webkit-scrollbar-thumb:hover {
+  background: #3d2fa3;
 }
 
 .home-content .text {
@@ -292,7 +308,7 @@ body {
 .sidebar.active ~ .home-content {
   width: calc(80% - -45px);
   left: 250px;
-  top: 90px;
+  top: 10px;
   transition: all 0.5s ease;
   z-index: 1;
 }
@@ -316,44 +332,63 @@ body {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  gap: 20px;
-  padding: 30px;
+  gap: 10px;
+  padding: 20px;
   background-color: #f4f4f4;
-  height: 600px;
+  height: 700px;
   box-sizing: border-box;
   border-radius: 20px;
 }
 
 .parent > div {
   border-radius: 20px;
-  background-color: #e6ebef;
   border: #1a1259 solid 2px;
-  border-radius: 20px;
-  padding: 10px; 
+  padding: 20px; 
   box-sizing: border-box; 
   color: rgb(0, 0, 0);
   font-weight: bold;
+  color: #2f4156;
+
 }
 
 .parent .div1 {
-  border-radius: 20px;
-  border: #1a1259 solid 2px;
-  box-sizing: border-box; 
+  grid-column: span 4;
+  grid-row: span 2;
   color: #2f4156;
-  font-weight: bold;
   font-size: 30px;
   line-height: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.date, .nurse{
-  box-sizing: border-box; 
+.div1-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.welcome {
+  font-size: 28px;
+  font-weight: bold;
   color: #2f4156;
-  font-weight: normal;
-  font-size: 18px;
-  margin-left: 5px;
-  margin-top: 5px;
-
 }
+
+.date, .nurse, .email{
+  font-size: 18px;
+  font-weight: normal;
+  color: #2f4156;
+}
+
+
+
 
 .div1 {
   grid-column: span 4 / span 4;
@@ -362,10 +397,58 @@ body {
 
 }
 
+
+
+.div2::-webkit-scrollbar {
+  width: 5px;
+}
+
+.div2::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+}
+
+.div2::-webkit-scrollbar-thumb {
+  background: #1a1259;
+  border-radius: 10px;
+}
+
+.div2::-webkit-scrollbar-thumb:hover {
+  background: #3d2fa3;
+}
+
+
+#live-date {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+.today-date {
+  background-color:#1a1259 !important;  
+  color: white !important;  
+}
+
+
+
+#calendar {
+  width: 500;
+ 
+}
+
+
+
+
 .div2 {
   grid-column: span 2 / span 2;
   grid-row: span 2 / span 2;
   grid-column-start: 5;
+  overflow-y: scroll;
+
+
 }
 
 .div3 {
