@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 11:16 AM
+-- Generation Time: May 08, 2025 at 11:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -121,7 +121,8 @@ CREATE TABLE `item` (
   `Item_ID` int(11) NOT NULL,
   `Item_Name` varchar(100) NOT NULL,
   `Category` varchar(20) NOT NULL,
-  `Status` varchar(20) NOT NULL
+  `Status` varchar(20) NOT NULL,
+  `Quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
