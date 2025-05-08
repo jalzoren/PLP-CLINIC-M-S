@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 11:38 AM
+-- Generation Time: May 08, 2025 at 12:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -256,9 +256,6 @@ CREATE TABLE `users` (
   `User_ID` int(11) NOT NULL,
   `Patient_ID` int(11) DEFAULT NULL,
   `ID_Number` int(20) NOT NULL,
-  `Last_Name` varchar(50) NOT NULL,
-  `First_Name` varchar(50) NOT NULL,
-  `Middle_Name` varchar(50) DEFAULT NULL,
   `Role` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
