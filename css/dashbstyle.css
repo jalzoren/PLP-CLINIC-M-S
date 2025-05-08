@@ -224,11 +224,12 @@ body {
   width: 100%;
   mask-image: linear-gradient(black 50%, transparent);
   opacity: 0.6;
+  margin-top: -40px;
 }
 
 .desk {
   position: relative;
-  top: -40px;
+  top: -50px;
   width: 70%;
   height: 20%;
   display: flex;
@@ -285,59 +286,21 @@ body {
 .data_summary{
   margin-top: 30px;
   display: flex;
+  justify-content: space-between;
   width: 70%;
   height: 30%;
+
+  background-color: rgb(133, 190, 207);
 }
 
-.data_summary a{
-  color: #2e266d;
-  text-decoration: none;
-  font-weight: 400;
+.data_summary .left_content{
+  background-color: rgb(176, 140, 209);
+
+
 }
 
-.data_summary a:hover{
-  text-decoration: underline;
-}
-
-
-.data_summary .left_summary{
-  width: 50%;
-  margin-right: 10px;
-}
-
-.data_summary .left_summary .borrower_summary{
-  border: 2px solid #2e266d;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  height: 48%;
-}
-
-.data_summary .left_summary .medicine_summary{
-  border: 2px solid #2e266d;
-  margin-top: 10px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  height: 48%;
-}
-
-.data_summary .visits_summary{
-  width: 50%;
-  height: 100%;
-  margin-left: 10px;
-  border: 2px solid #2e266d;
-  border-radius: 10px;
-  box-sizing: border-box;
-  
-}
-
-.bs_title, .ms_title, .vs_title{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  color: #2e266d;
-  font-weight: 600;
-  padding: 10px 20px;
+.data_summary .right_content{
+  background-color: rgb(138, 223, 163);
 }
 
 
