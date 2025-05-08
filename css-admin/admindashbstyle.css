@@ -334,7 +334,6 @@ body {
   grid-template-rows: repeat(6, 1fr);
   gap: 10px;
   padding: 20px;
-  background-color: #f4f4f4;
   height: 700px;
   box-sizing: border-box;
   border-radius: 20px;
@@ -348,6 +347,8 @@ body {
   color: rgb(0, 0, 0);
   font-weight: bold;
   color: #2f4156;
+  background-color: #e6ebef;
+
 
 }
 
