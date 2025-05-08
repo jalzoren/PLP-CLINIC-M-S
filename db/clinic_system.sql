@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 01:44 PM
+-- Generation Time: May 08, 2025 at 06:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -255,12 +255,9 @@ CREATE TABLE `surgical_history` (
 CREATE TABLE `users` (
   `User_ID` int(11) NOT NULL,
   `Patient_ID` int(11) DEFAULT NULL,
-  `ID_Number` int(20) NOT NULL,
   `Role` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `Updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -395,7 +392,6 @@ ALTER TABLE `surgical_history`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`User_ID`),
-  ADD UNIQUE KEY `ID_Number` (`ID_Number`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Patient_ID` (`Patient_ID`);
 

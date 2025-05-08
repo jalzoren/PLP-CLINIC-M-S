@@ -81,22 +81,92 @@
 
         <div class="content">
             <div class="desk">
-                <!--<img src="../pictures/nurse.png" class="nurse">
+                <img src="../pictures/nurse.png" class="nurse">
                 <div class="greetings">
-                    <h2 class="welcome">Welcome to PLP Clinic Monitoring System</h2>
-                    <div class="date" id="date"></div>
-                    <p class="time" id="time"></p>
-                </div> -->
+                    <h2 class="welcome">Welcome, Nurse</h2>
+                    <p class="date" id="date">Date: 00/00/0000</p>
+                    <p class="time" id="time">Monday | 00:00:00</p>
+                </div>
             </div>
-            <div class="item_summary">Item Summary</div>
-            <div class="notification">Notification</div>
-            <div>
+
+            <div class="item_summary">
+                <div class="item_title">
+                    <p>Item Summary</p>
+                    <a href="#">See All</a>
+                </div>
+                <div class="item_chart">
+                    Item Summary Chart
+                </div>
+            </div>
+
+            <div class="notification">
+                <div class="notif_title">
+                    <p>Notification</p>
+                    <a href="#">See All</a>
+                </div>
+                <div class="messages">
+                    Notification Message
+                </div>
+            </div>
+
+            <div class="emergency_hotline">
                 <a href="#" class="hotlines" onclick="openForm()">
                     PASIG CITY EMERGENCY HOTLINES
                 </a>
             </div>
             
-            <div class="visits_summary">Visit Summary</div>
+            <div class="visit_summary">
+                <div class="visit_title">
+                    <p>Visit Summary</p>
+                    <a href="#">See All</a>
+                </div>
+                <div class="visit_record">
+                    <div class="visit_chart">
+                        Line Graph Visit Summary
+                    </div>
+
+                    <div class="timedin_table">
+                        <table>
+                            <caption>Currently Time In</caption>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Time In</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Miah</td>
+                                    <td>0/0/0 00:00</td>
+                                    <td><button class="timedout">Time Out</button></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>Miah</td>
+                                    <td>0/0/0 00:00</td>
+                                    <td><button class="timedout">Time Out</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Miah</td>
+                                    <td>0/0/0 00:00</td>
+                                    <td><button class="timedout">Time Out</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Miah</td>
+                                    <td>0/0/0 00:00</td>
+                                    <td><button class="timedout">Time Out</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Miah</td>
+                                    <td>0/0/0 00:00</td>
+                                    <td><button class="timedout">Time Out</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="overlay" class="overlay"></div>
