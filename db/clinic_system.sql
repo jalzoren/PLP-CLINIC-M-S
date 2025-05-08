@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 11:38 AM
+-- Generation Time: May 08, 2025 at 01:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -187,7 +187,7 @@ CREATE TABLE `patient_condition` (
 --
 
 CREATE TABLE `personnel_patient` (
-  `Personnel_Patient_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Personnel_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -226,7 +226,7 @@ CREATE TABLE `smoking_typeused` (
 --
 
 CREATE TABLE `student_patient` (
-  `Student_Patient_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL,
   `Program` varchar(255) NOT NULL,
@@ -256,9 +256,6 @@ CREATE TABLE `users` (
   `User_ID` int(11) NOT NULL,
   `Patient_ID` int(11) DEFAULT NULL,
   `ID_Number` int(20) NOT NULL,
-  `Last_Name` varchar(50) NOT NULL,
-  `First_Name` varchar(50) NOT NULL,
-  `Middle_Name` varchar(50) DEFAULT NULL,
   `Role` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
@@ -360,8 +357,9 @@ ALTER TABLE `patient_condition`
 -- Indexes for table `personnel_patient`
 --
 ALTER TABLE `personnel_patient`
-  ADD PRIMARY KEY (`Personnel_Patient_ID`),
-  ADD UNIQUE KEY `Personnel_ID` (`Personnel_ID`);
+  ADD PRIMARY KEY (`Personnel_ID`),
+  ADD UNIQUE KEY `Personnel_ID` (`Personnel_ID`),
+  ADD KEY `Patient_ID` (`Patient_ID`);
 
 --
 -- Indexes for table `smoking_history`
@@ -381,8 +379,9 @@ ALTER TABLE `smoking_typeused`
 -- Indexes for table `student_patient`
 --
 ALTER TABLE `student_patient`
-  ADD PRIMARY KEY (`Student_Patient_ID`),
-  ADD UNIQUE KEY `Student_ID` (`Student_ID`);
+  ADD PRIMARY KEY (`Student_ID`),
+  ADD UNIQUE KEY `Student_ID` (`Student_ID`),
+  ADD KEY `student_patient_ibfk` (`Patient_ID`);
 
 --
 -- Indexes for table `surgical_history`
@@ -460,12 +459,6 @@ ALTER TABLE `patient`
   MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `personnel_patient`
---
-ALTER TABLE `personnel_patient`
-  MODIFY `Personnel_Patient_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `smoking_history`
 --
 ALTER TABLE `smoking_history`
@@ -476,12 +469,6 @@ ALTER TABLE `smoking_history`
 --
 ALTER TABLE `smoking_typeused`
   MODIFY `SmokingType_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `student_patient`
---
-ALTER TABLE `student_patient`
-  MODIFY `Student_Patient_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `surgical_history`
@@ -558,7 +545,7 @@ ALTER TABLE `patient_condition`
 -- Constraints for table `personnel_patient`
 --
 ALTER TABLE `personnel_patient`
-  ADD CONSTRAINT `personnel_patient_ibfk` FOREIGN KEY (`Personnel_Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `personnel_patient_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `smoking_history`
@@ -576,7 +563,7 @@ ALTER TABLE `smoking_typeused`
 -- Constraints for table `student_patient`
 --
 ALTER TABLE `student_patient`
-  ADD CONSTRAINT `student_patient_ibfk` FOREIGN KEY (`Student_Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `student_patient_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `surgical_history`
