@@ -6,22 +6,21 @@
     <title>Medical Records / PLP Clinic Monitoring System</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="../js/popup-medical.js" defer></script>
-    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
+    <link rel="stylesheet" href="popup-medicalrecstyle.css?v=1.0.1" />
     
   </head>
 
   <body>
 
-    <form id="medicalRecordForm" action="../forms/medrecords.html" method="POST">
+    <form id="medicalRecordForm" action="popup-medicalrec.html" method="POST">
         
-    <!-- Pop-up container for category -->]
+    <!-- Pop-up container for category -->
     <div class="form-content" id="popupContainer">
         <div class="new-data">
           <div class="text">
             <div class="title-container">
               <div class="title">MEDICAL RECORD FORM</div>
-              <button class="close-btn" onclick="closePopup()">×</button>
+              <button type="button" class="close-btn" onclick="closePopup()">×</button>
             </div>
       
             <div class="items">
@@ -90,15 +89,6 @@
                       <option>IT</option>
                     </select>
                   </div>
-                  <div class="field-group">
-                    <label for="departmentSection">Department Section</label>
-                    <select id="departmentSection" name="departmentSection">
-                      <option value="">-- Select Section --</option>
-                      <option>Section A</option>
-                      <option>Section B</option>
-                      <option>Section C</option>
-                    </select>
-                  </div>
                 </div>
               </div>
           </div>
@@ -118,7 +108,7 @@
               <div class="text">
                   <div class="title-container">
                     <div class="title">MEDICAL RECORD FORM</div>
-                    <button class="close-btn" onclick="closePopup()">×</button>
+                    <button type="button" class="close-btn" onclick="closePopup()">×</button>
                   </div>
             
                   <div class="item">
@@ -137,7 +127,7 @@
                           <tr>
                               <td>
                                   <label for="identification">Identification Number</label>
-                                  <input type="number" id="identification" name="identification" placeholder="Enter Identification Number" />
+                                  <input type="text" id="identification" name="identification" placeholder="Enter Identification Number" />
                               </td>
       
                               <td>
@@ -298,7 +288,7 @@
           <div class="text">
             <div class="title-container">
               <div class="title">MEDICAL RECORD FORM</div>
-              <button class="close-btn" onclick="closePopup()">×</button>
+              <button type="button" class="close-btn" onclick="closePopup()">×</button>
             </div>
       
             <div class="item1">
@@ -669,7 +659,7 @@
         <div class="text">
           <div class="title-container">
             <div class="title">MEDICAL RECORD FORM</div>
-            <button class="close-btn" onclick="closePopup()">×</button>
+            <button type="button" class="close-btn" onclick="closePopup()">×</button>
           </div>
 
           <div class="item2">
@@ -778,9 +768,20 @@
     <div id="emptyFieldPopup" class="popup" style="display: none;">
       <div class="popup-content">
         <h3>Please fill out all fields!</h3>
-        <button onclick="closeEmptyFieldPopup()">OK</button>
+        <button type="button" onclick="closeEmptyFieldPopup()">OK</button>
       </div>
     </div>
+
+
+    <div id="SuccessPopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>Sumakses!!</h3>
+        <button type="button" onclick="closeSuccessPopup()">OK</button>
+      </div>
+    </div>
+
+
+    <script src="popup-medical.js?v=1.0" defer></script>
       </body>
   
 </html>
