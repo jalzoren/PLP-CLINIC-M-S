@@ -230,7 +230,7 @@ body {
 .content{
   background-color: burlywood;
   width: 100%;
-  height: 420px;
+  height: 500px;
   margin-top: -50px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -330,7 +330,7 @@ body {
 
 .item_summary .item_chart{
   background-color: burlywood;
-  height: 80%;
+  height: 160px;
 }
 
 /* NOTIFICATION */
@@ -378,7 +378,7 @@ body {
   align-self: end;
 
   text-align: center;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 
 .emergency_hotline .hotlines{
@@ -388,7 +388,7 @@ body {
   font-style: italic;
   text-decoration: none;
   color:#2e266d;
-  padding: 10px 40px;
+  padding: 10px 30px;
 }
 
 .hotlines:hover{
@@ -459,14 +459,14 @@ body {
 .visit_record .visit_chart{
   background-color: rgb(181, 207, 155);
   width: 48%;
-  height: 120px;
+  height: 170px;
 }
 
 /* TIMED IN TABLE */
 
 .visit_record .timedin_table{
   width: 48%;
-  height: 120px;
+  height: 170px;
   padding: 0px 10px;
   overflow-y: auto;
   background-color: #9187db;

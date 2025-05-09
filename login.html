@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PLP Clinic - Admin Login</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-  <link rel="icon" type="image/png" href="../pictures/logo.png">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href=pictures/logo.png">
 
 </head>
 <body>
   <section class="container">
     <div class="left">
         <div class="branding">
-          <img src="../pictures/logo.clear.png" alt="PLP Logo" class="logo" />
+          <img src="pictures/logo.clear.png" alt="PLP Logo" class="logo" />
           <h1 class="title">PLP Clinic</h1>
           <h2 class="subtitle">Health Services Department</h2>
           <div class="time-text" id="time-text"></div>
@@ -23,12 +23,12 @@
       
       <div class="login-box">
         <h1>LOG IN</h1>
-        <form method="POST">
+        <form action="php/login.php" method="POST">
           <label for="Email">Email :</label>
-          <input type="text" id="Email" placeholder="Enter Email Address:" />
+          <input type="text" id="Email" name="email" placeholder="Enter Email Address:" />
 
           <label for="Password">Password:</label>
-          <input type="password" id="password" placeholder="Enter Password" />
+          <input type="password" id="password" name="password" placeholder="Enter Password" />
 
           <label class="checkbox-container">Show Password
             <input type="checkbox" id="show-password">
@@ -42,13 +42,13 @@
     </div>
 
     <div class="design">
-        <img src="../pictures/design.png" class="design1">
-        <img src="../pictures/design.png" class="design2">
+        <img src="pictures/design.png" class="design1">
+        <img src="pictures/design.png" class="design2">
     </div>
   </section>
 
   
-    <script src="/js/time.js"></script>
+    <script src="js/time.js"></script>
 
     <footer>
 
