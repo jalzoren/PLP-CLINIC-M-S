@@ -36,7 +36,6 @@ if ($result->num_rows > 0) {
             <td>{$row['Sex']}</td>
             <td>";
         
-        // Check if the department exists in either of the tables and display accordingly
         if ($row['student_department']) {
             $output .= "Student Department: {$row['student_department']}";
         }
