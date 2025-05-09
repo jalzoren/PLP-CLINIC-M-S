@@ -125,11 +125,8 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    
-                   
-                     
-                  </tbody>
+                  <tbody id="patient-records-body">
+                 </tbody>
                 </table>
               </div>
               
@@ -142,41 +139,42 @@
 
 
         <script>
-       document.addEventListener("DOMContentLoaded", function () {
-          fetch("../php/medrecsfetch.php")
-            .then(response => {
-              if (!response.ok) {
-                throw new Error("Network response was not ok");
-              }
-              return response.text();
-            })
-            .then(data => {
-              document.querySelector("#dataTable tbody").innerHTML = data;
-            })
-            .catch(error => {
-              console.error("Error loading medical records:", error);
-              alert("Failed to load records.");
-            });
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("../php/medrecsfetch.php")
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.text();
+          })
+          .then(data => {
+            document.getElementById("patient-records-body").innerHTML = data;
+          })
+          .catch(error => {
+            console.error("Error loading medical records:", error);
+            alert("Failed to load records.");
+          });
+      });
 
 
-        function loadPatientRecords() {
-            $.ajax({
-                url: '../php/medrecsfetch.php',  
-                method: 'GET',  
-                success: function(response) {
-                    $('#dataTable tbody').html(response);
-                },
-                error: function() {
-                    alert("Error loading patient records.");
-                }
-            });
+
+            function loadPatientRecords() {
+          $.ajax({
+            url: '../php/medrecsfetch.php',
+            method: 'GET',
+            success: function(response) {
+              $('#patient-records-body').html(response); // Only update this tbody
+            },
+            error: function() {
+              alert("Error loading patient records.");
+            }
+          });
         }
 
         $(document).ready(function() {
-            loadPatientRecords();
+          loadPatientRecords(); 
 
-            setInterval(loadPatientRecords, 1000); 
+          setInterval(loadPatientRecords, 5000);
         });
       </script>
 
