@@ -781,6 +781,18 @@
     </div>
 
 
+    <script>
+    function closePopup() {
+    document.getElementById('popup-container').style.display = 'none';
+
+    fetch('../php/medrecsfetch.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('patient-table-body').innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching table:', error));
+}</script>
+
     <script src="../js/popup-medical.js" defer></script>
       </body>
   
