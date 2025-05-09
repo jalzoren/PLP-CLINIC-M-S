@@ -125,16 +125,6 @@
   });
 
 
-  document.getElementById('timeInBtn').addEventListener('click', () => {
-    const selected = document.getElementById('yearLevel').value;
-
-    if (selected === "Borrow") {
-      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
-    } else if (selected === "Return") {
-      window.location.href = "./forms/returnform.html"; // Replace with your actual path
-    } else {
-    }
-  });
 
   function validateForm() {
     const id_number = document.getElementById("id_number").value.trim();
