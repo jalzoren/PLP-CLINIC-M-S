@@ -91,10 +91,10 @@
             <div class="item_summary">
                 <div class="item_title">
                     <p>Item Summary</p>
-                    <a href="#">See All</a>
+                    <a href="iteminv.html">See All</a>
                 </div>
                 <div class="item_chart">
-                    <canvas id="itemChart" width="100%" height="80%" background-color="white"></canvas>
+                    <canvas id="itemChart"></canvas>
                 </div>
             </div>
 
@@ -194,6 +194,8 @@
         </div>
     </div>
 
+    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>-->
+    <script src="../js/item_charts.js"></script>
 
     <script>
         let btn = document.querySelector("#logo");
@@ -246,75 +248,5 @@
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call
     </script>
-
-    <script>
-        fetch('../php/item_summary.php')
-        .then(response => {
-            if (!response.ok) throw new Error("HTTP error! status: " + response.status);
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                console.error("PHP Error:", data);
-                return;
-            }
-
-            const labels = data.map(item => item.label);
-            const values = data.map(item => item.value);
-
-            const backgroundColors = [
-                '#4dc9f6', '#f67019', '#f53794',
-                '#537bc4', '#acc236', '#166a8f',
-                '#00a950', '#58595b', '#8549ba'
-            ];
-
-            const ctx = document.getElementById('itemChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Available Items',
-                        data: values,
-                        backgroundColor: backgroundColors,
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                boxWidth: 20,
-                                padding: 15
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    return `${label}: ${value} available`;
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Item Inventory Summary (Available Count)'
-                        }
-                    }
-                }
-            });
-        })
-        .catch(err => {
-            console.error("Error loading item summary chart:", err);
-            alert("Failed to load item summary chart. See console for details.");
-        });
-
-    </script>
-
-
 </body>
 </html>
