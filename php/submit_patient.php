@@ -8,7 +8,6 @@ header('Content-Type: application/json');
 require_once 'database.php';
 require_once 'popup-medicalrec.php';
 
-
 try {
     $category = isset($_POST['user']) ? $_POST['user'] : '';
     if (!in_array($category, ['student', 'personnel'])) {
@@ -18,11 +17,15 @@ try {
     $db = new Database();
     $conn = $db->getConnection();
     $handler = new PatientDataHandler($conn);
+    $conn->begin_transaction();
 
-   
 
     $handler->savePatient($_POST);
-    $handler->saveStudentOrPersonnel($_POST, $category);
+    $handler->saveUserAccount($_POST); 
+    $result = $handler->saveStudentOrPersonnel($_POST, $category);
+    if ($result['status'] === 'error') {
+        throw new Exception($result['message']); 
+    }
 
     $conditions = [];
     if (isset($_POST['conditions'])) {
@@ -37,8 +40,6 @@ try {
 
     $maintenance = $_POST['maintenanceMedications'] ?? '';
     $handler->savePersonalHistory($conditions, $maintenance);
-
-
     $handler->saveMaternalHistory($_POST);
     $handler->saveEmergencyContact($_POST);
     $handler->saveAlcoholHistory($_POST);
@@ -47,8 +48,10 @@ try {
     $handler->saveDrugHistory($_POST);
     $handler->saveFamilyHistory($_POST);
 
-
+    // Commit transaction if all successful
+    $conn->commit();
     $db->close();
+
     ob_clean();
     echo json_encode([
         "status" => "success",
@@ -56,6 +59,9 @@ try {
         "patientID" => $handler->getPatientID()
     ]);
 } catch (Exception $e) {
+    if (isset($conn)) {
+        $conn->rollback(); // Roll back any partial inserts
+    }
     ob_clean();
     error_log("Exception: " . $e->getMessage());
     echo json_encode([
