@@ -56,14 +56,19 @@ if ($result->num_rows > 0) {
             $output .= "Personnel Department: {$row['personnel_department']}";
         }
 
-        $output .= "</td>
+            $output .= "</td>
             <td class='action-cell'>
-              <a href='../forms/patientrec.html?patient_id={$row['Patient_ID']}'>
-                <button type='button'>View</button>
-              </a>
+                <a href='../forms/patientrec.html?patient_id={$row['Patient_ID']}'>
+                    <button type='button' class='view-btn'>
+                        View
+                    </button>
+                </a>
             </td>
         </tr>";
-        $i++;
+
+
+$i++;
+
     }
 } else {
     $output = "<tr><td colspan='7'>No records found.</td></tr>";

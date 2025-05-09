@@ -8,14 +8,14 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/patientrestyle.css">
-
+    <link rel="stylesheet" href="../css/patientrestyle.css" />
   </head>
   <body>
     <div class="sidebar">
@@ -43,16 +43,13 @@
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a
-            href="../forms/borrowing.html"
-            class="transition-link"
-          >
+          <a href="../forms/borrowing.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
           <span class="tooltip">Borrowing Form</span>
         </li>
-        
+
         <li>
           <a href="../forms/transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
@@ -74,7 +71,7 @@
           <br />
           <br />
           <br />
-          <br>
+          <br />
 
           <a href="#">
             <i class="bx bx-log-out bx-rotate-180"></i>
@@ -89,28 +86,28 @@
     </div>
 
     <div class="home-content">
-      <div class="breadcrumbs">
-        <a href="../forms/medrecords.html"><i class='bx bx-arrow-back'on ></i></a>
-        <p class="p-rec"><strong>Patient Records &lt;<span> Alpuerto, Lynn Czyla </strong></span> </p>
-      </div>
+     <div class="breadcrumbs">
+        <a href="../forms/medrecords.html"><i class="bx bx-arrow-back"></i></a>
+        <p class="p-rec">
+            <strong>Patient Records &lt;<span id="patient-name-placeholder">Name</span></strong>
+        </p>
+    </div>
 
-      <div class="status-container">
+    <!-- Patient Status Section -->
+    <div class="status-container">
         <aside class="status-box">
-          <div class="patient-details">
-            <div class="details-group">
-              <p><strong>Patient Name :</strong> Alpuerto, Lynn Czyla</p>
-              <p><strong>ID Number:</strong> 00-00000</p>
+            <div class="patient-details">
+                <div class="details-group">
+                    <p><strong>Patient Name :</strong> <span id="patient-name">N/A</span></p>
+                    <p><strong>ID Number:</strong> <span id="patient-id">N/A</span></p>
+                </div>
+                <div class="details-group">
+                    <p><strong>Department:</strong> <span id="patient-dept">N/A</span></p>
+                    <p><strong>Role :</strong> <span id="patient-role">N/A</span></p>
+                </div>
             </div>
-            <div class="details-group">
-              <p><strong>Department:</strong> College of Computer Studies</p>
-              <p><strong>Role :</strong> Student</p>
-            </div>
-          </div>         
         </aside>
-        
-      
         <button class="add-btn" id="load-btn">Add Assessment Record</button>
-     
       </div>
 
       <div class="container">
@@ -144,7 +141,6 @@
 
     <div id="pop-up-med"></div>
 
-
     <script>
       let btn = document.querySelector("#logo");
       let sidebar = document.querySelector(".sidebar");
@@ -153,37 +149,54 @@
         sidebar.classList.toggle("active");
       };
 
+        $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var patientId = urlParams.get('patient_id');
 
-
-
-      document.getElementById('load-btn').addEventListener('click', function() {
-            fetch('../popup-forms/popup-assess.html')
-              .then(response => response.text())
-              .then(data => {
-                const container = document.getElementById('pop-up-med'); 
-                container.innerHTML = data;
-
-                const popupContainer = document.getElementById("popupContainer");
-                if (popupContainer) {
-                  popupContainer.style.display = "block";
-                }
-
-                const scripts = container.querySelectorAll('script');
-                scripts.forEach(oldScript => {
-                  const newScript = document.createElement('script');
-                  if (oldScript.src) {
-                    newScript.src = oldScript.src;
-                  } else {
-                    newScript.textContent = oldScript.textContent;
-                  }
-                  document.body.appendChild(newScript);
-                  oldScript.remove(); 
+            if (patientId) {
+                $.getJSON('patientrecfetch.php', { patient_id: patientId }, function(data) {
+                    if (data) {
+                        $('#patient-name').text(data.First_Name + ' ' + data.Middle_Name + ' ' + data.Last_Name);
+                        $('#patient-id').text(data.Patient_ID);
+                        $('#patient-dept').text(data.student_department || data.personnel_department);
+                        $('#patient-role').text(data.Student_ID ? 'Student' : 'Personnel');
+                        $('#patient-name-placeholder').text(data.First_Name + ' ' + data.Last_Name);
+                    } else {
+                        alert('Patient data not found.');
+                    }
                 });
-              })
-              .catch(error => {
-                console.error('Error loading HTML:', error);
+            }
+        });
+      document
+        .getElementById("load-btn")
+        .addEventListener("click", function () {
+          fetch("../popup-forms/popup-assess.html")
+            .then((response) => response.text())
+            .then((data) => {
+              const container = document.getElementById("pop-up-med");
+              container.innerHTML = data;
+
+              const popupContainer = document.getElementById("popupContainer");
+              if (popupContainer) {
+                popupContainer.style.display = "block";
+              }
+
+              const scripts = container.querySelectorAll("script");
+              scripts.forEach((oldScript) => {
+                const newScript = document.createElement("script");
+                if (oldScript.src) {
+                  newScript.src = oldScript.src;
+                } else {
+                  newScript.textContent = oldScript.textContent;
+                }
+                document.body.appendChild(newScript);
+                oldScript.remove();
               });
-          });
+            })
+            .catch((error) => {
+              console.error("Error loading HTML:", error);
+            });
+        });
     </script>
   </body>
 </html>
