@@ -1,60 +1,3 @@
-
-const studentCheckbox = document.getElementById("studentCheckbox");
-const personnelCheckbox = document.getElementById("personnelCheckbox");
-const studentFields = document.getElementById("studentFields");
-const personnelFields = document.getElementById("personnelFields");
-
-function clearInputs(container) {
-  const inputs = container.querySelectorAll("input, select");
-  inputs.forEach(input => {
-    if (input.type === "checkbox" || input.type === "radio") {
-      input.checked = false;
-    } else {
-      input.value = "";
-    }
-  });
-}
-
-studentCheckbox.addEventListener("change", () => {
-  if (studentCheckbox.checked) {
-    personnelCheckbox.checked = false;
-    studentFields.style.display = "block";
-    personnelFields.style.display = "none";
-    clearInputs(personnelFields); 
-  } else {
-    studentFields.style.display = "none";
-    clearInputs(studentFields); 
-  }
-});
-
-personnelCheckbox.addEventListener("change", () => {
-  if (personnelCheckbox.checked) {
-    studentCheckbox.checked = false;
-    personnelFields.style.display = "block";
-    studentFields.style.display = "none";
-    clearInputs(studentFields); 
-  } else {
-    personnelFields.style.display = "none";
-    clearInputs(personnelFields); 
-  }
-});
-
-const nonTeaching = document.getElementById("nonTeaching");
-const teaching = document.getElementById("teaching");
-
-nonTeaching.addEventListener('change', function() {
-  if (this.checked) {
-    teaching.checked = false; 
-  }
-});
-
-teaching.addEventListener('change', function() {
-  if (this.checked) {
-    nonTeaching.checked = false; 
-  }
-});
-
-
 function closePopup() {
   document.getElementById("popupContainer").style.display = "none";
   document.getElementById("popupPatient").style.display = "none";
@@ -67,6 +10,12 @@ function closeEmptyFieldPopup() {
   document.getElementById('popupContainer').style.display = "block";        
 }
 
+function closeSuccessPopup() {
+  document.getElementById("SuccessPopup").style.display = "none";
+  document.getElementById("medicalRecordForm").style.display = "none";
+
+}
+
 function openPopupPatient() {
   var studentCheckbox = document.getElementById('studentCheckbox').checked;
   var personnelCheckbox = document.getElementById('personnelCheckbox').checked;
@@ -76,7 +25,6 @@ function openPopupPatient() {
   var teaching = document.getElementById('teaching').checked;
   var nonTeaching = document.getElementById('nonTeaching').checked;
   var departmentPersonnel = document.getElementById('departmentPersonnel').value.trim();
-  var departmentSection = document.getElementById('departmentSection').value.trim();
 
   let hasError = false;
 
@@ -94,7 +42,7 @@ function openPopupPatient() {
     if (!teaching && !nonTeaching) {
       hasError = true;
     }
-    if (departmentPersonnel === "" || departmentSection === "") {
+    if (departmentPersonnel === "") {
       hasError = true;
     }
   }
@@ -127,8 +75,25 @@ function goBackToPersonalHistoPopUp() {
 
 
 function goToPersonalHistoPopUp() {
-  document.getElementById("popupPatient").style.display = "none"; 
-  document.getElementById("popupPersonalHistory").style.display = "block"; 
+  const requiredFields = document.querySelectorAll(
+    "#dataTable input, #dataTable select, #contactTable input, #contactTable select"
+  );
+
+  let allFilled = true;
+
+  requiredFields.forEach(field => {
+    if (field.value.trim() === "") {
+      allFilled = false;
+    }
+  });
+
+  if (!allFilled) {
+    document.getElementById("emptyFieldPopup").style.display = "block";
+  } else {
+    document.getElementById("popupPatient").style.display = "none"; 
+    document.getElementById("popupPersonalHistory").style.display = "block"; 
+  }
+
 }
 
 function goToFamilyHistoPopUp() {
@@ -141,6 +106,93 @@ window.onload = function() {
   document.getElementById("popupContainer").style.display = "block"; 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function initializePopupFormLogic(){
+const studentCheckbox = document.getElementById("studentCheckbox");
+const personnelCheckbox = document.getElementById("personnelCheckbox");
+const studentFields = document.getElementById("studentFields");
+const personnelFields = document.getElementById("personnelFields");
+
+function clearInputs(container) {
+  const inputs = container.querySelectorAll("input, select");
+  inputs.forEach(input => {
+    if (input.type === "checkbox" || input.type === "radio") {
+      input.checked = false;
+    } else {
+      input.value = "";
+    }
+  });
+}
+
+studentCheckbox.addEventListener("change", () => {
+  if (studentCheckbox.checked) {
+    personnelCheckbox.checked = false;
+    studentFields.style.display = "block";
+    personnelFields.style.display = "none";
+    
+    clearInputs(personnelFields);
+    teaching.checked = false;
+    nonTeaching.checked = false;
+
+    document.getElementById("departmentPersonnel").selectedIndex = 0;
+  } else {
+    studentFields.style.display = "none";
+    clearInputs(studentFields); 
+  }
+});
+
+personnelCheckbox.addEventListener("change", () => {
+  if (personnelCheckbox.checked) {
+    studentCheckbox.checked = false;
+    personnelFields.style.display = "block";
+    studentFields.style.display = "none";
+    clearInputs(studentFields); 
+
+    document.getElementById("collegeProgram").selectedIndex = 0;
+    document.getElementById("collegeDepartment").selectedIndex = 0;
+  } else {
+    personnelFields.style.display = "none";
+    clearInputs(personnelFields); 
+  }
+});
+
+const nonTeaching = document.getElementById("nonTeaching");
+const teaching = document.getElementById("teaching");
+
+nonTeaching.addEventListener('change', function() {
+  if (this.checked) {
+    teaching.checked = false; 
+  }
+});
+
+teaching.addEventListener('change', function() {
+  if (this.checked) {
+    nonTeaching.checked = false; 
+  }
+});
+
+
+
+
+
+// Alcohol
 const moreThanOncePerWeek = document.getElementById('moreThanonceperweekalcohol');
 const oncePerWeek = document.getElementById('oncePerWeekalcohol');
 
@@ -156,7 +208,7 @@ oncePerWeek.addEventListener('change', function() {
   }
 });
 
-
+// Surgical
 const surgicalCheckbox = document.getElementById('surgical');
 const noneSurgeryCheckbox = document.getElementById('noneSurgery');
 const surgicalText = document.getElementById('surgicalText');
@@ -173,6 +225,10 @@ noneSurgeryCheckbox.addEventListener('change', function() {
   }
 });
 
+
+
+
+// Drugs
 document.getElementById("yesDrugsCheckbox").addEventListener("change", function() {
   const flexWrapper4 = document.getElementById("flex-wrapper4");
   
@@ -209,6 +265,15 @@ const sometimesDrugsCheckbox = document.getElementById('SometimesDrugsCheckbox')
 const preferNotDrugsCheckbox = document.getElementById('TriedDrugsCheckbox');
 const flexWrapper4 = document.getElementById('flex-wrapper4');
 
+function clearDrugSection() {
+  flexWrapper4.style.display = 'none';
+
+  // Uncheck all checkboxes inside #flex-wrapper4 (substances and rehab)
+  document.querySelectorAll("#flex-wrapper4 input[type='checkbox']").forEach(function(checkbox) {
+    checkbox.checked = false;
+  });
+}
+
 yesDrugsCheckbox.addEventListener('change', function() {
   if (yesDrugsCheckbox.checked) {
     noDrugsCheckbox.checked = false;
@@ -218,12 +283,13 @@ yesDrugsCheckbox.addEventListener('change', function() {
   }
 });
 
+
 noDrugsCheckbox.addEventListener('change', function() {
   if (noDrugsCheckbox.checked) {
     yesDrugsCheckbox.checked = false;
     sometimesDrugsCheckbox.checked = false;
     preferNotDrugsCheckbox.checked = false;
-    flexWrapper4.style.display = 'none';
+    clearDrugSection();
   }
 });
 
@@ -232,7 +298,7 @@ sometimesDrugsCheckbox.addEventListener('change', function() {
     yesDrugsCheckbox.checked = false;
     noDrugsCheckbox.checked = false;
     preferNotDrugsCheckbox.checked = false;
-    flexWrapper4.style.display = 'none'; 
+    clearDrugSection();
   }
 });
 
@@ -241,10 +307,17 @@ preferNotDrugsCheckbox.addEventListener('change', function() {
     yesDrugsCheckbox.checked = false;
     noDrugsCheckbox.checked = false;
     sometimesDrugsCheckbox.checked = false;
-    flexWrapper4.style.display = 'none'; 
+    clearDrugSection();
   }
 });
 
+
+
+
+
+
+
+// Smoking
 document.getElementById("yesCheckbox").addEventListener("change", function() {
   const flexWrapper3 = document.getElementById("flex-wrapper3");
   
@@ -392,9 +465,15 @@ preferNotCheckbox.addEventListener('change', function() {
   });
 });
 
+}
 
 
-  function submitMedicalRecordForm(e) {
+
+
+
+
+
+function submitMedicalRecordForm(e) {
     e.preventDefault(); // Prevent form's default submission
 
     const form = document.getElementById("medicalRecordForm");
@@ -403,27 +482,30 @@ preferNotCheckbox.addEventListener('change', function() {
       return;
     }
 
-    const formData = new FormData(this);
+    const formData = new FormData(form);
 
-    // Get category
-    if (document.getElementById("studentCheckbox").checked) {
-      formData.append("user", "student");
-      formData.append("collegeDepartment", document.getElementById("collegeDepartment").value);
-      formData.append("collegeProgram", document.getElementById("collegeProgram").value);
-      formData.append("batch", document.getElementById("batch").value);
-    } else if (document.getElementById("personnelCheckbox").checked) {
-      formData.append("user", "personnel");
+   // Get category
+if (document.getElementById("studentCheckbox").checked) {
+  formData.append("user", "student");
+  formData.append("category", "student");
+  formData.append("collegeDepartment", document.getElementById("collegeDepartment").value);
+  formData.append("collegeProgram", document.getElementById("collegeProgram").value);
+  formData.append("batch", document.getElementById("batch").value);
+} else if (document.getElementById("personnelCheckbox").checked) {
+  formData.append("user", "personnel");
 
-      if (document.getElementById("teaching").checked) {
-        formData.append("teaching", "1");
-      }
-      if (document.getElementById("nonTeaching").checked) {
-        formData.append("nonTeaching", "1");
-      }
+  // Determine category type for personnel
+  if (document.getElementById("teaching").checked) {
+      formData.append("category", "teaching");
+  } else if (document.getElementById("nonTeaching").checked) {
+      formData.append("category", "non-teaching");
+  } else {
+      formData.append("category", "unspecified"); // Add default value in case none is selected
+  }
 
-      formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
-      formData.append("departmentSection", document.getElementById("departmentSection").value);
-    }
+  formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
+}
+
 
     // Patient's general data
     formData.append("firstname", document.getElementById("firstname").value);
@@ -572,7 +654,7 @@ preferNotCheckbox.addEventListener('change', function() {
 
   
     // Submit the form
-    fetch("submit_patient.php", {
+    fetch("../php/submit_patient.php", {
       method: "POST",
       body: formData
     })
@@ -582,6 +664,16 @@ preferNotCheckbox.addEventListener('change', function() {
         try {
             const data = JSON.parse(text);
             console.log("Parsed JSON:", data);
+
+            if (data.status === "success") {
+              document.getElementById("SuccessPopup").style.display = "block";
+              const form = document.getElementById("medicalRecordForm");
+              if (form) form.reset();
+  
+          } else {
+              alert("Failed to submit: " + data.message);
+          }
+  
         } catch (e) {
             console.error("Invalid JSON response:", text);
         }
@@ -592,20 +684,26 @@ preferNotCheckbox.addEventListener('change', function() {
     
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
+  function bindFormSubmission() {
     const formElement = document.getElementById("medicalRecordForm");
     if (formElement) {
       formElement.addEventListener("submit", submitMedicalRecordForm);
     } else {
-      console.error("Form element not found on page load");
+      console.error("Form element not found");
     }
-  });
+  }
+  
+  // Call this manually after loading the form into modal/DOM
+  bindFormSubmission();
+  // End of popup-form.js
+initializePopupFormLogic();
 
 
 
 
 
-        
+
+
 
 
 

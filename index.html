@@ -39,7 +39,7 @@
           <label>Identification Number:</label> <br>
           <input type="number" name="id_number" id="id_number"   placeholder="Enter ID Number  " required ><br>
         </div>
-        <a href="../forms/timein.html"><button type="button" id="timeInBtn" onclick="validateForm()">Submit</button></a></p>
+        <a href="forms/timein.html"><button type="button" id="timeInBtn" onclick="validateForm()">Submit</button></a></p>
         <div class="admin-login-link">
           <p>Access your account? Click here to <a href="login.html">Login</a></p>
         </div>
@@ -125,16 +125,6 @@
   });
 
 
-  document.getElementById('timeInBtn').addEventListener('click', () => {
-    const selected = document.getElementById('yearLevel').value;
-
-    if (selected === "Borrow") {
-      window.location.href = "./forms/borrowform.html"; // Replace with your actual path
-    } else if (selected === "Return") {
-      window.location.href = "./forms/returnform.html"; // Replace with your actual path
-    } else {
-    }
-  });
 
   function validateForm() {
     const id_number = document.getElementById("id_number").value.trim();

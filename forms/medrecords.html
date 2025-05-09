@@ -6,8 +6,9 @@
     <title>Medical Records / PLP Clinic Monitoring System</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="../css/medrecstyle.css" />
+    <link rel="stylesheet" href="../css/medrecstyle.css?v=1.0.1" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
 
   </head>
@@ -22,7 +23,7 @@
 
       <ul class="nav-list">
         <li>
-          <a href="../forms/dashboard.html" class="transition-link">
+          <a href="../forms/staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt bx-rotate-180"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -119,24 +120,13 @@
                       <th>Identification Number</th>
                       <th>Full Name</th>
                       <th>Category</th>
-                      <th>Batch</th>
-                      <th>Department Year and Section</th>
+                      <th>Sex</th>
+                      <th>Department</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>2300174</td>
-                      <td>Flavier, Laurence James L.</td>
-                      <td>Student</td>
-                      <td>2022</td>
-                      <td>Computer Science - 3A</td>
-                      <td class="action-cell"><a href="../forms/patientrec.html">
-                        <button type="button">View</button>
-                      </a>
-                      </td>
-                    </tr>
+                    
                    
                      
                   </tbody>
@@ -148,6 +138,47 @@
        
 
         <div id="pop-up-med"></div>
+
+
+
+        <script>
+       document.addEventListener("DOMContentLoaded", function () {
+          fetch("../php/medrecsfetch.php")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.text();
+            })
+            .then(data => {
+              document.querySelector("#dataTable tbody").innerHTML = data;
+            })
+            .catch(error => {
+              console.error("Error loading medical records:", error);
+              alert("Failed to load records.");
+            });
+        });
+
+
+        function loadPatientRecords() {
+            $.ajax({
+                url: '../php/medrecsfetch.php',  
+                method: 'GET',  
+                success: function(response) {
+                    $('#dataTable tbody').html(response);
+                },
+                error: function() {
+                    alert("Error loading patient records.");
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadPatientRecords();
+
+            setInterval(loadPatientRecords, 1000); 
+        });
+      </script>
 
         <script>
           let btn = document.querySelector("#logo");

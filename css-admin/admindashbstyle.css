@@ -483,3 +483,109 @@ body {
   grid-row: span 2 / span 2;
   grid-row-start: 5;
 }
+
+
+.emergency_hotline{
+  grid-row: 4;
+  height: 60%;
+  align-self: end;
+
+  text-align: center;
+  padding-top: 15px;
+}
+
+.emergency_hotline .hotlines{
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  font-style: italic;
+  text-decoration: none;
+  color:#2e266d;
+  padding: 10px 30px;
+}
+
+.hotlines:hover{
+  color: #ffffff;
+  transition: all 0.5s ease;
+}
+
+.emergency_hotline:hover{
+  background-color: #2e266d;
+  color: #ffffff;
+  transition: all 0.5s ease;
+}
+
+@media (max-width: 440px) {
+  .emergency_hotline .hotlines {
+    font-size: 18px; 
+    padding: 10px 40px; 
+  }
+}
+
+@media (max-width: 370px) {
+  .emergency_hotline .hotlines {
+    font-size: 10px; 
+    padding: 10px 20px; 
+  }
+}
+
+.hotlines_table table{
+  width: 100%;
+  text-align: center;
+  border: 1px solid #2e266d;
+  border-collapse: collapse;
+}
+
+.hotlines_table table caption{
+  font-weight: bold;
+  font-size: larger;
+  margin-bottom: 20px;
+}
+
+.hotlines_table table thead th{
+  background-color: #2e266d; 
+  padding: 10px;
+  font-weight: 500;
+  color: white;
+}
+
+.hotlines_table table td{
+  font-size: 18px;
+  padding: 15px 0px;
+}
+
+.hotlines_table table tr:nth-child(odd),
+.timedin_table table tr:nth-child(odd) {
+  background-color: #D6EEEE;
+}
+
+.hotlines_table .close_hotlines{
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-weight: bolder;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw ;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+  transform: scale(0);
+}
+
+.overlay.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hotlines_table {
+  z-index: 10; 
+}

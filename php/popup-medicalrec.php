@@ -9,23 +9,72 @@ class PatientDataHandler {
         $this->conn = $dbConnection;
     }
 
+
+    public function saveStudentOrPersonnel($data, $usercategory) {
+        if ($usercategory === 'student') {
+            $stmt = $this->conn->prepare("
+                INSERT INTO student_patient (Student_ID, Patient_ID, Department, Program, Batch)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            $stmt->bind_param(
+                "sisss",
+                $data['identification'], $this->patientID,
+                $data['collegeDepartment'], $data['collegeProgram'], $data['batch']
+            );
+        } else {
+            $teaching = isset($data['teaching']) ? $data['teaching'] : null;
+            $nonTeaching = isset($data['nonTeaching']) ? $data['nonTeaching'] : null;
+    
+            $type = ($teaching && $nonTeaching) ? 'both' :
+                    ($teaching ? 'teaching' : ($nonTeaching ? 'non-teaching' : 'unspecified'));
+    
+            $departmentPersonnel = isset($data['departmentPersonnel']) ? $data['departmentPersonnel'] : '';
+           
+            if (!is_string($departmentPersonnel)) {
+                throw new Exception("Invalid department data.");
+            }
+    
+            $stmt = $this->conn->prepare("
+                INSERT INTO personnel_patient (Personnel_ID, Patient_ID, Department)
+                VALUES (?, ?, ?)
+            ");
+    
+            $stmt->bind_param(
+                "sis",
+                $data['identification'], $this->patientID, $departmentPersonnel
+            );
+        }
+    
+        $stmt->execute();
+        $stmt->close();
+    }
+
     // Insert patient general data
     public function savePatient($data) {
         $stmt = $this->conn->prepare("
-            INSERT INTO patient (First_Name, Middle_Name, Last_Name, Sex, Age, Birthdate,
+            INSERT INTO patient (Category, First_Name, Middle_Name, Last_Name, Sex, Age, Birthdate,
                                 Civil_Status, Religion, Nationality, Contact_Number, Address, City, Province, Zip_Code)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
         $stmt->bind_param(
-            "ssssisssssssss",
+            "sssssisssssssss", $data['category'],
             $data['firstname'], $data['middlename'], $data['lastname'], $data['gender'], $data['age'],
             $data['birthdate'], $data['civilstatus'], $data['religion'], $data['nationality'],
             $data['contact'], $data['address'], $data['city'], $data['province'], $data['zipcode']
         );
         $stmt->execute();
-        $this->patientID = $stmt->insert_id;
+        if ($stmt->error) {
+            throw new Exception("Failed to insert patient: " . $stmt->error);
+        }
+        $this->patientID = $this->conn->insert_id;
         $stmt->close();
     }
+
+
+
+
+
+
 
     // Insert emergency contact
     public function saveEmergencyContact($data) {
@@ -44,58 +93,10 @@ class PatientDataHandler {
         $stmt->execute();
         $stmt->close();
     }
-
-    // Insert student or personnel specific data
-    public function saveStudentOrPersonnel($data, $usercategory) {
-        if ($usercategory === 'student') {
-            $stmt = $this->conn->prepare("
-                INSERT INTO student_patient (Student_ID, Patient_ID, Department, Program, Batch)
-                VALUES (?, ?, ?, ?, ?)
-            ");
-            $stmt->bind_param(
-                "sisss",
-                $data['identification'], $this->patientID,
-                $data['collegeDepartment'], $data['collegeProgram'], $data['batch']
-            );
-        } else {
-            // Ensure the 'teaching' and 'nonTeaching' keys exist, with a fallback value if not
-            $teaching = isset($data['teaching']) ? $data['teaching'] : null;
-            $nonTeaching = isset($data['nonTeaching']) ? $data['nonTeaching'] : null;
-    
-            // Determine category type
-            $type = ($teaching && $nonTeaching) ? 'both' :
-                    ($teaching ? 'teaching' : ($nonTeaching ? 'non-teaching' : 'unspecified'));
-    
-            // Ensure that 'departmentPersonnel' and 'departmentSection' are set (use empty string if not)
-            $departmentPersonnel = isset($data['departmentPersonnel']) ? $data['departmentPersonnel'] : '';
-            $departmentSection = isset($data['departmentSection']) ? $data['departmentSection'] : '';
-    
-            // Check if departmentPersonnel and departmentSection are variables (not constants or expressions)
-            if (!is_string($departmentPersonnel) || !is_string($departmentSection)) {
-                throw new Exception("Invalid department data.");
-            }
-    
-            // Prepare the statement
-            $stmt = $this->conn->prepare("
-                INSERT INTO personnel_patient (Personnel_ID, Patient_ID, category, department, DeptSection)
-                VALUES (?, ?, ?, ?, ?)
-            ");
-    
-            // Ensure all parameters are variables (not expressions or constants)
-            $stmt->bind_param(
-                "sisss",
-                $data['identification'], $this->patientID, $type,
-                $departmentPersonnel, $departmentSection
-            );
-        }
-    
-        $stmt->execute();
-        $stmt->close();
-    }
     
     
     
-
+ 
     // Insert personal medical history
     public function savePersonalHistory($conditions, $maintenance) {
         $maintenanceStr = isset($maintenance) ? (string) $maintenance : '';
