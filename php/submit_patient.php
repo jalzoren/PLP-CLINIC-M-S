@@ -19,18 +19,9 @@ try {
     $conn = $db->getConnection();
     $handler = new PatientDataHandler($conn);
 
-    if (empty($_POST['firstname']) || empty($_POST['lastname'])) {
-        throw new Exception("First Name and Last Name are required.");
-    }
+   
 
     $handler->savePatient($_POST);
-    
-    if (isset($_POST['emergencyLastname'], $_POST['emergencyFirstname'])) {
-        $handler->saveEmergencyContact($_POST);
-    } else {
-        throw new Exception("Emergency contact information is incomplete.");
-    }
-
     $handler->saveStudentOrPersonnel($_POST, $category);
 
     $conditions = [];
@@ -48,17 +39,13 @@ try {
     $handler->savePersonalHistory($conditions, $maintenance);
 
 
-    if (isset($_POST['numberOfPreg'])) {
-        $handler->saveMaternalHistory($_POST);
-    }
-
+    $handler->saveMaternalHistory($_POST);
+    $handler->saveEmergencyContact($_POST);
     $handler->saveAlcoholHistory($_POST);
     $handler->saveSurgicalHistory($_POST);
     $handler->saveSmokingHistory($_POST);
     $handler->saveDrugHistory($_POST);
     $handler->saveFamilyHistory($_POST);
-
-
 
 
     $db->close();
