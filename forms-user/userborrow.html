@@ -36,7 +36,7 @@
         </li>
 
         <li>
-          <a href="../forms-user/userborrow.html" class="active">
+          <a href="../forms-user/userdashboard.html" class="active">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrow</span>
           </a>
@@ -105,44 +105,38 @@
             </button>
           </div>
 
-          <div class="form_container">
-            <div class="form-row">
-              <div class="form-group">
-                <label>Item:</label>
-                <select name="item" id="item">
-                  <option value="" disabled selected>Select Item</option>
-                  <option value="First Aid Kit">First Aid Kit</option>
-                  <option value="Medicine">Medicine</option>
-                  <option value="Bandage">Bandage</option>
-                  <option value="Thermometer">Thermometer</option>
-                  <option value="Stethoscope">Stethoscope</option>
-                  <option value="HotCompress">Hot Compress</option>
-                </select>
+          <form id="borrowForm" method="POST" action="../php/submit_borrow.php" enctype="multipart/form-data">
+            <div class="form_container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Item:</label>
+                        <select name="item_id" id="item_id">
+                            <option value="" disabled selected>Select Item</option>
+                            <option value="1">First Aid Kit</option>
+                            <option value="2">Hot Compress</option>
+                            <option value="3">Blood Pressure Monitor</option>
+                            <option value="4">Thermometer</option>
+                            <option value="5">Stethoscope</option>
+                            <option value="6">Face Shields</option>
+                            <option value="7">Goggles</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity:</label>
+                        <input type="number" name="quantity" placeholder="Select Quantity" min="1" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Reason:</label>
+                    <textarea class="textarea-reason" name="reason"></textarea>
+                </div>
+                <input type="hidden" name="photo_borrowed" id="photo_borrowed">
+                <button class="submit" type="submit">Borrow Item</button>
+         
               </div>
-              <div class="form-group">
-                <label>Quantity:</label>
-                <input
-                  type="number"
-                  name="quantity"
-                  placeholder="Select Quantity"
-                  min="1"
-                />
-              </div>
-              
             </div>
-            <div class="form-group">
-                <label>Reason:</label>
+         </form>
 
-            <textarea class="textarea-reason">
-             
-            </textarea>
-            </div>
-            <button class="submit" type="submit" name="addStudent">
-              Borrow Item
-            </button>
-          </div>
-        </div>
-      
 
       <div class="status-and-controls">
         <div class="controls-container">
@@ -180,7 +174,7 @@
 
             </tr>
           </thead>
-          <tbody>
+          <tbody id="itemTableBody">
             <tr>
               <td colspan="12">&nbsp;</td>
             </tr>
@@ -201,11 +195,9 @@
         <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
         <button class="page-btn active" onclick="goToPage(1)">1</button>
         <button class="page-btn" onclick="goToPage(2)">2</button>
-        <button class="page-btn" onclick="goToPage(3)">3</button>
         <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
       </div>
     </div>
-    <script src="../js/time.js"></script>
 
     <script>
       let btn = document.querySelector("#logo");
@@ -252,6 +244,7 @@
         const imageData = canvas.toDataURL("image/png");
 
         capturedImageDiv.innerHTML = `<img src="${imageData}" alt="Captured Photo" style="width: 100%; height: 100%; object-fit: cover;" />`;
+        document.getElementById("photo_borrowed").value = imageData;
 
         modal.style.display = "none";
         if (stream) {
@@ -286,5 +279,102 @@
 
       makeDraggable(modalContent, modalHeader);
     </script>
+
+<script>
+  const rowsPerPage = 5;
+  let currentPage = 1;
+  let itemsData = [];
+
+  function renderTablePage(page) {
+    const tableBody = document.getElementById("itemTableBody");
+    tableBody.innerHTML = "";
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageItems = itemsData.slice(start, end);
+
+    if (pageItems.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='5'>No items found.</td></tr>";
+      return;
+    }
+
+    pageItems.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${start + index + 1}</td>
+        <td>${item.Item_Name}</td>
+        <td>${item.Category}</td>
+        <td>${item.Status}</td>
+        <td>${item.Quantity}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  function updatePaginationButtons() {
+    const paginationDiv = document.querySelector(".pagination");
+    paginationDiv.innerHTML = "";
+
+    const totalPages = Math.ceil(itemsData.length / rowsPerPage);
+
+    const prevButton = `<button class="page-btn" onclick="goToPage('prev')">&laquo;</button>`;
+    const nextButton = `<button class="page-btn" onclick="goToPage('next')">&raquo;</button>`;
+
+    paginationDiv.innerHTML += prevButton;
+
+    for (let i = 1; i <= totalPages; i++) {
+      paginationDiv.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+
+    paginationDiv.innerHTML += nextButton;
+  }
+
+  function goToPage(page) {
+    const totalPages = Math.ceil(itemsData.length / rowsPerPage);
+
+    if (page === 'prev' && currentPage > 1) currentPage--;
+    else if (page === 'next' && currentPage < totalPages) currentPage++;
+    else if (typeof page === 'number') currentPage = page;
+
+    renderTablePage(currentPage);
+    updatePaginationButtons();
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    fetch('../php/fetch_items.php')
+      .then(response => response.json())
+      .then(data => {
+        itemsData = data;
+        currentPage = 1;
+        renderTablePage(currentPage);
+        updatePaginationButtons();
+      })
+      .catch(error => {
+        console.error("Error fetching items:", error);
+      });
+  });
+</script>
+  
+
+<script>
+  let file = document.getElementById("photoInput").files[0];
+  let reader = new FileReader();
+
+  reader.onloadend = function () {
+    let photoData = reader.result.split(",")[1]; 
+
+    fetch('submit_borrow.php', {
+      method: 'POST',
+      body: new URLSearchParams({
+        item: item_id,
+        quantity: quantity,
+        reason: reason,
+        photo_borrowed: photoData   // ← changed here
+      })
+    });
+  };
+
+  reader.readAsDataURL(file);
+</script>
   </body>
 </html>

@@ -119,37 +119,37 @@
             </button>
           </div>
 
-          <div class="form_container">
-            <div class="form-row">
-              <div class="form-group">
-                <label>Borrowed Item:</label>
-                <select name="item" id="item">
-                  <option value="" disabled selected>Select Item</option>
-                  <option value="First Aid Kit">First Aid Kit</option>
-                  <option value="Medicine">Medicine</option>
-                  <option value="Bandage">Bandage</option>
-                  <option value="Thermometer">Thermometer</option>
-                  <option value="Stethoscope">Stethoscope</option>
-                  <option value="HotCompress">Hot Compress</option>
-                </select>
-                <br />
-                <label>Status of Borrowed Item:</label>
-                <select name="item" id="item">
-                  <option value="" disabled selected>Status of Item</option>
-                  <option value="First Aid Kit">First Aid Kit</option>
-                  <option value="Medicine">Medicine</option>
-                  <option value="Bandage">Bandage</option>
-                  <option value="Thermometer">Thermometer</option>
-                  <option value="Stethoscope">Stethoscope</option>
-                  <option value="HotCompress">Hot Compress</option>
-                </select>
+          <form id="returnForm" class="return-form" action="../php/return_item.php" method="POST">
+            <div class="form_container">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Borrowed Item:</label>
+                  <select name="item_id" id="item_id">
+                      <option value="" disabled selected>Select Item</option>
+                      <option value="1">First Aid Kit</option>
+                      <option value="2">Hot Compress</option>
+                      <option value="3">Blood Pressure Monitor</option>
+                      <option value="4">Thermometer</option>
+                      <option value="5">Stethoscope</option>
+                      <option value="6">Face Shields</option>
+                      <option value="7">Goggles</option>
+                  </select>
+                  <br />
+                  <label>Status of Borrowed Item:</label>
+                  <select name="item_status">
+                    <option value="" disabled selected>Select Item</option>
+                    <option value="Returned (Good)">Returned (Good)</option>
+                    <option value="Returned (Damage)">Returned (Damage)</option>
+                    <option value="Lost">Lost</option>
+                  </select>
+                </div>
               </div>
+              <input type="hidden" name="photo_returned" id="photo_returned">
+              <button class="submit" type="submit" id="returnItemBtn">
+                Return Item
+              </button>
             </div>
-
-            <button class="submit" type="submit" name="addStudent">
-              Return Item
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -200,6 +200,7 @@
         const imageData = canvas.toDataURL("image/png");
 
         capturedImageDiv.innerHTML = `<img src="${imageData}" alt="Captured Photo" style="width: 100%; height: 100%; object-fit: cover;" />`;
+        document.getElementById("photo_returned").value = imageData;
 
         modal.style.display = "none";
         if (stream) {
