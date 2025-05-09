@@ -1,16 +1,18 @@
 <?php
 session_start();
-require_once '/php/database.php';
+require_once '../php/database.php';
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate input data to avoid XSS attacks
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = trim($_POST['password']);
-    
-    // Basic validation for required fields
+
+    // Debug: Check input
     if (empty($email) || empty($password)) {
-        die("Email and password are required.");
+        die("DEBUG: Email or password missing from POST.<br>");
+    } else {
+        echo "DEBUG: Received email = $email<br>";
     }
 
     // Initialize the database connection
@@ -29,8 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_result($user_id, $role, $hashed_password);
         $stmt->fetch();
 
+        // Debug: Show retrieved info
+        echo "DEBUG: Found user. Role = '$role'<br>";
+        echo "DEBUG: Stored hash = '$hashed_password'<br>";
+        error_log("Fetched role: " . $role);  // <-- place it here
+
         // Verify the hashed password
         if (password_verify($password, $hashed_password)) {
+            echo "DEBUG: Password is valid.<br>";
             // Start session and store user role
             $_SESSION['user_id'] = $user_id;
             $_SESSION['role'] = $role;
@@ -38,16 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect to the appropriate dashboard based on the user role
             switch (strtolower($role)) {
                 case 'user':
-                    header("Location: /forms-user/userdashboard.html");
+                    header("Location: ../forms-user/userdashboard.html");
                     break;
-                case 'clinic staff':
-                    header("Location: /forms/staffdashboard.html");
+                case 'staff':
+                    header("Location: ../forms/staffdashboard.html");
                     break;
                 case 'admin':
-                    header("Location: /forms-admin/admindashboard.html");
+                    header("Location: ../forms-admin/admindashboard.html");
                     break;
                 default:
-                    echo "Unknown role.";
+                    echo "Unknown role: " . htmlspecialchars($role); 
             }
             exit;  // Ensure no further code is executed after redirect
         } else {
