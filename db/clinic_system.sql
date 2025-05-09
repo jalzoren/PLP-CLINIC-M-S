@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 06:25 PM
+-- Generation Time: May 09, 2025 at 10:29 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,6 +34,13 @@ CREATE TABLE `alcohol_history` (
   `Frequency` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `alcohol_history`
+--
+
+INSERT INTO `alcohol_history` (`Alcohol_ID`, `Patient_ID`, `ESTperConsumption`, `Frequency`) VALUES
+(1, 1, '50', '');
+
 -- --------------------------------------------------------
 
 --
@@ -47,7 +54,7 @@ CREATE TABLE `borroweditem_records` (
   `Quantity` int(11) NOT NULL,
   `Date_Borrowed` datetime NOT NULL,
   `Date_Returned` datetime DEFAULT NULL,
-  `Status` varchar(50) NOT NULL,
+  `Status` enum('Borrowed','Returned (Good)','Returned (Damage)','Overdue') NOT NULL,
   `Photo_Borrowed` varchar(255) NOT NULL,
   `Photo_Returned` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,9 +68,16 @@ CREATE TABLE `borroweditem_records` (
 CREATE TABLE `drug_history` (
   `Drug_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Usage_Status` varchar(12) DEFAULT NULL,
-  `Rehub_Undergone` varchar(5) DEFAULT NULL
+  `Usage_Status` varchar(50) DEFAULT NULL,
+  `Rehub_Undergone` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `drug_history`
+--
+
+INSERT INTO `drug_history` (`Drug_ID`, `Patient_ID`, `Usage_Status`, `Rehub_Undergone`) VALUES
+(1, 1, 'Never', '');
 
 -- --------------------------------------------------------
 
@@ -74,8 +88,7 @@ CREATE TABLE `drug_history` (
 CREATE TABLE `drug_typeused` (
   `DrugType_ID` int(11) NOT NULL,
   `Drug_ID` int(11) NOT NULL,
-  `Type` varchar(15) DEFAULT NULL,
-  `CustomDrugName` varchar(100) DEFAULT NULL
+  `Type` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -98,6 +111,13 @@ CREATE TABLE `emergency_contact` (
   `Contact_Number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `emergency_contact`
+--
+
+INSERT INTO `emergency_contact` (`EmergencyContact_ID`, `Patient_ID`, `Last_Name`, `First_Name`, `Middle_Name`, `Relationship`, `Address`, `City`, `Province`, `Zip_Code`, `Contact_Number`) VALUES
+(1, 1, 'MERCADO', 'HAZEL', 'C.', 'Mother', 'JAVIER ST.', 'CITY OF PASIG', 'NATIONAL CAPITAL REGION', '1920', 2147483647);
+
 -- --------------------------------------------------------
 
 --
@@ -119,10 +139,7 @@ CREATE TABLE `family_history` (
 
 CREATE TABLE `item` (
   `Item_ID` int(11) NOT NULL,
-  `Item_Name` varchar(100) NOT NULL,
-  `Category` varchar(20) NOT NULL,
-  `Status` varchar(20) NOT NULL,
-  `Quantity` int(11) NOT NULL
+  `Item_Name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -134,12 +151,19 @@ CREATE TABLE `item` (
 CREATE TABLE `maternal` (
   `Maternal_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `No._ofPregnancy` tinyint(4) NOT NULL,
-  `No._ofMiscarriage` tinyint(4) NOT NULL,
-  `No._TermsofDelevery` tinyint(4) NOT NULL,
-  `No._ofPrematureDelivery` tinyint(4) NOT NULL,
-  `TotalofChildren` tinyint(4) NOT NULL
+  `No_ofPregnancy` int(20) DEFAULT NULL,
+  `No_ofMiscarriage` int(20) DEFAULT NULL,
+  `No_TermsofDelevery` int(20) DEFAULT NULL,
+  `No_ofPrematureDelivery` int(20) DEFAULT NULL,
+  `TotalofChildren` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `maternal`
+--
+
+INSERT INTO `maternal` (`Maternal_ID`, `Patient_ID`, `No_ofPregnancy`, `No_ofMiscarriage`, `No_TermsofDelevery`, `No_ofPrematureDelivery`, `TotalofChildren`) VALUES
+(1, 1, 2, 4, 4, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -153,18 +177,25 @@ CREATE TABLE `patient` (
   `First_Name` varchar(50) NOT NULL,
   `Middle_Name` varchar(50) DEFAULT NULL,
   `Last_Name` varchar(50) NOT NULL,
-  `Sex` varchar(10) NOT NULL,
+  `Sex` enum('Male','Female','Intersex') NOT NULL,
   `Age` tinyint(4) NOT NULL,
   `Birthdate` date NOT NULL,
   `Civil_Status` varchar(20) NOT NULL,
   `Religion` varchar(50) NOT NULL,
   `Nationality` varchar(50) NOT NULL,
-  `Contact_Number` int(15) NOT NULL,
+  `Contact_Number` varchar(20) NOT NULL,
   `Address` varchar(255) NOT NULL,
   `City` varchar(50) NOT NULL,
   `Province` varchar(50) NOT NULL,
   `Zip_Code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient`
+--
+
+INSERT INTO `patient` (`Patient_ID`, `Category`, `First_Name`, `Middle_Name`, `Last_Name`, `Sex`, `Age`, `Birthdate`, `Civil_Status`, `Religion`, `Nationality`, `Contact_Number`, `Address`, `City`, `Province`, `Zip_Code`) VALUES
+(1, 'student', 'LYNN CZYLA', 'MERCADO', 'ALPUERTO', 'Male', 20, '2025-05-08', 'Single', 'Catholic', 'Filipino', '09854773963', 'JAVIER ST.', '-CITY OF PASIG', 'NATIONAL CAPITAL REGION', '1920');
 
 -- --------------------------------------------------------
 
@@ -180,6 +211,14 @@ CREATE TABLE `patient_condition` (
   `Med_Maintenance` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `patient_condition`
+--
+
+INSERT INTO `patient_condition` (`PatientCon_ID`, `Patient_ID`, `Medical_Condition`, `Details`, `Med_Maintenance`) VALUES
+(1, 1, 'Allergies', 'knsdje', ''),
+(2, 1, 'Others', 'dbbwj', '');
+
 -- --------------------------------------------------------
 
 --
@@ -187,8 +226,8 @@ CREATE TABLE `patient_condition` (
 --
 
 CREATE TABLE `personnel_patient` (
-  `Patient_ID` int(11) NOT NULL,
   `Personnel_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -201,10 +240,17 @@ CREATE TABLE `personnel_patient` (
 CREATE TABLE `smoking_history` (
   `Smoking_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Usage_Status` varchar(15) DEFAULT NULL,
+  `Usage_Status` varchar(100) DEFAULT NULL,
   `Start_Date` date DEFAULT NULL,
   `Stop_Date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `smoking_history`
+--
+
+INSERT INTO `smoking_history` (`Smoking_ID`, `Patient_ID`, `Usage_Status`, `Start_Date`, `Stop_Date`) VALUES
+(1, 1, 'never', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -216,7 +262,7 @@ CREATE TABLE `smoking_typeused` (
   `SmokingType_ID` int(11) NOT NULL,
   `Smoking_ID` int(11) NOT NULL,
   `Type` varchar(100) DEFAULT NULL,
-  `StickperDay` int(11) DEFAULT NULL
+  `StickperDay` int(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -226,12 +272,19 @@ CREATE TABLE `smoking_typeused` (
 --
 
 CREATE TABLE `student_patient` (
-  `Patient_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL,
   `Program` varchar(255) NOT NULL,
-  `Batch` varchar(100) NOT NULL
+  `Batch` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_patient`
+--
+
+INSERT INTO `student_patient` (`Student_ID`, `Patient_ID`, `Department`, `Program`, `Batch`) VALUES
+(231126, 1, 'CAS', 'BSECE', '2023');
 
 -- --------------------------------------------------------
 
@@ -242,9 +295,16 @@ CREATE TABLE `student_patient` (
 CREATE TABLE `surgical_history` (
   `Surgical_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `HasSurgicalHistory` varchar(5) NOT NULL,
-  `Specify` varchar(255) NOT NULL
+  `HasSurgicalHistory` enum('yes','none') NOT NULL,
+  `Specify` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `surgical_history`
+--
+
+INSERT INTO `surgical_history` (`Surgical_ID`, `Patient_ID`, `HasSurgicalHistory`, `Specify`) VALUES
+(43, 1, 'none', NULL);
 
 -- --------------------------------------------------------
 
@@ -255,9 +315,12 @@ CREATE TABLE `surgical_history` (
 CREATE TABLE `users` (
   `User_ID` int(11) NOT NULL,
   `Patient_ID` int(11) DEFAULT NULL,
+  `ID_Number` int(20) NOT NULL,
   `Role` varchar(20) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Password` varchar(255) NOT NULL
+  `Password` varchar(255) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `Updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -355,8 +418,7 @@ ALTER TABLE `patient_condition`
 --
 ALTER TABLE `personnel_patient`
   ADD PRIMARY KEY (`Personnel_ID`),
-  ADD UNIQUE KEY `Personnel_ID` (`Personnel_ID`),
-  ADD KEY `Patient_ID` (`Patient_ID`);
+  ADD KEY `personnel_patient_ibfk` (`Patient_ID`);
 
 --
 -- Indexes for table `smoking_history`
@@ -377,7 +439,6 @@ ALTER TABLE `smoking_typeused`
 --
 ALTER TABLE `student_patient`
   ADD PRIMARY KEY (`Student_ID`),
-  ADD UNIQUE KEY `Student_ID` (`Student_ID`),
   ADD KEY `student_patient_ibfk` (`Patient_ID`);
 
 --
@@ -392,6 +453,7 @@ ALTER TABLE `surgical_history`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`User_ID`),
+  ADD UNIQUE KEY `ID_Number` (`ID_Number`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Patient_ID` (`Patient_ID`);
 
@@ -410,7 +472,7 @@ ALTER TABLE `visit_records`
 -- AUTO_INCREMENT for table `alcohol_history`
 --
 ALTER TABLE `alcohol_history`
-  MODIFY `Alcohol_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Alcohol_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `borroweditem_records`
@@ -422,7 +484,7 @@ ALTER TABLE `borroweditem_records`
 -- AUTO_INCREMENT for table `drug_history`
 --
 ALTER TABLE `drug_history`
-  MODIFY `Drug_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Drug_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `drug_typeused`
@@ -434,7 +496,13 @@ ALTER TABLE `drug_typeused`
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `EmergencyContact_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `EmergencyContact_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `family_history`
+--
+ALTER TABLE `family_history`
+  MODIFY `FamHistory_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `item`
@@ -446,19 +514,25 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `maternal`
 --
 ALTER TABLE `maternal`
-  MODIFY `Maternal_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Maternal_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `patient_condition`
+--
+ALTER TABLE `patient_condition`
+  MODIFY `PatientCon_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `smoking_history`
 --
 ALTER TABLE `smoking_history`
-  MODIFY `Smoking_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Smoking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `smoking_typeused`
@@ -470,13 +544,7 @@ ALTER TABLE `smoking_typeused`
 -- AUTO_INCREMENT for table `surgical_history`
 --
 ALTER TABLE `surgical_history`
-  MODIFY `Surgical_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Surgical_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `visit_records`
@@ -566,12 +634,6 @@ ALTER TABLE `student_patient`
 --
 ALTER TABLE `surgical_history`
   ADD CONSTRAINT `sugical_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfK` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `visit_records`
