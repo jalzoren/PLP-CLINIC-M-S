@@ -1,4 +1,9 @@
 <?php
+// Turn on full error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/database.php';
@@ -13,7 +18,11 @@ try {
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->get_result()->fetch_assoc();
+
+    if (!$result) {
+        throw new Exception("No result returned from query.");
+    }
 
     $data = [
         ["label" => "Available", "value" => (int)$result['available_count']],
@@ -24,6 +33,10 @@ try {
 
 } catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['error' => 'Server error', 'details' => $e->getMessage()]);
+    echo json_encode([
+        'error' => 'Server error',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ]);
 }
-?>

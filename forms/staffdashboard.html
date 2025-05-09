@@ -94,7 +94,7 @@
                     <a href="#">See All</a>
                 </div>
                 <div class="item_chart">
-                    <canvas id="itemChart" width="100px" height="100px"></canvas>
+                    <canvas id="itemChart" width="100%" height="80%" background-color="white"></canvas>
                 </div>
             </div>
 
@@ -248,24 +248,25 @@
     </script>
 
     <script>
-    fetch('../php/item_summary.php')
+        fetch('../php/item_summary.php')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error("HTTP error! status: " + response.status);
             return response.json();
         })
         .then(data => {
-            console.log("Fetched Data:", data);
-
-            if (!Array.isArray(data)) {
-                throw new Error("Data format error: Expected an array");
+            if (data.error) {
+                console.error("PHP Error:", data);
+                return;
             }
 
-            const labels = data.map(entry => entry.label);
-            const values = data.map(entry => entry.value);
+            const labels = data.map(item => item.label);
+            const values = data.map(item => item.value);
 
-            const colors = ['#00c853', '#d50000']; // Available = Green, Not Available = Red
+            const backgroundColors = [
+                '#4dc9f6', '#f67019', '#f53794',
+                '#537bc4', '#acc236', '#166a8f',
+                '#00a950', '#58595b', '#8549ba'
+            ];
 
             const ctx = document.getElementById('itemChart').getContext('2d');
             new Chart(ctx, {
@@ -273,9 +274,9 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Item Status',
+                        label: 'Available Items',
                         data: values,
-                        backgroundColor: colors,
+                        backgroundColor: backgroundColors,
                         borderColor: '#fff',
                         borderWidth: 2
                     }]
@@ -284,21 +285,24 @@
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: 'right',
                             labels: {
-                                boxWidth: 20
+                                boxWidth: 20,
+                                padding: 15
                             }
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return `${context.label}: ${context.raw} item(s)`;
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    return `${label}: ${value} available`;
                                 }
                             }
                         },
                         title: {
                             display: true,
-                            text: 'Item Availability Summary'
+                            text: 'Item Inventory Summary (Available Count)'
                         }
                     }
                 }
@@ -308,6 +312,7 @@
             console.error("Error loading item summary chart:", err);
             alert("Failed to load item summary chart. See console for details.");
         });
+
     </script>
 
 
