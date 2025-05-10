@@ -282,7 +282,6 @@ body {
   width: calc(80% - -205px);
   left: 90px;
   height: calc(100vh - 90px);
-  overflow-y: auto;
   transition: all 0.5s ease;
   z-index: 101;
 }
@@ -432,6 +431,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   border: 2px solid #1a1259;
+  
 }
 
 thead {

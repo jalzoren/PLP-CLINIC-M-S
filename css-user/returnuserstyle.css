@@ -515,7 +515,14 @@ button.btn:hover {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 1000px;
 }
+
+.borrow-container .return-form {
+  width: 1000px;
+}
+
+
 
 .form-row {
   display: flex;

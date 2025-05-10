@@ -13,8 +13,34 @@ function closeEmptyFieldPopup() {
 function closeSuccessPopup() {
   document.getElementById("SuccessPopup").style.display = "none";
   document.getElementById("medicalRecordForm").style.display = "none";
-
 }
+
+function closeDuplicationPopup() {
+   document.getElementById("DuplicatePopup").style.display = "none";
+   document.getElementById("popupPatient").style.display = "block";
+}
+
+function closeSurgicalPopup() {
+   document.getElementById("SurgicalPopup").style.display = "none";
+   document.getElementById("popupPersonalHistory").style.display = "block";
+}
+
+function closeSmokingPopup() {
+  document.getElementById("SmokingPopup").style.display = "none";
+  document.getElementById("popupPersonalHistory").style.display = "block";
+}
+
+function closeDrugsPopup() {
+  document.getElementById("DrugsPopup").style.display = "none";
+  document.getElementById("popupPersonalHistory").style.display = "block";
+}
+
+function closeAlcoholPopup() {
+  document.getElementById("AlcoholPopup").style.display = "none";
+  document.getElementById("popupPersonalHistory").style.display = "block";
+}
+
+
 
 function openPopupPatient() {
   var studentCheckbox = document.getElementById('studentCheckbox').checked;
@@ -56,8 +82,6 @@ function openPopupPatient() {
   
 }
 
-
-
 function goBackToCategory() {
   document.getElementById("popupPatient").style.display = "none"; 
   document.getElementById("popupContainer").style.display = "block"; 
@@ -72,6 +96,8 @@ function goBackToPersonalHistoPopUp() {
   document.getElementById("popupFamilyHistory").style.display = "none"; 
   document.getElementById("popupPersonalHistory").style.display = "block"; 
 }
+
+
 
 
 function goToPersonalHistoPopUp() {
@@ -97,6 +123,41 @@ function goToPersonalHistoPopUp() {
 }
 
 function goToFamilyHistoPopUp() {
+  const surgicalCheckbox = document.getElementById('surgical');
+  const surgicalText = document.getElementById('surgicalText');
+  const noneSurgeryCheckbox = document.getElementById('noneSurgery');
+  const yesSmoking = document.getElementById('yesCheckbox').checked;
+  const noSmoking = document.getElementById('noCheckbox').checked;
+  const triedSmoking = document.getElementById('sometimesCheckbox').checked;
+  const stoppedSmoking = document.getElementById('preferNotCheckbox').checked;
+  const yesDrugs = document.getElementById('yesDrugsCheckbox').checked;
+  const neverDrugs = document.getElementById('NeverDrugsCheckbox').checked;
+  const triedDrugs = document.getElementById('TriedDrugsCheckbox').checked;
+  const sometimesDrugs = document.getElementById('SometimesDrugsCheckbox').checked;
+  const oncePerWeek = document.getElementById('oncePerWeekalcohol').checked;
+  const moreThanOnce = document.getElementById('moreThanonceperweekalcohol').checked;
+  const totalText = document.getElementById('totalperconsupAlchoText').value.trim();
+
+  if (!(surgicalCheckbox.checked || surgicalText.value.trim() !== "" || noneSurgeryCheckbox.checked)) {
+    document.getElementById('SurgicalPopup').style.display = 'block';
+    return;  
+  }
+
+  if (!(yesSmoking || noSmoking || triedSmoking || stoppedSmoking)) {
+    document.getElementById('SmokingPopup').style.display = 'block';
+    return;
+  }
+
+  if (!(yesDrugs || neverDrugs || triedDrugs || sometimesDrugs)) {
+    document.getElementById('DrugsPopup').style.display = 'block';
+    return;
+  }
+
+  if (!(oncePerWeek || moreThanOnce || totalText !== "")) {
+    document.getElementById('AlcoholPopup').style.display = 'block';
+    return;
+  }
+
   document.getElementById("popupPersonalHistory").style.display = "none"; 
   document.getElementById("popupFamilyHistory").style.display = "block"; 
 
@@ -125,351 +186,356 @@ window.onload = function() {
 
 
 function initializePopupFormLogic(){
-const studentCheckbox = document.getElementById("studentCheckbox");
-const personnelCheckbox = document.getElementById("personnelCheckbox");
-const studentFields = document.getElementById("studentFields");
-const personnelFields = document.getElementById("personnelFields");
+  const studentCheckbox = document.getElementById("studentCheckbox");
+  const personnelCheckbox = document.getElementById("personnelCheckbox");
+  const studentFields = document.getElementById("studentFields");
+  const personnelFields = document.getElementById("personnelFields");
 
-function clearInputs(container) {
-  const inputs = container.querySelectorAll("input, select");
-  inputs.forEach(input => {
-    if (input.type === "checkbox" || input.type === "radio") {
-      input.checked = false;
+  function clearInputs(container) {
+    const inputs = container.querySelectorAll("input, select");
+    inputs.forEach(input => {
+      if (input.type === "checkbox" || input.type === "radio") {
+        input.checked = false;
+      } else {
+        input.value = "";
+      }
+    });
+  }
+
+  studentCheckbox.addEventListener("change", () => {
+    if (studentCheckbox.checked) {
+      personnelCheckbox.checked = false;
+      studentFields.style.display = "block";
+      personnelFields.style.display = "none";
+      
+      clearInputs(personnelFields);
+      teaching.checked = false;
+      nonTeaching.checked = false;
+
+      document.getElementById("departmentPersonnel").selectedIndex = 0;
     } else {
-      input.value = "";
+      studentFields.style.display = "none";
+      clearInputs(studentFields); 
     }
   });
-}
 
-studentCheckbox.addEventListener("change", () => {
-  if (studentCheckbox.checked) {
-    personnelCheckbox.checked = false;
-    studentFields.style.display = "block";
-    personnelFields.style.display = "none";
+  personnelCheckbox.addEventListener("change", () => {
+    if (personnelCheckbox.checked) {
+      studentCheckbox.checked = false;
+      personnelFields.style.display = "block";
+      studentFields.style.display = "none";
+      clearInputs(studentFields); 
+
+      document.getElementById("collegeProgram").selectedIndex = 0;
+      document.getElementById("collegeDepartment").selectedIndex = 0;
+    } else {
+      personnelFields.style.display = "none";
+      clearInputs(personnelFields); 
+    }
+  });
+
+  const nonTeaching = document.getElementById("nonTeaching");
+  const teaching = document.getElementById("teaching");
+
+  nonTeaching.addEventListener('change', function() {
+    if (this.checked) {
+      teaching.checked = false; 
+    }
+  });
+
+  teaching.addEventListener('change', function() {
+    if (this.checked) {
+      nonTeaching.checked = false; 
+    }
+  });
+
+
+
+
+
+  // Alcohol
+  const moreThanOncePerWeek = document.getElementById('moreThanonceperweekalcohol');
+  const oncePerWeek = document.getElementById('oncePerWeekalcohol');
+
+  moreThanOncePerWeek.addEventListener('change', function() {
+    if (this.checked) {
+      oncePerWeek.checked = false; 
+    }
+  });
+
+  oncePerWeek.addEventListener('change', function() {
+    if (this.checked) {
+      moreThanOncePerWeek.checked = false; 
+    }
+  });
+
+  // Surgical
+  const surgicalCheckbox = document.getElementById('surgical');
+  const noneSurgeryCheckbox = document.getElementById('noneSurgery');
+  const surgicalText = document.getElementById('surgicalText');
+
+  surgicalCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      noneSurgeryCheckbox.checked = false; 
+    }
+  });
+
+  noneSurgeryCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      surgicalCheckbox.checked = false; 
+    }
+  });
+
+
+
+
+  // Drugs
+  document.getElementById("yesDrugsCheckbox").addEventListener("change", function() {
+    const flexWrapper4 = document.getElementById("flex-wrapper4");
     
-    clearInputs(personnelFields);
-    teaching.checked = false;
-    nonTeaching.checked = false;
+    if (this.checked) {
+      flexWrapper4.style.display = "block";
+    } else {
+      flexWrapper4.style.display = "none";
+      
+      document.querySelectorAll("#flex-wrapper4 input[type='checkbox']").forEach(function(checkbox) {
+        checkbox.checked = false;
+      });
+    }
+  });
 
-    document.getElementById("departmentPersonnel").selectedIndex = 0;
-  } else {
-    studentFields.style.display = "none";
-    clearInputs(studentFields); 
-  }
-});
+  const yesRehab = document.getElementById('yesRehab');
+  const noRehab = document.getElementById('noRehab');
 
-personnelCheckbox.addEventListener("change", () => {
-  if (personnelCheckbox.checked) {
-    studentCheckbox.checked = false;
-    personnelFields.style.display = "block";
-    studentFields.style.display = "none";
-    clearInputs(studentFields); 
+  yesRehab.addEventListener('change', function() {
+    if (yesRehab.checked) {
+      noRehab.checked = false;
+    }
+  });
 
-    document.getElementById("collegeProgram").selectedIndex = 0;
-    document.getElementById("collegeDepartment").selectedIndex = 0;
-  } else {
-    personnelFields.style.display = "none";
-    clearInputs(personnelFields); 
-  }
-});
-
-const nonTeaching = document.getElementById("nonTeaching");
-const teaching = document.getElementById("teaching");
-
-nonTeaching.addEventListener('change', function() {
-  if (this.checked) {
-    teaching.checked = false; 
-  }
-});
-
-teaching.addEventListener('change', function() {
-  if (this.checked) {
-    nonTeaching.checked = false; 
-  }
-});
+  noRehab.addEventListener('change', function() {
+    if (noRehab.checked) {
+      yesRehab.checked = false;
+    }
+  });
 
 
+  const yesDrugsCheckbox = document.getElementById('yesDrugsCheckbox');
+  const noDrugsCheckbox = document.getElementById('NeverDrugsCheckbox');
+  const sometimesDrugsCheckbox = document.getElementById('SometimesDrugsCheckbox');
+  const preferNotDrugsCheckbox = document.getElementById('TriedDrugsCheckbox');
+  const flexWrapper4 = document.getElementById('flex-wrapper4');
 
+  function clearDrugSection() {
+    flexWrapper4.style.display = 'none';
 
-
-// Alcohol
-const moreThanOncePerWeek = document.getElementById('moreThanonceperweekalcohol');
-const oncePerWeek = document.getElementById('oncePerWeekalcohol');
-
-moreThanOncePerWeek.addEventListener('change', function() {
-  if (this.checked) {
-    oncePerWeek.checked = false; 
-  }
-});
-
-oncePerWeek.addEventListener('change', function() {
-  if (this.checked) {
-    moreThanOncePerWeek.checked = false; 
-  }
-});
-
-// Surgical
-const surgicalCheckbox = document.getElementById('surgical');
-const noneSurgeryCheckbox = document.getElementById('noneSurgery');
-const surgicalText = document.getElementById('surgicalText');
-
-surgicalCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    noneSurgeryCheckbox.checked = false; 
-  }
-});
-
-noneSurgeryCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    surgicalCheckbox.checked = false; 
-  }
-});
-
-
-
-
-// Drugs
-document.getElementById("yesDrugsCheckbox").addEventListener("change", function() {
-  const flexWrapper4 = document.getElementById("flex-wrapper4");
-  
-  if (this.checked) {
-    flexWrapper4.style.display = "block";
-  } else {
-    flexWrapper4.style.display = "none";
-    
+    // Uncheck all checkboxes inside #flex-wrapper4 (substances and rehab)
     document.querySelectorAll("#flex-wrapper4 input[type='checkbox']").forEach(function(checkbox) {
       checkbox.checked = false;
     });
   }
-});
 
-const yesRehab = document.getElementById('yesRehab');
-const noRehab = document.getElementById('noRehab');
-
-yesRehab.addEventListener('change', function() {
-  if (yesRehab.checked) {
-    noRehab.checked = false;
-  }
-});
-
-noRehab.addEventListener('change', function() {
-  if (noRehab.checked) {
-    yesRehab.checked = false;
-  }
-});
-
-
-const yesDrugsCheckbox = document.getElementById('yesDrugsCheckbox');
-const noDrugsCheckbox = document.getElementById('NeverDrugsCheckbox');
-const sometimesDrugsCheckbox = document.getElementById('SometimesDrugsCheckbox');
-const preferNotDrugsCheckbox = document.getElementById('TriedDrugsCheckbox');
-const flexWrapper4 = document.getElementById('flex-wrapper4');
-
-function clearDrugSection() {
-  flexWrapper4.style.display = 'none';
-
-  // Uncheck all checkboxes inside #flex-wrapper4 (substances and rehab)
-  document.querySelectorAll("#flex-wrapper4 input[type='checkbox']").forEach(function(checkbox) {
-    checkbox.checked = false;
+  yesDrugsCheckbox.addEventListener('change', function() {
+    if (yesDrugsCheckbox.checked) {
+      noDrugsCheckbox.checked = false;
+      sometimesDrugsCheckbox.checked = false;
+      preferNotDrugsCheckbox.checked = false;
+      flexWrapper4.style.display = 'block';
+    }
   });
-}
-
-yesDrugsCheckbox.addEventListener('change', function() {
-  if (yesDrugsCheckbox.checked) {
-    noDrugsCheckbox.checked = false;
-    sometimesDrugsCheckbox.checked = false;
-    preferNotDrugsCheckbox.checked = false;
-    flexWrapper4.style.display = 'block';
-  }
-});
 
 
-noDrugsCheckbox.addEventListener('change', function() {
-  if (noDrugsCheckbox.checked) {
-    yesDrugsCheckbox.checked = false;
-    sometimesDrugsCheckbox.checked = false;
-    preferNotDrugsCheckbox.checked = false;
-    clearDrugSection();
-  }
-});
+  noDrugsCheckbox.addEventListener('change', function() {
+    if (noDrugsCheckbox.checked) {
+      yesDrugsCheckbox.checked = false;
+      sometimesDrugsCheckbox.checked = false;
+      preferNotDrugsCheckbox.checked = false;
+      clearDrugSection();
+    }
+  });
 
-sometimesDrugsCheckbox.addEventListener('change', function() {
-  if (sometimesDrugsCheckbox.checked) {
-    yesDrugsCheckbox.checked = false;
-    noDrugsCheckbox.checked = false;
-    preferNotDrugsCheckbox.checked = false;
-    clearDrugSection();
-  }
-});
+  sometimesDrugsCheckbox.addEventListener('change', function() {
+    if (sometimesDrugsCheckbox.checked) {
+      yesDrugsCheckbox.checked = false;
+      noDrugsCheckbox.checked = false;
+      preferNotDrugsCheckbox.checked = false;
+      clearDrugSection();
+    }
+  });
 
-preferNotDrugsCheckbox.addEventListener('change', function() {
-  if (preferNotDrugsCheckbox.checked) {
-    yesDrugsCheckbox.checked = false;
-    noDrugsCheckbox.checked = false;
-    sometimesDrugsCheckbox.checked = false;
-    clearDrugSection();
-  }
-});
+  preferNotDrugsCheckbox.addEventListener('change', function() {
+    if (preferNotDrugsCheckbox.checked) {
+      yesDrugsCheckbox.checked = false;
+      noDrugsCheckbox.checked = false;
+      sometimesDrugsCheckbox.checked = false;
+      clearDrugSection();
+    }
+  });
 
 
 
-
-
-
-
-// Smoking
-document.getElementById("yesCheckbox").addEventListener("change", function() {
-  const flexWrapper3 = document.getElementById("flex-wrapper3");
-  
-  if (this.checked) {
-    flexWrapper3.style.display = "block";
-  } else {
-    flexWrapper3.style.display = "none";
+  // Smoking
+  document.getElementById("yesCheckbox").addEventListener("change", function() {
+    const flexWrapper3 = document.getElementById("flex-wrapper3");
     
-    document.querySelectorAll("#flex-wrapper3 input[type='checkbox']").forEach(function(checkbox) {
-      checkbox.checked = false;
+    if (this.checked) {
+      flexWrapper3.style.display = "block";
+    } else {
+      flexWrapper3.style.display = "none";
+      
+      document.querySelectorAll("#flex-wrapper3 input[type='checkbox']").forEach(function(checkbox) {
+        checkbox.checked = false;
+      });
+    }
+  });
+
+
+  function clearInputs(element) {
+    const inputs = element.querySelectorAll('input');
+    inputs.forEach(input => {
+      input.value = '';
     });
   }
-});
 
+  const yesCheckbox = document.getElementById('yesCheckbox');
+  const noCheckbox = document.getElementById('noCheckbox');
+  const sometimesCheckbox = document.getElementById('sometimesCheckbox');
+  const preferNotCheckbox = document.getElementById('preferNotCheckbox');
+  const flexWrapper3 = document.getElementById('flex-wrapper3');
+  const stoppedDate = document.getElementById('stoppedDate');
 
-function clearInputs(element) {
-  const inputs = element.querySelectorAll('input');
-  inputs.forEach(input => {
-    input.value = '';
-  });
-}
+  function resetOtherCheckboxes(checkedCheckbox) {
+    [yesCheckbox, noCheckbox, sometimesCheckbox, preferNotCheckbox].forEach(checkbox => {
+      if (checkbox !== checkedCheckbox) {
+        checkbox.checked = false;
+      }
+    });
+  }
 
-const yesCheckbox = document.getElementById('yesCheckbox');
-const noCheckbox = document.getElementById('noCheckbox');
-const sometimesCheckbox = document.getElementById('sometimesCheckbox');
-const preferNotCheckbox = document.getElementById('preferNotCheckbox');
-const flexWrapper3 = document.getElementById('flex-wrapper3');
-const stoppedDate = document.getElementById('stoppedDate');
-
-function resetOtherCheckboxes(checkedCheckbox) {
-  [yesCheckbox, noCheckbox, sometimesCheckbox, preferNotCheckbox].forEach(checkbox => {
-    if (checkbox !== checkedCheckbox) {
-      checkbox.checked = false;
+  yesCheckbox.addEventListener('change', function() {
+    if (yesCheckbox.checked) {
+      resetOtherCheckboxes(yesCheckbox);
+      flexWrapper3.style.display = 'block';
+      stoppedDate.style.display = 'none';
+    } else {
+      clearInputs(flexWrapper3);
+      flexWrapper3.style.display = 'none';
     }
   });
-}
 
-yesCheckbox.addEventListener('change', function() {
-  if (yesCheckbox.checked) {
-    resetOtherCheckboxes(yesCheckbox);
-    flexWrapper3.style.display = 'block';
-    stoppedDate.style.display = 'none';
-  } else {
-    clearInputs(flexWrapper3);
-    flexWrapper3.style.display = 'none';
-  }
-});
-
-noCheckbox.addEventListener('change', function() {
-  if (noCheckbox.checked) {
-    resetOtherCheckboxes(noCheckbox);
-    flexWrapper3.style.display = 'none';
-    stoppedDate.style.display = 'none';
-  } else {
-    clearInputs(flexWrapper3);
-    clearInputs(stoppedDate);
-  }
-});
-
-sometimesCheckbox.addEventListener('change', function() {
-  if (sometimesCheckbox.checked) {
-    resetOtherCheckboxes(sometimesCheckbox);
-    flexWrapper3.style.display = 'none'; 
-    stoppedDate.style.display = 'none';
-  } else {
-    clearInputs(flexWrapper3);
-    clearInputs(stoppedDate);
-  }
-});
-
-preferNotCheckbox.addEventListener('change', function() {
-  if (preferNotCheckbox.checked) {
-    resetOtherCheckboxes(preferNotCheckbox);
-
-    flexWrapper3.style.display = 'none'; 
-    stoppedDate.style.display = 'inline-block';
-  } else {
-    stoppedDate.style.display = 'none';
-    clearInputs(stoppedDate);
-  }
-});
-
-
-const cigaretteCheckbox = document.getElementById('cigarette');
-const vapeCheckbox = document.getElementById('vape');
-const pipeCheckbox = document.getElementById('pipe');
-const cigaretteSticksRow = document.getElementById('cigaretteSticksRow');
-const cigaretteStartedRow = document.getElementById('cigaretteStartedRow');
-
-function uncheckOthers(checkedCheckbox) {
-  [cigaretteCheckbox, vapeCheckbox, pipeCheckbox].forEach(checkbox => {
-    if (checkbox !== checkedCheckbox) {
-      checkbox.checked = false;
+  noCheckbox.addEventListener('change', function() {
+    if (noCheckbox.checked) {
+      resetOtherCheckboxes(noCheckbox);
+      flexWrapper3.style.display = 'none';
+      stoppedDate.style.display = 'none';
+    } else {
+      clearInputs(flexWrapper3);
+      clearInputs(stoppedDate);
     }
   });
-}
 
-cigaretteCheckbox.addEventListener('change', function() {
-  uncheckOthers(this);
+  sometimesCheckbox.addEventListener('change', function() {
+    if (sometimesCheckbox.checked) {
+      resetOtherCheckboxes(sometimesCheckbox);
+      flexWrapper3.style.display = 'none'; 
+      stoppedDate.style.display = 'none';
+    } else {
+      clearInputs(flexWrapper3);
+      clearInputs(stoppedDate);
+    }
+  });
 
-  if (this.checked) {
-    cigaretteSticksRow.style.display = 'table-row'; 
-    cigaretteStartedRow.style.display = 'table-row'; 
-  } else {
-    cigaretteSticksRow.style.display = 'none'; 
-    cigaretteStartedRow.style.display = 'none';
-    document.getElementById('cigaretteStartedRow').value = '';
-    document.getElementById('sticksperday').value = '';
-    document.getElementById('cigaretteStartedDate').value = '';
+  preferNotCheckbox.addEventListener('change', function() {
+    if (preferNotCheckbox.checked) {
+      resetOtherCheckboxes(preferNotCheckbox);
+
+      flexWrapper3.style.display = 'none'; 
+      stoppedDate.style.display = 'inline-block';
+    } else {
+      stoppedDate.style.display = 'none';
+      clearInputs(stoppedDate);
+    }
+  });
+
+
+  const cigaretteCheckbox = document.getElementById('cigarette');
+  const vapeCheckbox = document.getElementById('vape');
+  const pipeCheckbox = document.getElementById('pipe');
+  const cigaretteSticksRow = document.getElementById('cigaretteSticksRow');
+  const cigaretteStartedRow = document.getElementById('cigaretteStartedRow');
+
+  function uncheckOthers(checkedCheckbox) {
+    [cigaretteCheckbox, vapeCheckbox, pipeCheckbox].forEach(checkbox => {
+      if (checkbox !== checkedCheckbox) {
+        checkbox.checked = false;
+      }
+    });
   }
-});
 
-noCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    vapeCheckbox.checked = false;
-    pipeCheckbox.checked = false;
-    document.getElementById('stoppedDate').value = '';
-  }
-});
-
-sometimesCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    vapeCheckbox.checked = false;
-    pipeCheckbox.checked = false;
-    document.getElementById('stoppedDate').value = '';
-  }
-});
-
-preferNotCheckbox.addEventListener('change', function() {
-  if (this.checked) {
-    vapeCheckbox.checked = false;
-    pipeCheckbox.checked = false;
-  }
-});
-
-
-[vapeCheckbox, pipeCheckbox].forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
+  cigaretteCheckbox.addEventListener('change', function() {
     uncheckOthers(this);
-    cigaretteSticksRow.style.display = 'none'; 
-    cigaretteStartedRow.style.display = 'none';
-    document.getElementById('cigaretteStartedRow').value = '';
-    document.getElementById('sticksperday').value = ''; 
-    document.getElementById('cigaretteStartedDate').value = ''; 
+
+    if (this.checked) {
+      cigaretteSticksRow.style.display = 'table-row'; 
+      cigaretteStartedRow.style.display = 'table-row'; 
+    } else {
+      cigaretteSticksRow.style.display = 'none'; 
+      cigaretteStartedRow.style.display = 'none';
+      document.getElementById('cigaretteStartedRow').value = '';
+      document.getElementById('sticksperday').value = '';
+      document.getElementById('cigaretteStartedDate').value = '';
+    }
   });
-});
+
+  noCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      vapeCheckbox.checked = false;
+      pipeCheckbox.checked = false;
+      document.getElementById('stoppedDate').value = '';
+    }
+  });
+
+  sometimesCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      vapeCheckbox.checked = false;
+      pipeCheckbox.checked = false;
+      document.getElementById('stoppedDate').value = '';
+    }
+  });
+
+  preferNotCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      vapeCheckbox.checked = false;
+      pipeCheckbox.checked = false;
+    }
+  });
+
+
+  [vapeCheckbox, pipeCheckbox].forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      uncheckOthers(this);
+      cigaretteSticksRow.style.display = 'none'; 
+      cigaretteStartedRow.style.display = 'none';
+      document.getElementById('cigaretteStartedRow').value = '';
+      document.getElementById('sticksperday').value = ''; 
+      document.getElementById('cigaretteStartedDate').value = ''; 
+    });
+  });
 
 }
 
+function generateEmail() {
+  const lastname = document.getElementById("lastname").value.trim().toLowerCase();
+  const firstname = document.getElementById("firstname").value.trim().toLowerCase().replace(/\s+/g, '');
 
+  if (lastname && firstname) {
+    const email = `${lastname}_${firstname}@plpasig.edu.ph`;
+    document.getElementById("email").value = email;
+  }
+}
 
-
+document.getElementById("lastname").addEventListener("input", generateEmail);
+document.getElementById("firstname").addEventListener("input", generateEmail);
 
 
 
@@ -484,62 +550,30 @@ function submitMedicalRecordForm(e) {
 
     const formData = new FormData(form);
 
-   // Get category
-if (document.getElementById("studentCheckbox").checked) {
-  formData.append("user", "student");
-  formData.append("category", "student");
-  formData.append("collegeDepartment", document.getElementById("collegeDepartment").value);
-  formData.append("collegeProgram", document.getElementById("collegeProgram").value);
-  formData.append("batch", document.getElementById("batch").value);
-} else if (document.getElementById("personnelCheckbox").checked) {
-  formData.append("user", "personnel");
+    // Get category
+    if (document.getElementById("studentCheckbox").checked) {
+      formData.append("user", "student");
+      formData.append("category", "student");
+      formData.append("collegeDepartment", document.getElementById("collegeDepartment").value);
+      formData.append("collegeProgram", document.getElementById("collegeProgram").value);
+      formData.append("batch", document.getElementById("batch").value);
+    } else if (document.getElementById("personnelCheckbox").checked) {
+      formData.append("user", "personnel");
 
-  // Determine category type for personnel
-  if (document.getElementById("teaching").checked) {
-      formData.append("category", "teaching");
-  } else if (document.getElementById("nonTeaching").checked) {
-      formData.append("category", "non-teaching");
-  } else {
-      formData.append("category", "unspecified"); // Add default value in case none is selected
-  }
+      // Determine category type for personnel
+      if (document.getElementById("teaching").checked) {
+          formData.append("category", "teaching");
+      } else if (document.getElementById("nonTeaching").checked) {
+          formData.append("category", "non-teaching");
+      } else {
+          formData.append("category", "unspecified"); // Add default value in case none is selected
+      }
 
-  formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
-}
+      formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
+    }
 
 
     // Patient's general data
-    formData.append("firstname", document.getElementById("firstname").value);
-    formData.append("middlename", document.getElementById("middlename").value);
-    formData.append("lastname", document.getElementById("lastname").value);
-    formData.append("gender", document.getElementById("gender").value);
-    formData.append("age", document.getElementById("age").value);
-    formData.append("birthdate", document.getElementById("birthdate").value);
-    formData.append("civilstatus", document.getElementById("civilstatus").value);
-    formData.append("religion", document.getElementById("religion").value);
-    formData.append("nationality", document.getElementById("nationality").value);
-    formData.append("contact", document.getElementById("contact").value);
-    formData.append("address", document.getElementById("address").value);
-    formData.append("city", document.getElementById("city").value);
-    formData.append("province", document.getElementById("province").value);
-    formData.append("zipcode", document.getElementById("zipcode").value);
-    formData.append("emergencyLastname", document.getElementById("emergencyLastname").value);
-    formData.append("emergencyFirstname", document.getElementById("emergencyFirstname").value);
-    formData.append("emergencymiddlename", document.getElementById("emergencymiddlename").value);
-    formData.append("relationship", document.getElementById("relationship").value);
-    formData.append("emergencycontact", document.getElementById("emergencycontact").value);
-    formData.append("emergencyaddress", document.getElementById("emergencyaddress").value);
-    formData.append("emergencycity", document.getElementById("emergencycity").value);
-    formData.append("emergencyprovince", document.getElementById("emergencyprovince").value);
-    formData.append("emergencyzipcode", document.getElementById("emergencyzipcode").value);
-    formData.append("identification", document.getElementById("identification").value);
-    formData.append("numberOfPreg", document.getElementById("numberOfPreg").value);
-    formData.append("numberOfMiscarriage", document.getElementById("numberOfMiscarriage").value);
-    formData.append("numberOfTermdeliveries", document.getElementById("numberOfTermdeliveries").value);
-    formData.append("numberOfPrematureDeliveries", document.getElementById("numberOfPrematureDeliveries").value);
-    formData.append("totalnumberofChildren", document.getElementById("totalnumberofChildren").value);
-    formData.append("oncePerWeekalcohol", document.getElementById("oncePerWeekalcohol").checked ? "1" : "");
-    formData.append("moreThanonceperweekalcohol", document.getElementById("moreThanonceperweekalcohol").checked ? "1" : "");
-    formData.append("totalperconsupAlchoText", document.getElementById("totalperconsupAlchoText").value.trim());
     const hasSurgical = document.getElementById("surgical").checked;
     const hasNoneSurgery = document.getElementById("noneSurgery").checked;
 
@@ -645,6 +679,14 @@ if (document.getElementById("studentCheckbox").checked) {
       formData.append('family_history[]', item);
     });
 
+    const emailInput = document.getElementById("email");
+    if (emailInput) {
+      emailInput.disabled = false; 
+      formData.append("email", emailInput.value.trim());
+      emailInput.disabled = true; 
+    }
+
+
     
 
     // Log FormData to check
@@ -652,35 +694,40 @@ if (document.getElementById("studentCheckbox").checked) {
       console.log(key + ': ' + value);
     }
 
-  
-    // Submit the form
-    fetch("../php/submit_patient.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text())  
-    .then(text => {
-        console.log("Raw response text:", text);
-        try {
-            const data = JSON.parse(text);
-            console.log("Parsed JSON:", data);
+// Submit the form
+fetch("submit_patient.php", {
+  method: "POST",
+  body: formData
+})
+.then(response => response.text())
+.then(text => {
+    console.log("Raw response text:", text);
+    try {
+        const data = JSON.parse(text);
+        console.log("Parsed JSON:", data);
 
-            if (data.status === "success") {
-              document.getElementById("SuccessPopup").style.display = "block";
-              const form = document.getElementById("medicalRecordForm");
-              if (form) form.reset();
-  
+        if (data.status === "success") {
+            // Show success popup and reset form
+            document.getElementById("SuccessPopup").style.display = "block";
+            const form = document.getElementById("medicalRecordForm");
+            if (form) form.reset();
+        } else {
+          if (data.message === 'duplicate_student_id') {
+              document.getElementById('DuplicatePopup').style.display = 'block';
+          } else if (data.message === 'duplicate_personnel_id') {
+              document.getElementById('DuplicatePopup').style.display = 'block';
           } else {
-              alert("Failed to submit: " + data.message);
+              alert("Error: " + data.message); // fallback for other errors
           }
-  
-        } catch (e) {
-            console.error("Invalid JSON response:", text);
         }
-    })
-    .catch(error => {
-        console.error("Request failed", error);
-    });
+    } catch (e) {
+        console.error("Invalid JSON response:", text);
+    }
+})
+.catch(error => {
+    console.error("Request failed", error);
+});
+
     
   }
 
