@@ -128,6 +128,25 @@ html {
   background-color: #1f1a5d;
 }
 
+.admin-login-link {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.admin-login-link a {
+  color: #1a1259;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.admin-login-link a:hover {
+  color: #000b5c;
+  text-decoration: underline;
+}
+
+
 .design1 {
   position: absolute;
   top: 0; 
@@ -215,9 +234,7 @@ footer{
   border: 2px solid #1a1259;
   border-radius: 50px;
   box-sizing: border-box;
-  margin-bottom: 30px;
-  top: -40px;
-  position: relative;
+  margin-top: 10px;
 }
 
 .time p {

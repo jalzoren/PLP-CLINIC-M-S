@@ -66,10 +66,6 @@ body {
   margin: 8px;
 }
 
-
-
-
-
 .time_in h2 {
   text-align: center;
   background-color: #afb4db;
@@ -87,10 +83,6 @@ body {
   flex: 1;
   gap: 15px
 }
-
-
-
-
 
 label {
   font-size: 20px;

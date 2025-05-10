@@ -15,12 +15,15 @@
           <img src="./pictures/logo.clear.png" alt="PLP Logo" class="logo" />
           <h1 class="title">PLP Clinic</h1>
           <h2 class="subtitle">Health Services Department</h2>
-          <div class="time-text" id="time-text"></div>
+          <div class="time">
+            <p class="clock" id="clock"></p>
+            <p class="weekday" id="weekday"></p>
+            <p class="date" id="date"></p>
+          </div>
         </div>
       </div>
 
     <div class="right">
-      
       <div class="login-box">
         <h1>LOG IN</h1>
         <form action="php/login.php" method="POST">
@@ -36,23 +39,22 @@
           </label>
 
           <button type="submit">LOG IN</button>
-          
+          <div class="admin-login-link">
+            <p><a href="index.html">Return to Time In</a></p>
+          </div>
         </form>
       </div>
     </div>
-
     <div class="design">
         <img src="pictures/design.png" class="design1">
         <img src="pictures/design.png" class="design2">
     </div>
   </section>
 
-    <footer>
+  <footer>
+      <p>health_services@plpasig.edu.ph</p>
+  </footer>
 
-        <p>health_services@plpasig.edu.ph</p>
-
-        </footer>
-
-        
+  <script src="js/time.js"></script>
 </body>
 </html>
