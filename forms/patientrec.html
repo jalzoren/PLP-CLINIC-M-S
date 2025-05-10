@@ -16,6 +16,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
     <link rel="stylesheet" href="../css/patientrestyle.css" />
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   </head>
   <body>
     <div class="sidebar">
@@ -29,7 +32,7 @@
       <ul class="nav-list">
         <li>
           <a href="../forms/staffdashboard.html" class="transition-link">
-            <i class="bx bxs-grid-alt bx-rotate-180"></i>
+            <i class="bx bxs-grid-alt"></i>
             <span class="link-name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
@@ -149,24 +152,7 @@
         sidebar.classList.toggle("active");
       };
 
-        $(document).ready(function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var patientId = urlParams.get('patient_id');
-
-            if (patientId) {
-                $.getJSON('patientrecfetch.php', { patient_id: patientId }, function(data) {
-                    if (data) {
-                        $('#patient-name').text(data.First_Name + ' ' + data.Middle_Name + ' ' + data.Last_Name);
-                        $('#patient-id').text(data.Patient_ID);
-                        $('#patient-dept').text(data.student_department || data.personnel_department);
-                        $('#patient-role').text(data.Student_ID ? 'Student' : 'Personnel');
-                        $('#patient-name-placeholder').text(data.First_Name + ' ' + data.Last_Name);
-                    } else {
-                        alert('Patient data not found.');
-                    }
-                });
-            }
-        });
+       
       document
         .getElementById("load-btn")
         .addEventListener("click", function () {

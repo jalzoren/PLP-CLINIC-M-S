@@ -16,7 +16,6 @@ body {
   overflow-y: auto;
 }
 
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -27,7 +26,7 @@ body {
   padding: 6px 14px;
   transition: all 0.5s ease;
   box-shadow: 1px 0 20px rgba(0, 0, 0, 0.20);
-  z-index: 2;
+  z-index: 10000;
 
 }
 
@@ -126,7 +125,7 @@ body {
     opacity: 0;
     pointer-events: none;
     display: block;
-    z-index: 9999;
+    z-index: 10001;
   }
 
 
@@ -150,6 +149,8 @@ body {
   opacity: 1;
   top: 50%;
 }
+
+
 
 
 .sidebar ul li a {
@@ -192,7 +193,6 @@ body {
   background-color: #1a1259;
   color: #fff;
 }
-
 /* HEADER CONTENT */
 
   

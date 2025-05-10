@@ -61,10 +61,7 @@ a{
     transition: all 0.5s ease;
   }
 
-.logo-content .logo i {
-  font-size: 28px;
-  margin-right: 1px;
-}
+
 
 .logo-content .logo .logo-name {
   font-size: 30px;
@@ -273,7 +270,6 @@ a{
 }
 
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   background-color: #fdfdfd;
 }
@@ -334,17 +330,7 @@ body {
   display: flex;
 }
 
-i {
-  margin-top: 5px;
-  font-size: 20px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: transform 0.2s ease; 
-}
 
-i:hover {
-  transform: scale(1.1);
-}
 
 span{
   font-weight: 400;
