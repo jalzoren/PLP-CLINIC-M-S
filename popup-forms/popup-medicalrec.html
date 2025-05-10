@@ -6,13 +6,13 @@
     <title>Medical Records / PLP Clinic Monitoring System</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
+    <link rel="stylesheet" href="popup-medicalrecstyle.css?v=1.0.1" />
     
   </head>
 
   <body>
 
-    <form id="medicalRecordForm" action="../popup-forms/popup-medicalrec.html" method="POST">
+    <form id="medicalRecordForm" action="popup-medicalrec.html" method="POST">
         
     <!-- Pop-up container for category -->
     <div class="form-content" id="popupContainer">
@@ -210,7 +210,12 @@
                               <td>
                                   <label for="zipcode">Zip Code</label>
                                   <input type="number" id="zipcode" name="zipcode" placeholder="Enter Zip Code" />
-                              </td>    
+                              </td>
+                              
+                              <td>
+                                <label for="email">Email</label>
+                                <input type="text" id="email" name="email" disabled/>
+                              </td>
                           </tr>
                       </table>
       
@@ -780,20 +785,44 @@
       </div>
     </div>
 
+    <div id="DuplicatePopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>There's already Identification Number!!</h3>
+        <button type="button" onclick="closeDuplicationPopup()">OK</button>
+      </div>
+    </div>
 
-    <script>
-    function closePopup() {
-    document.getElementById('popup-container').style.display = 'none';
+    <div id="SurgicalPopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>You must specify your surgical history or select 'None' to continue.</h3>
+        <button type="button" onclick="closeSurgicalPopup()">OK</button>
+      </div>
+    </div>
+    
+    <div id="SmokingPopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>Please select your smoking status before continuing.</h3>
+        <button type="button" onclick="closeSmokingPopup()">OK</button>
+      </div>
+    </div>
 
-    fetch('../php/medrecsfetch.php')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('patient-table-body').innerHTML = data;
-        })
-        .catch(error => console.error('Error fetching table:', error));
-}</script>
+    <div id="DrugsPopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>PPlease answer the drug use question before continuing.</h3>
+        <button type="button" onclick="closeDrugsPopup()">OK</button>
+      </div>
+    </div>
 
-    <script src="../js/popup-medical.js" defer></script>
+    <div id="AlcoholPopup" class="popup" style="display: none;">
+      <div class="popup-content">
+        <h3>Please answer the alcohol consumption question before continuing.</h3>
+        <button type="button" onclick="closeAlcoholPopup()">OK</button>
+      </div>
+    </div>
+    
+
+    <script src="popup-medical.js?v=1.0" defer></script>
+
       </body>
   
 </html>

@@ -126,14 +126,10 @@
       </div>
 
       <div class="container">
-        <table>
+        <table id="borrowedItemsTable">
           <thead>
             <tr>
               <th>No.</th>
-              <th>Identification Number</th>
-              <th>Full Name</th>
-              <th>Category</th>
-              <th>Department/Course Yr. & Sec.</th>
               <th>Date Borrowed</th>
               <th>Date Returned</th>
               <th>Borrowed Item<br />(specify)</th>
@@ -143,19 +139,8 @@
               <th>Photo<br />(Returned)</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
+          <tbody id="borrowedItemsBody"></tbody>
+          
           </tbody>
         </table>
       </div>
@@ -202,5 +187,91 @@
 
       updateGreeting();
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tbody = document.getElementById("borrowedItemsBody");
+  const itemsPerPage = 5;
+  let currentPage = 1;
+  let allItems = [];
+
+  function renderTablePage(page) {
+    tbody.innerHTML = "";
+
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedItems = allItems.slice(start, end);
+
+    if (paginatedItems.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8">No data available.</td></tr>`;
+      return;
+    }
+
+    paginatedItems.forEach((item, index) => {
+      let borrowedImg = item.Photo_Borrowed || 'no-image.png';
+      let returnedImg = item.Photo_Returned || 'no-image.png';
+
+      const row = `<tr>
+      <td>${start + index + 1}</td>
+      <td>${item.Date_Borrowed || "-"}</td>
+      <td>${item.Date_Returned || "-"}</td>
+      <td>${item.Item_Name}</td>
+      <td>${item.Quantity}</td>
+      <td>
+        ${item.Status === 'Returned-Undamaged' ? 'Returned (Good)' :
+          item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
+          item.Status || '-'}
+      </td>
+      <td><img src="../uploads/${borrowedImg}" width="60"></td>
+      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60">` : 'Not yet returned'}</td>
+    </tr>`;
+      tbody.innerHTML += row;
+    });
+  }
+
+  function goToPage(page) {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+
+    if (page === 'prev') {
+      if (currentPage > 1) currentPage--;
+    } else if (page === 'next') {
+      if (currentPage < totalPages) currentPage++;
+    } else {
+      currentPage = page;
+    }
+
+    updatePaginationButtons();
+    renderTablePage(currentPage);
+  }
+
+  function updatePaginationButtons() {
+    const buttons = document.querySelectorAll(".page-btn");
+    buttons.forEach(btn => {
+      if (!isNaN(btn.textContent)) {
+        btn.classList.toggle("active", parseInt(btn.textContent) === currentPage);
+      }
+    });
+  }
+
+  // Fetch data from backend
+  fetch("../php/fetch_borrowed_items.php?patient_id=1")
+    .then(res => res.json())
+    .then(data => {
+      allItems = data;
+      renderTablePage(currentPage);
+    })
+    .catch(err => {
+      console.error("Error fetching data:", err);
+      tbody.innerHTML = `<tr><td colspan="8">Error loading data</td></tr>`;
+    });
+
+  // Expose to global for button onclicks
+  window.goToPage = goToPage;
+});
+
+</script>
+
+
+
   </body>
 </html>

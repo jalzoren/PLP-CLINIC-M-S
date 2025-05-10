@@ -29,6 +29,20 @@ body {
 
 }
 
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 78px;
+  background: #fafafa;
+  padding: 6px 14px;
+  transition: all 0.5s ease;
+  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.20);
+  z-index: 10000;
+
+}
+
 .sidebar.active {
   width: 240px;
 }
@@ -192,7 +206,6 @@ body {
   background-color: #1a1259;
   color: #fff;
 }
-
 .header-content {
   position: absolute;
   height: 100%;

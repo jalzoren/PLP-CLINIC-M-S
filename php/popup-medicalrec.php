@@ -11,44 +11,68 @@ class PatientDataHandler {
 
 
     public function saveStudentOrPersonnel($data, $usercategory) {
-        if ($usercategory === 'student') {
-            $stmt = $this->conn->prepare("
-                INSERT INTO student_patient (Student_ID, Patient_ID, Department, Program, Batch)
-                VALUES (?, ?, ?, ?, ?)
-            ");
-            $stmt->bind_param(
-                "sisss",
-                $data['identification'], $this->patientID,
-                $data['collegeDepartment'], $data['collegeProgram'], $data['batch']
-            );
-        } else {
-            $teaching = isset($data['teaching']) ? $data['teaching'] : null;
-            $nonTeaching = isset($data['nonTeaching']) ? $data['nonTeaching'] : null;
+        try {
+            // Duplicate checking logic
+            if ($usercategory === 'student') {
+                $stmt = $this->conn->prepare("SELECT Student_ID FROM student_patient WHERE Student_ID = ?");
+                $stmt->bind_param("s", $data['identification']);
+                $stmt->execute();
+                $stmt->store_result();
     
-            $type = ($teaching && $nonTeaching) ? 'both' :
-                    ($teaching ? 'teaching' : ($nonTeaching ? 'non-teaching' : 'unspecified'));
+                if ($stmt->num_rows > 0) {
+                    $stmt->close();
+                    return ['status' => 'error', 'message' => 'duplicate_student_id'];
+                }
+                $stmt->close();
     
-            $departmentPersonnel = isset($data['departmentPersonnel']) ? $data['departmentPersonnel'] : '';
-           
-            if (!is_string($departmentPersonnel)) {
-                throw new Exception("Invalid department data.");
+                $stmt = $this->conn->prepare("
+                    INSERT INTO student_patient (Student_ID, Patient_ID, Department, Program, Batch)
+                    VALUES (?, ?, ?, ?, ?)
+                ");
+                $stmt->bind_param(
+                    "sisss",
+                    $data['identification'], $this->patientID,
+                    $data['collegeDepartment'], $data['collegeProgram'], $data['batch']
+                );
+            } else {
+                $stmt = $this->conn->prepare("SELECT Personnel_ID FROM personnel_patient WHERE Personnel_ID = ?");
+                $stmt->bind_param("s", $data['identification']);
+                $stmt->execute();
+                $stmt->store_result();
+    
+                if ($stmt->num_rows > 0) {
+                    $stmt->close();
+                    return ['status' => 'error', 'message' => 'duplicate_personnel_id'];
+                }
+                $stmt->close();
+    
+                $type = isset($data['teaching']) ? 'teaching' :
+                        (isset($data['nonTeaching']) ? 'non-teaching' : 'unspecified');
+    
+                $dept = $data['departmentPersonnel'] ?? '';
+    
+                $stmt = $this->conn->prepare("
+                    INSERT INTO personnel_patient (Personnel_ID, Patient_ID, Department)
+                    VALUES (?, ?, ?)
+                ");
+                $stmt->bind_param("sis", $data['identification'], $this->patientID, $dept);
             }
     
-            $stmt = $this->conn->prepare("
-                INSERT INTO personnel_patient (Personnel_ID, Patient_ID, Department)
-                VALUES (?, ?, ?)
-            ");
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to insert student/personnel info: " . $stmt->error);
+            }
     
-            $stmt->bind_param(
-                "sis",
-                $data['identification'], $this->patientID, $departmentPersonnel
-            );
+            $stmt->close();
+            return ['status' => 'success'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage()];
         }
-    
-        $stmt->execute();
-        $stmt->close();
     }
+    
+ 
 
+    
+    
     // Insert patient general data
     public function savePatient($data) {
         $stmt = $this->conn->prepare("
@@ -71,9 +95,29 @@ class PatientDataHandler {
     }
 
 
+    public function saveUserAccount(array $data): void {
+        $patientID = $this->patientID;
+    
+        if (empty($data['email']) || empty($data['identification'])) {
+            throw new Exception("Email and Identification number are required.");
+        }
+    
+        $email = trim($data['email']);
+        $role = 'user';
+        $rawPassword = trim($data['identification']); 
+        $password = password_hash($rawPassword, PASSWORD_BCRYPT);
+    
+        // Insert user record
+        $stmt = $this->conn->prepare("INSERT INTO users (Patient_ID, Role, Email, Password) VALUES (?, ?, ?, ?)");
 
-
-
+        $stmt->bind_param("isss", $patientID, $role, $email, $password);
+    
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to insert into user table: " . $stmt->error);
+        }
+    
+        $stmt->close();
+    }
 
 
     // Insert emergency contact

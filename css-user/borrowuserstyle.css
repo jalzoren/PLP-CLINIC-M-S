@@ -51,8 +51,9 @@ body {
   background: #fafafa;
   padding: 6px 14px;
   transition: all 0.5s ease;
-  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.20);
   z-index: 10000;
+
 }
 
 .sidebar.active {
@@ -68,6 +69,7 @@ body {
   cursor: pointer;
   pointer-events: auto;
   transition: all 0.5s ease;
+
 }
 
 .sidebar.active .logo-content .logo {
@@ -77,9 +79,9 @@ body {
 }
 
 .sidebar.active .logo-content .logo .logo-name {
-  opacity: 1;
-  transition: all 0.5s ease;
-}
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
 
 .logo-content .logo i {
   font-size: 28px;
@@ -92,11 +94,12 @@ body {
   text-align: center;
   opacity: 0;
   margin-right: 5px;
+
 }
 
 .logo {
-  padding-left: 5px;
-}
+    padding-left: 5px;
+  }
 
 .sidebar #btn {
   position: absolute;
@@ -129,43 +132,52 @@ body {
   border-radius: 12px;
   font-weight: 400;
   margin: 0 5px 12px 5px;
+
 }
 
 .sidebar ul li .tooltip {
-  position: absolute;
-  height: 35px;
-  width: 170px;
-  background: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  left: 90px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 6px;
-  line-height: 35px;
-  text-align: center;
-  transition: all 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-  display: block;
-  z-index: 10001;
-}
+    position: absolute;
+    height: 35px;
+    width: 170px;
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    left: 90px; 
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    line-height: 35px;
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+    z-index: 10001;
+  }
 
-.sidebar ul li:hover .tooltip {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 9999;
-}
 
-.sidebar.active ul li .tooltip {
-  left: 240px;
-  z-index: 999;
-}
+
+  
+  .sidebar ul li:hover .tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+
+  }
+  
+  .sidebar.active ul li .tooltip {
+    left: 240px; 
+    z-index: 999;
+  }
+  
 
 .sidebar ul li:hover .tooltip {
   transition: all 0.5s ease;
   opacity: 1;
   top: 50%;
 }
+
+
+
 
 .sidebar ul li a {
   color: #1a1259;
@@ -195,6 +207,7 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: all 0.5s ease;
+
 }
 
 .sidebar.active .link-name {
@@ -269,7 +282,6 @@ body {
   width: calc(80% - -205px);
   left: 90px;
   height: calc(100vh - 90px);
-  overflow-y: auto;
   transition: all 0.5s ease;
   z-index: 101;
 }
@@ -419,6 +431,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   border: 2px solid #1a1259;
+  
 }
 
 thead {
