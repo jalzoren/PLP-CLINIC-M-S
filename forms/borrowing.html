@@ -83,11 +83,13 @@
 
     <div class="header-content">
       <div class="text">
-        BORROWING FORM
+        BORROWED ITEM RECORDS
       </div>
     </div>
 
     <div class="home-content">
+
+      <!--
       <div class="status-container">
         <aside class="status-box">
           <p><strong>STATUS</strong></p>
@@ -100,6 +102,7 @@
           </ul>
         </aside>
       </div>
+      -->
 
       <div class="controls-container">
         
@@ -156,6 +159,15 @@
             </tr>
           </tbody>
         </table>
+
+        
+      </div>
+       <div class="pagination">
+        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
+        <button class="page-btn active" onclick="goToPage(1)">1</button>
+        <button class="page-btn" onclick="goToPage(2)">2</button>
+        <button class="page-btn" onclick="goToPage(3)">3</button>
+        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
       </div>
     </div>
 
