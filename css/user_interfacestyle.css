@@ -47,9 +47,8 @@ body {
 }
 
 .logo_img {
-  height: 210px;
-  width: 500px;
-  margin-top: -100px;
+  height: 180px;
+  width: 460px;
 }
 
 .time {
@@ -59,21 +58,18 @@ body {
   border: 2px solid #1a1259;
   border-radius: 50px;
   box-sizing: border-box;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .time p {
   margin: 8px;
+  font-size: 18px;
 }
 
-.time_in h2 {
-  text-align: center;
-  background-color: #afb4db;
-  color: #1a1259;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
+.time_in {
+  width: 600px;
 }
+
 
 .time_in .row1 {
   display: flex;
@@ -84,89 +80,55 @@ body {
   gap: 15px
 }
 
+h2{
+  font-size: 30px;;
+  text-align: center;
+  color: #000b5c;
+}
+
 label {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 600;
   color: #000b5c;
 }
 
 
-
-
-
-.row_category {
-  width: 46%;
-}
-
-.row_reason {
-  width: 46%;
-}
-
-.time_in .row1 input,
-.time_in .row1 select {
+.time_in .row_id input{
   width: 100%;
-  height: 55px;
-
-  padding: 5px;
-  padding-left: 15px;
-  font-size: 70px;
+  height: 60px;
 
   border-radius: 5px;
-  border: 1px solid black;
-}
+  border: 1px solid #000b5c;
 
-.time_in .row_id input,
-.time_in .row1 select {
-  width: 100%;
-  height: 90px;
-
-  padding: 5px;
-  padding-left: 15px;
-  font-size: 16px;
-
-  border-radius: 5px;
-  border: 1px solid black;
-  margin-top: 10px;
-  margin-bottom: 10px;
-
-  font-size: 50px;
-  font-weight: 700;
+  padding: 10px;
+  font-size: 30px;
+  font-weight: 600;
   align-items: center;
   justify-content: center;
   text-align: center;
-
-
 }
 
-.time_in .row2 select {
+.time_in .row_reason select{
   width: 100%;
-  height: 55px;
-  font-size: 16px;
+  height: 60px;
+
+  padding-left: 15px;
+  font-size: 20px;
+
   border-radius: 5px;
-  color: #1a1259;
-  padding: 5px;
-  padding-left: 10px;
+  border: 1px solid #000b5c;
 }
 
-.time_in .other {
-  text-align: center;
+.time_in .other textarea  {
   width: 100%;
-}
+  padding: 15px;
+  resize: vertical;
+  font-size: 20px;
 
-.time_in .other label {
-  position: relative;
-  left: 0;
-}
-
-.time_in .other textarea {
-  width: 100%;
-  height: 55px;
-  padding: 5px;
-  padding-left: 10px;
   border-radius: 5px;
-  border: 1px solid black;
-  font-size: 15px;
+  border: 1px solid #000b5c;
 }
+
 
 .time_in button {
   width: 100%;
@@ -204,43 +166,7 @@ label {
   color: #1a1259;
 }
 
-.user-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 32px;
-  color: #122298bd;
-  z-index: 1000;
-  cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
-  text-decoration: none;
-}
-
-.user-icon:hover,
-.user-icon:focus {
-  transform: scale(1.2);
-  color: #000b5c;
-}
-
-.user-icon:visited {
-  color: #122298bd;
-}
-
-.user-icon a {
-  color: #122298bd;
-  text-decoration: none;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.user-icon a:visited {
-  color: #122298bd;
-}
-
-.user-icon a:hover {
-  transform: scale(1.2);
-  color: #000b5c;
-}
-
+/*
 .popup {
   display: flex;
   justify-content: center;
@@ -293,4 +219,4 @@ label {
 
 .popup input[type="button"]:hover {
   background-color: #012156;
-}
+}*/

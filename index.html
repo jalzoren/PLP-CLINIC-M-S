@@ -23,59 +23,61 @@
   <div class="time_in">
     <form class="transition-link" method="post">
       <div class="row1">
+        <h2>TIME IN</h2>
         <div class="row_id">
           <label>Identification Number:</label> <br>
-          <input type="number" name="id_number" id="id_number"   placeholder="Enter ID Number  " required ><br>
+          <input type="number" name="id_number" id="id_number" placeholder="Enter ID Number" required ><br>
         </div>
-        <a href="forms/timein.html"><button type="button" id="timeInBtn" onclick="validateForm()">Submit</button></a></p>
+
+        <div class="row_reason">
+            <label>Reason for Visit:</label><br>
+            <select name="yearLevel" id="yearLevel" required>
+              <option value="" disabled selected>Select Reason</option>
+              <option value="Headache">Headache</option>
+              <option value="Toothache">Toothache</option>
+              <option value="Menstrual cramps">Menstrual cramps</option>
+              <option value="Asthma">Asthma attack or difficulty breathing</option>
+              <option value="Borrow">Borrow</option>
+              <option value="Return">Return</option>
+              <option value="Other Reason">Other Reason</option>
+            </select>
+        </div>
+
+        <div class="other">
+          <label>Other Reason:</label><br>
+          <textarea rows="2" id="remarks"  name="other_reason" placeholder="Other Reason"></textarea>
+        </div>
+
+        <button type="submit" id="timeInBtn" onclick="validateForm()">Submit</button>
+
         <div class="admin-login-link">
           <p>Access your account? Click here to <a href="login.html">Login</a></p>
         </div>
+
       </div>
     </form>
 
+
     <script src="js/time.js"></script>
     <script>
-   // Fade-in on page load
-  window.addEventListener("DOMContentLoaded", () => {
-    document.body.classList.add("loaded");
-  });
-
-  document.querySelectorAll('a.transition-link').forEach(link => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault(); // stop the default behavior
-      const target = this.href;
-
-      document.body.classList.remove("loaded");
-      document.body.classList.add("fade-out");
-
-      setTimeout(() => {
-        window.location.href = target;
-      }, 500); // match the CSS transition time
-    });
-  });
-
-
-
-  function validateForm() {
-    const id_number = document.getElementById("id_number").value.trim();
-    const category = document.getElementById("category").value.trim();
-    const department = document.getElementById("department").value.trim();
-    const yearLevel = document.getElementById("yearLevel").value.trim();
-    const remarks = document.getElementById("remarks").value.trim();
-
-    if (!id_number || !category || !department || !yearLevel || !remarks) {
-      document.getElementById("emptyFieldPopup").classList.add("show");
-      return false;
-    }
-
-    document.getElementById("studentReg").submit();
-  }
-
-  function closepopup() {
-    document.getElementById("emptyFieldPopup").classList.remove("show");
-  }
-
+       // Fade-in on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("loaded");
+      });
+    
+      document.querySelectorAll('a.transition-link').forEach(link => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault(); // stop the default behavior
+          const target = this.href;
+        
+          document.body.classList.remove("loaded");
+          document.body.classList.add("fade-out");
+        
+          setTimeout(() => {
+            window.location.href = target;
+          }, 500); // match the CSS transition time
+        });
+      });
 
     </script>
 </body>

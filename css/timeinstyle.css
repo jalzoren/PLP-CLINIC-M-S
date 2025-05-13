@@ -67,19 +67,14 @@ body {
 }
 
 h2{
-    color: #000b5c;
+  color: #000b5c;
+  margin-bottom: 10px;
 }
 
-
-
-.time_in h2 {
-  text-align: center;
-  background-color: #afb4db;
-  color: #1a1259;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
+.time_in{
+  background-color: #8dabdd;
 }
+
 
 .time_in .row1 {
   display: flex;
@@ -91,9 +86,6 @@ h2{
 }
 
 
-
-
-
 label {
   font-size: 20px;
   font-weight: 800;
@@ -101,19 +93,10 @@ label {
   text-align: left;
 }
 
-
-
-
-
-.row_category {
-  width: 100%;
-}
-
 .row_reason {
   width: 100%;
 }
 
-input,
 select {
   width: 100%;
   height: 55px;
@@ -126,8 +109,8 @@ select {
   border: 1px solid black;
 }
 
-.time_in .row_id input,
-.time_in .row1 select, .time_in .row1 textarea  {
+.time_in .row1 select, 
+.time_in .row1 textarea  {
     width: 550px;
     height: 55px;
     padding: 5px;
@@ -147,15 +130,6 @@ select {
 
 }
 
-.time_in .row2 select {
-  width: 100%;
-  height: 55px;
-  font-size: 16px;
-  border-radius: 5px;
-  color: #1a1259;
-  padding: 5px;
-  padding-left: 10px;
-}
 
 .time_in .other {
   text-align: left;
@@ -196,64 +170,10 @@ select {
   transition: 0.4s;
 }
 
-.admin-login-link {
-  text-align: center;
-  font-size: 14px;
-}
-
-.admin-login-link a {
-  color: #1a1259;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.admin-login-link a:hover {
-  color: #000b5c;
-  text-decoration: underline;
-}
-
 
 .time_in button:hover {
   background-color: white;
   color: #1a1259;
-}
-
-.user-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 32px;
-  color: #122298bd;
-  z-index: 1000;
-  cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
-  text-decoration: none;
-}
-
-.user-icon:hover,
-.user-icon:focus {
-  transform: scale(1.2);
-  color: #000b5c;
-}
-
-.user-icon:visited {
-  color: #122298bd;
-}
-
-.user-icon a {
-  color: #122298bd;
-  text-decoration: none;
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.user-icon a:visited {
-  color: #122298bd;
-}
-
-.user-icon a:hover {
-  transform: scale(1.2);
-  color: #000b5c;
 }
 
 .popup {
