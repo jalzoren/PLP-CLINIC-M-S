@@ -8,7 +8,7 @@
   <title>PLP Clinic - Time In</title>
 
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <div class="background"></div>
@@ -32,7 +32,7 @@
 
         <div class="row_reason">
             <label>Reason for Visit:</label><br>
-            <select name="reason" id="reason" required>
+            <select name="reason" id="reason">
               <option value="" disabled selected>Select Reason</option>
               <option value="Headache">Headache</option>
               <option value="Toothache">Toothache</option>
@@ -44,7 +44,7 @@
             </select>
         </div>
 
-        <div class="other">
+        <div class="other" style="display: none;">
           <label>Other Reason:</label><br>
           <textarea rows="2" id="remarks"  name="other_reason" placeholder="Other Reason"></textarea>
         </div>
@@ -59,23 +59,9 @@
     </form>
   </div>
 
-
-  <div id="emptyFieldPopup" class="popup" style="display: block;">
-  <div class="popup-content">
-      <p>ID Number Not Found!</p>
-      <button type="button" onclick="closeEmptyFieldPopup()">OK</button>
-    </div>
-  </div>
-  <div id="SuccessPopup" class="popup" style="display: none;">
-    <div class="popup-content">
-      <h3>Nakapag Timed In ka na</h3>
-      <button type="button" onclick="closeSuccessPopup()">OK</button>
-    </div>
-  </div>
-  
-
     
     <script src="js/time_in.js"></script>
+    <script src="js/time.js"></script>
     <script>
        // Fade-in on page load
       window.addEventListener("DOMContentLoaded", () => {
@@ -95,18 +81,30 @@
           }, 500); // match the CSS transition time
         });
       });
-    </script>
-    <script>
-      function openForm() {
-          document.getElementById("popup_message").classList.add("show");
-          document.getElementById("overlay").classList.add("show");
+
+      // POP UP MESSAGE
+
+      function closeEmptyFieldPopup() {
+        document.getElementById("emptyFieldPopup").style.display = "none";
       }
-  
-      function closeForm() {
-          document.getElementById("popup_message").classList.remove("show");
-          document.getElementById("overlay").classList.remove("show");
-          
+    
+      function closeSuccessPopup() {
+        document.getElementById("SuccessPopup").style.display = "none";
+        // Optionally reload or redirect after closing
+        //window.location.href = "index.html";
       }
-    </script>
+
+      // OTHER REASON
+
+      document.getElementById("reason").addEventListener("change", function () {
+        const otherDiv = document.querySelector(".other");
+        if (this.value === "Other Reason") {
+          otherDiv.style.display = "block";
+        } else {
+          otherDiv.style.display = "none";
+          document.getElementById("remarks").value = ""; // clear if hidden
+        }
+      });
+  </script>
 </body>
 </html>
