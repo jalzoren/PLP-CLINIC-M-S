@@ -95,7 +95,7 @@ function showLayoutBox() {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
+  .then(response => response.json())  // Change to parse JSON
   .then(result => {
     if (result.status === 'success') {
       const reader = new FileReader();
@@ -103,12 +103,12 @@ function showLayoutBox() {
         const imageURL = e.target.result;
 
         const medicine = {
-          id: result.id,
-          image: imageURL,
+          id: result.id,        // Store the ID from the server
+          image: imageURL,      // just for frontend display
           name: name,
           type: type,
           quantity: quantity,
-          description: description
+          description: description // only for frontend, not sent to backend
         };
 
         medicines.push(medicine);
@@ -121,7 +121,7 @@ function showLayoutBox() {
         document.getElementById('SuccessPopup').style.display = 'flex';
       };
 
-      reader.readAsDataURL(imageInput.files[0]);
+      reader.readAsDataURL(imageInput.files[0]); // still read locally for UI display
     } else {
       alert("Error saving to database: " + result.message);
     }
