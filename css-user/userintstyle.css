@@ -362,7 +362,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 10px;
+    gap: 50px;
 
   }
 
@@ -373,8 +373,8 @@ body {
 
   .status-row {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: space-evenly;
+    gap: 90px;
   }
   
   .status-column {

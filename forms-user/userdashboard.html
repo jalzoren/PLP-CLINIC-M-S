@@ -77,7 +77,12 @@
     <div class="header-content">
       <div class="text">BORROW AND RETURN HISTORY</div>
       <div class="email-container">
-        <div class="email">loremipsumtry@plpasig.edu.ph</div>
+
+        <div class="email">
+
+
+          <p><strong>Email:</strong> <span id="patient-email">Loading...</span></p> <!-- New Email field -->
+        </div>
         <div class="icon"><i class="fas fa-user-circle"></i></div>
       </div>
     </div>
@@ -86,23 +91,25 @@
       <div class="header-name" id="greeting"></div>
 
       <div class="status-and-controls">
-        <div class="status-container">
-          <aside class="status-box">
-            <div class="status-row">
-              <div class="status-column">
-                <p><strong>Patient Name:</strong> Lorem Ipsum</p>
-                <p><strong>ID Number:</strong> 00-00000</p>
-              </div>
-              <div class="status-column">
-                <p><strong>Role:</strong> Student</p>
-                <p><strong>Department:</strong> College of C</p>
-              </div>
-              <div class="status-column">
-                <p><strong>Sex:</strong> Female</p>
-              </div>
-            </div>
-          </aside>
-        </div>
+        <div class="status-container" id="patient-info">
+  <aside class="status-box">
+    <div class="status-row">
+      <div class="status-column">
+        <p><strong>Patient Name:</strong> <span id="patient-name">Loading...</span></p>
+        <p><strong>Birthdate:</strong> <span id="patient-id">Loading...</span></p>
+      </div>
+      <div class="status-column">
+        <p><strong>Role:</strong> <span id="patient-role">Loading...</span></p>
+        <p><strong>Age:</strong> <span id="patient-age">Loading...</span></p>
+
+      </div>
+      <div class="status-column">
+        <p><strong>Sex:</strong> <span id="patient-sex">Loading...</span></p>
+      </div>
+    </div>
+  </aside>
+</div>
+
 
         <div class="controls-container vertical-controls">
           <div class="form-group">
@@ -154,6 +161,61 @@
       </div>
     </div>
 
+
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  fetch('../php/userinterfacefetch.php')
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const p = data.patient;
+
+        document.getElementById('patient-name').textContent =
+          `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
+        document.getElementById('patient-id').textContent = p.Birthdate;
+        document.getElementById('patient-role').textContent = p.Category;
+        document.getElementById('patient-sex').textContent = p.Sex;
+        document.getElementById('patient-age').textContent = data.age;
+        document.getElementById('patient-email').textContent = data.email;
+
+        // Update greeting
+        updateGreeting(`${p.First_Name} ${p.Last_Name}`);
+      } else {
+        document.getElementById('patient-info').innerHTML =
+          `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching patient data:", error);
+      document.getElementById('patient-info').innerHTML =
+        "<p>Error loading data. Please try again later.</p>";
+    });
+
+  function updateGreeting(name) {
+    const now = new Date();
+    const philTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
+    );
+    const hours = philTime.getHours();
+
+    let greeting;
+    if (hours >= 5 && hours < 12) {
+      greeting = "Good Morning";
+    } else if (hours >= 12 && hours < 18) {
+      greeting = "Good Afternoon";
+    } else {
+      greeting = "Good Evening";
+    }
+
+    document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+  }
+});
+</script>
+
+
+</script>
+
+
     <script>
       let btn = document.querySelector("#logo");
       let sidebar = document.querySelector(".sidebar");
@@ -162,29 +224,7 @@
         sidebar.classList.toggle("active");
       };
 
-      function updateGreeting() {
-        const now = new Date();
-        const philTime = new Date(
-          now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
-        );
-        const hours = philTime.getHours();
-
-        let greeting;
-        if (hours >= 5 && hours < 12) {
-          greeting = "Good Morning";
-        } else if (hours >= 12 && hours < 18) {
-          greeting = "Good Afternoon";
-        } else {
-          greeting = "Good Evening";
-        }
-
-
-        document.getElementById(
-          "greeting"
-        ).innerText = `${greeting}, Lorem Ipsum!`;
-      }
-
-      updateGreeting();
+      
     </script>
 
 <script>
