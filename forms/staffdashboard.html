@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard / PLP Clinic Monitoring System</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../css/dashbstyle.css">
     <link rel="icon" type="image/png" href="../pictures/logo.png">
 
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -124,7 +125,7 @@
                         Line Graph Visit Summary
                     </div>
 
-                    <div class="timedin_table">
+                    <div class="timedin_table" id="timedinTableBody">
                         <table>
                             <caption>Currently Time In</caption>
                             <thead>
@@ -134,18 +135,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Miah</td>
-                                    <td>0/0/0 00:00</td>
-                                    <td><button class="timedout">Time Out</button></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>Miah</td>
-                                    <td>0/0/0 00:00</td>
-                                    <td><button class="timedout">Time Out</button></td>
-                                </tr>
+                            <tbody >
+                                
                             </tbody>
                         </table>
                     </div>
@@ -204,9 +195,9 @@
         btn.onclick = function() {
             sidebar.classList.toggle("active");
         }
-    </script>
 
-    <script>
+        // EMERGENCY HOTLINES POPUP 
+
         function openForm() {
             document.getElementById("hotlines_table_popup").classList.add("show");
             document.getElementById("overlay").classList.add("show");
@@ -217,9 +208,9 @@
             document.getElementById("overlay").classList.remove("show");
             
         }
-    </script>
 
-    <script>
+        // TIME 
+
         function updateDateTime() {
             const now = new Date();
         
@@ -247,6 +238,61 @@
         // Run every second
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call
+
+        // VISIT RECORDS
+        function loadTimeInTable() {
+            fetch('../php/fetch_timedin.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('timedinTableBody');
+                    tbody.innerHTML = '';
+                
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="3">No visitors currently timed in.</td></tr>';
+                        return;
+                    }
+                
+                    data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${row.name}</td>
+                            <td>${row.time_in}</td>
+                            <td>
+                                <button class="timedout" onclick="timeOut(${row.visit_id})">Time Out</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    Swal.fire('Error', 'Failed to load time-in data.', 'error');
+                    console.error(error);
+                });
+        }
+
+        function timeOut(visitId) {
+            fetch('../php/time_out.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'visit_id=' + visitId
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result.trim() === 'success') {
+                    Swal.fire('Success', 'Visitor timed out successfully!', 'success');
+                    loadTimeInTable(); // Refresh the table
+                } else {
+                    Swal.fire('Error', result, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Error', 'Time out failed.', 'error');
+                console.error(error);
+            });
+        }
+
+        // Load table on page load
+        document.addEventListener('DOMContentLoaded', loadTimeInTable);
     </script>
 </body>
 </html>
