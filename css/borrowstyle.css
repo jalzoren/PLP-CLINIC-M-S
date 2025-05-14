@@ -468,3 +468,37 @@ background-color: #e6d2c4;
 }
 
 
+.pagination {
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+  margin-left: 60px;
+
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-btn {
+  padding: 10px 16px;
+  border: 2px solid #1a1259;
+  background-color: #f4f5fc;
+  color: #1a1259;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+  background-color: #1a1259;
+  color: white;
+}
+
+.page-btn.active {
+  background-color: #1a1259;
+  color: white;
+}
+
+
+
