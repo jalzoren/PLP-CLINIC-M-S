@@ -60,7 +60,7 @@
             <i class='bx bxs-book-content'></i>
           <span class="link-name">Inventory</span>
           </a>
-          <span class="tooltip">Medicine Inventory</span>
+          <span class="tooltip">Item Inventory</span>
       </li>
       
   </ul>
@@ -108,8 +108,8 @@
             <i class="bx bx-sort-alt-2"></i>
           </button>
   
-          <button class="add-med" onclick="showPopup()" id="addMedicineBtn">
-            Add Medicine
+          <button class="add-med" onclick="showPopup()" id="addItemBtn">
+            Add Item
           </button>
         </div>
       </div>
@@ -141,56 +141,54 @@
 
         
       
-  <div class="form-content" id="popupContainer">
-    <div class="new-data">
-      <div class="title-container">
-        <div class="title">MEDICINE INVENTORY</div>
-        <button class="close-btn" onclick="closePopup()">×</button>
+ <div class="form-content" id="popupContainer">
+  <div class="new-data">
+    <div class="title-container">
+      <div class="title">ITEM INVENTORY</div>
+      <button class="close-btn" onclick="closePopup()">×</button>
+    </div>
+
+
+    <div class="medical-fields">
+      <div class="field-group">
+        <label for="itemImage">Item Image</label>
+        <input type="file" id="itemImage" accept="image/*" />
       </div>
-  
-      <div class="medical-fields">
-        <div class="field-group">
-          <label for="medicineImage">Medicine Image</label>
-          <input type="file" id="medicineImage" accept="image/*" />
-        </div>
-  
-        <div class="field-group">
-          <label for="medicineName">Medicine Name</label>
-          <input type="text" id="medicineName" placeholder="Enter Medicine Name" />
-        </div>
-  
-        <div class="field-group">
-          <label for="medicineType">Type of Medicine</label>
-          <input type="text" id="medicineType" placeholder="Enter Type of Medicine" />
-        </div>
-  
-        <div class="field-group">
-          <label for="dosage">Dosage</label>
-          <input type="text" id="dosage" placeholder="Enter Dosage (e.g., 2 pills per day)" />
-        </div>
-  
-        <div class="field-group">
-          <label for="remarks">Remarks</label>
-          <textarea id="remarks" placeholder="Enter any remarks"></textarea>
-        </div>
-  
-        <div class="field-group">
-          <label for="quantityStock">Quantity in Stock</label>
-          <input type="number" id="quantityStock" placeholder="Enter Quantity in Stock" />
-        </div>
-  
-        <div class="field-group" style="grid-column: 1 / -1;">
-          <label for="description">Description</label>
-          <textarea id="description" placeholder="Enter Description of the Medicine"></textarea>
-        </div>
+
+      <div class="field-group">
+        <label for="itemName">Item Name</label>
+        <input type="text" id="itemName" placeholder="Enter Item Name" />
       </div>
-  
-      <div style="display: flex; justify-content: center;">
-        <button class="submit-button" onclick="showLayoutBox()">NEXT</button>
+
+      <div class="field-group">
+      <label for="itemType">Type of Item</label>
+      <select id="itemType">
+         <option value="" disabled selected>Select Item</option>
+        <option value="Supplies">Supplies</option>
+        <option value="PPE">PPE</option>
+        <option value="Equipment">Equipment</option>
+        <option value="First Aid">First Aid</option>
+      </select>
+    </div>
+
+      <div class="field-group">
+        <label for="itemStock">Quantity in Stock</label>
+        <input type="number" id="itemStock" placeholder="Enter Quantity in Stock" />
+      </div>
+
+
+      <div class="field-group" style="grid-column: 1 / -1;">
+        <label for="itemDescription">Description</label>
+        <textarea id="itemDescription" placeholder="Enter Description of the Item"></textarea>
       </div>
     </div>
+
+    <div style="display: flex; justify-content: center;">
+      <button class="submit-button" onclick="showLayoutBox()">NEXT</button>
+    </div>
   </div>
-  
+</div>
+
 
   <!-- View Medicine Popup (Hidden initially) -->
 
@@ -199,35 +197,30 @@
 <div id="viewPopup" class="form-content" style="display: none;">
   <div class="new-data">
     <div class="title-container">
-      <div class="title">VIEW MEDICINE DETAILS</div>
+      <div class="title">VIEW ITEM DETAILS</div>
       <button class="close-btn" onclick="closeViewPopup()">×</button>
     </div>
 
     <div class="medical-fields">
       <div class="field-group">
-        <label for="viewMedicineImage">Medicine Image</label>
-        <img id="viewMedicineImage" src="" alt="Medicine Image" style="max-width: 300%; height: auto;">
+        <label for="viewItemImage">Item Image</label>
+        <img id="viewItemImage" src="" alt="Item Image" style="max-width: 300%; height: auto;">
       </div>
 
       <div class="field-group">
-        <label for="viewMedicineName">Medicine Name</label>
-        <input id="viewMedicineName" type="text" readonly>
+        <label for="viewItemName">Item Name</label>
+        <input id="viewItemName" type="text" readonly>
       </div>
 
       <div class="field-group">
-        <label for="viewMedicineType">Type of Medicine</label>
-        <input id="viewMedicineType" type="text" readonly>
-      </div>
-
-      <div class="field-group">
-        <label for="viewDosage">Dosage</label>
-        <input id="viewDosage" type="text" readonly>
-      </div>
-
-      <div class="field-group">
-        <label for="viewRemarks">Remarks</label>
-        <textarea id="viewRemarks" readonly></textarea>
-      </div>
+      <label for="viewItemType">Type of Item</label>
+      <select id="viewItemType" disabled>
+        <option value="Supplies">Supplies</option>
+        <option value="PPE">PPE</option>
+        <option value="Equipment">Equipment</option>
+        <option value="First Aid">First Aid</option>
+      </select>
+    </div>
 
       <div class="field-group">
         <label for="viewQuantityStock">Quantity in Stock</label>
@@ -240,20 +233,30 @@
       </div>
     </div>
 
-
     <div style="display: flex; justify-content: right;">
       <button id="saveChangesBtn" class="save-button" style="display:none;">Save Changes</button>
     </div>
-    
   </div>
 </div>
 
-  
- <script src="../js/medinvjs.js"></script>
 
+<!-- Empty Fields Popup -->
+<div id="emptyFieldPopup" class="popup">
+  <div class="popup-content">
+    <h3>Please fill out all required fields.</h3>
+    <button type="button" onclick="closeEmptyFieldPopup()">OK</button>
+  </div>
+</div>
 
+<!-- Success Popup -->
+<div id="SuccessPopup" class="popup">
+  <div class="popup-content">
+    <h3>Sumakses!!</h3>
+    <button type="button" onclick="closeSuccessPopup()">OK</button>
+  </div>
+</div>
 
+<script src="../js/medinvjs.js"></script>
 
-    
 </body>
 </html>

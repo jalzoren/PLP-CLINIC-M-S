@@ -111,14 +111,7 @@
                     <div class="form-group">
                         <label>Item:</label>
                         <select name="item_id" id="item_id">
-                            <option value="" disabled selected>Select Item</option>
-                            <option value="1">First Aid Kit</option>
-                            <option value="2">Hot Compress</option>
-                            <option value="3">Blood Pressure Monitor</option>
-                            <option value="4">Thermometer</option>
-                            <option value="5">Stethoscope</option>
-                            <option value="6">Face Shields</option>
-                            <option value="7">Goggles</option>
+                          <option value="" disabled selected>Select Item</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -374,7 +367,30 @@
     });
   };
 
+  
+
   reader.readAsDataURL(file);
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("../php/fetch_items.php")
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById("item_id");
+        data.forEach(item => {
+          const option = document.createElement("option");
+          option.value = item.Item_ID;
+          option.textContent = item.Item_Name;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error("Failed to load items for dropdown:", error);
+      });
+  });
+</script>
+
+
   </body>
 </html>
