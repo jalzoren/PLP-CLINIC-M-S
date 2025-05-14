@@ -8,14 +8,14 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <link rel="icon" type="image/png" href="logo.png" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/patientrestyle.css" />
+    <link rel="stylesheet" href="patientrestyle.css" />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -24,14 +24,14 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <img src="logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
 
       <ul class="nav-list">
         <li>
-          <a href="../forms/staffdashboard.html" class="transition-link">
+          <a href="staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -39,14 +39,14 @@
         </li>
 
         <li>
-          <a href="../forms/medrecords.html" class="active">
+          <a href="medrecords.html" class="active">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="../forms/borrowing.html" class="transition-link">
+          <a href="borrowing.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -54,14 +54,14 @@
         </li>
 
         <li>
-          <a href="../forms/transac.html" class="transition-link">
+          <a href="transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
           <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="../forms/medinv.html" class="transition-link">
+          <a href="medinv.html" class="transition-link">
             <i class="bx bxs-capsule"></i>
             <span class="link-name">Inventory</span>
           </a>
@@ -90,9 +90,9 @@
 
     <div class="home-content">
      <div class="breadcrumbs">
-        <a href="../forms/medrecords.html"><i class="bx bx-arrow-back"></i></a>
+        <a href="medrecords.html"><i class="bx bx-arrow-back"></i></a>
         <p class="p-rec">
-            <strong>Patient Records &lt;<span id="patient-name-placeholder">Name</span></strong>
+            <strong>Patient Records &lt;<span id="patient-name-placeholder"></span></strong>
         </p>
     </div>
 
@@ -101,7 +101,7 @@
         <aside class="status-box">
             <div class="patient-details">
                 <div class="details-group">
-                    <p><strong>Patient Name :</strong> <span id="patient-name">N/A</span></p>
+                    <p><strong>Patient Name :</strong> <span id="patient-name-display">N/A</span></p>
                     <p><strong>ID Number:</strong> <span id="patient-id">N/A</span></p>
                 </div>
                 <div class="details-group">
@@ -156,7 +156,7 @@
       document
         .getElementById("load-btn")
         .addEventListener("click", function () {
-          fetch("../popup-forms/popup-assess.html")
+          fetch("popup-assess.html")
             .then((response) => response.text())
             .then((data) => {
               const container = document.getElementById("pop-up-med");
@@ -184,5 +184,38 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const patientId = new URLSearchParams(window.location.search).get("patient_id");
+            if (!patientId) return;
+        
+            fetch(`patientrec.php?patient_id=${patientId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        console.warn("Server returned error:", data.error);
+                        return;
+                    }
+        
+                    setText("patient-name-placeholder", data.full_name);
+                    setText("patient-name-display", data.full_name);
+                    setText("patient-role", data.role);
+                    setText("patient-id", data.id_number);
+                    setText("patient-dept", data.department);
+
+                })
+                .catch(err => console.error("Fetch error:", err));
+        
+            function setText(id, text) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text || "N/A";
+            }
+        });
+    </script>
+    
+    
+    
+
   </body>
 </html>
