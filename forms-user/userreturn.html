@@ -125,14 +125,7 @@
                 <div class="form-group">
                   <label>Borrowed Item:</label>
                   <select name="item_id" id="item_id">
-                      <option value="" disabled selected>Select Item</option>
-                      <option value="1">First Aid Kit</option>
-                      <option value="2">Hot Compress</option>
-                      <option value="3">Blood Pressure Monitor</option>
-                      <option value="4">Thermometer</option>
-                      <option value="5">Stethoscope</option>
-                      <option value="6">Face Shields</option>
-                      <option value="7">Goggles</option>
+                    <option value="" disabled selected>Select Item</option>
                   </select>
                   <br />
                   <label>Status of Borrowed Item:</label>
@@ -235,5 +228,28 @@
 
       makeDraggable(modalContent, modalHeader);
     </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("../php/fetch_items.php")
+      .then(response => response.json())
+      .then(data => {
+        const itemSelect = document.getElementById("item_id");
+
+        data.forEach(item => {
+          // If you're showing all items for returning, no filtering:
+          const option = document.createElement("option");
+          option.value = item.Item_ID;
+          option.textContent = `${item.Item_Name} (${item.Status})`;
+          itemSelect.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching items:", error);
+      });
+  });
+</script>
+
+
   </body>
 </html>
