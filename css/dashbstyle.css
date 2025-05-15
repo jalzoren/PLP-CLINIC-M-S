@@ -626,3 +626,171 @@ body {
   z-index: 1;
 }
 
+/* POP UP TIME OUT */
+.popup_timeout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(96, 96, 96, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding-bottom: 30px;
+}
+
+.new-data {
+  position: fixed; 
+  top: 50%; 
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); 
+  width: 550px; 
+  height: 640px; 
+  max-width: 1200px;
+  background: #e6ebef;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  background-color: #2e266d;
+  color: #fff;
+  padding: 5px;
+  justify-content: center;
+  padding-left: 30px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+.close-btn {
+  padding-right: 10px;
+  font-size: 24px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.1s;
+
+}
+
+
+.close-btn:hover {
+  padding-right: 10px;
+  font-size: 24px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transform: scale(1.15);
+
+}
+
+
+.information .name{
+  padding: 30px 50px;
+  font-size: 20px;
+  text-align: center;
+  border-bottom-color: #000b5c;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 50px;
+}
+
+.inputs [type="text"],
+.inputs [type="number"],
+.inputs .row_remarks textarea{
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  
+  border-radius: 5px;
+  border: 1px solid #000b5c;
+}
+
+.upper-inputs{
+  display: flex;
+  justify-content: space-between;
+  background-color: aquamarine;
+  gap: 20px;
+}
+
+.upper-inputs .row_medicine{
+  background-color: cadetblue;
+}
+
+.row_remarks{
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: darkolivegreen;
+}
+
+.inputs .row_remarks textarea{
+  padding: 15px;
+  resize: vertical;
+  font-size: 18px;
+
+  border-radius: 5px;
+  border: 1px solid #000b5c;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.buttons button{
+  width: 25%;
+  padding: 10px 15px;
+
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.cancel{
+  background-color: #b67373;
+  border: 2px outset #b67373;
+}
+
+.submit{
+  background-color: #afb4db;
+  border: 2px outset #afb4db;
+}
+
+.cancel:hover{
+  background-color: white;
+  color: #522727;
+  font-weight: 700;
+}
+
+.submit:hover{
+  background-color: white;
+  color: #000b5c;
+  font-weight: 700;
+}
+
+

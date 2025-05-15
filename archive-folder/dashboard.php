@@ -132,20 +132,23 @@ $result = $mysqli->query($query);
                     <p>Visits Summary</p>
                     <a href="#">See All</a>
                 </div>
+                
                 <div class="timedin_table">
                 <table>
                     <caption>Currently Timed In</caption>
                     <thead>
                         <tr> 
-                        <th>Name</th>
-                        <th>Time In</th>
-                        <th>Action</th>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Time In</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if ($result && $result->num_rows > 0): ?>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
+                                    <td>1.</td>
                                     <td><?= htmlspecialchars($row['Last_Name'] . ' ' . $row['First_Name']) ?></td>
                                     <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
                                     <td>
