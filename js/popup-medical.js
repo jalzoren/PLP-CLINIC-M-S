@@ -10,11 +10,6 @@ function closeEmptyFieldPopup() {
   document.getElementById('popupContainer').style.display = "block";        
 }
 
-function closeSuccessPopup() {
-  document.getElementById("SuccessPopup").style.display = "none";
-  document.getElementById("medicalRecordForm").style.display = "none";
-}
-
 function closeDuplicationPopup() {
    document.getElementById("DuplicatePopup").style.display = "none";
    document.getElementById("popupPatient").style.display = "block";
@@ -39,8 +34,6 @@ function closeAlcoholPopup() {
   document.getElementById("AlcoholPopup").style.display = "none";
   document.getElementById("popupPersonalHistory").style.display = "block";
 }
-
-
 
 function openPopupPatient() {
   var studentCheckbox = document.getElementById('studentCheckbox').checked;
@@ -97,9 +90,6 @@ function goBackToPersonalHistoPopUp() {
   document.getElementById("popupPersonalHistory").style.display = "block"; 
 }
 
-
-
-
 function goToPersonalHistoPopUp() {
   const requiredFields = document.querySelectorAll(
     "#dataTable input, #dataTable select, #contactTable input, #contactTable select"
@@ -153,11 +143,6 @@ function goToFamilyHistoPopUp() {
     return;
   }
 
-  if (!(oncePerWeek || moreThanOnce || totalText !== "")) {
-    document.getElementById('AlcoholPopup').style.display = 'block';
-    return;
-  }
-
   document.getElementById("popupPersonalHistory").style.display = "none"; 
   document.getElementById("popupFamilyHistory").style.display = "block"; 
 
@@ -166,24 +151,6 @@ function goToFamilyHistoPopUp() {
 window.onload = function() {
   document.getElementById("popupContainer").style.display = "block"; 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function initializePopupFormLogic(){
   const studentCheckbox = document.getElementById("studentCheckbox");
@@ -249,10 +216,6 @@ function initializePopupFormLogic(){
     }
   });
 
-
-
-
-
   // Alcohol
   const moreThanOncePerWeek = document.getElementById('moreThanonceperweekalcohol');
   const oncePerWeek = document.getElementById('oncePerWeekalcohol');
@@ -286,9 +249,6 @@ function initializePopupFormLogic(){
     }
   });
 
-
-
-
   // Drugs
   document.getElementById("yesDrugsCheckbox").addEventListener("change", function() {
     const flexWrapper4 = document.getElementById("flex-wrapper4");
@@ -318,7 +278,6 @@ function initializePopupFormLogic(){
       yesRehab.checked = false;
     }
   });
-
 
   const yesDrugsCheckbox = document.getElementById('yesDrugsCheckbox');
   const noDrugsCheckbox = document.getElementById('NeverDrugsCheckbox');
@@ -372,8 +331,6 @@ function initializePopupFormLogic(){
     }
   });
 
-
-
   // Smoking
   document.getElementById("yesCheckbox").addEventListener("change", function() {
     const flexWrapper3 = document.getElementById("flex-wrapper3");
@@ -388,7 +345,6 @@ function initializePopupFormLogic(){
       });
     }
   });
-
 
   function clearInputs(element) {
     const inputs = element.querySelectorAll('input');
@@ -510,7 +466,6 @@ function initializePopupFormLogic(){
     }
   });
 
-
   [vapeCheckbox, pipeCheckbox].forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       uncheckOthers(this);
@@ -537,10 +492,8 @@ function generateEmail() {
 document.getElementById("lastname").addEventListener("input", generateEmail);
 document.getElementById("firstname").addEventListener("input", generateEmail);
 
-
-
 function submitMedicalRecordForm(e) {
-    e.preventDefault(); // Prevent form's default submission
+    e.preventDefault(); 
 
     const form = document.getElementById("medicalRecordForm");
     if (!form) {
@@ -566,12 +519,11 @@ function submitMedicalRecordForm(e) {
       } else if (document.getElementById("nonTeaching").checked) {
           formData.append("category", "non-teaching");
       } else {
-          formData.append("category", "unspecified"); // Add default value in case none is selected
+          formData.append("category", "unspecified"); 
       }
 
       formData.append("departmentPersonnel", document.getElementById("departmentPersonnel").value);
     }
-
 
     // Patient's general data
     const hasSurgical = document.getElementById("surgical").checked;
@@ -686,49 +638,48 @@ function submitMedicalRecordForm(e) {
       emailInput.disabled = true; 
     }
 
-
-    
-
     // Log FormData to check
     for (let [key, value] of formData.entries()) {
       console.log(key + ': ' + value);
     }
 
-// Submit the form
-fetch("../php/submit_patient.php", {
-  method: "POST",
-  body: formData
-})
-.then(response => response.text())
-.then(text => {
-    console.log("Raw response text:", text);
-    try {
-        const data = JSON.parse(text);
-        console.log("Parsed JSON:", data);
+    // Submit the form
+    fetch("submit_patient.php", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(text => {
+        console.log("Raw response text:", text);
+        try {
+            const data = JSON.parse(text);
+            console.log("Parsed JSON:", data);
+            console.log("data.status =", data.status);
+            console.log("data.patientID =", data.patientID);
 
-        if (data.status === "success") {
-            // Show success popup and reset form
-            document.getElementById("SuccessPopup").style.display = "block";
-            const form = document.getElementById("medicalRecordForm");
-            if (form) form.reset();
-        } else {
-          if (data.message === 'duplicate_student_id') {
-              document.getElementById('DuplicatePopup').style.display = 'block';
-          } else if (data.message === 'duplicate_personnel_id') {
-              document.getElementById('DuplicatePopup').style.display = 'block';
-          } else {
-              alert("Error: " + data.message); // fallback for other errors
-          }
+            if (data.status === "success") {
+                console.log("Condition matched: success");
+                console.log("Patient ID from server:", data.patientID);
+                generatePDFAndUpload(data.patientID);
+                //document.getElementById("SuccessPopup").style.display = "block";
+            } else {
+              if (data.message === 'duplicate_student_id') {
+                  document.getElementById('DuplicatePopup').style.display = 'block';
+              } else if (data.message === 'duplicate_personnel_id') {
+                  document.getElementById('DuplicatePopup').style.display = 'block';
+              } else {
+                  alert("Error: " + data.message); 
+              }
+            }
+        } catch (e) {
+            console.error("Invalid JSON response:", text);
+            console.error("JSON parse error:", e);
+            console.error("Response text causing error:", text);
         }
-    } catch (e) {
-        console.error("Invalid JSON response:", text);
-    }
-})
-.catch(error => {
-    console.error("Request failed", error);
-});
-
-    
+    })
+    .catch(error => {
+        console.error("Request failed", error);
+    });
   }
 
   function bindFormSubmission() {
@@ -740,10 +691,8 @@ fetch("../php/submit_patient.php", {
     }
   }
   
-  // Call this manually after loading the form into modal/DOM
   bindFormSubmission();
-  // End of popup-form.js
-initializePopupFormLogic();
+  initializePopupFormLogic();
 
 
 
