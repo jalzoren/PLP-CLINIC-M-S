@@ -1,1 +1,2 @@
+# Enable PHP in .html and .htm files
 AddType application/x-httpd-php .html .htm
