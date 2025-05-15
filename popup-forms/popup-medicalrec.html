@@ -6,13 +6,14 @@
     <title>Medical Records / PLP Clinic Monitoring System</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
+    <link rel="stylesheet" href="popup-medicalrecstyle.css?v=1.0.1" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
   </head>
 
   <body>
 
-    <form id="medicalRecordForm" action="../forms/medrecords.html" method="POST">
+    <form id="medicalRecordForm" action="popup-medicalrec.html" method="POST">
         
     <!-- Pop-up container for category -->
     <div class="form-content" id="popupContainer">
@@ -31,8 +32,8 @@
             </div>
       
             <div class="user-type">
-              <label><input type="checkbox" id="studentCheckbox" name="user" value="Student" /> Student</label>
-              <label><input type="checkbox" id="personnelCheckbox" name="user" value="Personnel" /> Personnel</label>
+              <label><input type="checkbox" id="studentCheckbox" name="user" value="student" /> Student</label>
+              <label><input type="checkbox" id="personnelCheckbox" name="user" value="personnel" /> Personnel</label>
             </div>
       
             <div class="underline1"></div>
@@ -44,30 +45,30 @@
                   <label for="collegeDepartment">College Department</label>
                   <select id="collegeDepartment" name="collegeDepartment">
                     <option value="">-- Select Department --</option>
-                    <option>College of Nursing (CON)</option>
-                    <option>College of International Hospitality Management (CIHM)</option>
-                    <option>College of Business Administration (CBA)</option>
-                    <option>College of Computer Studies (CCS)</option>
-                    <option>College of Engineering (COE)</option>
-                    <option>College of Education (COED)</option>
-                    <option>College of Arts and Sciences (CAS)</option>
+                    <option value="CON">College of Nursing (CON)</option>
+                    <option value="CIHM">College of International Hospitality Management (CIHM)</option>
+                    <option value="CBA">College of Business Administration (CBA)</option>
+                    <option value="CCS">College of Computer Studies (CCS)</option>
+                    <option value="COE">College of Engineering (COE)</option>
+                    <option value="COED">College of Education (COED)</option>
+                    <option value="CAS">College of Arts and Sciences (CAS)</option>
                   </select>
                 </div>
                 <div class="field-group">
                   <label for="collegeProgram">Degree Program</label>
-                  <select id="collegeProgram" name="collegeProgram">
-                    <option value="">-- Select Program --</option>
-                    <option>Bachelor of Science in Nursing (BSN)</option>
-                    <option>Bachelor of Science in Hospitality Management (BSHM)</option>
-                    <option>Bachelor of Science in Business Administration (BSBA)</option>
-                    <option>Bachelor of Science in Accountancy (BSA)</option>
-                    <option>Bachelor of Science in Entrepreneurship (BSENT)</option>
-                    <option>Bachelor of Science in Information Technology (BSIT)</option>
-                    <option>Bachelor of Science in Computer Science (BSCS)</option>
-                    <option>Bachelor of Science in Electronics and Communications Engineering (BSECE)</option>
-                    <option>Bachelor of Secondary Education (BSED)</option>
-                    <option>Bachelor of Arts in Psychology (AB PSYCHOLOGY)</option>
-                  </select>
+                    <select id="collegeProgram" name="collegeProgram">
+                      <option value="">-- Select Program --</option>
+                      <option value="BSN">Bachelor of Science in Nursing (BSN)</option>
+                      <option value="BSHM">Bachelor of Science in Hospitality Management (BSHM)</option>
+                      <option value="BSBA">Bachelor of Science in Business Administration (BSBA)</option>
+                      <option value="BSA">Bachelor of Science in Accountancy (BSA)</option>
+                      <option value="BSENT">Bachelor of Science in Entrepreneurship (BSENT)</option>
+                      <option value="BSIT">Bachelor of Science in Information Technology (BSIT)</option>
+                      <option value="BSCS">Bachelor of Science in Computer Science (BSCS)</option>
+                      <option value="BSECE">Bachelor of Science in Electronics and Communications Engineering (BSECE)</option>
+                      <option value="BSED">Bachelor of Secondary Education (BSED)</option>
+                      <option value="AB PSYCHOLOGY">Bachelor of Arts in Psychology (AB PSYCHOLOGY)</option>
+                    </select>
                 </div>
                 <div class="field-group">
                   <label for="batch">Batch</label>
@@ -822,15 +823,18 @@
       </div>
     </div>
 
-    <div id="AlcoholPopup" class="popup" style="display: none;">
-      <div class="popup-content">
-        <h3>Please answer the alcohol consumption question before continuing.</h3>
-        <button type="button" onclick="closeAlcoholPopup()">OK</button>
-      </div>
-    </div>
-    
+    <img id="myImage" src="logo.png" alt="Logo" style="display:none;" crossorigin="anonymous">
 
-    <script src="../js/popup-medical.js" defer></script>
+    <script src="popup-medical.js?v=1.0" defer></script>
+    <script src="pdf.js?v=1.0" defer></script>
+
+    <script>
+      if (!window.jspdf) {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+        document.head.appendChild(script);
+      }
+    </script>
 
       </body>
   
