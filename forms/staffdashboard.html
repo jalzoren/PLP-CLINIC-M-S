@@ -1,3 +1,5 @@
+<?php include '../php/get_current_timedin.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,18 +127,35 @@
                         Line Graph Visit Summary
                     </div>
 
-                    <div class="timedin_table" id="timedinTableBody">
+                    <div class="timedin_table">
                         <table>
-                            <caption>Currently Time In</caption>
+                            <caption>Currently Timed In</caption>
                             <thead>
                                 <tr>
+                                    <th>No.</th>
                                     <th>Name</th>
                                     <th>Time In</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody >
-                                
+                            <tbody>
+                                <?php if (!empty($timedinData)): ?>
+                                <?php foreach ($timedinData as $index => $row): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?>.</td>
+                                        <td><?= htmlspecialchars($row['Full_Name']) ?></td>
+                                        <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
+                                        <td>
+                                        <form method="POST" action="php/time_out.php">
+                                            <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                            <button class="timedout" type="submit">Time Out</button>
+                                        </form>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="4">No students currently timed in.</td></tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -185,10 +204,16 @@
         </div>
     </div>
 
-    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>-->
+    <div class="popup_time_out">
+        <div>
+            
+        </div>
+    </div>
+
     <script src="../js/item_charts.js"></script>
 
     <script>
+        // SIDEBAR
         let btn = document.querySelector("#logo");
         let sidebar = document.querySelector(".sidebar");
     
@@ -209,7 +234,7 @@
             
         }
 
-        // TIME 
+        // CLOCK
 
         function updateDateTime() {
             const now = new Date();
@@ -238,61 +263,6 @@
         // Run every second
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call
-
-        // VISIT RECORDS
-        function loadTimeInTable() {
-            fetch('../php/fetch_timedin.php')
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById('timedinTableBody');
-                    tbody.innerHTML = '';
-                
-                    if (data.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="3">No visitors currently timed in.</td></tr>';
-                        return;
-                    }
-                
-                    data.forEach(row => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${row.name}</td>
-                            <td>${row.time_in}</td>
-                            <td>
-                                <button class="timedout" onclick="timeOut(${row.visit_id})">Time Out</button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(error => {
-                    Swal.fire('Error', 'Failed to load time-in data.', 'error');
-                    console.error(error);
-                });
-        }
-
-        function timeOut(visitId) {
-            fetch('../php/time_out.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'visit_id=' + visitId
-            })
-            .then(response => response.text())
-            .then(result => {
-                if (result.trim() === 'success') {
-                    Swal.fire('Success', 'Visitor timed out successfully!', 'success');
-                    loadTimeInTable(); // Refresh the table
-                } else {
-                    Swal.fire('Error', result, 'error');
-                }
-            })
-            .catch(error => {
-                Swal.fire('Error', 'Time out failed.', 'error');
-                console.error(error);
-            });
-        }
-
-        // Load table on page load
-        document.addEventListener('DOMContentLoaded', loadTimeInTable);
     </script>
 </body>
 </html>
