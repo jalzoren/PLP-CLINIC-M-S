@@ -15,7 +15,6 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Overlay background */
 .form-content {
   position: fixed;
   top: 0;
@@ -29,7 +28,6 @@ body {
   z-index: 9999;
 }
 
-/* Popup Modal */
 .new-data {
   position: fixed;
   top: 50%;
@@ -46,7 +44,6 @@ body {
   overflow: hidden;
 }
 
-/* Header Bar */
 .title-container {
   display: flex;
   align-items: center;
@@ -76,7 +73,6 @@ body {
   cursor: pointer;
 }
 
-/* Time Box */
 .time-box-wrapper {
   display: flex;
   justify-content: center;
@@ -111,7 +107,6 @@ body {
   text-align: center;
 }
 
-/* Form Layout */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -132,7 +127,12 @@ body {
   border-radius: 6px;
 }
 
-/* Textarea */
+.form-group input[readonly],
+.textarea-group textarea[readonly] {
+  background-color: #f9f9f9;
+  border-color: #ddd;
+}
+
 .textarea-group {
   margin-bottom: 20px;
 }
@@ -146,7 +146,6 @@ body {
   resize: vertical;
 }
 
-/* Bottom Button */
 .btn-next-container {
   display: flex;
   justify-content: flex-end;
@@ -166,10 +165,13 @@ body {
   cursor: pointer;
   margin-right: 10px;
   margin-bottom: 10px;
-
 }
 
 .btn-next:hover {
   background-color: #000341;
   color: white;
+}
+
+.btn-next[hidden] {
+  display: none;
 }
