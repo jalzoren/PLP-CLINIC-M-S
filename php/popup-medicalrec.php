@@ -12,7 +12,6 @@ class PatientDataHandler {
 
     public function saveStudentOrPersonnel($data, $usercategory) {
         try {
-            // Duplicate checking logic
             if ($usercategory === 'student') {
                 $stmt = $this->conn->prepare("SELECT Student_ID FROM student_patient WHERE Student_ID = ?");
                 $stmt->bind_param("s", $data['identification']);
@@ -68,10 +67,6 @@ class PatientDataHandler {
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }
-    
- 
-
-    
     
     // Insert patient general data
     public function savePatient($data) {
@@ -428,30 +423,5 @@ class PatientDataHandler {
         return $this->patientID;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

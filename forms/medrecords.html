@@ -8,22 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="../css/medrecstyle.css" />
-    <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <link rel="stylesheet" href="medrecstyle.css" />
+    <link rel="icon" type="image/png" href="logo.png">
 
   </head>
   <body>
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <img src="logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
 
       <ul class="nav-list">
         <li>
-          <a href="../forms/staffdashboard.html" class="transition-link">
+          <a href="staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt bx-rotate-180"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -31,14 +31,14 @@
         </li>
 
         <li>
-          <a href="../forms/medrecords.html" class="active" class="transition-link">
+          <a href="medrecords.html" class="active" class="transition-link">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
           <span class="tooltip">Patient Records</span>
         </li>
         <li>
-          <a href="../forms/borrowing.html" class="transition-link">
+          <a href="borrowing.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -46,14 +46,14 @@
         </li>
    
         <li>
-          <a href="../forms/transac.html" class="transition-link"v>
+          <a href="transac.html" class="transition-link"v>
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
           <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="../forms/iteminv.html" class="transition-link">
+          <a href="iteminv.html" class="transition-link">
             <i class='bx bxs-book-content'></i>
           <span class="link-name">Inventory</span>
           </a>
@@ -68,7 +68,7 @@
           <br /> 
           <br />
 
-          <a href="../php/logout.php">
+          <a href="logout.php">
             <i class="bx bx-log-out bx-rotate-180"></i>
             <span class="link-name">Logout</span>
           </a>
@@ -140,7 +140,7 @@
 
         <script>
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("../php/medrecsfetch.php")
+        fetch("medrecsfetch.php")
           .then(response => {
             if (!response.ok) {
               throw new Error("Network response was not ok");
@@ -160,7 +160,7 @@
 
             function loadPatientRecords() {
           $.ajax({
-            url: '../php/medrecsfetch.php',
+            url: 'medrecsfetch.php',
             method: 'POST',
             success: function(response) {
               $('#patient-records-body').html(response); 
@@ -187,7 +187,7 @@
           };
   
           document.getElementById('load-btn').addEventListener('click', function() {
-            fetch('../popup-forms/popup-medicalrec.html')
+            fetch('popup-medicalrec.html')
               .then(response => response.text())
               .then(data => {
                 const container = document.getElementById('pop-up-med'); 

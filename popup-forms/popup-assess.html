@@ -8,10 +8,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="../js/popup-medical.js" defer></script>
   <link rel="stylesheet" href="../popup-styles/popup-assessstyle.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    if (!window.jspdf) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      document.head.appendChild(script);
+    }
+  </script>
 </head>
 
 <body>
-  <form action="" method="POST">
+   <form action="" method="POST" id="assessmentForm">
     <div class="form-content" id="popupContainer">
       <div class="new-data">
         <div class="text">
@@ -28,39 +36,73 @@
           </div>
 
           <div class="main-container">
+            <!-- Hidden inputs for patient data -->
+            <input type="hidden" name="patient_id" id="patient_id" value="<?php echo isset($patient_id) ? htmlspecialchars($patient_id) : ''; ?>" required />
+            <input type="hidden" name="patient_type" id="patient_type" />
+            <input type="hidden" name="student_id" id="student_id" />
+            <input type="hidden" name="personnel_id" id="personnel_id" />
+            <input type="hidden" name="patient_name" id="patient_name" />
+            <input type="hidden" name="sex" id="sex" />
+            <input type="hidden" name="age" id="age" />
+            <input type="hidden" name="department" id="department" />
+
             <div class="section-heading">Vital Signs</div>
             <div class="form-grid">
-              <div class="form-group"><label>Temperature</label><input type="text" name="temperature" /></div>
-              <div class="form-group"><label>RR</label><input type="text" name="rr" /></div>
-              <div class="form-group"><label>Height</label><input type="text" name="height" /></div>
-              <div class="form-group"><label>BMI</label><input type="text" name="bmi" /></div>
-              <div class="form-group"><label>Pulse</label><input type="text" name="pulse" /></div>
-              <div class="form-group"><label>BP</label><input type="text" name="bp" /></div>
-              <div class="form-group"><label>Weight</label><input type="text" name="weight" /></div>
+              <div class="form-group">
+                <label>Temperature (°C)</label>
+                <input type="number" step="0.1" name="temperature" id="temperature" placeholder="e.g., 36.6" required />
+              </div>
+              <div class="form-group">
+                <label>Respiratory Rate (breaths/min)</label>
+                <input type="number" name="rr" id="rr" placeholder="e.g., 16" required />
+              </div>
+              <div class="form-group">
+                <label>Height (cm)</label>
+                <input type="number" step="0.1" name="height" id="height" placeholder="e.g., 170.5" required />
+              </div>
+              <div class="form-group">
+                <label>Weight (kg)</label>
+                <input type="number" step="0.1" name="weight" id="weight" placeholder="e.g., 70.0" required />
+              </div>
+              <div class="form-group">
+                <label>BMI</label>
+                <input type="number" step="0.1" name="bmi" id="bmi" placeholder="e.g., 24.2" readonly />
+              </div>
+              <div class="form-group">
+                <label>Pulse (beats/min)</label>
+                <input type="number" name="pulse" id="pulse" placeholder="e.g., 72" required />
+              </div>
+              <div class="form-group">
+                <label>Blood Pressure (mmHg)</label>
+                <input type="text" name="bp" id="bp" placeholder="e.g., 120/80" required />
+              </div>
             </div>
 
             <div class="section-heading">Additional Notes</div>
             <div class="textarea-group">
-              <label>Date and Time / Vital Sign</label>
-              <textarea name="datetime_vitalsign"></textarea>
-            </div>
-            <div class="textarea-group">
               <label>Physician's Notes</label>
-              <textarea name="physician_notes"></textarea>
+              <textarea name="physician_notes" id="physician_notes"></textarea>
             </div>
             <div class="textarea-group">
               <label>Nurse Notes</label>
-              <textarea name="nurse_notes"></textarea>
+              <textarea name="nurse_notes" id="nurse_notes"></textarea>
             </div>
 
             <div class="btn-next-container">
-              <button class="btn-next" type="submit">SUBMIT</button>
+              <button class="btn-next" type="submit" id="submitBtn">SUBMIT</button>
+              <button class="btn-pdf" type="button" onclick="generatePDF()">GENERATE PDF</button>
             </div>
-          </div> <!-- end .main-container -->
+          </div>
         </div>
       </div>
     </div>
   </form>
+
+  <img id="myImage" src="../pictures/logo_user.png" alt="Logo" style="display:none;" crossorigin="anonymous">
+
+
+
+ <script src="../js/printassess.js"></script>
 
   <div id="emptyFieldPopup" class="popup" style="display: none;">
     <div class="popup-content">
@@ -71,5 +113,24 @@
 
   <script src="../js/time-assessp.js"></script>
 
+
+  <script>
+    // Auto-calculate BMI
+    document.querySelector('input[name="height"]').addEventListener('input', calculateBMI);
+    document.querySelector('input[name="weight"]').addEventListener('input', calculateBMI);
+
+    function calculateBMI() {
+        let height = document.querySelector('input[name="height"]').value / 100; // Convert cm to meters
+        let weight = document.querySelector('input[name="weight"]').value;
+        if (height > 0 && weight > 0) {
+            let bmi = (weight / (height * height)).toFixed(1);
+            document.querySelector('input[name="bmi"]').value = bmi;
+        }
+    }
+</script>
+
+<script>
+  
+</script>
 </body>
 </html>

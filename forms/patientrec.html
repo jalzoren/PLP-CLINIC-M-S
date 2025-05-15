@@ -8,14 +8,14 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <link rel="icon" type="image/png" href="logo.png" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/patientrestyle.css" />
+    <link rel="stylesheet" href="patientrestyle.css" />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -24,14 +24,14 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <img src="logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
 
       <ul class="nav-list">
         <li>
-          <a href="..forms/staffdashboard.html" class="transition-link">
+          <a href="staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -39,14 +39,14 @@
         </li>
 
         <li>
-          <a href="..forms/medrecords.html" class="active">
+          <a href="medrecords.html" class="active">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="..forms/borrowing.html" class="transition-link">
+          <a href="borrowing.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -54,18 +54,18 @@
         </li>
 
         <li>
-          <a href="..forms/transac.html" class="transition-link">
+          <a href="transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
           <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="..forms/iteminv.html" class="transition-link">
+          <a href="medinv.html" class="transition-link">
             <i class="bx bxs-capsule"></i>
             <span class="link-name">Inventory</span>
           </a>
-          <span class="tooltip">Item Inventory</span>
+          <span class="tooltip">Medicine Inventory</span>
         </li>
       </ul>
       <ul>
@@ -125,18 +125,46 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
+            <?php
+              require_once 'database.php';
+
+              $db = new Database();
+              $conn = $db->getConnection();
+
+              // Get patient_id from the URL
+              $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+
+              // Only run the query if a patient ID is provided
+              if ($filterId) {
+                  $sql = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
+                  $stmt = $conn->prepare($sql);
+                  $stmt->bind_param("i", $filterId);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+              } else {
+                  // Show a message or blank if no ID is provided
+                  echo "<tr><td colspan='4'>No patient selected.</td></tr>";
+                  exit;
+              }
+
+              $counter = 1;
+              if ($result && $result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                      echo "<tr>";
+                      echo "<td>" . $counter++ . "</td>";
+                      echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
+                      echo "<td>Medical Record Form</td>";
+                      echo "<td class='action-cell'>
+                              <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+                                  <button type='button' class='view-btn'>View</button>
+                              </a>
+                            </td>";
+                      echo "</tr>";
+                  }
+              } else {
+                  echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
+              }
+              ?>
           </tbody>
         </table>
       </div>
@@ -152,11 +180,10 @@
         sidebar.classList.toggle("active");
       };
 
-       
       document
         .getElementById("load-btn")
         .addEventListener("click", function () {
-          fetch("../popup-forms/popup-assess.html")
+          fetch("popup-assess.html")
             .then((response) => response.text())
             .then((data) => {
               const container = document.getElementById("pop-up-med");
@@ -190,7 +217,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`../php/patientrec.php?patient_id=${patientId}`)
+            fetch(`patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
@@ -213,9 +240,5 @@
             }
         });
     </script>
-    
-    
-    
-
   </body>
 </html>

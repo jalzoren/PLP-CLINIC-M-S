@@ -1,5 +1,5 @@
 <?php
-include('../php/database.php');
+require_once 'database.php';
 
 try {
     $database = new Database();
@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
 
             $output .= "</td>
             <td class='action-cell'>
-                <a href='../forms/patientrec.html?patient_id={$row['Patient_ID']}'>
+                <a href='patientrec.html?patient_id={$row['Patient_ID']}'>
                     <button type='button' class='view-btn'>
                         View
                     </button>
