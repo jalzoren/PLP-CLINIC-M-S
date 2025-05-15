@@ -204,9 +204,41 @@
         </div>
     </div>
 
-    <div class="popup_time_out">
-        <div>
-            
+    <div class="popup_timeout" id="popup_timeout">
+        <div class="new-data">
+            <div class="text">
+                <div class="title-container">
+                <div class="title">TIME OUT</div>
+                <button class="close-btn" onclick="closePopup()">×</button>
+            </div>
+            <div class="information">
+                <div class="name">
+                    <h4>Bitancor, Jerimiah Amora</h4>
+                    <p>Student</p>
+                </div>
+                <div class="inputs">
+                    <div class="upper-inputs">
+                        <div class="row_quantity">
+                            <label>Quantity</label>
+                            <input type="number" min="1" placeholder="Enter Quantity" required>
+                        </div>
+                        
+                        <div class="row_medicine">
+                            <label>Medication Given</label>
+                            <input type="text" placeholder="Enter Medicine Given" required> 
+                        </div>
+                    </div>
+
+                    <div class="row_remarks">
+                        <label>Remarks</label>
+                        <textarea rows="3" placeholder="Remarjks"></textarea>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="submit" class="cancel">Cancel</button>
+                    <button type="submit" class="submit">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
 
