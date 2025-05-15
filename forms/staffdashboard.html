@@ -46,7 +46,7 @@
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="../forms/borrowing.html" class="transition-link">
+          <a href="../forms/borrowing.html?role=staff" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -139,8 +139,24 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody >
-                                
+                            <tbody>
+                                <?php if (!empty($timedinData)): ?>
+                                <?php foreach ($timedinData as $index => $row): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?>.</td>
+                                        <td><?= htmlspecialchars($row['Full_Name']) ?></td>
+                                        <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
+                                        <td>
+                                        <form method="POST" action="php/time_out.php">
+                                            <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                            <button class="timedout" type="submit">Time Out</button>
+                                        </form>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="4">No students currently timed in.</td></tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -195,43 +211,49 @@
       </div>
     </div>
 
-    <div class="popup_timeout" id="popup_timeout">
+    <div class="popup_timeout" id="popup_timeout" style="display: none;">
         <div class="new-data">
             <div class="text">
                 <div class="title-container">
-                <div class="title">TIME OUT</div>
-                <button class="close-btn" onclick="closePopup()">×</button>
-            </div>
-            <div class="information">
-                <div class="name">
-                    <h4>Bitancor, Jerimiah Amora</h4>
-                    <p>Student</p>
+                    <div class="title">TIME OUT</div>
+                    <button class="close-btn" onclick="closeTimedOutPopup()">×</button>
                 </div>
-                <div class="inputs">
-                    <div class="upper-inputs">
-                        <div class="row_quantity">
-                            <label>Quantity</label>
-                            <input type="number" min="1" placeholder="Enter Quantity" required>
+                <form id="timeoutForm">
+                    <div class="information">
+                        <div class="name">
+                            <h4 id="timeoutName">[Name Here]</h4>
+                            <p id="timeoutCategory">[Category]</p>
                         </div>
-                        
-                        <div class="row_medicine">
-                            <label>Medication Given</label>
-                            <input type="text" placeholder="Enter Medicine Given" required> 
-                        </div>
-                    </div>
+                        <input type="hidden" name="visit_id" id="timeoutVisitId">
 
-                    <div class="row_remarks">
-                        <label>Remarks</label>
-                        <textarea rows="3" placeholder="Remarjks"></textarea>
+                        <div class="inputs">
+                            <div class="upper-inputs">
+                                <div class="row_quantity">
+                                    <label>Quantity</label>
+                                    <input type="number" min="1" name="quantity" placeholder="Enter Quantity" required>
+                                </div>
+
+                                <div class="row_medicine">
+                                    <label>Medication Given</label>
+                                    <input type="text" name="medicine" placeholder="Enter Medicine Given" required> 
+                                </div>
+                            </div>
+
+                            <div class="row_remarks">
+                                <label>Remarks</label>
+                                <textarea name="remarks" rows="3" placeholder="Remarks"></textarea>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button type="button" class="cancel" onclick="closeTimedOutPopup()">Cancel</button>
+                            <button type="submit" class="submit">Submit</button>
+                        </div>
                     </div>
-                </div>
-                <div class="buttons">
-                    <button type="submit" class="cancel">Cancel</button>
-                    <button type="submit" class="submit">Submit</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+
 
     <script src="../js/item_charts.js"></script>
 
@@ -286,61 +308,6 @@
         // Run every second
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call
-
-        // VISIT RECORDS
-        function loadTimeInTable() {
-            fetch('../php/fetch_timedin.php')
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById('timedinTableBody');
-                    tbody.innerHTML = '';
-                
-                    if (data.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="3">No visitors currently timed in.</td></tr>';
-                        return;
-                    }
-                
-                    data.forEach(row => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${row.name}</td>
-                            <td>${row.time_in}</td>
-                            <td>
-                                <button class="timedout" onclick="timeOut(${row.visit_id})">Time Out</button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(error => {
-                    Swal.fire('Error', 'Failed to load time-in data.', 'error');
-                    console.error(error);
-                });
-        }
-
-        function timeOut(visitId) {
-            fetch('../php/time_out.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'visit_id=' + visitId
-            })
-            .then(response => response.text())
-            .then(result => {
-                if (result.trim() === 'success') {
-                    Swal.fire('Success', 'Visitor timed out successfully!', 'success');
-                    loadTimeInTable(); // Refresh the table
-                } else {
-                    Swal.fire('Error', result, 'error');
-                }
-            })
-            .catch(error => {
-                Swal.fire('Error', 'Time out failed.', 'error');
-                console.error(error);
-            });
-        }
-
-        // Load table on page load
-        document.addEventListener('DOMContentLoaded', loadTimeInTable);
     </script>
   </body>
 </html>

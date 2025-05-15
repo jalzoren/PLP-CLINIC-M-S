@@ -3,6 +3,8 @@ session_start(); // Start session at the beginning
 // include the class definition
 require_once __DIR__ . '/database.php';
 
+
+
 // instantiate and get the mysqli connection
 $db   = new Database();
 $conn = $db->getConnection();

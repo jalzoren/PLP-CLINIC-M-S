@@ -269,5 +269,21 @@
       // Load records when page loads
       document.addEventListener('DOMContentLoaded', fetchRecords);
     </script>
+
+    <script>
+
+      
+  // Get URL params
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get("role"); // 'admin' or 'staff'
+
+  document.getElementById("dashboardBtn").addEventListener("click", function() {
+    if (role === "staff") {
+      window.location.href = "staff-dashboard.html";
+    } else {
+      window.location.href = "admin-dashboard.html";
+    }
+  });
+    </script>
   </body>
 </html>
