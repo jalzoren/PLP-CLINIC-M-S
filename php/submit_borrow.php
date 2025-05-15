@@ -1,10 +1,17 @@
 <?php
+session_start(); // Start session at the beginning
 // include the class definition
 require_once __DIR__ . '/database.php';
 
 // instantiate and get the mysqli connection
 $db   = new Database();
 $conn = $db->getConnection();
+
+// Check if user is logged in and has a Patient_ID
+if (!isset($_SESSION['Patient_ID'])) {
+    echo "Error: User not logged in or invalid session.";
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id        = isset($_POST['item_id'])  ? (int)$_POST['item_id']   : null;
@@ -47,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($available_quantity >= $quantity) {
         // Proceed with insert if enough stock
-        // Insert into borroweditem_records table
-        $patient_id    = 1;
+        // Get Patient_ID from session
+        $patient_id = $_SESSION['Patient_ID'];
         $date_borrowed = date('Y-m-d H:i:s');
         $date_returned = null;
         $status        = 'Borrowed';

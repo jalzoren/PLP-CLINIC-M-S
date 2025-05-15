@@ -36,8 +36,6 @@ if ($result->num_rows > 0) {
             $output .= "{$row['Student_ID']} (Student)";
         } elseif ($row['Personnel_ID']) {
             $output .= "{$row['Personnel_ID']} (Personnel)";
-        } else {
-            $output .= "N/A"; 
         }
 
         $output .= "</td>

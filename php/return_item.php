@@ -1,5 +1,12 @@
 <?php
+session_start(); // Start session at the beginning
 require_once __DIR__ . '/database.php';
+
+// Check if user is logged in and has a Patient_ID
+if (!isset($_SESSION['Patient_ID'])) {
+    echo "Error: User not logged in or invalid session.";
+    exit;
+}
 
 $db = new Database();
 $conn = $db->getConnection();
@@ -8,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = isset($_POST['item_id']) ? (int)$_POST['item_id'] : null;
     $item_status = $_POST['item_status'] ?? '';
     $photo_returned = 'no-image.png';
-    $patient_id = 1; // HARDCODED as requested
+    $patient_id = $_SESSION['Patient_ID']; // Get Patient_ID from session
 
     // Handle photo upload (base64)
     if (!empty($_POST['photo_returned'])) {

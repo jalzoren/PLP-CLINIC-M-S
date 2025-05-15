@@ -23,12 +23,11 @@ $sql = "SELECT
             FROM student_patient sp 
             WHERE sp.Patient_ID = p.Patient_ID
         )
-        WHEN p.Category = 'personnel' THEN (
+        WHEN p.Category IN ('teaching', 'non-teaching') THEN (
             SELECT CONCAT(pp.Personnel_ID, ' - ', pp.Department)
             FROM personnel_patient pp 
             WHERE pp.Patient_ID = p.Patient_ID
         )
-        ELSE 'N/A'
     END as DepartmentInfo,
     i.Item_Name,
     br.Quantity,

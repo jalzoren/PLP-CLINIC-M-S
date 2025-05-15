@@ -17,20 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Database();
     $conn = $db->getConnection();
 
-    // Prepare SQL query
-    $stmt = $conn->prepare("SELECT User_ID, Role, Password FROM users WHERE Email = ?");
+    // Prepare SQL query to get user info including Patient_ID
+    $stmt = $conn->prepare("SELECT u.User_ID, u.Role, u.Password, u.Patient_ID FROM users u WHERE u.Email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows === 1) {
-        $stmt->bind_result($user_id, $role, $hashed_password);
+        $stmt->bind_result($user_id, $role, $hashed_password, $patient_id);
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
             session_regenerate_id(true);
             $_SESSION['user_id'] = $user_id;
             $_SESSION['role'] = $role;
+            $_SESSION['Patient_ID'] = $patient_id; // Store Patient_ID in session
 
             // Redirect based on role
             switch (strtolower($role)) {
