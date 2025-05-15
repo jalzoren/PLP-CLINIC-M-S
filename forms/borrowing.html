@@ -125,9 +125,7 @@
       </div>
 
       <div class="container">
-
-        <!-- Now the table is directly below the controls -->
-        <table>
+        <table id="borrowedItemsTable">
           <thead>
             <tr>
               <th>No.</th>
@@ -144,29 +142,14 @@
               <th>Photo<br />(Returned)</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
+          <tbody id="borrowedItemsBody">
+            <!-- Records will be dynamically inserted here -->
           </tbody>
         </table>
-
-        
       </div>
        <div class="pagination">
         <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
-        <button class="page-btn active" onclick="goToPage(1)">1</button>
-        <button class="page-btn" onclick="goToPage(2)">2</button>
-        <button class="page-btn" onclick="goToPage(3)">3</button>
+        <span id="pagination-numbers"></span>
         <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
       </div>
     </div>
@@ -178,10 +161,113 @@
       btn.onclick = function () {
         sidebar.classList.toggle("active");
       };
+
+      // Variables for pagination
+      let currentPage = 1;
+      const recordsPerPage = 10;
+      let allRecords = [];
+
+      // Fetch records from the server
+      async function fetchRecords() {
+        try {
+          const response = await fetch('../php/borrowing_records.php');
+          const data = await response.json();
+          allRecords = data;
+          displayRecords();
+          setupPagination();
+        } catch (error) {
+          console.error('Error fetching records:', error);
+        }
+      }
+
+      // Display records for the current page
+      function displayRecords() {
+        const tbody = document.getElementById('borrowedItemsBody');
+        tbody.innerHTML = '';
+        
+        const start = (currentPage - 1) * recordsPerPage;
+        const end = start + recordsPerPage;
+        const paginatedRecords = allRecords.slice(start, end);
+
+        paginatedRecords.forEach((record, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${start + index + 1}</td>
+            <td>${record.ID_Number}</td>
+            <td>${record.FullName}</td>
+            <td>${record.Category}</td>
+            <td>${record.DepartmentInfo}</td>
+            <td>${formatDate(record.Date_Borrowed)}</td>
+            <td>${record.Date_Returned ? formatDate(record.Date_Returned) : '-'}</td>
+            <td>${record.Item_Name}</td>
+            <td>${record.Quantity}</td>
+            <td>${record.Status}</td>
+            <td>${record.Photo_Borrowed ? `<img src="${record.Photo_Borrowed}" width="60" alt="Borrowed"/>` : '-'}</td>
+            <td>${record.Photo_Returned ? `<img src="${record.Photo_Returned}" width="60" alt="Returned"/>` : '-'}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      // Setup pagination
+      function setupPagination() {
+        const totalPages = Math.ceil(allRecords.length / recordsPerPage);
+        const paginationNumbers = document.getElementById('pagination-numbers');
+        paginationNumbers.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+          const button = document.createElement('button');
+          button.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+          button.textContent = i;
+          button.onclick = () => goToPage(i);
+          paginationNumbers.appendChild(button);
+        }
+      }
+
+      // Navigate between pages
+      function goToPage(page) {
+        if (page === 'prev') {
+          if (currentPage > 1) currentPage--;
+        } else if (page === 'next') {
+          if (currentPage < Math.ceil(allRecords.length / recordsPerPage)) currentPage++;
+        } else {
+          currentPage = page;
+        }
+        displayRecords();
+        setupPagination();
+      }
+
+      // Search functionality
+      function searchTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const filteredRecords = allRecords.filter(record => 
+          record.FullName.toLowerCase().includes(searchTerm) ||
+          record.Item_Name.toLowerCase().includes(searchTerm) ||
+          record.Status.toLowerCase().includes(searchTerm) ||
+          record.ID_Number.toLowerCase().includes(searchTerm) ||
+          record.DepartmentInfo.toLowerCase().includes(searchTerm)
+        );
+        
+        currentPage = 1;
+        allRecords = filteredRecords;
+        displayRecords();
+        setupPagination();
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      // Load records when page loads
+      document.addEventListener('DOMContentLoaded', fetchRecords);
     </script>
-
- 
-
-
   </body>
 </html>

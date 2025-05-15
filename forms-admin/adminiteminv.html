@@ -41,7 +41,7 @@
           <span class="tooltip">Medical Records</span>
       </li>
       <li>
-          <a href="../forms-admin/adminborrowing.html" class="transition-link">
+          <a href="../forms/borrowing.html" class="transition-link">
           <i class='bx bxs-cabinet'></i>
           <span class="link-name">Borrowing</span>
           </a>
@@ -246,6 +246,14 @@
 </div>
 
 <script src="../js/medinvjs.js"></script>
+<script>
+    let btn = document.querySelector("#logo");
+      let sidebar = document.querySelector(".sidebar");
+
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+</script>
 
 </body>
 </html>
