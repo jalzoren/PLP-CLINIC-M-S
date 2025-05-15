@@ -1,0 +1,151 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Records / PLP Clinic Monitoring System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="../popup-styles/popup-viewprintstyle.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  </head>
+
+ <body>
+  
+ <!-- Pop-up container for PDF viewer -->
+    <div class="form-content" id="popupContainer">
+      <div class="new-data">
+        <div class="text">
+          <div class="title-container">
+            <div class="title">VIEW PDF</div>
+            <button class="close-btn" onclick="closePopup()">×</button>
+          </div>
+          <div class="container">
+            <div class="pdfview" id="pdfView"></div>
+            <button class="printpdf" onclick="printPDF()">PRINT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Set pdf.js worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+
+      // Global variable to store current pdf_name
+      let currentPdfName = '';
+
+      // Show popup and render PDF
+      async function showPopup() {
+        const popup = document.getElementById('popupContainer');
+        popup.style.display = 'flex';
+        await renderPDF();
+      }
+
+      // Close popup
+      function closePopup() {
+        document.getElementById('popupContainer').style.display = 'none';
+        const pdfView = document.getElementById('pdfView');
+        pdfView.innerHTML = ''; // Clear previous PDF
+      }
+
+      // Render PDF from database
+      async function renderPDF() {
+        try {
+          const pdfView = document.getElementById('pdfView');
+          pdfView.innerHTML = ''; // Clear previous content
+
+          // Try to get pdf_name from localStorage
+          let pdfName = localStorage.getItem('medicalFormPDFName');
+          let url = 'api/server.php';
+          if (pdfName) {
+            url += `?pdf_name=${encodeURIComponent(pdfName)}`;
+          }
+
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.status !== 'success') {
+            throw new Error(data.message || 'Failed to fetch PDF');
+          }
+
+          currentPdfName = data.pdf_name;
+          const pdfBase64 = data.pdf_data;
+
+          // Convert base64 to binary
+          const binary = atob(pdfBase64.split(',')[1]);
+          const len = binary.length;
+          const buffer = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            buffer[i] = binary.charCodeAt(i);
+          }
+
+          // Load PDF with pdf.js
+          const pdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
+          const numPages = pdfDoc.numPages;
+
+          // Render each page
+          for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+            const page = await pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 1.0 });
+
+            // Scale to fit 520px width
+            const scale = 520 / viewport.width;
+            const scaledViewport = page.getViewport({ scale });
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = scaledViewport.height;
+            canvas.width = scaledViewport.width;
+            pdfView.appendChild(canvas);
+
+            await page.render({
+              canvasContext: context,
+              viewport: scaledViewport
+            }).promise;
+          }
+        } catch (error) {
+          console.error('Error rendering PDF:', error.message);
+          alert('Failed to render PDF: ' + error.message);
+        }
+      }
+
+      // Print PDF
+      async function printPDF() {
+        try {
+          if (!currentPdfName) {
+            throw new Error('No PDF loaded');
+          }
+
+          const response = await fetch(`api/server.php?pdf_name=${encodeURIComponent(currentPdfName)}`);
+          const data = await response.json();
+          if (data.status !== 'success') {
+            throw new Error(data.message || 'Failed to fetch PDF');
+          }
+
+          const pdfBase64 = data.pdf_data;
+
+          // Create blob from base64
+          const binary = atob(pdfBase64.split(',')[1]);
+          const len = binary.length;
+          const buffer = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            buffer[i] = binary.charCodeAt(i);
+          }
+          const blob = new Blob([buffer], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+
+          // Open in new window and trigger print
+          const printWindow = window.open(url);
+          printWindow.onload = () => {
+            printWindow.print();
+            printWindow.onbeforeunload = () => URL.revokeObjectURL(url);
+          };
+        } catch (error) {
+          console.error('Error printing PDF:', error.message);
+          alert('Failed to print PDF: ' + error.message);
+        }
+      }
+    </script>
+  </body>
+  </html>

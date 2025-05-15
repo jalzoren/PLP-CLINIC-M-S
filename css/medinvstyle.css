@@ -442,32 +442,72 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  padding: 5px;
+  justify-content: space-between;
+  padding: 15px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   color: #000000;
   border-radius: 20px;
   text-align: center;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-
-
 }
 
 .grid-item:hover {
-  width: 220px;
-  height: 220px;
-  background-color: #fafafa;
+  transform: scale(1.05); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.item-type {
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.item-content {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
-  padding: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  color: #000000;
-  border-radius: 20px;
-  text-align: center;
-  transform: scale(1.05); 
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Adds a soft shadow around the item */
+  width: 100%;
+}
+
+.item-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #1a1259;
+}
+
+.item-qty {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.item-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.view-button, .delete-button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background-color: #1a1259;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.view-button:hover, .delete-button:hover {
+  background-color: #2e266d;
+  transform: translateY(-2px);
 }
 
 .item-image {
@@ -485,16 +525,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-.item-name {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.item-qty {
-  font-size: 0.9rem;
-  color: #b0b0b0;
 }
 
 .view-button {
@@ -528,11 +558,6 @@ body {
 
 .delete-button:hover {
   background-color: #2e266d;
-}
-
-.item-buttons {
-  display: flex; 
-  gap: 5px; 
 }
 
 .view-button, .delete-button {

@@ -14,24 +14,12 @@ function loadItemsFromLocalStorage() {
   fetch('../php/fetch_items.php')
     .then(response => response.json())
     .then(items => {
-      // First try to get any existing items from localStorage to get their images
-      const storedItems = localStorage.getItem('medicines');
-      const storedItemsMap = {};
-      
-      if (storedItems) {
-        JSON.parse(storedItems).forEach(item => {
-          storedItemsMap[item.id] = item;
-        });
-      }
-
       medicines = items.map(item => ({
         id: item.Item_ID,
         name: item.Item_Name,
         type: item.Category,
         quantity: item.Quantity,
-        description: item.Description || '',
-        // Use the stored image if available, otherwise use default
-        image: (storedItemsMap[item.Item_ID] && storedItemsMap[item.Item_ID].image) || '../pictures/default-item.png'
+        description: item.Description || ''
       }));
       
       // Clear the inventory before adding items
@@ -75,13 +63,12 @@ function closeViewPopup() {
 }
 
 function showLayoutBox() {
-  const imageInput = document.getElementById('itemImage');
   const name = document.getElementById('itemName').value.trim();
   const type = document.getElementById('itemType').value.trim();
   const quantity = document.getElementById('itemStock').value.trim();
   const description = document.getElementById('itemDescription').value.trim();
 
-  if (!imageInput.files[0] || !name || !quantity || !type) {
+  if (!name || !quantity || !type) {
     document.getElementById('emptyFieldPopup').style.display = 'flex';
     return;
   }
@@ -95,33 +82,25 @@ function showLayoutBox() {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())  // Change to parse JSON
+  .then(response => response.json())
   .then(result => {
     if (result.status === 'success') {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const imageURL = e.target.result;
-
-        const medicine = {
-          id: result.id,        // Store the ID from the server
-          image: imageURL,      // just for frontend display
-          name: name,
-          type: type,
-          quantity: quantity,
-          description: description // only for frontend, not sent to backend
-        };
-
-        medicines.push(medicine);
-        addGridItem(medicine, medicines.length - 1);
-        updateItemCount();
-        resetForm();
-        closePopup();
-        saveItemsToLocalStorage();
-        // Show success popup
-        document.getElementById('SuccessPopup').style.display = 'flex';
+      const medicine = {
+        id: result.id,
+        name: name,
+        type: type,
+        quantity: quantity,
+        description: description
       };
 
-      reader.readAsDataURL(imageInput.files[0]); // still read locally for UI display
+      medicines.push(medicine);
+      addGridItem(medicine, medicines.length - 1);
+      updateItemCount();
+      resetForm();
+      closePopup();
+      saveItemsToLocalStorage();
+      // Show success popup
+      document.getElementById('SuccessPopup').style.display = 'flex';
     } else {
       alert("Error saving to database: " + result.message);
     }
@@ -137,11 +116,11 @@ function addGridItem(medicine, index) {
    const gridItem = document.createElement('div');
    gridItem.className = 'grid-item';
    gridItem.innerHTML = `
-      <div class="item-image">
-         <img src="${medicine.image}" alt="${medicine.name}">
+      <div class="item-type">${medicine.type}</div>
+      <div class="item-content">
+        <div class="item-name">${medicine.name}</div>
+        <div class="item-qty">x${medicine.quantity}</div>
       </div>
-      <div class="item-name">${medicine.name}</div>
-      <div class="item-qty">x${medicine.quantity}</div>
       <div class="item-buttons">
          <button class="view-button" onclick="viewItem(${index})">View</button>
          <button class="delete-button" onclick="deleteItem(${index})">Delete</button>
@@ -157,7 +136,6 @@ function updateItemCount() {
 }
 
 function resetForm() {
-  document.getElementById('itemImage').value = '';
   document.getElementById('itemName').value = '';
   document.getElementById('itemType').value = '';
   document.getElementById('itemStock').value = '';
@@ -170,8 +148,6 @@ function viewItem(index) {
 
   if (!medicine || !viewPopup) return;
 
-  // Set the image source directly from the stored image URL
-  document.getElementById('viewItemImage').src = medicine.image || '../pictures/default-item.png';
   document.getElementById('viewItemName').value = medicine.name;
   document.getElementById('viewItemType').value = medicine.type;
   document.getElementById('viewQuantityStock').value = medicine.quantity;
@@ -206,14 +182,12 @@ function viewItem(index) {
     .then(result => {
       if (result.status === 'success') {
         // Only update frontend if backend update was successful
-        // IMPORTANT: Preserve the original image URL
         medicines[index] = { 
-          ...medicines[index],          // Keep all existing properties including image
+          ...medicines[index],
           name: updatedMedicine.name,
           type: updatedMedicine.category,
           quantity: updatedMedicine.quantity,
-          description: document.getElementById('viewDescription').value,
-          image: medicines[index].image  // Explicitly preserve the image URL
+          description: document.getElementById('viewDescription').value
         };
         updateGridItem(index, medicines[index]);
         saveItemsToLocalStorage();
@@ -235,15 +209,12 @@ function updateGridItem(index, medicine) {
 
   if (!gridItem) return;
 
-  // Always use the stored image URL or fallback to default
-  const imageUrl = medicine.image || '../pictures/default-item.png';
-
   gridItem.innerHTML = `
-    <div class="item-image">
-      <img src="${imageUrl}" alt="${medicine.name}" onerror="this.src='../pictures/default-item.png'">
+    <div class="item-type">${medicine.type}</div>
+    <div class="item-content">
+      <div class="item-name">${medicine.name}</div>
+      <div class="item-qty">x${medicine.quantity}</div>
     </div>
-    <div class="item-name">${medicine.name}</div>
-    <div class="item-qty">x${medicine.quantity}</div>
     <div class="item-buttons">
       <button class="view-button" onclick="viewItem(${index})">View</button>
       <button class="delete-button" onclick="deleteItem(${index})">Delete</button>
@@ -252,7 +223,7 @@ function updateGridItem(index, medicine) {
 }
 
 function deleteItem(index) {
-  const idToDelete = medicines[index].id; // Ensure the correct ID is passed from frontend
+  const idToDelete = medicines[index].id;
 
   // Remove from frontend
   medicines.splice(index, 1);
