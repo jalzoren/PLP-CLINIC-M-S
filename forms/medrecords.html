@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link rel="stylesheet" href="medrecstyle.css" />
+    <link rel="stylesheet" href="../css/medrecstyle.css" />
     <link rel="icon" type="image/png" href="logo.png">
 
   </head>
@@ -16,14 +16,14 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="logo.png" alt="Logo" class="logo-img" />
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
 
       <ul class="nav-list">
         <li>
-          <a href="staffdashboard.html" class="transition-link">
+          <a href="../forms/staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt bx-rotate-180"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -31,7 +31,7 @@
         </li>
 
         <li>
-          <a href="medrecords.html" class="active" class="transition-link">
+          <a href="../forms/medrecords.html" class="active" class="transition-link">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
@@ -46,14 +46,14 @@
         </li>
    
         <li>
-          <a href="transac.html" class="transition-link"v>
+          <a href="../forms/transac.html" class="transition-link"v>
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
           <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="iteminv.html" class="transition-link">
+          <a href="../forms/iteminv.html" class="transition-link">
             <i class='bx bxs-book-content'></i>
           <span class="link-name">Inventory</span>
           </a>
@@ -68,7 +68,7 @@
           <br /> 
           <br />
 
-          <a href="logout.php">
+          <a href="../php/logout.php">
             <i class="bx bx-log-out bx-rotate-180"></i>
             <span class="link-name">Logout</span>
           </a>
@@ -140,7 +140,7 @@
 
         <script>
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("medrecsfetch.php")
+        fetch("../php/medrecsfetch.php")
           .then(response => {
             if (!response.ok) {
               throw new Error("Network response was not ok");
@@ -160,7 +160,7 @@
 
             function loadPatientRecords() {
           $.ajax({
-            url: 'medrecsfetch.php',
+            url: '../php/medrecsfetch.php',
             method: 'POST',
             success: function(response) {
               $('#patient-records-body').html(response); 
@@ -187,7 +187,7 @@
           };
   
           document.getElementById('load-btn').addEventListener('click', function() {
-            fetch('popup-medicalrec.html')
+            fetch('../popup-forms/popup-medicalrec.html')
               .then(response => response.text())
               .then(data => {
                 const container = document.getElementById('pop-up-med'); 
@@ -211,7 +211,7 @@
                 });
               })
               .catch(error => {
-                console.error('Error loading HTML:', error);
+                console.error('Error loading  HTML:', error);
               });
           });
         </script>
