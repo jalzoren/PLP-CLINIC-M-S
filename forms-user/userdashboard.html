@@ -1,3 +1,40 @@
+<?php
+session_start();
+require_once '../php/database.php';
+
+// Get user's borrowed items
+$db = new Database();
+$conn = $db->getConnection();
+
+$patient_id = $_SESSION['Patient_ID'] ?? null;
+
+if (!$patient_id) {
+    header("Location: ../login.html");
+    exit;
+}
+
+// Fetch borrowed items
+$sql = "SELECT 
+    br.BorrowedItem_ID,
+    br.Date_Borrowed,
+    br.Date_Returned,
+    i.Item_Name,
+    br.Quantity,
+    br.Status,
+    br.Photo_Borrowed,
+    br.Photo_Returned
+FROM borroweditem_records br
+JOIN item i ON br.Item_ID = i.Item_ID
+WHERE br.Patient_ID = ?
+ORDER BY br.Date_Borrowed DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -146,8 +183,41 @@
               <th>Photo<br />(Returned)</th>
             </tr>
           </thead>
-          <tbody id="borrowedItemsBody"></tbody>
-          
+          <tbody>
+            <?php if (!empty($borrowedItems)): ?>
+              <?php foreach ($borrowedItems as $index => $item): ?>
+                <tr>
+                  <td><?= $index + 1 ?></td>
+                  <td><?= date('m/d/Y h:i A', strtotime($item['Date_Borrowed'])) ?></td>
+                  <td><?= $item['Date_Returned'] ? date('m/d/Y h:i A', strtotime($item['Date_Returned'])) : '-' ?></td>
+                  <td><?= htmlspecialchars($item['Item_Name']) ?></td>
+                  <td><?= $item['Quantity'] ?></td>
+                  <td><?= $item['Status'] === 'Returned-Undamaged' ? 'Returned (Good)' :
+                         ($item['Status'] === 'Returned-Damaged' ? 'Returned (Damage)' :
+                         htmlspecialchars($item['Status'])) ?></td>
+                  <td>
+                    <?php if ($item['Photo_Borrowed']): ?>
+                      <img src="../uploads/<?= htmlspecialchars($item['Photo_Borrowed']) ?>" width="60" 
+                           onerror="this.src='../pictures/no-image.png'">
+                    <?php else: ?>
+                      -
+                    <?php endif; ?>
+                  </td>
+                  <td>
+                    <?php if ($item['Photo_Returned']): ?>
+                      <img src="../uploads/<?= htmlspecialchars($item['Photo_Returned']) ?>" width="60"
+                           onerror="this.src='../pictures/no-image.png'">
+                    <?php else: ?>
+                      Not yet returned
+                    <?php endif; ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td>
+              </tr>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
@@ -242,13 +312,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const paginatedItems = allItems.slice(start, end);
 
     if (paginatedItems.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8">No data available.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td></tr>`;
+      document.querySelector('.pagination').style.display = 'none';
       return;
     }
 
+    document.querySelector('.pagination').style.display = 'flex';
     paginatedItems.forEach((item, index) => {
       let borrowedImg = item.Photo_Borrowed || 'no-image.png';
-      let returnedImg = item.Photo_Returned || 'no-image.png';
+      let returnedImg = item.Photo_Returned;
 
       const row = `<tr>
       <td>${start + index + 1}</td>
@@ -261,14 +333,50 @@ document.addEventListener("DOMContentLoaded", function () {
           item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
           item.Status || '-'}
       </td>
-      <td><img src="../uploads/${borrowedImg}" width="60"></td>
-      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60">` : 'Not yet returned'}</td>
+      <td><img src="../uploads/${borrowedImg}" width="60" onerror="this.src='../pictures/no-image.png'"></td>
+      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60" onerror="this.src='../pictures/no-image.png'">` : 'Not yet returned'}</td>
     </tr>`;
       tbody.innerHTML += row;
     });
   }
 
-  function goToPage(page) {
+  // Fetch borrowed items directly using session Patient_ID
+  fetch("../php/fetch_borrowed_items.php")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      allItems = data;
+      renderTablePage(currentPage);
+      updatePaginationButtons();
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">
+        ${err.message || 'Error loading data. Please try again later.'}</td></tr>`;
+      document.querySelector('.pagination').style.display = 'none';
+    });
+
+  function updatePaginationButtons() {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+    const buttons = document.querySelectorAll(".page-btn");
+    buttons.forEach(btn => {
+      if (!isNaN(btn.textContent)) {
+        const pageNum = parseInt(btn.textContent);
+        btn.style.display = pageNum <= totalPages ? '' : 'none';
+        btn.classList.toggle("active", pageNum === currentPage);
+      }
+    });
+  }
+
+  // Expose to global for button onclicks
+  window.goToPage = function(page) {
     const totalPages = Math.ceil(allItems.length / itemsPerPage);
 
     if (page === 'prev') {
@@ -281,31 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updatePaginationButtons();
     renderTablePage(currentPage);
-  }
-
-  function updatePaginationButtons() {
-    const buttons = document.querySelectorAll(".page-btn");
-    buttons.forEach(btn => {
-      if (!isNaN(btn.textContent)) {
-        btn.classList.toggle("active", parseInt(btn.textContent) === currentPage);
-      }
-    });
-  }
-
-  // Fetch data from backend
-  fetch("../php/fetch_borrowed_items.php?patient_id=1")
-    .then(res => res.json())
-    .then(data => {
-      allItems = data;
-      renderTablePage(currentPage);
-    })
-    .catch(err => {
-      console.error("Error fetching data:", err);
-      tbody.innerHTML = `<tr><td colspan="8">Error loading data</td></tr>`;
-    });
-
-  // Expose to global for button onclicks
-  window.goToPage = goToPage;
+  };
 });
 
 </script>
@@ -314,3 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   </body>
 </html>
+<?php
+$stmt->close();
+$db->close();
+?>
