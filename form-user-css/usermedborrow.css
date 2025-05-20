@@ -216,6 +216,13 @@ body {
   margin-left: 45px;
 }
 
+.table-wrapper {
+  width: 100%;
+  max-height: 60vh; /* Adjustable height to limit scrolling area */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -372,7 +379,10 @@ button.btn:hover {
   .container {
     margin: 0 15px;
     padding: 5px;
-    overflow-x: auto;
+  }
+
+  .table-wrapper {
+    max-height: 50vh; /* Adjusted for mobile to fit screen better */
   }
 
   table {
@@ -507,6 +517,67 @@ button.btn:hover {
     font-size: 11px;
   }
 
+  .page-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .table-wrapper {
+    max-height: 40vh; /* Further reduced for very small screens */
+  }
+}
+
+/* Replace or add to existing CSS */
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 20px 60px;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-btn {
+  padding: 10px 16px;
+  border: 2px solid #1a1259;
+  background-color: #f4f5fc;
+  color: #1a1259;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #1a1259;
+  color: white;
+}
+
+.page-btn.active {
+  background-color: #1a1259;
+  color: white;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    margin: 15px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .page-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
   .page-btn {
     padding: 6px 10px;
     font-size: 11px;
