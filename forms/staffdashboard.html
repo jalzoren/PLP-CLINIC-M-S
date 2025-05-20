@@ -147,7 +147,7 @@
                                         <td><?= htmlspecialchars($row['Full_Name']) ?></td>
                                         <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
                                         <td>
-                                        <form method="POST" action="php/time_out.php">
+                                        <form method="POST" action="../php/time_out.php">
                                             <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
                                             <button class="timedout" type="submit">Time Out</button>
                                         </form>
