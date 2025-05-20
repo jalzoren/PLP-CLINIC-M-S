@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="stylesheet" href="patientrestyle.css" />
+    <link rel="stylesheet" href="../css/patientrestyle.css" />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -31,7 +31,7 @@
 
       <ul class="nav-list">
         <li>
-          <a href="staffdashboard.html" class="transition-link">
+          <a href="../forms/staffdashboard.html" class="transition-link">
             <i class="bx bxs-grid-alt"></i>
             <span class="link-name">Dashboard</span>
           </a>
@@ -39,14 +39,14 @@
         </li>
 
         <li>
-          <a href="medrecords.html" class="active">
+          <a href="../forms/medrecords.html" class="active">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="..forms/borrowing.html" class="transition-link">
+          <a href="../forms/borrowing.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -54,7 +54,7 @@
         </li>
 
         <li>
-          <a href="transac.html" class="transition-link">
+          <a href="../forms/transac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
@@ -90,7 +90,7 @@
 
     <div class="home-content">
      <div class="breadcrumbs">
-        <a href="medrecords.html"><i class="bx bx-arrow-back"></i></a>
+        <a href="../forms/medrecords.html"><i class="bx bx-arrow-back"></i></a>
         <p class="p-rec">
             <strong>Patient Records &lt;<span id="patient-name-placeholder"></span></strong>
         </p>
@@ -183,7 +183,7 @@
       document
         .getElementById("load-btn")
         .addEventListener("click", function () {
-          fetch("popup-assess.html")
+          fetch("../popup-forms/popup-assess.html")
             .then((response) => response.text())
             .then((data) => {
               const container = document.getElementById("pop-up-med");
