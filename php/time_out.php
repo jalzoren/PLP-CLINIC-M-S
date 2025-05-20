@@ -1,32 +1,94 @@
 <?php
-    require_once 'database.php';
+require_once 'database.php';
 
-    $data = json_decode(file_get_contents('php://input'), true);
+header('Content-Type: application/json');
 
-    $visit_id = $data['visit_id'];
-    $quantity = $data['quantity'];
-    $medicine = $data['medicine'];
-    $remarks = $data['remarks'];
+// Instantiate database connection
+try {
+    $db = new Database();
+    $conn = $db->getConnection();
+} catch (Exception $e) {
+    error_log("Database connection failed: " . $e->getMessage());
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Unable to connect to the database.'
+    ]));
+}
 
-    $response = [];
+// Decode JSON input
+$data = json_decode(file_get_contents('php://input'), true);
+if (!$data) {
+    error_log("Invalid JSON input: " . file_get_contents('php://input'));
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Invalid request data.'
+    ]));
+}
 
-    if ($visit_id) {
-        $stmt = $conn->prepare("UPDATE visit_records SET Time_Out = NOW(), Medicine = ?, Quantity = ?, Remarks = ? WHERE Visit_ID = ?");
-        $stmt->bind_param("sisi", $medicine, $quantity, $remarks, $visit_id);
+// Validate inputs
+$visit_id = $data['visit_id'] ?? null;
+$medicine = trim($data['medicine'] ?? '');
+$quantity = isset($data['quantity']) ? (int)$data['quantity'] : 0;
+$remarks = trim($data['remarks'] ?? '');
 
-        if ($stmt->execute()) {
-            $response = ['status' => 'success', 'message' => 'Visitor has been timed out successfully.'];
-        } else {
-            $response = ['status' => 'error', 'message' => 'Failed to time out the visitor.'];
-        }
+if (!$visit_id || !is_numeric($visit_id)) {
+    error_log("Invalid visit ID: " . $visit_id);
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Invalid visit ID.'
+    ]));
+}
 
-        $stmt->close();
-    } else {
-        $response = ['status' => 'error', 'message' => 'Invalid visit ID.'];
-    }
+if ($quantity < 1) {
+    error_log("Invalid quantity: " . $quantity);
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Quantity must be a positive number.'
+    ]));
+}
 
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    $conn->close();
+if (empty($medicine)) {
+    error_log("Missing medicine field");
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Medicine field is required.'
+    ]));
+}
 
-?>
+// Prepare and execute query
+$stmt = $conn->prepare(
+    "UPDATE visit_records
+     SET Time_Out = NOW(),
+         Medicine = ?,
+         Quantity = ?,
+         Remarks = ?
+     WHERE Visit_ID = ?"
+);
+
+if (!$stmt) {
+    error_log("Prepare failed: " . $conn->error);
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Database query preparation failed.'
+    ]));
+}
+
+$stmt->bind_param("sisi", $medicine, $quantity, $remarks, $visit_id);
+
+if ($stmt->execute()) {
+    $response = [
+        'status' => 'success',
+        'message' => 'Visitor has been timed out successfully.'
+    ];
+} else {
+    error_log("Execute failed: " . $stmt->error);
+    $response = [
+        'status' => 'error',
+        'message' => 'Failed to update visitor record.'
+    ];
+}
+
+$stmt->close();
+$db->close();
+
+echo json_encode($response);
