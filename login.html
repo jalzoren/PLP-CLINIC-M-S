@@ -4,38 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PLP Clinic - Login Form</title>
-  <link rel="stylesheet" href="./css/styles.css" />
   <link rel="icon" type="image/png" href="./pictures/logo.png">
-
+<link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
   <section class="container">
     <div class="left">
-        <div class="branding">
-          <img src="./pictures/logo.clear.png" alt="PLP Logo" class="logo" />
-          <h1 class="title">PLP Clinic</h1>
-          <h2 class="subtitle">Health Services Department</h2>
-          <div class="time">
-            <p class="clock" id="clock"></p>
-            <p class="weekday" id="weekday"></p>
-            <p class="date" id="date"></p>
-          </div>
+      <div class="branding">
+        <img src="./pictures/logo.clear.png" alt="PLP Logo" class="logo" />
+        <h1 class="title">PLP Clinic</h1>
+        <h2 class="subtitle">Health Services Department</h2>
+        <div class="time">
+          <p class="clock" id="clock"></p>
+          <p class="weekday" id="weekday"></p>
+          <p class="date" id="date"></p>
         </div>
       </div>
+      <img src="pictures/design.png" class="design1" alt="">
+      <img src="pictures/design.png" class="design2" alt="">
+    </div>
 
     <div class="right">
       <div class="login-box">
         <h1>LOG IN</h1>
         <form action="php/login.php" method="POST">
-          <label for="Email">Email :</label>
-          <input type="text" id="Email" name="email" placeholder="Enter Email Address:" />
+          <label for="Email">Email:</label>
+          <input type="text" id="Email" name="email" placeholder="Enter Email Address" />
 
           <label for="Password">Password:</label>
           <input type="password" id="password" name="password" placeholder="Enter Password" />
 
-          <label class="checkbox-container">Show Password
-            <input type="checkbox" id="show-password">
-            <span class="checkmark"></span>
+          <label class="checkbox-container">
+            <input type="checkbox" id="show-password"> Show Password
           </label>
 
           <button type="submit">LOG IN</button>
@@ -45,16 +45,48 @@
         </form>
       </div>
     </div>
-    <div class="design">
-        <img src="pictures/design.png" class="design1">
-        <img src="pictures/design.png" class="design2">
-    </div>
   </section>
 
   <footer>
-      <p>health_services@plpasig.edu.ph</p>
+    <p>health_services@plpasig.edu.ph</p>
   </footer>
+  <br>
+  <br>
 
-  <script src="js/time.js"></script>
+  <script>
+    // Time and date display script
+    function updateClock() {
+      const now = new Date();
+      
+      // Time
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+      
+      // Weekday
+      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      document.getElementById('weekday').textContent = weekdays[now.getDay()];
+      
+      // Date
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      document.getElementById('date').textContent = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    }
+    
+    // Update the clock immediately and then every second
+    updateClock();
+    setInterval(updateClock, 1000);
+    
+    // Show/hide password functionality
+    document.getElementById('show-password').addEventListener('change', function() {
+      const passwordField = document.getElementById('password');
+      passwordField.type = this.checked ? 'text' : 'password';
+    });
+  </script>
 </body>
 </html>

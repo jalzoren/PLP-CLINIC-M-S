@@ -139,23 +139,19 @@
                             </thead>
                             <tbody>
                                 <?php if (!empty($timedinData)): ?>
-                                    <?php foreach ($timedinData as $index => $row): ?>
-                                        <tr>
-                                            <td><?= $index + 1 ?>.</td>
-                                            <td><?= htmlspecialchars($row['Full_Name']) ?></td>
-                                            <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
-                                            <td>
-                                                <form method="POST" action="../php/time_out.php">
-                                                    <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
-                                                    <button class="timedout"
-                                                            data-visit-id="<?= htmlspecialchars($row['Visit_ID']) ?>"
-                                                            data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>">
-                                                        Time Out
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach?>
+                                <?php foreach ($timedinData as $index => $row): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?>.</td>
+                                        <td><?= htmlspecialchars($row['Full_Name']) ?></td>
+                                        <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
+                                        <td>
+                                        <form method="POST" action="php/time_out.php">
+                                            <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                            <button class="timedout" type="submit">Time Out</button>
+                                        </form>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr><td colspan="4">No students currently timed in.</td></tr>
                                 <?php endif; ?>
