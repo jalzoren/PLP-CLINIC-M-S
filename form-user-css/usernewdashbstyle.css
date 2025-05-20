@@ -398,11 +398,11 @@ body {
     padding: 5px 0;
   }
   .navigation_main button {
-    width: 150px; /* Smaller width for mobile */
-    height: 40px; /* Taller for better touch target */
+    width: 110px;
+    height: 40px; 
     font-size: 14px;
-    padding: 0 10px; /* Ensure text fits */
-    white-space: nowrap; /* Prevent text wrapping */
+    padding: 0 10px; 
+    white-space: nowrap; 
   }
 
   .main {
@@ -493,7 +493,7 @@ body {
     gap: 8px;
   }
   .navigation_main button {
-    width: 120px; 
+    width: 110px; 
     height: 35px;
     font-size: 13px;
     padding: 0 8px;
