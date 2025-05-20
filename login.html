@@ -93,63 +93,6 @@
   }
 });
   
-
-    // Form submission with SweetAlert2
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('Email').value;
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please fill in all required fields.',
-          confirmButtonColor: '#1a1259',
-          background: '#c85656',
-          color: '#fff'
-        });
-        return;
-      }
-
-      fetch('php/login.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Login successful!',
-            confirmButtonColor: '#1a1259'
-          }).then(() => {
-            this.reset();
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || 'Login failed. Please try again.',
-            confirmButtonColor: '#1a1259',
-            background: '#c85656',
-            color: '#fff'
-          });
-        }
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred. Please try again.',
-          confirmButtonColor: '#1a1259',
-          background: '#c85656',
-          color: '#fff'
-        });
-      });
-    });
   </script>
 </body>
 </html>
