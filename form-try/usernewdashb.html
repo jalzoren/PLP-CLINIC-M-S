@@ -58,7 +58,7 @@
     <section class="main">
 
         <div class="info">
-                      <div class="header-name" id="greeting"></div>
+        <div class="header-name" id="greeting"></div>
 
       <div class="status-container" id="patient-info">
   <aside class="status-box">
@@ -109,11 +109,51 @@
         <div class="item">
            
         </div>
+          
+        
+        <div class="item">
+           
+        </div>
+        <div class="item">
+           
+        </div>
+         <div class="item">
+           
+        </div>
+        
     </div>
   </body>
-<script>
 
-  /*
+  <script>
+      
+    function updateGreeting(name) {
+      const now = new Date();
+      const philTime = new Date(
+        now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
+      );
+      const hours = philTime.getHours();
+
+      let greeting;
+      if (hours >= 5 && hours < 12) {
+        greeting = "Good Morning";
+      } else if (hours >= 12 && hours < 18) {
+        greeting = "Good Afternoon";
+      } else {
+        greeting = "Good Evening";
+      }
+
+      document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateGreeting("John");
+    });
+
+
+    </script>
+
+<!--
+  
  document.addEventListener("DOMContentLoaded", function () {
   fetch('../php/userinterfacefetch.php')
     .then(response => response.json())
@@ -141,36 +181,13 @@
       document.getElementById('patient-info').innerHTML =
         "<p>Error loading data. Please try again later.</p>";
     });
+    
+  
 
-   
-
-  function updateGreeting(name) {
-    const now = new Date();
-    const philTime = new Date(
-      now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
-    );
-    const hours = philTime.getHours();
-
-    let greeting;
-    if (hours >= 5 && hours < 12) {
-      greeting = "Good Morning";
-    } else if (hours >= 12 && hours < 18) {
-      greeting = "Good Afternoon";
-    } else {
-      greeting = "Good Evening";
-    }
-
-    document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
-  }
-});
-*/
-</script>
+ 
 
 
-</script>
 
-
-    <script>
       let btn = document.querySelector("#logo");
       let sidebar = document.querySelector(".sidebar");
 
@@ -179,9 +196,8 @@
       };
 
       
-    </script>
 
-<script>
+</script>
 document.addEventListener("DOMContentLoaded", function () {
   const tbody = document.getElementById("borrowedItemsBody");
   const itemsPerPage = 5;
@@ -277,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
-
+-->
 
 
   </body>
