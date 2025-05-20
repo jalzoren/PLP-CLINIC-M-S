@@ -206,6 +206,8 @@ footer a:hover {
 @media (max-width: 768px) {
   .logo_img {
     max-width: 300px;
+      top: -20PX;
+    position: relative;
   }
 
   .time {
@@ -242,6 +244,10 @@ footer a:hover {
 
   .logo_img {
     max-width: 240px;
+    top: -40PX;
+    position: relative;
+
+
   }
 
   h2 {
