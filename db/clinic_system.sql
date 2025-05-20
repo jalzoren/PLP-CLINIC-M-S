@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2025 at 05:23 PM
+-- Generation Time: May 20, 2025 at 03:00 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,13 +34,6 @@ CREATE TABLE `alcohol_history` (
   `Frequency` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `alcohol_history`
---
-
-INSERT INTO `alcohol_history` (`Alcohol_ID`, `Patient_ID`, `ESTperConsumption`, `Frequency`) VALUES
-(4, 11, NULL, 'Once per week');
-
 -- --------------------------------------------------------
 
 --
@@ -54,7 +47,7 @@ CREATE TABLE `borroweditem_records` (
   `Quantity` int(11) NOT NULL,
   `Date_Borrowed` datetime NOT NULL,
   `Date_Returned` datetime DEFAULT NULL,
-  `Status` varchar(50) NOT NULL,
+  `Status` enum('Borrowed','Returned (Good)','Returned (Damage)','Overdue') NOT NULL,
   `Photo_Borrowed` varchar(255) NOT NULL,
   `Photo_Returned` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,8 +61,8 @@ CREATE TABLE `borroweditem_records` (
 CREATE TABLE `drug_history` (
   `Drug_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Usage_Status` varchar(12) DEFAULT NULL,
-  `Rehub_Undergone` varchar(5) DEFAULT NULL
+  `Usage_Status` varchar(50) DEFAULT NULL,
+  `Rehub_Undergone` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -77,7 +70,9 @@ CREATE TABLE `drug_history` (
 --
 
 INSERT INTO `drug_history` (`Drug_ID`, `Patient_ID`, `Usage_Status`, `Rehub_Undergone`) VALUES
-(1, 11, 'Never', '');
+(24, 28, 'Never', ''),
+(25, 29, 'Never', ''),
+(26, 31, 'Never', '');
 
 -- --------------------------------------------------------
 
@@ -88,8 +83,7 @@ INSERT INTO `drug_history` (`Drug_ID`, `Patient_ID`, `Usage_Status`, `Rehub_Unde
 CREATE TABLE `drug_typeused` (
   `DrugType_ID` int(11) NOT NULL,
   `Drug_ID` int(11) NOT NULL,
-  `Type` varchar(15) DEFAULT NULL,
-  `CustomDrugName` varchar(100) DEFAULT NULL
+  `Type` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -117,7 +111,9 @@ CREATE TABLE `emergency_contact` (
 --
 
 INSERT INTO `emergency_contact` (`EmergencyContact_ID`, `Patient_ID`, `Last_Name`, `First_Name`, `Middle_Name`, `Relationship`, `Address`, `City`, `Province`, `Zip_Code`, `Contact_Number`) VALUES
-(4, 11, 'Bitancor', 'Miah', 'Amora', 'myself', 'San Miguel', 'Pasig city', 'Metro Manila', '1600', 2147483647);
+(24, 28, 'Alpuerto', 'Haylene', 'Mercado', 'Mother', '5 Javier St.', 'Pasig City ', 'Rizal', '1920', 2147483647),
+(25, 29, 'Alpuerto', 'Haylene', 'Mercado', 'Mother', '5 Javier St.', 'Pasig City ', 'Rizal', '1920', 2147483647),
+(26, 31, 'Alpuerto', 'Haylene', 'Mercado', 'Mother', '5 Javier St.', 'Pasig City ', 'Rizal', '1920', 2147483647);
 
 -- --------------------------------------------------------
 
@@ -132,13 +128,6 @@ CREATE TABLE `family_history` (
   `Details` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `family_history`
---
-
-INSERT INTO `family_history` (`FamHistory_ID`, `Patient_ID`, `Medical_Condition`, `Details`) VALUES
-(0, 11, 'Asthma', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -147,26 +136,8 @@ INSERT INTO `family_history` (`FamHistory_ID`, `Patient_ID`, `Medical_Condition`
 
 CREATE TABLE `item` (
   `Item_ID` int(11) NOT NULL,
-  `Item_Name` varchar(100) NOT NULL,
-  `Category` varchar(20) NOT NULL,
-  `Status` varchar(20) NOT NULL,
-  `Quantity` int(11) NOT NULL
+  `Item_Name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `item`
---
-
-INSERT INTO `item` (`Item_ID`, `Item_Name`, `Category`, `Status`, `Quantity`) VALUES
-(1, 'Crutches', 'Supplies', 'Available', 4),
-(2, 'Stethoscope', 'Equipment', 'Available', 3),
-(3, 'Heat Pack', 'First Aid', 'Available', 6),
-(4, 'Arm Sling', 'First Aid', 'Available', 5),
-(5, 'First Aid Kit', 'First Aid', 'Available', 3),
-(6, 'Cold Pack (Reusable)', 'First Aid', 'Available', 5),
-(7, 'Elastic Bandage (4 inch)', 'First Aid', 'Available', 10),
-(8, 'Digital Thermometer', 'Equipment', 'Available', 3),
-(9, 'Crutches (Adjustable)', 'Equipment', 'Available', 2);
 
 -- --------------------------------------------------------
 
@@ -176,12 +147,12 @@ INSERT INTO `item` (`Item_ID`, `Item_Name`, `Category`, `Status`, `Quantity`) VA
 
 CREATE TABLE `maternal` (
   `Maternal_ID` int(11) NOT NULL,
-  `Patient_ID` int(11) DEFAULT NULL,
-  `No_ofPregnancy` tinyint(4) DEFAULT NULL,
-  `No_ofMiscarriage` tinyint(4) DEFAULT NULL,
-  `No_TermsofDelevery` tinyint(4) DEFAULT NULL,
-  `No_ofPrematureDelivery` tinyint(4) DEFAULT NULL,
-  `TotalofChildren` tinyint(4) DEFAULT NULL
+  `Patient_ID` int(11) NOT NULL,
+  `No_ofPregnancy` int(20) DEFAULT NULL,
+  `No_ofMiscarriage` int(20) DEFAULT NULL,
+  `No_TermsofDelevery` int(20) DEFAULT NULL,
+  `No_ofPrematureDelivery` int(20) DEFAULT NULL,
+  `TotalofChildren` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -189,7 +160,9 @@ CREATE TABLE `maternal` (
 --
 
 INSERT INTO `maternal` (`Maternal_ID`, `Patient_ID`, `No_ofPregnancy`, `No_ofMiscarriage`, `No_TermsofDelevery`, `No_ofPrematureDelivery`, `TotalofChildren`) VALUES
-(4, 11, NULL, NULL, NULL, NULL, NULL);
+(24, 28, NULL, NULL, NULL, NULL, NULL),
+(25, 29, NULL, NULL, NULL, NULL, NULL),
+(26, 31, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,26 +176,28 @@ CREATE TABLE `patient` (
   `First_Name` varchar(50) NOT NULL,
   `Middle_Name` varchar(50) DEFAULT NULL,
   `Last_Name` varchar(50) NOT NULL,
-  `Sex` varchar(10) NOT NULL,
+  `Sex` enum('Male','Female','Intersex') NOT NULL,
   `Age` tinyint(4) NOT NULL,
   `Birthdate` date NOT NULL,
   `Civil_Status` varchar(20) NOT NULL,
   `Religion` varchar(50) NOT NULL,
   `Nationality` varchar(50) NOT NULL,
-  `Contact_Number` int(15) NOT NULL,
+  `Contact_Number` varchar(20) NOT NULL,
   `Address` varchar(255) NOT NULL,
   `City` varchar(50) NOT NULL,
   `Province` varchar(50) NOT NULL,
-  `Zip_Code` varchar(10) NOT NULL
+  `Zip_Code` varchar(10) NOT NULL,
+  `Created_At` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`Patient_ID`, `Category`, `First_Name`, `Middle_Name`, `Last_Name`, `Sex`, `Age`, `Birthdate`, `Civil_Status`, `Religion`, `Nationality`, `Contact_Number`, `Address`, `City`, `Province`, `Zip_Code`) VALUES
-(1, 'Student', 'Jerimiah', 'Amora', 'Bitancor', 'Male', 19, '2005-08-15', 'Single', 'Catholic', 'Filipino', 2147483647, 'Barangay San Miguel', 'Pasig City', 'Metro Manila', '1600'),
-(11, 'student', 'Jerimiah', 'Amora', 'Bitancor', 'Male', 19, '2025-05-15', 'Single', 'catholic', 'filipino', 2147483647, 'san miguel', 'pasig city', 'metromanila', '1600');
+INSERT INTO `patient` (`Patient_ID`, `Category`, `First_Name`, `Middle_Name`, `Last_Name`, `Sex`, `Age`, `Birthdate`, `Civil_Status`, `Religion`, `Nationality`, `Contact_Number`, `Address`, `City`, `Province`, `Zip_Code`, `Created_At`) VALUES
+(28, 'student', 'Lynn Czyla ', 'Mercado', 'Alpuerto', 'Female', 20, '2025-05-16', 'Single', 'Catholic ', 'Filipino', '09265566355', '5 Javier St.', 'Pasig City', 'Rizal', '1920', '2025-05-17 17:47:39'),
+(29, 'student', 'Marlon  ', 'Mercado', 'Remudo', 'Female', 20, '2025-05-14', 'Single', 'Catholic ', 'Filipino', '09265566355', '5 Javier St.', 'Pasig City', 'Rizal', '1920', '2025-05-17 17:52:04'),
+(31, 'student', 'Ryvon', 'Arroza', 'Alpuerto', 'Female', 20, '2025-05-07', 'Single', 'Catholic ', 'Filipino', '09265566355', '5 Javier St.', 'Pasig City', 'Rizal', '1920', '2025-05-17 17:58:40');
 
 -- --------------------------------------------------------
 
@@ -260,21 +235,25 @@ CREATE TABLE `patient_condition` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patient_medical_record`
+-- Table structure for table `patient_pdfs`
 --
 
-CREATE TABLE `patient_medical_record` (
-  `Medical_Record_ID` int(11) NOT NULL,
-  `Patient_ID` int(11) NOT NULL,
-  `PatientCon_ID` int(11) NOT NULL,
-  `FamHistory_ID` int(11) NOT NULL,
-  `EmergencyContact_ID` int(11) NOT NULL,
-  `Maternal_ID` int(11) NOT NULL,
-  `Surgical_ID` int(11) NOT NULL,
-  `Alcohol_ID` int(11) NOT NULL,
-  `Smoking_ID` int(11) NOT NULL,
-  `Drug_ID` int(11) NOT NULL
+CREATE TABLE `patient_pdfs` (
+  `Patient_Pdfs_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) DEFAULT NULL,
+  `pdf_name` varchar(255) DEFAULT NULL,
+  `pdf_data` blob DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient_pdfs`
+--
+
+INSERT INTO `patient_pdfs` (`Patient_Pdfs_ID`, `Patient_ID`, `pdf_name`, `pdf_data`, `created_at`) VALUES
+(9, 28, 'medical_record_1747475259.pdf', 0x75ab5a6a9a6589c6ad8a89ffa5d7df8a57a76a67a07a77ab6ad79da5d7db6ac7bae095411118b4c4b8cc2896eb7eb38028cc80c081bd89a828f0f0bd51e5c19480bd41859d9428bd4185c995b9d080c480c0814828bd4995cdbdd5c98d95cc80c880c0814828bd359591a58509bde0816cc080c080d4e4d4b8c8dce4e4e4e4e4e4e4e4e4e4e4dcc8dc80e0d0c4b8e0e0e4e4e4e4e4e4e4e4e4e4e4e0d8d17428bd0dbdb9d195b9d1cc80d080c0814828f8f82995b991bd89a828d080c081bd89a828f0f028bd3195b99dd1a080c4ccd828f8f829cdd1c99585b428c0b8d4d8dcc0c0c0c0c0c0c0c0c0c0c0c0c481dc28c0811c29095028bd18c480c4d881519828c4e0b8cce4e4e4e4e4e4e4e4e4e4e4e4e4e0d881513028c0819c28c8e0b8ccd0d8d0d4d8d8e4c8e4c4cccce0e0e080e0c4ccb8d4d0ccd4d0ccccc0dcc0e0d8d4d8d4d881519028a115e185b5c1b19481411118818dbdb9d195b9d0a48151a82915502995b991cdd1c99585b42995b991bd89a828c480c081bd89a828f0f0bd51e5c19480bd41859d95cc28bd2da591cc816ccc80c08148817428bd0dbdd5b9d080c428f8f82995b991bd89a828d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d8428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4cc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb549bdb585b828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb525d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19125d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd6985c19911a5b99d8985d1cc28bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd4de5b589bdb028bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c880c081bd89a828f0f028bd41c9bd8d4d95d0816cbd41111880bd5195e1d080bd25b5859d950880bd25b5859d950c80bd25b5859d95257428bd19bdb9d080f0f028bd18c480d480c0814828bd18c880d880c0814828bd18cc80dc80c0814828bd18d080e080c0814828bd18d480e480c0814828bd18d880c4c080c0814828bd18dc80c4c480c0814828bd18e080c4c880c0814828bd18e480c4cc80c0814828bd18c4c080c4d080c0814828bd18c4c480c4d480c0814828bd18c4c880c4d880c0814828bd18c4cc80c4dc80c0814828bd18c4d080c4e080c0814828f8f828bd613d89a9958dd080f0f028f8f828f8f82995b991bd89a828c4e480c081bd89a828f0f028bd41c9bd91d58d95c880a1a9cd41111880c8b8d4b8c4a428bd0dc99585d1a5bdb91185d19480a110e8c8c0c8d4c0d4c4dcc4dcd0dccce4acc0e09cc0c09ca428f8f82995b991bd89a828c8c080c081bd89a828f0f028bd51e5c19480bd0d85d185b1bd9c28bd41859d95cc80c480c0814828bd3dc195b9058dd1a5bdb8816ccc80c0814880bd19a5d12081b9d5b1b17428bd41859d953185e5bdd5d080bd3db9950dbdb1d5b5b828f8f82995b991bd89a829e1c9959828c080c8c428c0c0c0c0c0c0c0c0c0c080d8d4d4ccd481988028c0c0c0c0c0c0c0cccce480c0c0c0c0c081b88028c0c0c0c0c0c0c8c4d4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0c0c4d480c0c0c0c0c081b88028c0c0c0c0c0c0c0c4d4c880c0c0c0c0c081b88028c0c0c0c0c0c0c0cce4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0d4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c0d8d4c480c0c0c0c0c081b88028c0c0c0c0c0c0c0dce0d080c0c0c0c0c081b88028c0c0c0c0c0c0c0e4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c4c0d0d080c0c0c0c0c081b88028c0c0c0c0c0c0c4c4dccc80c0c0c0c0c081b88028c0c0c0c0c0c0c4ccc0d480c0c0c0c0c081b88028c0c0c0c0c0c0c4d0d0c480c0c0c0c0c081b88028c0c0c0c0c0c0c4d4d8e480c0c0c0c0c081b88028c0c0c0c0c0c0c4d8e4d880c0c0c0c0c081b88028c0c0c0c0c0c0c4e0c8d480c0c0c0c0c081b88028c0c0c0c0c0c0c4e4d4e080c0c0c0c0c081b88028c0c0c0c0c0c0c8c0d8c080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0c0d080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0e4c080c0c0c0c0c081b88029d1c985a5b195c828f0f028bd4da5e99480c8c428bd49bdbdd080c8c080c0814828bd25b999bc80c4e480c0814828bd2510816c80f0dd18e4c0d8c8c0c518cd14ccc4c0d91914c4d8d8e11914cd1918e50cd904c118f880f0dd18e4c0d8c8c0c518cd14ccc4c0d91914c4d8d8e11914cd1918e50cd904c118f8817428f8f829cdd185c9d1e1c9959828c8d4e4d0289495153d, '2025-05-17 09:47:39'),
+(10, 29, 'medical_record_1747475524.pdf', 0x75ab5a6a9a6589c6ad8a89ffa5d7df8a57a76a67a07a77ab6ad79da5d7db6ac7bae095411118b4c4b8cc2896eb7eb38028cc80c081bd89a828f0f0bd51e5c19480bd41859d9428bd4185c995b9d080c480c0814828bd4995cdbdd5c98d95cc80c880c0814828bd359591a58509bde0816cc080c080d4e4d4b8c8dce4e4e4e4e4e4e4e4e4e4e4dcc8dc80e0d0c4b8e0e0e4e4e4e4e4e4e4e4e4e4e4e0d8d17428bd0dbdb9d195b9d1cc80d080c0814828f8f82995b991bd89a828d080c081bd89a828f0f028bd3195b99dd1a080c4ccd828f8f829cdd1c99585b428c0b8d4d8dcc0c0c0c0c0c0c0c0c0c0c0c0c481dc28c0811c29095028bd18c480c4d881519828c4e0b8cce4e4e4e4e4e4e4e4e4e4e4e4e4e0d881513028c0819c28c8e0b8ccd0d8d0d4d8d8e4c8e4c4cccce0e0e080e0c4ccb8d4d0ccd4d0ccccc0dcc0e0d8d4d8d4d881519028a115e185b5c1b19481411118818dbdb9d195b9d0a48151a82915502995b991cdd1c99585b42995b991bd89a828c480c081bd89a828f0f0bd51e5c19480bd41859d95cc28bd2da591cc816ccc80c08148817428bd0dbdd5b9d080c428f8f82995b991bd89a828d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d8428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4cc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb549bdb585b828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb525d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19125d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd6985c19911a5b99d8985d1cc28bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd4de5b589bdb028bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c880c081bd89a828f0f028bd41c9bd8d4d95d0816cbd41111880bd5195e1d080bd25b5859d950880bd25b5859d950c80bd25b5859d95257428bd19bdb9d080f0f028bd18c480d480c0814828bd18c880d880c0814828bd18cc80dc80c0814828bd18d080e080c0814828bd18d480e480c0814828bd18d880c4c080c0814828bd18dc80c4c480c0814828bd18e080c4c880c0814828bd18e480c4cc80c0814828bd18c4c080c4d080c0814828bd18c4c480c4d480c0814828bd18c4c880c4d880c0814828bd18c4cc80c4dc80c0814828bd18c4d080c4e080c0814828f8f828bd613d89a9958dd080f0f028f8f828f8f82995b991bd89a828c4e480c081bd89a828f0f028bd41c9bd91d58d95c880a1a9cd41111880c8b8d4b8c4a428bd0dc99585d1a5bdb91185d19480a110e8c8c0c8d4c0d4c4dcc4dcd4c8c0d0acc0e09cc0c09ca428f8f82995b991bd89a828c8c080c081bd89a828f0f028bd51e5c19480bd0d85d185b1bd9c28bd41859d95cc80c480c0814828bd3dc195b9058dd1a5bdb8816ccc80c0814880bd19a5d12081b9d5b1b17428bd41859d953185e5bdd5d080bd3db9950dbdb1d5b5b828f8f82995b991bd89a829e1c9959828c080c8c428c0c0c0c0c0c0c0c0c0c080d8d4d4ccd481988028c0c0c0c0c0c0c0cccce480c0c0c0c0c081b88028c0c0c0c0c0c0c8c4d4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0c0c4d480c0c0c0c0c081b88028c0c0c0c0c0c0c0c4d4c880c0c0c0c0c081b88028c0c0c0c0c0c0c0cce4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0d4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c0d8d4c480c0c0c0c0c081b88028c0c0c0c0c0c0c0dce0d080c0c0c0c0c081b88028c0c0c0c0c0c0c0e4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c4c0d0d080c0c0c0c0c081b88028c0c0c0c0c0c0c4c4dccc80c0c0c0c0c081b88028c0c0c0c0c0c0c4ccc0d480c0c0c0c0c081b88028c0c0c0c0c0c0c4d0d0c480c0c0c0c0c081b88028c0c0c0c0c0c0c4d4d8e480c0c0c0c0c081b88028c0c0c0c0c0c0c4d8e4d880c0c0c0c0c081b88028c0c0c0c0c0c0c4e0c8d480c0c0c0c0c081b88028c0c0c0c0c0c0c4e4d4e080c0c0c0c0c081b88028c0c0c0c0c0c0c8c0d8c080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0c0d080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0e4c080c0c0c0c0c081b88029d1c985a5b195c828f0f028bd4da5e99480c8c428bd49bdbdd080c8c080c0814828bd25b999bc80c4e480c0814828bd2510816c80f0c90cc114dcd8e10cccc0ccccd4dd1110c0c0d0c518e4d0cce4c8d508cd14c4c8f880f0c90cc114dcd8e10cccc0ccccd4dd1110c0c0d0c518e4d0cce4c8d508cd14c4c8f8817428f8f829cdd185c9d1e1c9959828c8d4e4d0289495153d, '2025-05-17 09:52:04'),
+(11, 31, 'medical_record_1747475920.pdf', 0x75ab5a6a9a6589c6ad8a89ffa5d7df8a57a76a67a07a77ab6ad79da5d7db6ac7bae095411118b4c4b8cc2896eb7eb38028cc80c081bd89a828f0f0bd51e5c19480bd41859d9428bd4185c995b9d080c480c0814828bd4995cdbdd5c98d95cc80c880c0814828bd359591a58509bde0816cc080c080d4e4d4b8c8dce4e4e4e4e4e4e4e4e4e4e4dcc8dc80e0d0c4b8e0e0e4e4e4e4e4e4e4e4e4e4e4e0d8d17428bd0dbdb9d195b9d1cc80d080c0814828f8f82995b991bd89a828d080c081bd89a828f0f028bd3195b99dd1a080c4ccd828f8f829cdd1c99585b428c0b8d4d8dcc0c0c0c0c0c0c0c0c0c0c0c0c481dc28c0811c29095028bd18c480c4d881519828c4e0b8cce4e4e4e4e4e4e4e4e4e4e4e4e4e0d881513028c0819c28c8e0b8ccd0d8d0d4d8d8e4c8e4c4cccce0e0e080e0c4ccb8d4d0ccd4d0ccccc0dcc0e0d8d4d8d4d881519028a115e185b5c1b19481411118818dbdb9d195b9d0a48151a82915502995b991cdd1c99585b42995b991bd89a828c480c081bd89a828f0f0bd51e5c19480bd41859d95cc28bd2da591cc816ccc80c08148817428bd0dbdd5b9d080c428f8f82995b991bd89a828d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d8428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd2195b1d995d1a58d84b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828e480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b53d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4c880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd0dbdd5c9a595c8b509bdb1913d89b1a5c5d59428bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4cc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb549bdb585b828bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19028bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d480c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb525d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4d880c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd51a5b595ccb509bdb19125d185b1a58c28bd4dd589d1e5c19480bd51e5c194c428bd15b98dbd91a5b99c80bd5da5b905b9cda515b98dbd91a5b99c28bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4dc80c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd6985c19911a5b99d8985d1cc28bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c4e080c081bd89a828f0f028bd51e5c19480bd19bdb9d028bd0985cd9519bdb9d080bd4de5b589bdb028bd4dd589d1e5c19480bd51e5c194c428bd19a5c9cdd10da185c880ccc828bd3185cdd10da185c880c8d4d428f8f82995b991bd89a828c880c081bd89a828f0f028bd41c9bd8d4d95d0816cbd41111880bd5195e1d080bd25b5859d950880bd25b5859d950c80bd25b5859d95257428bd19bdb9d080f0f028bd18c480d480c0814828bd18c880d880c0814828bd18cc80dc80c0814828bd18d080e080c0814828bd18d480e480c0814828bd18d880c4c080c0814828bd18dc80c4c480c0814828bd18e080c4c880c0814828bd18e480c4cc80c0814828bd18c4c080c4d080c0814828bd18c4c480c4d480c0814828bd18c4c880c4d880c0814828bd18c4cc80c4dc80c0814828bd18c4d080c4e080c0814828f8f828bd613d89a9958dd080f0f028f8f828f8f82995b991bd89a828c4e480c081bd89a828f0f028bd41c9bd91d58d95c880a1a9cd41111880c8b8d4b8c4a428bd0dc99585d1a5bdb91185d19480a110e8c8c0c8d4c0d4c4dcc4dcd4e0d0c0acc0e09cc0c09ca428f8f82995b991bd89a828c8c080c081bd89a828f0f028bd51e5c19480bd0d85d185b1bd9c28bd41859d95cc80c480c0814828bd3dc195b9058dd1a5bdb8816ccc80c0814880bd19a5d12081b9d5b1b17428bd41859d953185e5bdd5d080bd3db9950dbdb1d5b5b828f8f82995b991bd89a829e1c9959828c080c8c428c0c0c0c0c0c0c0c0c0c080d8d4d4ccd481988028c0c0c0c0c0c0c0cccce480c0c0c0c0c081b88028c0c0c0c0c0c0c8c4d4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0c0c4d480c0c0c0c0c081b88028c0c0c0c0c0c0c0c4d4c880c0c0c0c0c081b88028c0c0c0c0c0c0c0cce4d880c0c0c0c0c081b88028c0c0c0c0c0c0c0d4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c0d8d4c480c0c0c0c0c081b88028c0c0c0c0c0c0c0dce0d080c0c0c0c0c081b88028c0c0c0c0c0c0c0e4c8c480c0c0c0c0c081b88028c0c0c0c0c0c0c4c0d0d080c0c0c0c0c081b88028c0c0c0c0c0c0c4c4dccc80c0c0c0c0c081b88028c0c0c0c0c0c0c4ccc0d480c0c0c0c0c081b88028c0c0c0c0c0c0c4d0d0c480c0c0c0c0c081b88028c0c0c0c0c0c0c4d4d8e480c0c0c0c0c081b88028c0c0c0c0c0c0c4d8e4d880c0c0c0c0c081b88028c0c0c0c0c0c0c4e0c8d480c0c0c0c0c081b88028c0c0c0c0c0c0c4e4d4e080c0c0c0c0c081b88028c0c0c0c0c0c0c8c0d8c080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0c0d080c0c0c0c0c081b88028c0c0c0c0c0c0c8d0e4c080c0c0c0c0c081b88029d1c985a5b195c828f0f028bd4da5e99480c8c428bd49bdbdd080c8c080c0814828bd25b999bc80c4e480c0814828bd2510816c80f0e4d90cd0d111050510c0d0dd10c8dd0cc10d0cc510d10d051910dcc50cccc90cf880f0e4d90cd0d111050510c0d0dd10c8dd0cc10d0cc510d10d051910dcc50cccc90cf8817428f8f829cdd185c9d1e1c9959828c8d4e4d0289495153d, '2025-05-17 09:58:40');
 
 -- --------------------------------------------------------
 
@@ -283,8 +262,8 @@ CREATE TABLE `patient_medical_record` (
 --
 
 CREATE TABLE `personnel_patient` (
-  `Patient_ID` int(11) NOT NULL,
   `Personnel_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -297,7 +276,7 @@ CREATE TABLE `personnel_patient` (
 CREATE TABLE `smoking_history` (
   `Smoking_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `Usage_Status` varchar(15) DEFAULT NULL,
+  `Usage_Status` varchar(100) DEFAULT NULL,
   `Start_Date` date DEFAULT NULL,
   `Stop_Date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -307,7 +286,9 @@ CREATE TABLE `smoking_history` (
 --
 
 INSERT INTO `smoking_history` (`Smoking_ID`, `Patient_ID`, `Usage_Status`, `Start_Date`, `Stop_Date`) VALUES
-(1, 11, 'never', NULL, NULL);
+(24, 28, 'never', NULL, NULL),
+(25, 29, 'never', NULL, NULL),
+(26, 31, 'never', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -319,7 +300,7 @@ CREATE TABLE `smoking_typeused` (
   `SmokingType_ID` int(11) NOT NULL,
   `Smoking_ID` int(11) NOT NULL,
   `Type` varchar(100) DEFAULT NULL,
-  `StickperDay` int(11) DEFAULT NULL
+  `StickperDay` int(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -329,20 +310,21 @@ CREATE TABLE `smoking_typeused` (
 --
 
 CREATE TABLE `student_patient` (
-  `Patient_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
+  `Patient_ID` int(11) NOT NULL,
   `Department` varchar(255) NOT NULL,
   `Program` varchar(255) NOT NULL,
-  `Batch` varchar(100) NOT NULL
+  `Batch` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student_patient`
 --
 
-INSERT INTO `student_patient` (`Patient_ID`, `Student_ID`, `Department`, `Program`, `Batch`) VALUES
-(11, 2300230, 'COE', 'BSECE', '2025'),
-(1, 2300298, 'College of Computer Studies', 'Bachelor of Science in Information Technology', '2024-2025');
+INSERT INTO `student_patient` (`Student_ID`, `Patient_ID`, `Department`, `Program`, `Batch`) VALUES
+(220055, 29, 'CON', 'BSECE', '2023'),
+(2300179, 28, 'CON', 'BSCS', '2023'),
+(2300895, 31, 'CIHM', 'BSECE', '2023');
 
 -- --------------------------------------------------------
 
@@ -353,7 +335,7 @@ INSERT INTO `student_patient` (`Patient_ID`, `Student_ID`, `Department`, `Progra
 CREATE TABLE `surgical_history` (
   `Surgical_ID` int(11) NOT NULL,
   `Patient_ID` int(11) NOT NULL,
-  `HasSurgicalHistory` varchar(5) DEFAULT NULL,
+  `HasSurgicalHistory` enum('yes','none') NOT NULL,
   `Specify` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -362,7 +344,9 @@ CREATE TABLE `surgical_history` (
 --
 
 INSERT INTO `surgical_history` (`Surgical_ID`, `Patient_ID`, `HasSurgicalHistory`, `Specify`) VALUES
-(1, 11, 'none', NULL);
+(24, 28, 'none', NULL),
+(25, 29, 'none', NULL),
+(26, 31, 'none', NULL);
 
 -- --------------------------------------------------------
 
@@ -383,9 +367,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`User_ID`, `Patient_ID`, `Role`, `Email`, `Password`) VALUES
-(1, NULL, 'admin', 'clinicadmin@plpasig.edu.ph', '$2y$10$nDLTyFTcw/U8ZBFdsCpk9.RL.Q7UnlkC4HgPVzSbI7PpBZCMk37mO'),
-(2, NULL, 'staff', 'clinicstaff@plpasig.edu.ph', '$2y$10$f9dPLsiFyLtPuDr3..hft.NNjWS4ojAPJ5lS1Gla8gt3a9EORosg2'),
-(12, 11, 'user', 'bitancor_jerimiah@plpasig.edu.ph', '$2y$10$UFZCauTybNzbWHRlvKWJNOOV8lGmdXMhzvupNRLjeGv9v8ppr9ZLO');
+(28, 28, 'user', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2y$10$Gzj.WQ5EzL0F38TbY8VYW.ZF0zyIY7TsJ1rgFeUctR553JROnXu1u'),
+(29, 29, 'user', 'remudo_marlon@plpasig.edu.ph', '$2y$10$/2Qt4KTT/UbHlHR5.dv7tOXBovk3O4SfekHOgG.F1KV48QeyDgdnK'),
+(31, 31, 'user', 'alpuerto_ryvon@plpasig.edu.ph', '$2y$10$z.ZwjBpQ1uag9cJotKDZ3eW6PXyNe/EImSaUAsGOhq1Zs467HBf46');
 
 -- --------------------------------------------------------
 
@@ -474,8 +458,7 @@ ALTER TABLE `patient`
 -- Indexes for table `patient_assessment`
 --
 ALTER TABLE `patient_assessment`
-  ADD PRIMARY KEY (`Assessment_ID`),
-  ADD KEY `patient_assessment` (`Patient_ID`);
+  ADD PRIMARY KEY (`Assessment_ID`);
 
 --
 -- Indexes for table `patient_condition`
@@ -485,19 +468,11 @@ ALTER TABLE `patient_condition`
   ADD KEY `patient_condition_ibfk` (`Patient_ID`);
 
 --
--- Indexes for table `patient_medical_record`
+-- Indexes for table `patient_pdfs`
 --
-ALTER TABLE `patient_medical_record`
-  ADD PRIMARY KEY (`Medical_Record_ID`),
-  ADD KEY `patient_medical_record` (`Patient_ID`),
-  ADD KEY `patientcon_medical_record` (`PatientCon_ID`),
-  ADD KEY `famhistory_medical_record` (`FamHistory_ID`),
-  ADD KEY `contact_medical_record` (`EmergencyContact_ID`),
-  ADD KEY `maternal_medical_record` (`Maternal_ID`),
-  ADD KEY `surgical_medical_record` (`Surgical_ID`),
-  ADD KEY `alcohol_medical_record` (`Alcohol_ID`),
-  ADD KEY `smoking_medical_record` (`Smoking_ID`),
-  ADD KEY `drug_medical_record` (`Drug_ID`);
+ALTER TABLE `patient_pdfs`
+  ADD PRIMARY KEY (`Patient_Pdfs_ID`),
+  ADD KEY `Patient_ID` (`Patient_ID`);
 
 --
 -- Indexes for table `personnel_patient`
@@ -505,7 +480,7 @@ ALTER TABLE `patient_medical_record`
 ALTER TABLE `personnel_patient`
   ADD PRIMARY KEY (`Personnel_ID`),
   ADD UNIQUE KEY `Personnel_ID` (`Personnel_ID`),
-  ADD KEY `Patient_ID` (`Patient_ID`);
+  ADD KEY `personnel_patient_ibfk` (`Patient_ID`);
 
 --
 -- Indexes for table `smoking_history`
@@ -541,7 +516,6 @@ ALTER TABLE `surgical_history`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`User_ID`),
-  ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Patient_ID` (`Patient_ID`);
 
 --
@@ -559,7 +533,7 @@ ALTER TABLE `visit_records`
 -- AUTO_INCREMENT for table `alcohol_history`
 --
 ALTER TABLE `alcohol_history`
-  MODIFY `Alcohol_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Alcohol_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `borroweditem_records`
@@ -571,7 +545,7 @@ ALTER TABLE `borroweditem_records`
 -- AUTO_INCREMENT for table `drug_history`
 --
 ALTER TABLE `drug_history`
-  MODIFY `Drug_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Drug_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `drug_typeused`
@@ -583,25 +557,31 @@ ALTER TABLE `drug_typeused`
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `EmergencyContact_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `EmergencyContact_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `family_history`
+--
+ALTER TABLE `family_history`
+  MODIFY `FamHistory_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `maternal`
 --
 ALTER TABLE `maternal`
-  MODIFY `Maternal_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Maternal_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Patient_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `patient_assessment`
@@ -610,16 +590,22 @@ ALTER TABLE `patient_assessment`
   MODIFY `Assessment_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `patient_medical_record`
+-- AUTO_INCREMENT for table `patient_condition`
 --
-ALTER TABLE `patient_medical_record`
-  MODIFY `Medical_Record_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `patient_condition`
+  MODIFY `PatientCon_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `patient_pdfs`
+--
+ALTER TABLE `patient_pdfs`
+  MODIFY `Patient_Pdfs_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `smoking_history`
 --
 ALTER TABLE `smoking_history`
-  MODIFY `Smoking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Smoking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `smoking_typeused`
@@ -631,13 +617,13 @@ ALTER TABLE `smoking_typeused`
 -- AUTO_INCREMENT for table `surgical_history`
 --
 ALTER TABLE `surgical_history`
-  MODIFY `Surgical_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Surgical_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `visit_records`
@@ -693,30 +679,16 @@ ALTER TABLE `maternal`
   ADD CONSTRAINT `maternal_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `patient_assessment`
---
-ALTER TABLE `patient_assessment`
-  ADD CONSTRAINT `patient_assessment` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `patient_condition`
 --
 ALTER TABLE `patient_condition`
   ADD CONSTRAINT `patient_condition_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `patient_medical_record`
+-- Constraints for table `patient_pdfs`
 --
-ALTER TABLE `patient_medical_record`
-  ADD CONSTRAINT `alcohol_medical_record` FOREIGN KEY (`Alcohol_ID`) REFERENCES `alcohol_history` (`Alcohol_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `contact_medical_record` FOREIGN KEY (`EmergencyContact_ID`) REFERENCES `emergency_contact` (`EmergencyContact_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `drug_medical_record` FOREIGN KEY (`Drug_ID`) REFERENCES `drug_history` (`Drug_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `famhistory_medical_record` FOREIGN KEY (`FamHistory_ID`) REFERENCES `family_history` (`FamHistory_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `maternal_medical_record` FOREIGN KEY (`Maternal_ID`) REFERENCES `maternal` (`Maternal_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `patient_medical_record` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `patientcon_medical_record` FOREIGN KEY (`PatientCon_ID`) REFERENCES `patient_condition` (`PatientCon_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `smoking_medical_record` FOREIGN KEY (`Smoking_ID`) REFERENCES `smoking_history` (`Smoking_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `surgical_medical_record` FOREIGN KEY (`Surgical_ID`) REFERENCES `surgical_history` (`Surgical_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `patient_pdfs`
+  ADD CONSTRAINT `patient_pdfs_ibfk_1` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `personnel_patient`
@@ -747,12 +719,6 @@ ALTER TABLE `student_patient`
 --
 ALTER TABLE `surgical_history`
   ADD CONSTRAINT `sugical_ibfk` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfK` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `visit_records`
