@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User / PLP Clinic Monitoring System</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../form-user-css/usermedhis.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div class="background"></div>
+    <header class="head">
+      <div class="logo-container">
+        <img src="../pictures/logo_user.png" alt="Logo" class="logo">
+      </div>
+      <div class="user-info">
+        <span class="email">user@example.com</span>
+        <span class="material-icons" id="user-info">
+          account_circle
+        </span>
+        <span class="material-icons" id="logout-btn">
+          logout
+        </span>
+      </div>
+    </header>
+    <nav class="container1">
+      <div class="navigation_main">
+        <button class="dashb">Dashboard</button>
+        <button class="medrec active">Medical Records</button>
+        <button class="borrow">Borrow</button>
+      </div>
+      <script>
+        const buttons = document.querySelectorAll('.navigation_main button');
+        
+        buttons.forEach(button => {
+          button.addEventListener('click', function() {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+      </script>
+    </nav>
+
+    <div class="controls-container vertical-controls">
+      <div class="form-group">
+        <input type="text" id="searchInput" placeholder="Search..." oninput="searchTable()" />
+        <!-- Removed the search button as per previous request -->
+      </div>
+      <div class="form-group">
+        <select class="icon-select" onchange="filterTable(this.value)">
+          <option value="">Filter</option>
+          <option value="Borrowed">Borrowed</option>
+          <option value="Returned">Returned</option>
+          <option value="Overdue">Overdue</option>
+          <option value="Lost">Lost</option>
+          <option value="Damage">Damaged (Returned)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Identification Number</th>
+            <th>Full Name</th>
+            <th>Category</th>
+            <th>Department/Course Yr. & Sec.</th>
+            <th>Date Borrowed</th>
+            <th>Date Returned</th>
+            <th>Borrowed Item<br />(specify)</th>
+            <th>Qty.</th>
+            <th>Status</th>
+            <th>Photo<br />(Borrowed)</th>
+            <th>Photo<br />(Returned)</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Sample data for testing -->
+          <tr>
+            <td data-label="No.">1</td>
+            <td data-label="Identification Number">2023-001</td>
+            <td data-label="Full Name">John Michael Doe</td>
+            <td data-label="Category">Student</td>
+            <td data-label="Department/Course Yr. & Sec.">BSIT 3-A</td>
+            <td data-label="Date Borrowed">2025-05-15</td>
+            <td data-label="Date Returned">2025-05-20</td>
+            <td data-label="Borrowed Item (specify)">Stethoscope</td>
+            <td data-label="Qty.">1</td>
+            <td data-label="Status">Returned</td>
+            <td data-label="Photo (Borrowed)">[Photo]</td>
+            <td data-label="Photo (Returned)">[Photo]</td>
+          </tr>
+          <tr>
+            <td data-label="No.">2</td>
+            <td data-label="Identification Number">2023-002</td>
+            <td data-label="Full Name">Jane Elizabeth Smith</td>
+            <td data-label="Category">Faculty</td>
+            <td data-label="Department/Course Yr. & Sec.">Nursing Dept.</td>
+            <td data-label="Date Borrowed">2025-05-10</td>
+            <td data-label="Date Returned"></td>
+            <td data-label="Borrowed Item (specify)">Thermometer</td>
+            <td data-label="Qty.">2</td>
+            <td data-label="Status">Borrowed</td>
+            <td data-label="Photo (Borrowed)">[Photo]</td>
+            <td data-label="Photo (Returned)"></td>
+          </tr>
+          <tr>
+            <td data-label="No.">3</td>
+            <td data-label="Identification Number">2023-003</td>
+            <td data-label="Full Name">Alice Marie Johnson</td>
+            <td data-label="Category">Student</td>
+            <td data-label="Department/Course Yr. & Sec.">BSN 2-B</td>
+            <td data-label="Date Borrowed">2025-05-05</td>
+            <td data-label="Date Returned">2025-05-12</td>
+            <td data-label="Borrowed Item (specify)">Blood Pressure Monitor</td>
+            <td data-label="Qty.">1</td>
+            <td data-label="Status">Returned</td>
+            <td data-label="Photo (Borrowed)">[Photo]</td>
+            <td data-label="Photo (Returned)">[Photo]</td>
+          </tr>
+          <tr>
+            <td data-label="No.">4</td>
+            <td data-label="Identification Number">2023-004</td>
+            <td data-label="Full Name">Bob Andrew Williams</td>
+            <td data-label="Category">Staff</td>
+            <td data-label="Department/Course Yr. & Sec.">Admin</td>
+            <td data-label="Date Borrowed">2025-05-01</td>
+            <td data-label="Date Returned"></td>
+            <td data-label="Borrowed Item (specify)">First Aid Kit</td>
+            <td data-label="Qty.">1</td>
+            <td data-label="Status">Overdue</td>
+            <td data-label="Photo (Borrowed)">[Photo]</td>
+            <td data-label="Photo (Returned)"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+      <div class="pagination">
+        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
+        <button class="page-btn active" onclick="goToPage(1)">1</button>
+        <button class="page-btn" onclick="goToPage(2)">2</button>
+        <button class="page-btn" onclick="goToPage(3)">3</button>
+        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
+      </div>
+    </div>
+<!--
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Fetch user info for header
+        fetch('../php/userinterfacefetch.php')
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const p = data.patient;
+              document.getElementById('patient-name').textContent = `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
+              document.getElementById('patient-role').textContent = p.Category;
+              document.getElementById('patient-sex').textContent = p.Sex;
+              document.getElementById('patient-age').textContent = data.age;
+              document.getElementById('patient-email').textContent = data.email;
+              updateGreeting(`${p.First_Name} ${p.Last_Name}`);
+            } else {
+              document.getElementById('patient-info').innerHTML =
+                `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching patient data:", error);
+            document.getElementById('patient-info').innerHTML =
+              "<p>Error loading data. Please try again later.</p>";
+          });
+
+        // Fetch table data
+        fetch('../php/fetch_borrowed_items.php')
+          .then(response => response.json())
+          .then(data => {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            if (data.success && data.items.length > 0) {
+              data.items.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td data-label="No.">${index + 1}</td>
+                  <td data-label="Identification Number">${item.identification_number || 'N/A'}</td>
+                  <td data-label="Full Name">${item.full_name || 'N/A'}</td>
+                  <td data-label="Category">${item.category || 'N/A'}</td>
+                  <td data-label="Department/Course Yr. & Sec.">${item.department || 'N/A'}</td>
+                  <td data-label="Date Borrowed">${item.date_borrowed || 'N/A'}</td>
+                  <td data-label="Date Returned">${item.date_returned || ''}</td>
+                  <td data-label="Borrowed Item (specify)">${item.borrowed_item || 'N/A'}</td>
+                  <td data-label="Qty.">${item.quantity || 'N/A'}</td>
+                  <td data-label="Status">${item.status || 'N/A'}</td>
+                  <td data-label="Photo (Borrowed)">${item.photo_borrowed ? '[Photo]' : ''}</td>
+                  <td data-label="Photo (Returned)">${item.photo_returned ? '[Photo]' : ''}</td>
+                `;
+                tableBody.appendChild(row);
+              });
+            } else {
+              tableBody.innerHTML = `
+                <tr>
+                  <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
+                </tr>
+              `;
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching table data:", error);
+            document.getElementById('tableBody').innerHTML = `
+              <tr>
+                <td colspan="12" style="text-align: center; padding: 20px;">Error loading data. Please try again later.</td>
+              </tr>
+            `;
+          });
+
+        function updateGreeting(name) {
+          const now = new Date();
+          const philTime = new Date(
+            now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
+          );
+          const hours = philTime.getHours();
+          let greeting;
+          if (hours >= 5 && hours < 12) {
+            greeting = "Good Morning";
+          } else if (hours >= 12 && hours < 18) {
+            greeting = "Good Afternoon";
+          } else {
+            greeting = "Good Evening";
+          }
+          document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+        }
+      });
+
+      // Search function
+      function searchTable() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("#tableBody tr");
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(input) ? "" : "none";
+        });
+      }
+
+      // Filter function
+      function filterTable(status) {
+        const rows = document.querySelectorAll("#tableBody tr");
+        rows.forEach(row => {
+          const rowStatus = row.querySelector("td:nth-child(10)").textContent.toLowerCase();
+          row.style.display = status === "" || rowStatus === status.toLowerCase() ? "" : "none";
+        });
+      }
+    </script>
+    -->
+  </body>
+</html>
