@@ -27,10 +27,12 @@
         <input type="email" id="Email" name="email" placeholder="Enter Email Address" required aria-label="Email address">
 
         <label for="Password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter Password" required aria-label="Password">
+        <input type="password" id="password" name="password" class="input-field" placeholder="Enter Password" required aria-label="Password">
 
         <label class="checkbox-container">
-          <input type="checkbox" id="show-password" aria-label="Show password"> Show Password
+          <input type="checkbox" id="show-password" aria-label="Show password">
+          <span class="checkmark"></span>
+          Show Password
         </label>
 
         <button type="submit">LOG IN</button>
@@ -41,10 +43,10 @@
     </form>
   </div>
 
-  
+ 
 
   <script>
-    // Clock and date functionality
+    // Clock and date
     function updateClock() {
       const now = new Date();
       let hours = now.getHours();
@@ -61,12 +63,12 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Fade-in on page load
+    // Fade-in
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("loaded");
     });
 
-    // Transition for links
+    // Transition links
     document.querySelectorAll('a.transition-link').forEach(link => {
       link.addEventListener("click", function (e) {
         e.preventDefault();
@@ -79,11 +81,18 @@
       });
     });
 
-    // Show/hide password
-    document.getElementById('show-password').addEventListener('change', function() {
-      const passwordField = document.getElementById('password');
-      passwordField.type = this.checked ? 'text' : 'password';
-    });
+   document.getElementById('show-password').addEventListener('change', function() {
+  const passwordField = document.getElementById('password');
+  
+  if (this.checked) {
+    passwordField.type = 'text';
+    passwordField.classList.add('password-field'); // Add class when changing to text
+  } else {
+    passwordField.type = 'password';
+    passwordField.classList.remove('password-field'); // Remove class when changing back
+  }
+});
+  
 
     // Form submission with SweetAlert2
     document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -103,7 +112,6 @@
         return;
       }
 
-      // Simulate form submission (replace with actual fetch to php/login.php)
       fetch('php/login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -118,7 +126,6 @@
             text: 'Login successful!',
             confirmButtonColor: '#1a1259'
           }).then(() => {
-            // Redirect or reset form as needed
             this.reset();
           });
         } else {
