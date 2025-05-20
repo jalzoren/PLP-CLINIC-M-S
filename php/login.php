@@ -33,7 +33,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 // Password length validation (reinforce client-side)
 if (strlen($password) < 7) {
-    echo json_encode(['status' => 'error', 'message' => 'Password must be at least 8 characters long.']);
+    echo json_encode(['status' => 'error', 'message' => 'Password must be at least 7 characters long.']);
     exit;
 }
 
@@ -71,8 +71,8 @@ if ($stmt->num_rows === 1) {
 
         // Define redirect based on role
         $redirect = match (strtolower($role)) {
-            'user' => 'forms-user/userdashboard.php',
-            'admin' => 'forms-admin/admindashboard.php',
+            'user' => 'forms-user/userdashboard.html',
+            'admin' => 'forms-admin/admindashboard.html',
             default => ''
         };
 

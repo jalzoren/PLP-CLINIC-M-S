@@ -1,0 +1,42 @@
+[21-May-2025 00:03:34 Europe/Berlin] PHP Warning:  require_once(database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:03:34 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:03:37 Europe/Berlin] PHP Warning:  require_once(database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:03:37 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:09:37 Europe/Berlin] PHP Warning:  require_once(database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:09:37 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:11:18 Europe/Berlin] PHP Warning:  require_once(database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:11:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:10
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 10
+[21-May-2025 00:13:33 Europe/Berlin] PHP Warning:  require_once(database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 8
+[21-May-2025 00:13:33 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:8
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 8
+[21-May-2025 00:14:40 Europe/Berlin] PHP Warning:  require_once(../php/database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 8
+[21-May-2025 00:14:40 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../php/database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php:8
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\time_in.php on line 8
+[21-May-2025 00:15:14 Europe/Berlin] Raw input received.
+[21-May-2025 00:15:15 Europe/Berlin] Database connected successfully
+[21-May-2025 00:15:15 Europe/Berlin] Patient_ID query result: 1
+[21-May-2025 00:15:15 Europe/Berlin] Visit recorded for Patient_ID: 1
+[21-May-2025 00:15:52 Europe/Berlin] Raw input received.
+[21-May-2025 00:15:52 Europe/Berlin] Database connected successfully
+[21-May-2025 00:15:52 Europe/Berlin] Patient_ID query result: none
+[21-May-2025 00:15:52 Europe/Berlin] Student not found for ID: 2300297
+[21-May-2025 00:15:57 Europe/Berlin] Raw input received.
+[21-May-2025 00:15:57 Europe/Berlin] Database connected successfully
+[21-May-2025 00:15:57 Europe/Berlin] Patient_ID query result: 1
+[21-May-2025 00:15:57 Europe/Berlin] Visit recorded for Patient_ID: 1

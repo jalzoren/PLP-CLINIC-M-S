@@ -88,6 +88,7 @@
       justify-content: space-between;
       height: 100%; 
       gap: 15px;
+      position: relative;
     }
 
     h2 {
@@ -147,6 +148,14 @@
       font-size: 18px;
       font-weight: 500;
       transition: 0.4s;
+      cursor: pointer;
+    }
+
+    .scan_icon{
+      position: absolute;
+      width: 30px;
+      right: 20px;
+      top: 95px;
       cursor: pointer;
     }
 
