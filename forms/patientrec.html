@@ -125,46 +125,47 @@
             </tr>
           </thead>
           <tbody>
-            <?php
-              require_once 'database.php';
+           <?php
+            require_once '../php/database.php';
 
-              $db = new Database();
-              $conn = $db->getConnection();
+            $db = new Database();
+            $conn = $db->getConnection();
 
-              // Get patient_id from the URL
-              $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+            // Get patient_id from the URL
+            $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
 
-              // Only run the query if a patient ID is provided
-              if ($filterId) {
-                  $sql = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
-                  $stmt = $conn->prepare($sql);
-                  $stmt->bind_param("i", $filterId);
-                  $stmt->execute();
-                  $result = $stmt->get_result();
-              } else {
-                  // Show a message or blank if no ID is provided
-                  echo "<tr><td colspan='4'>No patient selected.</td></tr>";
-                  exit;
-              }
+            if ($filterId) {
+                $sql = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $filterId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+            } else {
+                // No ID provided, show nothing or a message
+                echo "<tr><td colspan='4'>No patient selected.</td></tr>";
+                exit;
+            }
 
-              $counter = 1;
-              if ($result && $result->num_rows > 0) {
-                  while ($row = $result->fetch_assoc()) {
-                      echo "<tr>";
-                      echo "<td>" . $counter++ . "</td>";
-                      echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
-                      echo "<td>Medical Record Form</td>";
-                      echo "<td class='action-cell'>
-                              <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
-                                  <button type='button' class='view-btn'>View</button>
-                              </a>
-                            </td>";
-                      echo "</tr>";
-                  }
-              } else {
-                  echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
-              }
-              ?>
+            $counter = 1;
+
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $counter++ . "</td>";
+                    echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
+                    echo "<td>Medical Record Form</td>";
+                    echo "<td class='action-cell'>
+                            <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+                                <button type='button' class='view-btn'>View</button>
+                            </a>
+                          </td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
+            }
+            ?>
+
           </tbody>
         </table>
       </div>
@@ -217,7 +218,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`patientrec.php?patient_id=${patientId}`)
+            fetch(`../php/patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
