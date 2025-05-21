@@ -222,7 +222,7 @@ body {
   background-size: cover;
   height: 40%;
   width: 100%;
-  margin-top: -65px;
+  margin-top: -60px;
   mask-image: linear-gradient(black 50%, transparent);
   opacity: 0.6;
 }
@@ -237,8 +237,6 @@ body {
   padding: 10px 50px;
   gap: 15px;
   box-sizing: border-box;
-
-  background-color: #b67373;
 }
 
 .content > div {
@@ -248,7 +246,6 @@ body {
   text-align: center;
   border: 2px solid #2e266d;
   border-radius: 10px;
-  background-color: #afb4db;
 }
 
 /* DESK */
