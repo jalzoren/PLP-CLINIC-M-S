@@ -1,30 +1,18 @@
+<?php include '../php/get_current_timedin.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ADMIN / PLP Clinic Monitoring System</title>
-        <link rel="stylesheet" href="../css/dashbstyle.css" />
-
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css-admin/admindashbstyle.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <link rel="icon" type="image/png" href="../pictures/logo.png" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-  </head>
-  <body>
-    <div class="background"></div>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard / PLP Clinic Monitoring System</title>
+    <link rel="stylesheet" href="../css/admin_dashbstyle.css">
+    <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
@@ -36,7 +24,7 @@
       <ul class="nav-list">
         <li>
           <a
-            href="../forms-admin/admindashboard.html"
+            href="admindashboard.html"
             class="active"
             class="transition-link"
           >
@@ -47,14 +35,14 @@
         </li>
 
         <li>
-          <a href="../forms/medrecords.html" class="transition-link">
+          <a href="medrecords.html" class="transition-link">
             <i class="bx bxs-file"></i>
             <span class="link-name">Medical</span>
           </a>
           <span class="tooltip">Medical Records</span>
         </li>
         <li>
-          <a href="../forms-admin/adminborrowing.html" class="transition-link">
+          <a href="userborrow.html" class="transition-link">
             <i class="bx bxs-cabinet"></i>
             <span class="link-name">Borrowing</span>
           </a>
@@ -62,14 +50,14 @@
         </li>
 
         <li>
-          <a href="../forms-admin/admintransac.html" class="transition-link">
+          <a href="admintransac.html" class="transition-link">
             <i class="bx bxs-info-square"></i>
             <span class="link-name">Transactions</span>
           </a>
           <span class="tooltip">Daily Transaction</span>
         </li>
         <li>
-          <a href="../forms-admin/adminiteminv.html" class="transition-link">
+          <a href="adminiteminv.html" class="transition-link">
             <i class="bx bxs-book-content"></i>
             <span class="link-name">Inventory</span>
           </a>
@@ -82,7 +70,6 @@
           <br />
           <br />
           <br />
-          <br />
 
           <a href="../php/logout.php">
             <i class="bx bx-log-out bx-rotate-180"></i>
@@ -91,220 +78,163 @@
         </li>
       </ul>
     </div>
-    <!--
-    <div class="header-content">
-      <div class="text"></div>
-      <div class="email-container">
-        <div class="email">loremipsumtry@plpasig.edu.ph</div>
-        <div class="icon"><i class="fas fa-user-circle"></i></div>
-      </div>
-    </div>
-
-    -->
 
     <div class="home-content">
-      <div class="parent">
-        <div class="div1">
-          <div class="div1-content">
-            <div class="text-group">
-              <div class="welcome">Welcome,<br />Clinic Admin!</div>
-               <p class="date" id="date">Date: 00/00/0000</p>
-            <p class="time" id="time">Monday | 00:00:00</p>
-              <p class="email">loremipsum@plpasigemdial</p>
+        <img src="../pictures/clinic.png" class="clinic">
+        <div class="content">
+            <div class="desk">
+                <img src="../pictures/nurse.png" class="nurse">
+                <div class="greetings">
+                    <h2 class="welcome">Welcome, Doc</h2>
+                    <p class="date" id="date">Date: 00/00/0000</p>
+                    <p class="time" id="time">Monday | 00:00:00</p>
+                </div>
             </div>
-          </div>
+
+            <div class="item_summary">
+                <div class="item_title">
+                    <p>Item Summary</p>
+                    <a href="iteminv.html">See All</a>
+                </div>
+                <div class="item_chart">
+                    <canvas id="itemChart"></canvas>
+                </div>
+            </div>
+            <div class="notification">
+                <div class="notif_title">
+                    <p>Notification</p>
+                    <a href="#">See All</a>
+                </div>
+                <div class="messages">
+                    Notification Message
+                </div>
+            </div>
+            
+            <div class="patient_total">
+                <div class="patient_title">
+                    <p>Total of Patients</p>
+                </div>
+                <div class="patient_summary">
+
+                </div>
+            </div>
+            
+            <div class="emergency_hotline">
+                <a href="#" class="hotlines" onclick="openForm()">PASIG CITY EMERGENCY HOTLINES</a>
+            </div>
+            <div class="visit_summary">
+                <div class="visit_title">
+                    <p>Visit Summary</p>
+                    <select id="timeRange">
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                    </select>
+                    <a href="#">See All</a>
+                </div>
+                <div class="visit_record">
+                    <div class="visit_chart">
+                        <canvas id="visitChart" aria-label="Line graph showing daily visit counts"></canvas>
+                    </div>
+                    <div class="timedin_table">
+                        <table>
+                            <caption>Currently Timed In</caption>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Time In</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($timedinData)): ?>
+                                <?php foreach ($timedinData as $index => $row): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?>.</td>
+                                        <td><?= htmlspecialchars($row['Full_Name']) ?></td>
+                                        <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
+                                        <td>
+                                        <form method="POST" action="php/time_out.php">
+                                            <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                            <button class="timedout" type="submit">Time Out</button>
+                                        </form>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="4">No students currently timed in.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="div2">
-          <div id="live-date"></div>
-
-          <div id="calendar"></div>
+        <div id="overlay" class="overlay"></div>
+        <div class="hotlines_table" id="hotlines_table_popup">
+            <a class="close_hotlines" onclick="closeForm()">x</a>
+            <table>
+                <caption>PASIG CITY EMERGENCY NUMBERS</caption>
+                <thead>
+                    <tr>
+                        <th>DEPARTMENT</th>
+                        <th>CONTACT NUMBER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Emergency Hotline</td><td>(02) 8643 0000</td></tr>
+                    <tr><td>Pasig City Fire Department</td><td>(02)</td></tr>
+                    <tr><td>PNP Hotline</td><td>(02) 8477 7953</td></tr>
+                    <tr><td>Pasig City Children's Hospital</td><td>(02) 8643 2222</td></tr>
+                    <tr><td>Pasig City General Hospital</td><td>(02) 8643 3333<br>(02) 8642 7379<br>(02) 8642 7381</td></tr>
+                    <tr><td>National Emergency Hotline</td><td>911</td></tr>
+                </tbody>
+            </table>
         </div>
-        <div class="div3">Item Inventory</div>
-        <div class="div4">Total of Patients</div>
-        <div class="div5">
-          <a href="#" class="hotlines" onclick="openForm()">
-            PASIG CITY EMERGENCY HOTLINES
-          </a>
-        </div>
 
-        <div class="div6">Notification</div>
-        <div class="div7">Visit Summary</div>
-      </div>
+        <div class="popup_timeout" id="popup_timeout" style="display: none;">
+            <div class="new-data">
+                <div class="text">
+                    <div class="title-container">
+                        <div class="title">TIME OUT</div>
+                        <button class="close-btn" onclick="closeTimedOutPopup()">×</button>
+                    </div>
+                    <form id="timeoutForm">
+                        <div class="information">
+                            <div class="name">
+                                <h4 id="timeoutName">[Name Here]</h4>
+                            </div>
+                            <input type="hidden" name="visit_id" id="timeoutVisitId">
+                            <div class="inputs">
+                                <div class="upper-inputs">
+                                    <div class="row_quantity">
+                                        <label>Quantity</label>
+                                        <input type="number" min="1" name="quantity" placeholder="Enter Quantity">
+                                    </div>
+                                    <div class="row_medicine">
+                                        <label>Medication Given</label>
+                                        <input type="text" name="medicine" placeholder="Enter Medicine Given">
+                                    </div>
+                                </div>
+                                <div class="row_remarks">
+                                    <label>Remarks</label>
+                                    <textarea name="remarks" rows="3" placeholder="Remarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <button type="button" class="cancel" onclick="closeTimedOutPopup()">Cancel</button>
+                                <button type="submit" class="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="overlay" class="overlay"></div>
-    <div class="hotlines_table" id="hotlines_table_popup">
-      <a class="close_hotlines" onclick="closeForm()">x</a>
-      <table>
-        <caption>
-          PASIG CITY EMERGENCY NUMBERS
-        </caption>
-        <thead>
-          <tr>
-            <th>DEPARTMENT</th>
-            <th>CONTACT NUMBER</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Emergency Hotline</td>
-            <td>(02) 8643 0000</td>
-          </tr>
-          <tr>
-            <td>Pasig City Fire Department</td>
-            <td>(02)</td>
-          </tr>
-          <tr>
-            <td>PNP Hotline</td>
-            <td>(02) 8477 7953</td>
-          </tr>
-          <tr>
-            <td>Pasig City Children's Hospital</td>
-            <td>(02) 8643 2222</td>
-          </tr>
-          <tr>
-            <td>Pasig City General Hospital</td>
-            <td>
-              (02) 8643 3333 <br />
-              (02) 8642 7379 <br />
-              (02) 8642 7381
-            </td>
-          </tr>
-          <tr>
-            <td>National Emergency Hotline</td>
-            <td>911</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <script>
-      function openForm() {
-        document.getElementById("hotlines_table_popup").classList.add("show");
-        document.getElementById("overlay").classList.add("show");
-      }
-
-      function closeForm() {
-        document
-          .getElementById("hotlines_table_popup")
-          .classList.remove("show");
-        document.getElementById("overlay").classList.remove("show");
-      }
-    </script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const calendarEl = document.getElementById("calendar");
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-          height: "100%",
-          contentHeight: "auto",
-          headerToolbar: {
-            left: "",
-            center: "",
-            right: "",
-          },
-          titleFormat: {
-            month: "long",
-            year: "numeric",
-          },
-          dayCellClassNames: function (date) {
-            if (date.date.toDateString() === new Date().toDateString()) {
-              return "today-date";
-            }
-            return "";
-          },
-        });
-        calendar.render();
-
-        function updateLiveDate() {
-          const today = new Date();
-          const options = { year: "numeric", month: "long", day: "numeric" };
-          const todayFormatted = today.toLocaleDateString("en-PH", options);
-          document.getElementById(
-            "live-date"
-          ).innerHTML = `Today's Date: ${todayFormatted}`;
-        }
-
-        updateLiveDate();
-
-        setInterval(updateLiveDate, 1000);
-      });
-
-      let btn = document.querySelector("#logo");
-      let sidebar = document.querySelector(".sidebar");
-
-      btn.onclick = function () {
-        sidebar.classList.toggle("active");
-      };
-
-      function updateGreeting() {
-        const now = new Date();
-        const philTime = new Date(
-          now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
-        );
-        const hours = philTime.getHours();
-
-        let greeting;
-        if (hours >= 5 && hours < 12) {
-          greeting = "Good Morning";
-        } else if (hours >= 12 && hours < 18) {
-          greeting = "Good Afternoon";
-        } else {
-          greeting = "Good Evening";
-        }
-
-        /* Lorem Ipsum, based on the actual user name on database */
-        document.getElementById(
-          "greeting"
-        ).innerText = `${greeting}, Lorem Ipsum!`;
-      }
-
-      updateGreeting();
-
-
-      
-    </script>
-
-    <script>
-
-       function updateDateTime() {
-        const now = new Date();
-
-        // Time formatting
-        const hours = now.getHours().toString().padStart(2, "0");
-        const minutes = now.getMinutes().toString().padStart(2, "0");
-        const seconds = now.getSeconds().toString().padStart(2, "0");
-        const timeString = `${hours}:${minutes}:${seconds}`;
-
-        // Date formatting
-        const day = now.getDate().toString().padStart(2, "0");
-        const month = (now.getMonth() + 1).toString().padStart(2, "0");
-        const year = now.getFullYear();
-        const dateString = `${month}/${day}/${year}`;
-
-        // Day of the week
-        const weekdays = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-        const weekday = weekdays[now.getDay()];
-
-        // Update HTML content
-        document.getElementById("date").innerText = `Date: ${dateString}`;
-        document.getElementById(
-          "time"
-        ).innerText = `${weekday} | ${timeString}`;
-      }
-
-      // Run every second
-      setInterval(updateDateTime, 1000);
-      updateDateTime(); // Initial call
-
-    </script>
-  </body>
+    <script src="../js-admin/item_charts.js"></script>
+    <script src="../js-admin/admin-dashboard.js"></script>
+</body>
 </html>

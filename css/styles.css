@@ -1,266 +1,349 @@
-   @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
-    body, html {
-      height: 100%;
-      background-color: #f6f8ff;
-      overflow-x: hidden;
-      overflow-y: hidden;
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
 
-    }
-          
-    .container {
-      display: flex;
-      flex-direction: row;
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-            overflow-y: hidden;
+body.loaded {
+  opacity: 1;
+}
 
-    }
+body.fade-out {
+  opacity: 0;
+}
 
-    .left {
-      width: 60%;
-      background: linear-gradient(to bottom right, #f0f4ff, #dce4f9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
-      position: relative;
-      z-index: 2;
-    }
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../pictures/background_waves.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  mask-image: radial-gradient(circle, transparent 0%, transparent 10%, black 70%);
+  opacity: 0.1;
+  z-index: -1;
+}
 
-    .branding {
-      text-align: center;
-      max-width: 100%;
-    }
+.logo_img {
+  height: auto;
+  width: 100%;
+  max-width: 460px;
+  margin-bottom: 5px;
+}
 
-    .branding .logo {
-      width: 180px;
-      max-width: 80%;
-      margin-bottom: 20px;
-    }
+.time {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 2px solid #1a1259;
+  border-radius: 50px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  max-width: 600px;
+  z-index: 7;
+}
 
-    .title {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: #2e2a72;
-    }
+.time p {
+  margin: 5px 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1259;
+}
 
-    .subtitle {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #2e2a72;
-    }
+.login-box {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 11;
+}
 
-    .right {
-      width: 40%;
-      background-color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 11;
-      padding: 20px;
-    }
+.login-box .row1 {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-    .login-box {
-      width: 90%;
-      max-width: 400px;
-    }
+h2 {
+  font-size: 28px;
+  text-align: center;
+  color: #000b5c;
+  margin-bottom: 0px;
+}
 
-    .login-box h1 {
-      font-size: 2.5rem;
-      color: #2e2a72;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000b5c;
+  margin-bottom: 0px;
+  display: block;
+}
 
-    .login-box label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 600;
-    }
+.login-box input[type="text"].password-field { 
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #000b5c;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+}
 
-    .login-box input[type="text"],
-    .login-box input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+.login-box input[type="email"],
+.login-box input[type="password"] { 
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid #000b5c;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+}
 
-    .login-box input[type="text"]:hover,
-    .login-box input[type="password"]:hover {
-      border-color: #2e2a72;
-      box-shadow: 0 0 5px rgba(46, 42, 114, 0.3);
-      transition: 0.3s ease;
-    }
+.login-box input[type="email"]:hover,
+.login-box input[type="password"]:hover,
+.login-box input[type="text"].password-field:hover,  
+.login-box input[type="email"]:focus,
+.login-box input[type="password"]:focus,
+.login-box input[type="text"].password-field:focus {  
+  border-color: #2e2a72;
+  box-shadow: 0 0 5px rgba(46, 42, 114, 0.3);
+  outline: none;
+}
 
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
-      font-weight: normal !important;
-      cursor: pointer;
-    }
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #000b5c;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  z-index: 12;
+}
 
-    .checkbox-container input {
-      cursor: pointer;
-    }
+.checkbox-container input {
+  display: none;
+}
 
-    .login-box button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background-color: #2e2a72;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+.checkbox-container .checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #000b5c;
+  border-radius: 4px;
+  background-color: #fff;
+  position: relative;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
 
-    .login-box button:hover {
-      background-color: #1f1a5d;
-    }
+.checkbox-container input:checked + .checkmark {
+  background-color: #1a1259;
+  border-color: #1a1259;
+}
 
-    .admin-login-link {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 14px;
-    }
+.checkbox-container .checkmark::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
 
-    .admin-login-link a {
-      color: #1a1259;
-      font-weight: 600;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
+.checkbox-container input:checked + .checkmark::after {
+  display: block;
+}
 
-    .admin-login-link a:hover {
-      color: #000b5c;
-      text-decoration: underline;
-    }
+/* Fallback for browsers not supporting ::after */
+.checkbox-container input:checked + .checkmark.fallback::after {
+  content: '✓';
+  display: block;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  line-height: 24px;
+}
 
-    .design1 {
-      position: absolute;
-      top: -20%;
-      left: -35%;
-      width: 60%;
-      z-index: 1;
-      opacity: 0.6;
-    }
+.login-box button {
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: #1a1259;
+  border: 2px outset #c8d9e6;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.4s;
+  cursor: pointer;
+}
 
-    .design2 {
-      position: absolute;
-      bottom: -30%;
-      left: 70%;
-      width: 60%;
-      z-index: -5;
-      opacity: 0.6;
-    }
+.login-box button:hover {
+  background-color: white;
+  color: #1a1259;
+}
 
-    .time {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 10px 20px;
-      border: 2px solid #1a1259;
-      border-radius: 50px;
-      margin-top: 20px;
-      background-color: rgba(255, 255, 255, 0.7);
-      z-index: 7;
+.admin-login-link {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 0px;
+}
 
-    }
+.admin-login-link a {
+  color: #1a1259;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 
-    .time p {
-      margin: 5px 10px;
-      font-weight: 600;
-      color: #1a1259;
-    }
+.admin-login-link a:hover {
+  color: #000b5c;
+  text-decoration: underline;
+}
 
-    footer {
-      z-index: 12;
-      font-size: 14px;
-      color: #ffffff;
-      background-color: #1f1a5d;
-      padding: 5px;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+footer {
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #1f1a5d;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 12;
+}
 
-    /* Media Queries for Responsiveness */
-    @media (max-width: 992px) {
-      .title {
-        font-size: 3rem;
-      }
-      .subtitle {
-        font-size: 1.8rem;
-      }
-    }
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 5px 10px;
+}
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .left, .right {
-        width: 100%;
-      }
-      .left {
-        padding-top: 50px;
-        padding-bottom: 50px;
-      }
-      .title {
-        font-size: 2.5rem;
-      }
-      .subtitle {
-        font-size: 1.5rem;
-      }
-      .design1, .design2 {
-        width: 70%;
-      }
-      body, html {
-        overflow-y: auto;
-      }
-    }
+footer a:hover {
+  text-decoration: underline;
+}
 
-    @media (max-width: 576px) {
-      .branding .logo {
-        width: 120px;
-      }
-      .title {
-        font-size: 2rem;
-      }
-      .subtitle {
-        font-size: 1.2rem;
-      }
-      .login-box h1 {
-        font-size: 2rem;
-      }
-      .time {
-        flex-direction: column;
-        padding: 10px 15px;
-      }
-      .time p {
-        margin: 2px 0;
-      }
-    }
+/* Media Queries */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+  .logo_img {
+    max-width: 300px;
+    position: relative;
+    top: -20px;
+  }
+  .time {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 15px;
+  }
+  .time p {
+    margin: 3px 0;
+    font-size: 14px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  .login-box input[type="email"],
+  .login-box input[type="password"],
+  .login-box button {
+    height: 40px;
+    font-size: 16px;
+  }
+  .login-box {
+    padding: 15px;
+  }
+  .checkbox-container .checkmark {
+    width: 20px;
+    height: 20px;
+  }
+  .checkbox-container .checkmark::after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px 10px;
+    overflow-y: auto;
+  }
+  .logo_img {
+    max-width: 240px;
+    position: relative;
+    top: -40px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  label {
+    font-size: 14px;
+  }
+  .login-box input[type="email"],
+  .login-box input[type="password"] {
+    font-size: 14px;
+    height: 40px;
+  }
+  .login-box button {
+    font-size: 14px;
+  }
+  .login-box .row1 {
+    gap: 10px;
+  }
+  .time p {
+    font-size: 12px;
+  }
+  .checkbox-container {
+    font-size: 13px;
+  }
+  .checkbox-container .checkmark {
+    width: 18px;
+    height: 18px;
+  }
+  .checkbox-container .checkmark::after {
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+  }
+  footer {
+    font-size: 13px;
+    padding: 8px;
+  }
+}

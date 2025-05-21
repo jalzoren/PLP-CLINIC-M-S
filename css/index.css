@@ -49,7 +49,7 @@
       height: auto;
       width: 100%;
       max-width: 460px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .time {
@@ -88,6 +88,7 @@
       justify-content: space-between;
       height: 100%; 
       gap: 15px;
+      position: relative;
     }
 
     h2 {
@@ -101,7 +102,7 @@
       font-size: 16px;
       font-weight: 600;
       color: #000b5c;
-      margin-bottom: 5px;
+      margin-bottom: 0px;
       display: block;
     }
 
@@ -147,6 +148,14 @@
       font-size: 18px;
       font-weight: 500;
       transition: 0.4s;
+      cursor: pointer;
+    }
+
+    .scan_icon{
+      position: absolute;
+      width: 30px;
+      right: 20px;
+      top: 100px;
       cursor: pointer;
     }
 
