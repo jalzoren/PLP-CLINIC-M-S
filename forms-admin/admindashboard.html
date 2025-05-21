@@ -155,15 +155,20 @@
                                         <td><?= htmlspecialchars($row['Full_Name']) ?></td>
                                         <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
                                         <td>
-                                        <form method="POST" action="php/time_out.php">
-                                            <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
-                                            <button class="timedout" type="submit">Time Out</button>
-                                        </form>
-                                    </td>
+                                            <form method="POST" action="php/time_out.php">
+                                                <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                                <button class="timedout" type="submit">Time Out</button>
+                                            </form>
+                                            <button class="assess" 
+                                                    data-visit-id="<?= $row['Visit_ID'] ?>" 
+                                                    data-patient-id="<?= $row['Patient_ID'] ?>" 
+                                                    data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>" 
+                                                    data-category="<?= htmlspecialchars($row['Category'] ?? '') ?>">Assess</button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <?php else: ?>
-                                    <tr><td colspan="4">No students currently timed in.</td></tr>
+                                    <tr><td colspan="4">No patients currently timed in.</td></tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -185,7 +190,7 @@
                 </thead>
                 <tbody>
                     <tr><td>Emergency Hotline</td><td>(02) 8643 0000</td></tr>
-                    <tr><td>Pasig City Fire Department</td><td>(02)</td></tr>
+                    <tr><td>Bureau of Fire Protection</td><td>8641-2815</td></tr>
                     <tr><td>PNP Hotline</td><td>(02) 8477 7953</td></tr>
                     <tr><td>Pasig City Children's Hospital</td><td>(02) 8643 2222</td></tr>
                     <tr><td>Pasig City General Hospital</td><td>(02) 8643 3333<br>(02) 8642 7379<br>(02) 8642 7381</td></tr>
