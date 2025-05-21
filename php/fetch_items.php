@@ -1,24 +1,19 @@
 <?php
 header('Content-Type: application/json');
-require_once 'Database.php';
+require_once '../php/database.php';
 
 try {
     $database = new Database();
     $conn = $database->getConnection();
 
-    $sql = "SELECT Item_ID, Item_Name, Category, Status, Quantity FROM item";
+    $sql = "SELECT Item_ID, Item_Name, Category, Quantity, Description FROM item";
     $result = $conn->query($sql);
 
     $items = [];
 
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            // Ensure status is set correctly based on quantity
-            if ($row['Quantity'] > 0) {
-                $row['Status'] = 'Available';
-            } else {
-                $row['Status'] = 'Unavailable';
-            }
+            $row['Status'] = ($row['Quantity'] > 0) ? 'Available' : 'Unavailable';
             $items[] = $row;
         }
     }
