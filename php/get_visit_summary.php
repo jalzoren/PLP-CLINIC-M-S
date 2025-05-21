@@ -19,13 +19,13 @@ try {
 $days = isset($_GET['days']) && is_numeric($_GET['days']) ? (int)$_GET['days'] : 7;
 $days = max(1, min($days, 365)); // Limit between 1 and 365 days
 
-// Prepare query to fetch detailed visit records
+// Prepare query
 $stmt = $conn->prepare(
-    "SELECT id, DATE(Time_In) AS visit_date, TIME(Time_In) AS time_in, 
-            full_name, category, department, reason, medication, quantity, remarks
+    "SELECT DATE(Time_In) AS visit_date, COUNT(*) AS visit_count
      FROM visit_records
      WHERE Time_In >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-     ORDER BY Time_In ASC"
+     GROUP BY DATE(Time_In)
+     ORDER BY visit_date ASC"
 );
 
 if (!$stmt) {
@@ -51,16 +51,8 @@ $result = $stmt->get_result();
 $data = [];
 while ($row = $result->fetch_assoc()) {
     $data[] = [
-        'id' => (int)$row['id'],
         'date' => $row['visit_date'],
-        'time_in' => $row['time_in'],
-        'full_name' => $row['full_name'],
-        'category' => $row['category'],
-        'department' => $row['department'],
-        'reason' => $row['reason'],
-        'medication' => $row['medication'],
-        'quantity' => (int)$row['quantity'],
-        'remarks' => $row['remarks']
+        'count' => (int)$row['visit_count']
     ];
 }
 
@@ -72,4 +64,3 @@ echo json_encode([
     'status' => 'success',
     'data' => $data
 ]);
-?>
