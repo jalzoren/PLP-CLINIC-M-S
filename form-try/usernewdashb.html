@@ -35,25 +35,30 @@
         </span>
         </div>
     </header>
-    <nav class="container">
-    <div class="navigation_main">
-        <button class="dashb active">Dashboard</button>
-        <button class="medrec">Medical Records</button>
-        <button class="borrow">Borrow</button>
-    </div>
+   <nav class="container">
+  <div class="navigation_main">
+    <button class="dashb active" data-url="../form-try/usernewdashbstyle.html">Dashboard</button>
+    <button class="medrec" data-url="../form-try/medhistory.html">Medical Records</button>
+    <button class="borrow" data-url="../form-try/usermedborrow.html">Borrow</button>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.navigation_main button');
     
-    <script>
-        const buttons = document.querySelectorAll('.navigation_main button');
-        
-        buttons.forEach(button => {
-            button.addEventListener('click', function() {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                
-                this.classList.add('active');
-            });
-        });
-    </script>
-    </nav>
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        const url = this.getAttribute('data-url');
+        if (url) {
+          window.location.href = url; // redirect to the new page
+        }
+      });
+    });
+  </script>
+</nav>
+
 
     <section class="main">
 
