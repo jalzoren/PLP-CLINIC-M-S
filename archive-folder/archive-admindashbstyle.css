@@ -283,7 +283,7 @@ body {
   height: calc(100vh - 10px);
   overflow-y: auto;
   transition: all 0.5s ease;
-  z-index: 101;
+  z-index: 1;
 }
 .home-content::-webkit-scrollbar {
   width: 10px;
@@ -345,15 +345,15 @@ body {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  gap: 10px;
-  padding: 20px;
+  gap: 15px;
+  padding: 30px;
   height: 700px;
   box-sizing: border-box;
   border-radius: 20px;
-    z-index: 2;
+    z-index: 1;
+  background-color: aquamarine;
 
 }
-
 
 
 .parent > div {
@@ -365,7 +365,7 @@ body {
   font-weight: bold;
   color: #2f4156;
   background-color: #e6ebef;
-  z-index: 2;
+  z-index: 1;
 
 
 }
@@ -455,19 +455,13 @@ body {
 
 #calendar {
   width: 500;
- 
 }
-
-
-
 
 .div2 {
   grid-column: span 2 / span 2;
   grid-row: span 2 / span 2;
   grid-column-start: 5;
   overflow-y: scroll;
-
-
 }
 
 .div3 {
@@ -494,6 +488,7 @@ body {
   grid-row: span 3 / span 3;
   grid-column-start: 5;
   grid-row-start: 4;
+  overflow: auto;
 }
 
 .div7 {
@@ -531,8 +526,35 @@ body {
   }
 }
 
-.hotlines{
-  margin-left: 10px;
+/* TABLE PASIG EMERGENCY HOTLINES*/
+.hotlines_table{
+  width: 80%;
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: top 0ms ease-in-out 0ms,
+            opacity 300ms ease-in-out 0ms,
+            transform 250ms ease-in-out 0ms;
+
+  padding: 30px;
+  background-color: #ffffff;
+  border: 2px outset #2e266d;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.hotlines_table.show {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition: top 0ms ease-in-out 0ms,
+            opacity 300ms ease-in-out 0ms,
+            transform 250ms ease-in-out 0ms;
 }
 
 .hotlines_table table{
@@ -581,7 +603,7 @@ body {
   height: 100vh;
   width: 100vw ;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index:1000;
+  z-index: 10;
   opacity: 0;
   transition: opacity 300ms ease-in-out;
   transform: scale(0);
@@ -593,26 +615,12 @@ body {
 }
 
 .hotlines_table {
-  z-index: 1100; 
+  z-index: 15; 
 }
 
-
-.hotlines{
-  width: 70%;
-  height: auto;
-  text-align: center;
-  font-weight: 600;
-  font-size: 40px;
-  font-style: italic;
-  text-decoration: none;
-  color:#2e266d;
-
-  padding: 8px;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-.hotlines:hover{
-  color: #ffffff;
+.sidebar.active ~ .home-content {
+  width: calc(80% - -45px);
+  left: 250px;
   transition: all 0.5s ease;
+  z-index: 1;
 }

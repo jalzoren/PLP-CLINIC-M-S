@@ -1,3 +1,46 @@
+<<<<<<< HEAD
+=======
+<!---
+<?php
+session_start();
+require_once '../php/database.php';
+
+// Get user's borrowed items
+$db = new Database();
+$conn = $db->getConnection();
+
+$patient_id = $_SESSION['Patient_ID'] ?? null;
+
+if (!$patient_id) {
+    header("Location: ../login.html");
+    exit;
+}
+
+// Fetch borrowed items
+$sql = "SELECT 
+    br.BorrowedItem_ID,
+    br.Date_Borrowed,
+    br.Date_Returned,
+    i.Item_Name,
+    br.Quantity,
+    br.Status,
+    br.Photo_Borrowed,
+    br.Photo_Returned
+FROM borroweditem_records br
+JOIN item i ON br.Item_ID = i.Item_ID
+WHERE br.Patient_ID = ?
+ORDER BY br.Date_Borrowed DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
+?>
+-->
+  
+</a>
+>>>>>>> 874d9adb23a281d18075205d943aded397452e33
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -91,7 +134,7 @@
       <div class="header-name" id="greeting"></div>
 
       <div class="status-and-controls">
-        <div class="status-container" id="patient-info">
+         <div class="status-container" id="patient-info">
   <aside class="status-box">
     <div class="status-row">
       <div class="status-column">

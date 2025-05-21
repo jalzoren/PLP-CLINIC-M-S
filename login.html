@@ -23,6 +23,12 @@
     <h2>LOG IN</h2>
     <form id="loginForm" method="POST">
       <div class="row1">
+        <?php
+        session_start();
+        $csrf_token = bin2hex(random_bytes(32));
+        $_SESSION['csrf_token'] = $csrf_token;
+        ?>
+        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
         <label for="Email">Email:</label>
         <input type="email" id="Email" name="email" placeholder="Enter Email Address" required aria-label="Email address">
 
@@ -42,8 +48,6 @@
       </div>
     </form>
   </div>
-
- 
 
   <script>
     // Clock and date
@@ -66,6 +70,7 @@
     // Fade-in
     window.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("loaded");
+      console.log("Login page DOM loaded.");
     });
 
     // Transition links
@@ -81,74 +86,71 @@
       });
     });
 
-   document.getElementById('show-password').addEventListener('change', function() {
-  const passwordField = document.getElementById('password');
-  
-  if (this.checked) {
-    passwordField.type = 'text';
-    passwordField.classList.add('password-field'); // Add class when changing to text
-  } else {
-    passwordField.type = 'password';
-    passwordField.classList.remove('password-field'); // Remove class when changing back
-  }
-});
-  
+    // Show/hide password
+    document.getElementById('show-password').addEventListener('change', function() {
+      const passwordField = document.getElementById('password');
+      if (this.checked) {
+        passwordField.type = 'text';
+        passwordField.classList.add('password-field');
+      } else {
+        passwordField.type = 'password';
+        passwordField.classList.remove('password-field');
+      }
+    });
 
-    // Form submission with SweetAlert2
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    // Client-side validation
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 7;
+    }
+
+    // Handle form submission with validation
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const email = document.getElementById('Email').value;
+      console.log("Login form submitted.");
+
+      const email = document.getElementById('Email').value.trim();
       const password = document.getElementById('password').value;
 
-      if (!email || !password) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please fill in all required fields.',
-          confirmButtonColor: '#1a1259',
-          background: '#c85656',
-          color: '#fff'
-        });
+      // Client-side validation
+      if (!validateEmail(email)) {
+        Swal.fire('Error', 'Please enter a valid email address.', 'error');
+        console.log("Client validation failed: Invalid email format.");
         return;
       }
 
-      fetch('php/login.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Login successful!',
-            confirmButtonColor: '#1a1259'
-          }).then(() => {
-            this.reset();
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || 'Login failed. Please try again.',
-            confirmButtonColor: '#1a1259',
-            background: '#c85656',
-            color: '#fff'
-          });
-        }
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred. Please try again.',
-          confirmButtonColor: '#1a1259',
-          background: '#c85656',
-          color: '#fff'
+      if (!validatePassword(password)) {
+        Swal.fire('Error', 'Password must be at least 7 characters long.', 'error');
+        console.log("Client validation failed: Password too short.");
+        return;
+      }
+
+      const formData = new FormData(this);
+      console.log("Sending login request with email:", email);
+
+      try {
+        const response = await fetch('php/login.php', {
+          method: 'POST',
+          body: formData
         });
-      });
+        const data = await response.json();
+        console.log("Login response:", data);
+
+        if (data.status === 'success') {
+          console.log("Redirecting to:", data.redirect);
+          window.location.href = data.redirect;
+        } else {
+          Swal.fire('Error', data.message, 'error');
+          console.log("Server validation failed:", data.message);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        Swal.fire('Error', 'An error occurred while logging in.', 'error');
+      }
     });
   </script>
 </body>
