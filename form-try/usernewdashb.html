@@ -25,14 +25,17 @@
         </div>
         
         <div class="user-info">
-            
-            <span class="email">user@example.com</span>
+            <span class="email" id="user-email">Loading...</span>
             <span class="material-icons" id="user-info">
             account_circle
             </span>
-       <span class="material-icons" id="logout-btn">
-        logout
-        </span>
+        
+        <a href="../php/logout.php">
+          <span class="material-icons" id="logout-btn">
+            logout
+          </span>
+        </a>
+      
         </div>
     </header>
    <nav class="container">
@@ -40,6 +43,7 @@
     <button class="dashb active" data-url="../form-try/usernewdashb.html">Dashboard</button>
     <button class="medrec" data-url="../form-try/usermedhist.html">Medical Records</button>
     <button class="borrow" data-url="../form-try/usermedborrow.html">Borrow</button>
+
   </div>
 
   <script>
@@ -95,38 +99,8 @@
   </section>
 
  <div class="items">
-        <div class="item">
-          
-        </div>
-        
-        <div class="item">
-           
-        </div>
-        
-        <div class="item">
-           
-        </div>
-        
-        <div class="item">
-           
-        </div>
-        
-        <div class="item">
-           
-        </div>
-          
-        
-        <div class="item">
-           
-        </div>
-        <div class="item">
-           
-        </div>
-         <div class="item">
-           
-        </div>
-        
-    </div>
+  <!-- Items will be injected here by JS -->
+</div>
   </body>
 
   <script>
@@ -155,25 +129,21 @@
     });
 
 
-    </script>
 
-<!--
-  
- document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
+  // Fetch user info
   fetch('../php/userinterfacefetch.php')
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         const p = data.patient;
-
         document.getElementById('patient-name').textContent =
           `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
         document.getElementById('patient-id').textContent = p.Birthdate;
         document.getElementById('patient-role').textContent = p.Category;
         document.getElementById('patient-sex').textContent = p.Sex;
         document.getElementById('patient-age').textContent = data.age;
-        document.getElementById('patient-email').textContent = data.email;
-
+        document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
         // Update greeting
         updateGreeting(`${p.First_Name} ${p.Last_Name}`);
       } else {
@@ -187,118 +157,34 @@
         "<p>Error loading data. Please try again later.</p>";
     });
     
-  
+    // Fetch items
+    fetch('../php/fetch_items.php')
+      .then(response => response.json())
+      .then(items => {
+        const itemsGrid = document.querySelector('.items');
+        itemsGrid.innerHTML = ''; // Clear existing
+        items.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item';
+          itemDiv.innerHTML = `
+            <div class="item-title">${item.Item_Name}</div>
+            <div class="item-value">Stock: ${item.Quantity}</div>
+            <div class="item-subtitle">${item.Category}</div>
+            <div class="item-status" style="color:${item.Status === 'Available' ? 'green' : 'red'}">${item.Status}</div>
+          `;
+          itemsGrid.appendChild(itemDiv);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching items:", error);
+        document.querySelector('.items').innerHTML = "<p>Error loading items.</p>";
+      });
+  });
 
  
 
 
-
-      let btn = document.querySelector("#logo");
-      let sidebar = document.querySelector(".sidebar");
-
-      btn.onclick = function () {
-        sidebar.classList.toggle("active");
-      };
-
-      
-
 </script>
-document.addEventListener("DOMContentLoaded", function () {
-  const tbody = document.getElementById("borrowedItemsBody");
-  const itemsPerPage = 5;
-  let currentPage = 1;
-  let allItems = [];
-
-  function renderTablePage(page) {
-    tbody.innerHTML = "";
-
-    const start = (page - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const paginatedItems = allItems.slice(start, end);
-
-    if (paginatedItems.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td></tr>`;
-      document.querySelector('.pagination').style.display = 'none';
-      return;
-    }
-
-    document.querySelector('.pagination').style.display = 'flex';
-    paginatedItems.forEach((item, index) => {
-      let borrowedImg = item.Photo_Borrowed || 'no-image.png';
-      let returnedImg = item.Photo_Returned;
-
-      const row = `<tr>
-      <td>${start + index + 1}</td>
-      <td>${item.Date_Borrowed || "-"}</td>
-      <td>${item.Date_Returned || "-"}</td>
-      <td>${item.Item_Name}</td>
-      <td>${item.Quantity}</td>
-      <td>
-        ${item.Status === 'Returned-Undamaged' ? 'Returned (Good)' :
-          item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
-          item.Status || '-'}
-      </td>
-      <td><img src="../uploads/${borrowedImg}" width="60" onerror="this.src='../pictures/no-image.png'"></td>
-      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60" onerror="this.src='../pictures/no-image.png'">` : 'Not yet returned'}</td>
-    </tr>`;
-      tbody.innerHTML += row;
-    });
-  }
-
-  // Fetch borrowed items directly using session Patient_ID
-  fetch("../php/fetch_borrowed_items.php")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      allItems = data;
-      renderTablePage(currentPage);
-      updatePaginationButtons();
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">
-        ${err.message || 'Error loading data. Please try again later.'}</td></tr>`;
-      document.querySelector('.pagination').style.display = 'none';
-    });
-
-  function updatePaginationButtons() {
-    const totalPages = Math.ceil(allItems.length / itemsPerPage);
-    const buttons = document.querySelectorAll(".page-btn");
-    buttons.forEach(btn => {
-      if (!isNaN(btn.textContent)) {
-        const pageNum = parseInt(btn.textContent);
-        btn.style.display = pageNum <= totalPages ? '' : 'none';
-        btn.classList.toggle("active", pageNum === currentPage);
-      }
-    });
-  }
-
-  // Expose to global for button onclicks
-  window.goToPage = function(page) {
-    const totalPages = Math.ceil(allItems.length / itemsPerPage);
-
-    if (page === 'prev') {
-      if (currentPage > 1) currentPage--;
-    } else if (page === 'next') {
-      if (currentPage < totalPages) currentPage++;
-    } else {
-      currentPage = page;
-    }
-
-    updatePaginationButtons();
-    renderTablePage(currentPage);
-  };
-});
-
-</script>
--->
 
 
   </body>
