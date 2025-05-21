@@ -40,3 +40,7 @@ Stack trace:
 [21-May-2025 00:15:57 Europe/Berlin] Database connected successfully
 [21-May-2025 00:15:57 Europe/Berlin] Patient_ID query result: 1
 [21-May-2025 00:15:57 Europe/Berlin] Visit recorded for Patient_ID: 1
+[21-May-2025 10:39:37 Europe/Berlin] Raw input received.
+[21-May-2025 10:39:37 Europe/Berlin] Database connected successfully
+[21-May-2025 10:39:37 Europe/Berlin] Patient_ID query result: 1
+[21-May-2025 10:39:37 Europe/Berlin] Visit recorded for Patient_ID: 1
