@@ -222,18 +222,17 @@ body {
   background-size: cover;
   height: 40%;
   width: 100%;
-  margin-top: -40px;
+  margin-top: -65px;
   mask-image: linear-gradient(black 50%, transparent);
   opacity: 0.6;
 }
 
 .content{
-
   width: 100%;
   height: 500px;
-  margin-top: -70px;
+  margin-top: -50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(4, 1fr);
   padding: 10px 50px;
   gap: 15px;
@@ -249,17 +248,16 @@ body {
   text-align: center;
   border: 2px solid #2e266d;
   border-radius: 10px;
+  background-color: #afb4db;
 }
 
 /* DESK */
 
 .desk {
+  grid-column: 1 / span 5 ;
   grid-row: 1 / span 2;
 
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-
 
   background-image: url("../pictures/waves.png");
   background-size: cover;
@@ -267,21 +265,19 @@ body {
 
 .desk .nurse {
   position: relative;
-  top: -80px;
-  height: 260px;
-  width: 250px;
-  margin-left: 25px;
+  top: -70px;
+  height: 280px;
+  width: 270px;
+  margin-left: 30px;
   filter: drop-shadow(5px 10px 6px rgba(0, 0, 0, 0.3));
 }
 
 .desk .greetings{
-  position: relative;
-  top: -80px;
   padding: 30px 10px;
   color: #2e266d;
-  text-align: left;
   padding: 0;
-  margin-left: 40px;
+  text-align: left;
+  margin-top: 40px;
 }
 
 .desk .greetings .date, .time{
@@ -291,17 +287,19 @@ body {
 }
 
 .desk .greetings h2{
-  font-size: 35px;
+  font-size: 40px;
 }
 
 .desk .greetings p{
-  font-size: 18px;
+  font-size: 20px;
 }
 
 /* ITEM SUMMARY */
 
 .item_summary{
-  grid-row: 1 / span 2;
+  grid-column-start: 6;
+  grid-column: span 2;
+  grid-row: span 2;
   padding: 15px 20px;
 }
 
@@ -360,7 +358,9 @@ body {
 /* NOTIFICATION */
 
 .notification{
-  grid-row: 1 / span 2;
+  grid-column-start: 8;
+  grid-row: span 2;
+  grid-column: span 2;
   padding: 15px 20px;
 }
 
@@ -390,13 +390,27 @@ body {
 }
 
 .notification .messages{
-
   height: 80%;
+}
+
+/* TOTAL OF PATIENTS */
+.patient_total{
+  grid-column: 1 /span 3;
+  grid-row: 3;
+  height: 140%;
+}
+
+.patient_title{
+  color: #2e266d;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 6px;
 }
 
 /* HOTLINE */
 
 .emergency_hotline{
+  grid-column: 1 /span 3;
   grid-row: 4;
   height: 60%;
   align-self: end;
@@ -443,10 +457,10 @@ body {
 /* VISIT SUMMARY */
 
 .visit_summary{
-  grid-column-start: 2;
+  grid-column-start: 4;
   grid-row-start: 3;
-  grid-column: span 2 / span 2;
-  grid-row: span 2 / span 2;
+  grid-column:  span 6;
+  grid-row: span 2;
   padding: 15px 20px;
 }
 
