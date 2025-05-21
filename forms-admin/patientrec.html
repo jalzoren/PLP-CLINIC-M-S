@@ -24,7 +24,7 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="logo.png" alt="Logo" class="logo-img" />
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
@@ -167,7 +167,7 @@
                       echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
                       echo "<td>Medical Record Form</td>";
                       echo "<td class='action-cell'>
-                              <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+                              <a href='../forms-admin/patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
                                   <button type='button' class='view-btn'>View</button>
                               </a>
                             </td>";
@@ -229,7 +229,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`patientrec.php?patient_id=${patientId}`)
+            fetch(`../php/patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
