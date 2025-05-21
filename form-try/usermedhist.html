@@ -32,23 +32,29 @@
         </span>
       </div>
     </header>
-    <nav class="container1">
-      <div class="navigation_main">
-        <button class="dashb">Dashboard</button>
-        <button class="medrec active">Medical Records</button>
-        <button class="borrow ">Borrow</button>
-      </div>
-      <script>
-        const buttons = document.querySelectorAll('.navigation_main button');
-        
-        buttons.forEach(button => {
-          button.addEventListener('click', function() {
-            buttons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-          });
-        });
-      </script>
-    </nav>
+     <nav class="container1">
+  <div class="navigation_main">
+    <button class="dashb " data-url="../form-try/usernewdashbstyle.html">Dashboard</button>
+    <button class="medrec active" data-url="../form-try/medhistory.html">Medical Records</button>
+    <button class="borrow " data-url="../form-try/usermedborrow.html">Borrow</button>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.navigation_main button');
+    
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        const url = this.getAttribute('data-url');
+        if (url) {
+          window.location.href = url; 
+        }
+      });
+    });
+  </script>
+</nav>
 
     <div class="controls-container vertical-controls">
       <div class="form-group">
