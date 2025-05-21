@@ -1,42 +1,3 @@
-<!---
-<?php
-session_start();
-require_once '../php/database.php';
-
-// Get user's borrowed items
-$db = new Database();
-$conn = $db->getConnection();
-
-$patient_id = $_SESSION['Patient_ID'] ?? null;
-
-if (!$patient_id) {
-    header("Location: ../login.html");
-    exit;
-}
-
-// Fetch borrowed items
-$sql = "SELECT 
-    br.BorrowedItem_ID,
-    br.Date_Borrowed,
-    br.Date_Returned,
-    i.Item_Name,
-    br.Quantity,
-    br.Status,
-    br.Photo_Borrowed,
-    br.Photo_Returned
-FROM borroweditem_records br
-JOIN item i ON br.Item_ID = i.Item_ID
-WHERE br.Patient_ID = ?
-ORDER BY br.Date_Borrowed DESC";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $patient_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
-?>
--->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -185,41 +146,8 @@ $borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
               <th>Photo<br />(Returned)</th>
             </tr>
           </thead>
-          <tbody>
-            <?php if (!empty($borrowedItems)): ?>
-              <?php foreach ($borrowedItems as $index => $item): ?>
-                <tr>
-                  <td><?= $index + 1 ?></td>
-                  <td><?= date('m/d/Y h:i A', strtotime($item['Date_Borrowed'])) ?></td>
-                  <td><?= $item['Date_Returned'] ? date('m/d/Y h:i A', strtotime($item['Date_Returned'])) : '-' ?></td>
-                  <td><?= htmlspecialchars($item['Item_Name']) ?></td>
-                  <td><?= $item['Quantity'] ?></td>
-                  <td><?= $item['Status'] === 'Returned-Undamaged' ? 'Returned (Good)' :
-                         ($item['Status'] === 'Returned-Damaged' ? 'Returned (Damage)' :
-                         htmlspecialchars($item['Status'])) ?></td>
-                  <td>
-                    <?php if ($item['Photo_Borrowed']): ?>
-                      <img src="../uploads/<?= htmlspecialchars($item['Photo_Borrowed']) ?>" width="60" 
-                           onerror="this.src='../pictures/no-image.png'">
-                    <?php else: ?>
-                      -
-                    <?php endif; ?>
-                  </td>
-                  <td>
-                    <?php if ($item['Photo_Returned']): ?>
-                      <img src="../uploads/<?= htmlspecialchars($item['Photo_Returned']) ?>" width="60"
-                           onerror="this.src='../pictures/no-image.png'">
-                    <?php else: ?>
-                      Not yet returned
-                    <?php endif; ?>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            <?php else: ?>
-              <tr>
-                <td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td>
-              </tr>
-            <?php endif; ?>
+          <tbody id="borrowedItemsBody">
+            <!-- Data will be populated by JavaScript -->
           </tbody>
         </table>
       </div>
@@ -235,8 +163,9 @@ $borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
 
 
 <script>
- document.addEventListener("DOMContentLoaded", function () {
-  fetch('../php/userinterfacefetch.php')
+document.addEventListener("DOMContentLoaded", function () {
+  // Fetch patient data
+  fetch('userdashboard.php')
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -252,6 +181,11 @@ $borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
 
         // Update greeting
         updateGreeting(`${p.First_Name} ${p.Last_Name}`);
+
+        // Initialize table with borrowed items
+        allItems = data.borrowedItems;
+        renderTablePage(1);
+        updatePaginationButtons();
       } else {
         document.getElementById('patient-info').innerHTML =
           `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
@@ -282,10 +216,113 @@ $borrowedItems = $result->fetch_all(MYSQLI_ASSOC);
     document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
   }
 });
+
+// Table pagination and rendering code
+let allItems = [];
+const itemsPerPage = 5;
+let currentPage = 1;
+
+function renderTablePage(page) {
+  const tbody = document.getElementById("borrowedItemsBody");
+  tbody.innerHTML = "";
+
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedItems = allItems.slice(start, end);
+
+  if (paginatedItems.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td></tr>`;
+    document.querySelector('.pagination').style.display = 'none';
+    return;
+  }
+
+  document.querySelector('.pagination').style.display = 'flex';
+  paginatedItems.forEach((item, index) => {
+    let borrowedImg = item.Photo_Borrowed || 'no-image.png';
+    let returnedImg = item.Photo_Returned;
+
+    const row = `<tr>
+      <td>${start + index + 1}</td>
+      <td>${item.Date_Borrowed ? new Date(item.Date_Borrowed).toLocaleString() : "-"}</td>
+      <td>${item.Date_Returned ? new Date(item.Date_Returned).toLocaleString() : "-"}</td>
+      <td>${item.Item_Name}</td>
+      <td>${item.Quantity}</td>
+      <td>
+        ${item.Status === 'Returned-Undamaged' ? 'Returned (Good)' :
+          item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
+          item.Status || '-'}
+      </td>
+      <td><img src="../uploads/${borrowedImg}" width="60" onerror="this.src='../pictures/no-image.png'"></td>
+      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60" onerror="this.src='../pictures/no-image.png'">` : 'Not yet returned'}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+function updatePaginationButtons() {
+  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+  const buttons = document.querySelectorAll(".page-btn");
+  buttons.forEach(btn => {
+    if (!isNaN(btn.textContent)) {
+      const pageNum = parseInt(btn.textContent);
+      btn.style.display = pageNum <= totalPages ? '' : 'none';
+      btn.classList.toggle("active", pageNum === currentPage);
+    }
+  });
+}
+
+window.goToPage = function(page) {
+  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+
+  if (page === 'prev') {
+    if (currentPage > 1) currentPage--;
+  } else if (page === 'next') {
+    if (currentPage < totalPages) currentPage++;
+  } else {
+    currentPage = page;
+  }
+
+  updatePaginationButtons();
+  renderTablePage(currentPage);
+};
+
+// Search and filter functions
+function searchTable() {
+  const searchInput = document.getElementById('searchInput').value.toLowerCase();
+  const filteredItems = allItems.filter(item => 
+    item.Item_Name.toLowerCase().includes(searchInput) ||
+    item.Status.toLowerCase().includes(searchInput)
+  );
+  allItems = filteredItems;
+  currentPage = 1;
+  renderTablePage(currentPage);
+  updatePaginationButtons();
+}
+
+function filterTable(status) {
+  if (!status) {
+    // Reset to original data
+    fetch('userdashboard.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          allItems = data.borrowedItems;
+          currentPage = 1;
+          renderTablePage(currentPage);
+          updatePaginationButtons();
+        }
+      });
+    return;
+  }
+
+  const filteredItems = allItems.filter(item => item.Status === status);
+  allItems = filteredItems;
+  currentPage = 1;
+  renderTablePage(currentPage);
+  updatePaginationButtons();
+}
 </script>
 
-
-</script>
 
 
     <script>
@@ -400,7 +437,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
   </body>
 </html>
-<?php
-$stmt->close();
-$db->close();
-?>
