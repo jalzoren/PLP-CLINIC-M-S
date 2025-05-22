@@ -118,7 +118,15 @@ Stack trace:
 [22-May-2025 17:56:39 Asia/Manila] Database connected successfully
 [22-May-2025 17:56:39 Asia/Manila] Patient_ID query result: 1
 [22-May-2025 17:56:39 Asia/Manila] Visit recorded for Patient_ID: 1
-[22-May-2025 18:33:25 Asia/Manila] Raw input received.
-[22-May-2025 18:33:25 Asia/Manila] Database connected successfully
-[22-May-2025 18:33:25 Asia/Manila] Patient_ID query result: 1
-[22-May-2025 18:33:25 Asia/Manila] Visit recorded for Patient_ID: 1
+[22-May-2025 19:32:15 Asia/Manila] Raw input received.
+[22-May-2025 19:32:15 Asia/Manila] Database connected successfully
+[22-May-2025 19:32:15 Asia/Manila] Patient_ID query result: 1
+[22-May-2025 19:32:15 Asia/Manila] Visit recorded for Patient_ID: 1
+[22-May-2025 19:32:40 Asia/Manila] Raw input received.
+[22-May-2025 19:32:40 Asia/Manila] Database connected successfully
+[22-May-2025 19:32:40 Asia/Manila] Patient_ID query result: 6
+[22-May-2025 19:32:40 Asia/Manila] Visit recorded for Patient_ID: 6
+[22-May-2025 19:32:54 Asia/Manila] Raw input received.
+[22-May-2025 19:32:54 Asia/Manila] Database connected successfully
+[22-May-2025 19:32:54 Asia/Manila] Patient_ID query result: 4
+[22-May-2025 19:32:54 Asia/Manila] Visit recorded for Patient_ID: 4
