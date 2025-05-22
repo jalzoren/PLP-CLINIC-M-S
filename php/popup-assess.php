@@ -18,7 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $physician_notes = $_POST['physician_notes'] ?? null;
         $nurse_notes = $_POST['nurse_notes'] ?? null;
 
-        // Prepare the SQL INSERT statement
+        $query = "SELECT p.Patient_ID, p.First_Name, p.Last_Name
+                  FROM patient_assessment pa
+                  LEFT JOIN patient p ON pa.Patient_ID = p.Patient_ID
+                  WHERE p.Patient_ID = ?";
+        $stmt_check = $conn->prepare($query);
+        $stmt_check->bind_param("i", $patient_id);
+        $stmt_check->execute();
+        $result = $stmt_check->get_result();
+
+        if ($result->num_rows === 0) {
+            echo "Patient ID not found.";
+        }
+
+        $stmt_check->close();
+
+        // Insert into patient_assessment table
         $sql = "INSERT INTO patient_assessment (
                     Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
                     Blood_Pressure, Physician_Notes, Nurse_Notes, Recorded_At
@@ -30,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Failed to prepare statement: " . $conn->error);
         }
 
-        // Bind parameters to the statement
         $stmt->bind_param(
             "idddddddss",
             $patient_id,
@@ -45,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nurse_notes
         );
 
-        // Execute and check for success
         if ($stmt->execute()) {
             echo "Assessment record saved successfully.";
         } else {
