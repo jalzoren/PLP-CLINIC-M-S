@@ -12,14 +12,14 @@ const timeElement = document.getElementById("time");
 const visitChartCanvas = document.getElementById("visitChart");
 const timeRangeSelect = document.getElementById("timeRange");
 
-// Debug: Check if visitChartCanvas is found
+// Debug: Check if elements are found
 console.log("visitChartCanvas:", visitChartCanvas);
-if (!visitChartCanvas) {
-    console.error("Error: <canvas id='visitChart'> not found in the DOM.");
-}
+console.log("timeRangeSelect:", timeRangeSelect);
+if (!visitChartCanvas) console.error("Error: <canvas id='visitChart'> not found.");
+if (!timeRangeSelect) console.warn("timeRangeSelect not found.");
 
 // Sidebar toggle
-logoBtn.addEventListener("click", () => {
+logoBtn?.addEventListener("click", () => {
     sidebar.classList.toggle("active");
 });
 
@@ -40,42 +40,44 @@ function updateDateTime() {
     const hours = now.getHours().toString().padStart(2, "0");
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const seconds = now.getSeconds().toString().padStart(2, "0");
-    const timeString = `${hours}:${minutes}:${seconds}`;
     const day = now.getDate().toString().padStart(2, "0");
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
     const year = now.getFullYear();
-    const dateString = `${month}/${day}/${year}`;
     const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const weekday = weekdays[now.getDay()];
-
-    dateElement.textContent = `Date: ${dateString}`;
-    timeElement.textContent = `${weekday} | ${timeString}`;
+    dateElement.textContent = `Date: ${month}/${day}/${year}`;
+    timeElement.textContent = `${weekdays[now.getDay()]} | ${hours}:${minutes}:${seconds}`;
 }
-
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
 // Time out popup
-function closeTimedOutPopup() {
-    popupTimeout.style.display = "none";
-}
-
 function openTimedOutPopup(visitId, fullName) {
+    console.log("Opening popup for Visit ID:", visitId, "Name:", fullName); // Debug
     popupTimeout.style.display = "block";
-    timeoutName.textContent = fullName;
+    timeoutName.textContent = fullName || "[Name Not Available]";
     timeoutVisitId.value = visitId;
 }
 
-// Event delegation for time out buttons
-document.querySelector(".timedin_table").addEventListener("click", (e) => {
-    if (e.target.classList.contains("timedout")) {
+function closeTimedOutPopup() {
+    popupTimeout.style.display = "none";
+    timeoutForm.reset(); // Clear form inputs
+}
+
+// Event delegation for timedin table
+document.querySelector(".timedin_table")?.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.classList.contains("timedout")) {
         e.preventDefault();
-        const id = e.target.dataset.visitId;
-        const name = e.target.dataset.fullName;
-        openTimedOutPopup(id, name);
-    } else if (e.target.classList.contains("assess")) {
-        const patientId = e.target.dataset.patientId;
-        const category = e.target.dataset.category;
+        const visitId = target.dataset.visitId;
+        const fullName = target.dataset.fullName;
+        console.log("Time Out clicked - Visit ID:", visitId, "Full Name:", fullName); // Debug
+        if (visitId && fullName) {
+            openTimedOutPopup(visitId, fullName);
+        } else {
+            Swal.fire("Error", "Missing visit ID or name.", "error");
+        }
+    } else if (target.classList.contains("assess")) {
+        const patientId = target.dataset.patientId;
         if (patientId && patientId !== 'null') {
             window.location.href = `../forms-admin/patientrec.html?patient_id=${patientId}`;
         } else {
@@ -84,29 +86,16 @@ document.querySelector(".timedin_table").addEventListener("click", (e) => {
     }
 });
 
-// Form submission with validation
-timeoutForm.addEventListener("submit", async (e) => {
+// Form submission (no validation for medicine/quantity)
+timeoutForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const quantity = timeoutForm.quantity.value;
-    const medicine = timeoutForm.medicine.value.trim();
-    const remarks = timeoutForm.remarks.value.trim();
-
-    if (!quantity || quantity < 1) {
-        Swal.fire("Error", "Please enter a valid quantity.", "error");
-        return;
-    }
-    if (!medicine) {
-        Swal.fire("Error", "Please enter the medication given.", "error");
-        return;
-    }
-
     const formData = {
         visit_id: timeoutVisitId.value,
-        quantity: parseInt(quantity),
-        medicine,
-        remarks,
+        quantity: parseInt(timeoutForm.quantity.value) || 0,
+        medicine: timeoutForm.medicine.value.trim(),
+        remarks: timeoutForm.remarks.value.trim(),
     };
+    console.log("Submitting form data:", formData); // Debug
 
     try {
         const res = await fetch("../php/time_out.php", {
@@ -115,24 +104,26 @@ timeoutForm.addEventListener("submit", async (e) => {
             body: JSON.stringify(formData),
         });
         const data = await res.json();
-
-        if (data.status === "success") {
-            Swal.fire("Success", data.message, "success").then(() => {
+        Swal.fire({
+            icon: data.status,
+            title: data.status === "success" ? "Success" : "Error",
+            text: data.message,
+        }).then(() => {
+            if (data.status === "success") {
+                closeTimedOutPopup();
                 location.reload();
-            });
-        } else {
-            Swal.fire("Error", data.message, "error");
-        }
+            }
+        });
     } catch (error) {
-        Swal.fire("Error", "An error occurred while processing the request.", "error");
+        console.error("Submission error:", error);
+        Swal.fire("Error", "Failed to process time out.", "error");
     }
 });
 
 // Visit Summary Line Graph
-let chartInstance = null; // Store chart instance to prevent multiple instances
+let chartInstance = null;
 
 async function renderVisitChart(days = 7) {
-    // Check if canvas exists
     if (!visitChartCanvas) {
         console.error("Cannot render chart: visitChartCanvas is undefined.");
         Swal.fire("Error", "Chart canvas not found.", "error");
@@ -142,11 +133,9 @@ async function renderVisitChart(days = 7) {
     try {
         const res = await fetch(`../php/get_visit_summary.php?days=${days}`);
         const response = await res.json();
-
-        console.log("Visit summary response:", response); // Debug: Log response
+        console.log("Visit summary response:", response);
 
         if (response.status !== "success") {
-            console.error("Failed to fetch visit data:", response.message);
             Swal.fire("Error", response.message, "error");
             return;
         }
@@ -160,15 +149,13 @@ async function renderVisitChart(days = 7) {
         const labels = data.map(item => item.date);
         const counts = data.map(item => item.count);
 
-        // Destroy existing chart if it exists
-        if (chartInstance) {
-            chartInstance.destroy();
-        }
-
+        if (chartInstance) chartInstance.destroy();
+        
+        // Create chart using Chart.js
         chartInstance = new Chart(visitChartCanvas, {
             type: "line",
             data: {
-                labels: labels,
+                labels,
                 datasets: [{
                     label: "Daily Visits",
                     data: counts,
@@ -177,39 +164,27 @@ async function renderVisitChart(days = 7) {
                     fill: true,
                     tension: 0.4,
                     pointRadius: 4,
-                }]
+                }],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: "top",
-                    },
+                    legend: { position: "top" },
                     title: {
                         display: true,
                         text: `Visit Summary (Last ${days} Days)`,
-                    }
+                    },
                 },
                 scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: "Date",
-                        }
-                    },
+                    x: { title: { display: true, text: "Date" } },
                     y: {
                         beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: "Number of Visits",
-                        },
-                        ticks: {
-                            stepSize: 1,
-                        }
-                    }
-                }
-            }
+                        title: { display: true, text: "Number of Visits" },
+                        ticks: { stepSize: 1 },
+                    },
+                },
+            },
         });
     } catch (error) {
         console.error("Error rendering visit chart:", error);
@@ -218,15 +193,11 @@ async function renderVisitChart(days = 7) {
 }
 
 // Time range selector
-if (timeRangeSelect) {
-    timeRangeSelect.addEventListener("change", (e) => {
-        renderVisitChart(parseInt(e.target.value));
-    });
-} else {
-    console.warn("timeRangeSelect not found in the DOM.");
-}
+timeRangeSelect?.addEventListener("change", (e) => {
+    renderVisitChart(parseInt(e.target.value));
+});
 
-// Initialize chart on page load
+// Initialize chart
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded, initializing chart...");
     renderVisitChart(7);

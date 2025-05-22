@@ -52,7 +52,7 @@ document.getElementById('timeInForm').addEventListener('submit', async e => {
   }
 
   try {
-    const response = await fetch('php/time_in.php', {
+    const response = await fetch('time_in.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id_number: idNumber, reason, other_reason: otherReason })

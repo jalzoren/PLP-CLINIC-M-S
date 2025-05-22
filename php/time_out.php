@@ -1,9 +1,9 @@
 <?php
+date_default_timezone_set('Asia/Manila'); // Set your local timezone
 require_once 'database.php';
 
 header('Content-Type: application/json');
 
-// Instantiate database connection
 try {
     $db = new Database();
     $conn = $db->getConnection();
@@ -15,7 +15,6 @@ try {
     ]));
 }
 
-// Decode JSON input
 $data = json_decode(file_get_contents('php://input'), true);
 if (!$data) {
     error_log("Invalid JSON input: " . file_get_contents('php://input'));
@@ -25,7 +24,6 @@ if (!$data) {
     ]));
 }
 
-// Validate inputs
 $visit_id = $data['visit_id'] ?? null;
 $medicine = trim($data['medicine'] ?? '');
 $quantity = isset($data['quantity']) ? (int)$data['quantity'] : 0;
@@ -39,15 +37,13 @@ if (!$visit_id || !is_numeric($visit_id)) {
     ]));
 }
 
-
-// Prepare and execute query
 $stmt = $conn->prepare(
     "UPDATE visit_records
-     SET Time_Out = NOW(),
-         Medicine = ?,
-         Quantity = ?,
-         Remarks = ?
-     WHERE Visit_ID = ?"
+    SET Time_Out = NOW(),
+        Medicine = ?,
+        Quantity = ?,
+        Remarks = ?
+    WHERE Visit_ID = ?"
 );
 
 if (!$stmt) {

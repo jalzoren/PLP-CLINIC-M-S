@@ -11,8 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-
 </head>
 <body>
     <div class="sidebar">
@@ -22,43 +20,35 @@
                 <div class="logo-name">PLPClinic</div>
             </div>
         </div>
-
         <ul class="nav-list">
             <li>
-                <a
-                href="admindashboard.html"
-                class="active"
-                class="transition-link"
-                >
+                <a href="admindashboard.html" class="active transition-link">
                     <i class="material-icons">dashboard</i>
                     <span class="link-name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
-
             <li>
                 <a href="medrecords.html" class="transition-link">
-                <i class="material-icons">folder_shared</i>             
-                <span class="link-name">Records</span>
+                    <i class="material-icons">folder_shared</i>
+                    <span class="link-name">Records</span>
                 </a>
                 <span class="tooltip">Patient Records</span>
             </li>
             <li>
                 <a href="borrowing.html" class="transition-link">
-                <i class="material-icons">dns</i>
-                <span class="link-name">Borrow</span>
+                    <i class="material-icons">dns</i>
+                    <span class="link-name">Borrow</span>
                 </a>
                 <span class="tooltip">Borrowing Records</span>
             </li>
-
             <li>
                 <a href="userborrow.html" class="transition-link">
-                <i class="material-icons">assignment</i>
-                <span class="link-name">Borrow</span>
+                    <i class="material-icons">assignment</i>
+                    <span class="link-name">Borrow</span>
                 </a>
                 <span class="tooltip">Borrow Form</span>
             </li>
-
             <li>
                 <a href="admintransac.html" class="transition-link">
                     <i class="material-icons">perm_contact_calendar</i>
@@ -76,11 +66,7 @@
         </ul>
         <ul>
             <li class="log-out">
-                <br />
-                <br />
-                <br />
-                <br />
-
+                <br /><br /><br /><br />
                 <a href="../php/logout.php">
                     <i class="material-icons">exit_to_app</i>
                     <span class="link-name">Logout</span>
@@ -96,12 +82,11 @@
                 <img src="../pictures/nurse.png" class="nurse">
                 <div class="greetings">
                     <h2 class="welcome">Welcome, Doc</h2>
-                    <p><span><i class="material-icons" style="font-size: tiny;">account_circle</i> </span> loremipsum@plpasig.edu.ph</p>
+                    <p><span><i class="material-icons" style="font-size: tiny;">account_circle</i></span> loremipsum@plpasig.edu.ph</p>
                     <p class="date" id="date">Date: 00/00/0000</p>
                     <p class="time" id="time">Monday | 00:00:00</p>
                 </div>
             </div>
-
             <div class="item_summary">
                 <div class="item_title">
                     <p>Item Summary</p>
@@ -120,16 +105,12 @@
                     Notification Message
                 </div>
             </div>
-            
             <div class="patient_total">
                 <div class="patient_title">
                     <p>Total of Patients</p>
                 </div>
-                <div class="patient_summary">
-
-                </div>
+                <div class="patient_summary"></div>
             </div>
-            
             <div class="emergency_hotline">
                 <a href="#" class="hotlines" onclick="openForm()">PASIG CITY EMERGENCY HOTLINES</a>
             </div>
@@ -160,23 +141,26 @@
                             </thead>
                             <tbody>
                                 <?php if (!empty($timedinData)): ?>
-                                <?php foreach ($timedinData as $index => $row): ?>
-                                    <tr>
-                                        <td><?= $index + 1 ?>.</td>
-                                        <td><?= htmlspecialchars($row['Full_Name']) ?></td>
-                                        <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
-                                        <td>
-                                            <form method="POST" action="../php/time_out.php">
-                                                <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
-                                                <button class="timedout" type="submit">Time Out</button>
-                                            </form>
-                                            <button class="assess" 
-                                                    data-visit-id="<?= $row['Visit_ID'] ?>" 
-                                                    data-patient-id="<?= $row['Patient_ID'] ?>" 
-                                                    data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>">Assess</button>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                    <?php foreach ($timedinData as $index => $row): ?>
+                                        <tr>
+                                            <td><?= $index + 1 ?>.</td>
+                                            <td><?= htmlspecialchars($row['Full_Name']) ?></td>
+                                            <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
+                                            <td>
+                                                <form method="POST" action="../php/time_out.php" style="display: inline;">
+                                                    <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
+                                                    <button class="timedout" 
+                                                            type="submit" 
+                                                            data-visit-id="<?= $row['Visit_ID'] ?>" 
+                                                            data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>">Time Out</button>
+                                                </form>
+                                                <button class="assess" 
+                                                        data-visit-id="<?= $row['Visit_ID'] ?>" 
+                                                        data-patient-id="<?= $row['Patient_ID'] ?>" 
+                                                        data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>">Assess</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr><td colspan="4">No patients currently timed in.</td></tr>
                                 <?php endif; ?>
@@ -226,16 +210,16 @@
                                 <div class="upper-inputs">
                                     <div class="row_quantity">
                                         <label>Quantity</label>
-                                        <input type="number" min="1" name="quantity" placeholder="Enter Quantity">
+                                        <input type="number" min="0" name="quantity" placeholder="Enter Quantity (Optional)">
                                     </div>
                                     <div class="row_medicine">
                                         <label>Medication Given</label>
-                                        <input type="text" name="medicine" placeholder="Enter Medicine Given">
+                                        <input type="text" name="medicine" placeholder="Enter Medicine Given (Optional)">
                                     </div>
                                 </div>
                                 <div class="row_remarks">
                                     <label>Remarks</label>
-                                    <textarea name="remarks" rows="3" placeholder="Remarks"></textarea>
+                                    <textarea name="remarks" rows="3" placeholder="Remarks (Optional)"></textarea>
                                 </div>
                             </div>
                             <div class="buttons">
