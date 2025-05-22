@@ -263,14 +263,21 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".view-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const patientId = this.getAttribute("data-patient-id");
-                // Redirect to the medrecView.html page with patient_id in the query string
-                window.location.href = "medrecviewrec.html?patient_id=" + patientId;
+            document.querySelectorAll(".view-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    const patientId = this.getAttribute("data-patient-id");
+                    const assessmentId = this.getAttribute("data-assessment-id");
+                    
+                    if (assessmentId) {
+                        // If it's an assessment record, go to assessview.html
+                        window.location.href = "assessview.html?assessment_id=" + assessmentId;
+                    } else {
+                        // If it's a medical record, go to medrecviewrec.html
+                        window.location.href = "medrecviewrec.html?patient_id=" + patientId;
+                    }
+                });
             });
         });
-    });
     </script>
 
 
