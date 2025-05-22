@@ -663,7 +663,7 @@ function submitMedicalRecordForm(e) {
                 console.log("Condition matched: success");
                 console.log("Patient ID from server:", data.patientID);
                 generatePDFAndUpload(data.patientID);
-                //document.getElementById("SuccessPopup").style.display = "block";
+                document.getElementById("SuccessPopup").style.display = "block";
             }
         } catch (e) {
             console.error("Invalid JSON response:", text);
