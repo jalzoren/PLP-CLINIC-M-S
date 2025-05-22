@@ -1,6 +1,9 @@
 <?php
 require_once 'database.php';
 
+// Set header to return JSON response
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $database = new Database();
@@ -85,18 +88,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         if ($stmt->execute()) {
-            echo "Assessment record saved successfully.";
+            echo json_encode([
+                'success' => true,
+                'message' => 'Assessment record saved successfully.'
+            ]);
         } else {
-            echo "Error saving record: " . $stmt->error;
+            throw new Exception("Error saving record: " . $stmt->error);
         }
 
         $stmt->close();
         $conn->close();
 
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
     }
 } else {
-    echo "Invalid request method.";
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid request method.'
+    ]);
 }
 ?>
