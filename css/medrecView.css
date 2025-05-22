@@ -230,34 +230,39 @@ a{
 }
 
 
+
 .home-content {
   position: absolute;
-  top: 90px; 
+  top: 90px;
   width: calc(80% - -205px);
   left: 90px;
-  height: calc(100vh - 90px); 
-  overflow-y: auto;
+  height: calc(100vh - 90px);
   transition: all 0.5s ease;
   z-index: 101;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+  top: 90px;
+  overflow-y: scroll;
+    overflow-x:hidden;
+    margin: 10px
+
 }
 
-.home-content .text {
+
+.home-content .data {
   font-size: 25px;
   font-weight: 800;
   font-style: italic;
   color: #000000;
   padding: 15px 20px;
   margin: 10px auto;
-  background: #ffffff; 
+  background: #ffffff;
   border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
   letter-spacing: 1px;
   width: 100%;
   box-sizing: border-box;
+  padding: 15px;
 }
 
 .sidebar.active ~ .home-content {
@@ -453,6 +458,7 @@ tbody td {
   align-items: center;
   z-index: 9999;
   padding-bottom: 30px;
+  margin: 10px;
 }
 
 .new-data {
@@ -476,17 +482,18 @@ tbody td {
 .title-container {
   display: flex;
   align-items: center;
-  background-color: #2e266d;
+  background-color: transparent;
   color: #fff;
   padding: 20px;
   justify-content: center;
 }
 
 .title {
-  font-size: 22px;
-  font-weight: 600;
+  font-weight: 200;
   text-align: center;
   width: 100%;
+  color: #1a1259;
+
 }
 
 .close-btn {
