@@ -6,38 +6,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new Database();
         $conn = $database->getConnection();
 
-        // Collect and sanitize POST data
+        // Get patient_id from URL instead of POST
+        $patient_id = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+
+        // Collect POST data
         $patient_id = $_POST['patient_id'] ?? null;
-        $patient_type = $_POST['patient_type'] ?? null;
-        $student_id = $_POST['student_id'] ?? null;
-        $personnel_id = $_POST['personnel_id'] ?? null;
-        $patient_name = $_POST['patient_name'] ?? null;
-        $sex = $_POST['sex'] ?? null;
-        $age = $_POST['age'] ?? null;
-        $department = $_POST['department'] ?? null;
         $temperature = $_POST['temperature'] ?? null;
-        $rr = $_POST['rr'] ?? null;
+        $rr = $_POST['rr'] ?? null; // Respiratory Rate
         $height = $_POST['height'] ?? null;
         $weight = $_POST['weight'] ?? null;
         $bmi = $_POST['bmi'] ?? null;
         $pulse = $_POST['pulse'] ?? null;
-        $bp = $_POST['bp'] ?? null;
+        $bp = $_POST['bp'] ?? null; // Blood Pressure
         $physician_notes = $_POST['physician_notes'] ?? null;
         $nurse_notes = $_POST['nurse_notes'] ?? null;
 
-        // Prepare and execute SQL insert
+        // Validate required fields
+        if (!$patient_id) {
+            throw new Exception("Patient ID is required");
+        }
+
+        $query = "SELECT Patient_ID FROM patient WHERE Patient_ID = ?";
+        $stmt_check = $conn->prepare($query);
+        $stmt_check->bind_param("i", $patient_id);
+        $stmt_check->execute();
+        $result = $stmt_check->get_result();
+
+        if ($result->num_rows === 0) {
+            throw new Exception("Patient ID not found in the database.");
+        }
+
+        $stmt_check->close();
+
+        // Validate numeric fields
+        if ($temperature !== null && !is_numeric($temperature)) {
+            throw new Exception("Temperature must be a number");
+        }
+        if ($rr !== null && !is_numeric($rr)) {
+            throw new Exception("Respiratory Rate must be a number");
+        }
+        if ($height !== null && !is_numeric($height)) {
+            throw new Exception("Height must be a number");
+        }
+        if ($weight !== null && !is_numeric($weight)) {
+            throw new Exception("Weight must be a number");
+        }
+        if ($bmi !== null && !is_numeric($bmi)) {
+            throw new Exception("BMI must be a number");
+        }
+        if ($pulse !== null && !is_numeric($pulse)) {
+            throw new Exception("Pulse must be a number");
+        }
+
+        // Insert into patient_assessment table
         $sql = "INSERT INTO patient_assessment (
-                    Assessment_ID, Patient_ID, Temperature, Pulse,  Respiratory_Rate,
-                    Blood_Pressure, Height, Weight, BMI, 
-                    Physician_Notes, Nurse_Notes, Recorded_At
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
-                )";
+                    Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
+                    Blood_Pressure, Physician_Note, Nurse_Note, Recorded_At
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement: " . $conn->error);
+        }
+
         $stmt->bind_param(
-            "issssssddddddssss",
-            $assessment_ID,
+            "idddddddss",
             $patient_id,
             $temperature,
             $rr,

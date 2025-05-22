@@ -148,9 +148,6 @@ function goToFamilyHistoPopUp() {
 
 }
 
-window.onload = function() {
-  document.getElementById("popupContainer").style.display = "block"; 
-}
 
 function initializePopupFormLogic(){
   const studentCheckbox = document.getElementById("studentCheckbox");
@@ -491,6 +488,11 @@ function generateEmail() {
 
 document.getElementById("lastname").addEventListener("input", generateEmail);
 document.getElementById("firstname").addEventListener("input", generateEmail);
+
+
+window.onload = function() {
+  document.getElementById("popupContainer").style.display = "block"; 
+}
 
 function submitMedicalRecordForm(e) {
     e.preventDefault(); 

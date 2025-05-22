@@ -4,16 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Transaction / PLP Clinic Monitoring System</title>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/transstyle.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <link rel="stylesheet" href="../css/transstyle.css" />
   </head>
   <body>
     <div class="sidebar">
@@ -25,197 +19,260 @@
       </div>
 
       <ul class="nav-list">
-        <li>
-          <a href="admindashboard.html" class="transition-link">
-            <i class="material-icons">dashboard</i>
-            <span class="link-name">Dashboard</span>
-          </a>
-          <span class="tooltip">Dashboard</span>
+        <li><a href="admindashboard.html" class="transition-link"><i class="material-icons">dashboard</i><span class="link-name">Dashboard</span></a></li>
+        <li><a href="medrecords.html" class="transition-link"><i class="material-icons">folder_shared</i><span class="link-name">Records</span></a></li>
+        <li><a href="borrowing.html" class="transition-link"><i class="material-icons">dns</i><span class="link-name">Borrow</span></a></li>
+        <li><a href="userborrow.html" class="transition-link"><i class="material-icons">assignment</i><span class="link-name">Borrow</span></a></li>
+        <li><a href="admintransac.html" class="active"><i class="material-icons">perm_contact_calendar</i><span class="link-name">Transactions</span></a></li>
+        <li><a href="adminiteminv.html" class="transition-link"><i class="material-icons">storage</i><span class="link-name">Inventory</span></a></li>
+      </ul>
+      <ul>
+        <li class="log-out">
+          <br /><br /><br /><br />
+          <a href="../php/logout.php"><i class="material-icons">exit_to_app</i><span class="link-name">Logout</span></a>
         </li>
-
-        <li>
-          <a href="medrecords.html" class="transition-link">
-            <i class="material-icons">folder_shared</i>
-            <span class="link-name">Records</span>
-          </a>
-          <span class="tooltip">Patient Records</span>
-        </li>
-        <li>
-          <a href="borrowing.html" class="transition-link">
-            <i class="material-icons">dns</i>
-            <span class="link-name">Borrow</span>
-          </a>
-          <span class="tooltip">Borrowing Records</span>
-        </li>
-
-        <li>
-          <a href="userborrow.html" class="transition-link">
-            <i class="material-icons">assignment</i>
-            <span class="link-name">Borrow</span>
-          </a>
-          <span class="tooltip">Borrow Form</span>
-        </li>
-
-            <li>
-                <a href="admintransac.html" class="active">
-                    <i class="material-icons">perm_contact_calendar</i>
-                    <span class="link-name">Transactions</span>
-                </a>
-                <span class="tooltip">Visit Records</span>
-            </li>
-            <li>
-                <a href="adminiteminv.html" class="transition-link">
-                    <i class="material-icons">storage</i>
-                    <span class="link-name">Inventory</span>
-                </a>
-                <span class="tooltip">Item Inventory</span>
-            </li>
-        </ul>
-        <ul>
-            <li class="log-out">
-                <br />
-                <br />
-                <br />
-                <br />
-                
-                <a href="../php/logout.php">
-                    <i class="material-icons">exit_to_app</i>
-                    <span class="link-name">Logout</span>
-                </a>
-            </li>
-        </ul>
+      </ul>
     </div>
 
     <div class="header-content">
-        <div class="text">VISIT RECORDS</div>
+      <div class="text">VISIT RECORDS</div>
     </div>
 
     <div class="home-content">
       <div class="controls">
         <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Search..." />
-          <button class="search-btn" onclick="searchTable()">
-            <i class="fa fa-search"></i>
-          </button>
+          <input type="text" id="searchInput" placeholder="Search..." oninput="applyFilters()" />
+          <button class="search-btn" onclick="applyFilters()"><i class="fa fa-search"></i></button>
         </div>
+        <select id="categoryFilter" onchange="applyFilters()">
+          <option value="Student" selected>Student</option>
+          <option value="Personnel">Personnel</option>
+        </select>
         <select id="daysFilter" onchange="fetchData()">
           <option value="7">Last 7 Days</option>
           <option value="30">Last 30 Days</option>
           <option value="90">Last 90 Days</option>
           <option value="365">Last 365 Days</option>
         </select>
-        <button class="control-button" onclick="sortTable()">
-          <i class="bx bx-sort-alt-2"></i>
-        </button>
+        <button class="control-button" onclick="sortTable()"><i class="fa fa-sort"></i></button>
+        <span class="loading-indicator" id="loadingIndicator" style="display: none;">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
       </div>
 
       <div class="container">
         <h3>Daily Visit Records</h3>
         <table>
-         <thead>
-  <tr>
-    <th>No.</th>
-    <th>Date</th>
-    <th>Time In</th>
-    <th>Time Out</th>
-    <th>Full Name</th>
-    <th>Category</th>
-    <th>Department/Course Yr. & Sec.</th>
-    <th>Reason</th>
-    <th>Medication</th>
-    <th>Qty.</th>
-    <th>Remarks</th>
-  </tr>
-</thead>
-
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Date</th>
+              <th>Time In</th>
+              <th>Time Out</th>
+              <th>Full Name</th>
+              <th>Category</th>
+              <th>Department/Course Yr. & Sec.</th>
+              <th>Reason</th>
+              <th>Medication</th>
+              <th>Qty.</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
           <tbody id="visitTableBody">
             <!-- Data will be populated here -->
           </tbody>
         </table>
+        <div class="pagination">
+          <button class="page-btn" onclick="goToPage('prev')">«</button>
+          <span id="pagination-numbers"></span>
+          <button class="page-btn" onclick="goToPage('next')">»</button>
+        </div>
       </div>
     </div>
 
-   <script>
-  let btn = document.querySelector("#logo");
-  let sidebar = document.querySelector(".sidebar");
+    <script>
+      let btn = document.querySelector("#logo");
+      let sidebar = document.querySelector(".sidebar");
+      let allData = [];
+      let filteredData = [];
+      let currentPage = 1;
+      const recordsPerPage = 5;
+      let autoRefreshInterval = null;
 
-  btn.onclick = function () {
-    sidebar.classList.toggle("active");
-  };
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
 
-  function fetchData() {
-    const days = document.getElementById('daysFilter').value;
-    fetch(`../php/fetch_visits.php?days=${days}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          populateVisitTable(data.data.details);
-        } else {
-          console.error('Error fetching data:', data.message);
-          document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="11">Error loading data</td></tr>';
+      function startAutoRefresh() {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+        autoRefreshInterval = setInterval(fetchData, 30000);
+      }
+
+      function stopAutoRefresh() {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+      }
+
+      function fetchData() {
+        const days = document.getElementById("daysFilter").value;
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        loadingIndicator.style.display = "inline-block";
+
+        fetch(`../php/fetch_visits.php?days=${days}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              allData = data.data.details;
+              applyFilters();
+            } else {
+              document.getElementById("visitTableBody").innerHTML =
+                '<tr><td colspan="11">Error loading data: ' + data.message + "</td></tr>";
+              document.getElementById("pagination-numbers").innerHTML = "";
+            }
+          })
+          .catch(() => {
+            document.getElementById("visitTableBody").innerHTML =
+              '<tr><td colspan="11">Error loading data</td></tr>';
+            document.getElementById("pagination-numbers").innerHTML = "";
+          })
+          .finally(() => {
+            loadingIndicator.style.display = "none";
+          });
+      }
+
+      function applyFilters() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const categoryFilter = document.getElementById("categoryFilter").value.toLowerCase();
+
+        filteredData = allData.filter((row) => {
+          const rowText = Object.values(row).join(" ").toLowerCase();
+          const rowCategory = row.category ? row.category.toLowerCase() : "";
+          return rowText.includes(searchInput) && rowCategory === categoryFilter;
+        });
+
+        currentPage = 1;
+        populateVisitTable(filteredData);
+      }
+
+      function populateVisitTable(data) {
+        const tbody = document.getElementById("visitTableBody");
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
+          document.getElementById("pagination-numbers").innerHTML = "";
+          return;
         }
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-        document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="11">Error loading data</td></tr>';
-      });
-  }
 
-  function populateVisitTable(data) {
-    const tbody = document.getElementById('visitTableBody');
-    tbody.innerHTML = ''; // Clear previous content
+        const totalPages = Math.ceil(data.length / recordsPerPage);
+        const startIndex = (currentPage - 1) * recordsPerPage;
+        const endIndex = Math.min(startIndex + recordsPerPage, data.length);
+        const paginatedData = data.slice(startIndex, endIndex);
 
-    if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
-      return;
-    }
+        paginatedData.forEach((row, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${startIndex + index + 1}</td>
+            <td>${row.date || ""}</td>
+            <td>${row.time_in || ""}</td>
+            <td>${row.time_out || ""}</td>
+            <td>${row.full_name || ""}</td>
+            <td>${row.category || ""}</td>
+            <td>${row.department || ""}</td>
+            <td>${row.reason || ""}</td>
+            <td>${row.medication || ""}</td>
+            <td>${row.quantity || 0}</td>
+            <td>${row.remarks || ""}</td>
+          `;
+          tbody.appendChild(tr);
+        });
 
-    data.forEach((row, index) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${row.date || ''}</td>
-        <td>${row.time_in || ''}</td>
-        <td>${row.time_out || ''}</td>
-        <td>${row.full_name || ''}</td>
-        <td>${row.category || ''}</td>
-        <td>${row.department || ''}</td>
-        <td>${row.reason || ''}</td>
-        <td>${row.medication || ''}</td>
-        <td>${row.quantity || 0}</td>
-        <td>${row.remarks || ''}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
+        renderPagination(totalPages);
+      }
 
-  function searchTable() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#visitTableBody tr');
-    rows.forEach(row => {
-      const cells = row.querySelectorAll('td');
-      const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-      row.style.display = rowText.includes(input) ? '' : 'none';
-    });
-  }
+      function renderPagination(totalPages) {
+        const paginationNumbers = document.getElementById("pagination-numbers");
+        paginationNumbers.innerHTML = "";
 
-  let sortDirection = 1;
-  function sortTable() {
-    const tbody = document.getElementById('visitTableBody');
-    const rows = Array.from(tbody.querySelectorAll('tr'));
-    rows.sort((a, b) => {
-      const aDate = a.cells[1].textContent.trim();
-      const bDate = b.cells[1].textContent.trim();
-      return sortDirection * aDate.localeCompare(bDate);
-    });
-    sortDirection *= -1;
-    tbody.innerHTML = '';
-    rows.forEach(row => tbody.appendChild(row));
-  }
+        const maxPagesToShow = 10;
+        let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+        let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+        if (endPage - startPage + 1 < maxPagesToShow) {
+          startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
 
-  // Load data on page load
-  fetchData();
-</script>
+        if (startPage > 1) {
+          const firstPage = document.createElement("span");
+          firstPage.textContent = "1";
+          firstPage.className = "page-number";
+          firstPage.onclick = () => {
+            currentPage = 1;
+            populateVisitTable(filteredData);
+          };
+          paginationNumbers.appendChild(firstPage);
 
+          if (startPage > 2) {
+            const ellipsis = document.createElement("span");
+            ellipsis.textContent = "...";
+            ellipsis.className = "ellipsis";
+            paginationNumbers.appendChild(ellipsis);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          const pageSpan = document.createElement("span");
+          pageSpan.textContent = i;
+          pageSpan.className = "page-number" + (i === currentPage ? " active" : "");
+          pageSpan.onclick = () => {
+            currentPage = i;
+            populateVisitTable(filteredData);
+          };
+          paginationNumbers.appendChild(pageSpan);
+        }
+
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement("span");
+            ellipsis.textContent = "...";
+            ellipsis.className = "ellipsis";
+            paginationNumbers.appendChild(ellipsis);
+          }
+
+          const lastPage = document.createElement("span");
+          lastPage.textContent = totalPages;
+          lastPage.className = "page-number";
+          lastPage.onclick = () => {
+            currentPage = totalPages;
+            populateVisitTable(filteredData);
+          };
+          paginationNumbers.appendChild(lastPage);
+        }
+
+        document.querySelector("button[onclick=\"goToPage('prev')\"]").disabled = currentPage === 1;
+        document.querySelector("button[onclick=\"goToPage('next')\"]").disabled = currentPage === totalPages;
+      }
+
+      function goToPage(direction) {
+        const totalPages = Math.ceil(filteredData.length / recordsPerPage);
+        if (direction === "prev" && currentPage > 1) currentPage--;
+        else if (direction === "next" && currentPage < totalPages) currentPage++;
+        populateVisitTable(filteredData);
+      }
+
+      let sortDirection = 1;
+      function sortTable() {
+        filteredData.sort((a, b) => {
+          const aDate = a.date || "";
+          const bDate = b.date || "";
+          return sortDirection * aDate.localeCompare(bDate);
+        });
+        sortDirection *= -1;
+        currentPage = 1;
+        populateVisitTable(filteredData);
+      }
+
+      fetchData();
+      startAutoRefresh();
+      window.addEventListener("unload", stopAutoRefresh);
+    </script>
   </body>
 </html>
