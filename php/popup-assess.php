@@ -18,6 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $physician_notes = $_POST['physician_notes'] ?? null;
         $nurse_notes = $_POST['nurse_notes'] ?? null;
 
+        // Validate required fields
+        if (!$patient_id) {
+            throw new Exception("Patient ID is required");
+        }
+
         $query = "SELECT p.Patient_ID, p.First_Name, p.Last_Name
                   FROM patient_assessment pa
                   LEFT JOIN patient p ON pa.Patient_ID = p.Patient_ID
@@ -28,10 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt_check->get_result();
 
         if ($result->num_rows === 0) {
-            echo "Patient ID not found.";
+            throw new Exception("Patient ID not found in the database.");
         }
 
         $stmt_check->close();
+
+        // Validate numeric fields
+        if ($temperature !== null && !is_numeric($temperature)) {
+            throw new Exception("Temperature must be a number");
+        }
+        if ($rr !== null && !is_numeric($rr)) {
+            throw new Exception("Respiratory Rate must be a number");
+        }
+        if ($height !== null && !is_numeric($height)) {
+            throw new Exception("Height must be a number");
+        }
+        if ($weight !== null && !is_numeric($weight)) {
+            throw new Exception("Weight must be a number");
+        }
+        if ($bmi !== null && !is_numeric($bmi)) {
+            throw new Exception("BMI must be a number");
+        }
+        if ($pulse !== null && !is_numeric($pulse)) {
+            throw new Exception("Pulse must be a number");
+        }
 
         // Insert into patient_assessment table
         $sql = "INSERT INTO patient_assessment (
