@@ -394,7 +394,8 @@ body {
   margin-top: 50px;
   margin-left: 4%;
   margin-right: 1%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  height:200px;
 }
 
 table {
@@ -403,6 +404,7 @@ table {
   border: 1px solid #1a1259;
   border-radius: 5px !important; 
   margin-bottom: 20px;
+  height:200px;
 }
 
 thead {
