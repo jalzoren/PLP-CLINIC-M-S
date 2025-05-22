@@ -38,7 +38,11 @@ try {
     }
 
     $stmt->bind_param("i", $patient_id);
-    $stmt->execute();
+    
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to execute statement: " . $stmt->error);
+    }
+    
     $result = $stmt->get_result();
 
     if ($result->num_rows === 0) {
@@ -49,11 +53,12 @@ try {
 
     // Format the data
     $response = array(
+        'success' => true,
         'patient_id' => $data['Patient_ID'],
         'patient_type' => $data['Patient_Type'],
         'student_id' => $data['Student_ID'],
         'personnel_id' => $data['Personnel_ID'],
-        'patient_name' => $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'],
+        'patient_name' => trim($data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name']),
         'sex' => $data['Sex'],
         'age' => $data['Age'],
         'department' => $data['Department'],
@@ -71,11 +76,17 @@ try {
     echo json_encode($response);
 
 } catch (Exception $e) {
+    http_response_code(400);
     echo json_encode(array(
+        'success' => false,
         'error' => $e->getMessage()
     ));
 }
 
-$stmt->close();
-$conn->close();
+if (isset($stmt)) {
+    $stmt->close();
+}
+if (isset($conn)) {
+    $conn->close();
+}
 ?> 

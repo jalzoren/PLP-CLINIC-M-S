@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fetch assessment data from the server
     fetch(`../php/get_assessment.php?patient_id=${patientId}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.error) {
                 console.error('Error:', data.error);
@@ -37,8 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sex').value = data.sex || '';
             document.getElementById('age').value = data.age || '';
             document.getElementById('department').value = data.department || '';
+
+            // Log success
+            console.log('Assessment data loaded successfully');
         })
         .catch(error => {
             console.error('Error fetching assessment data:', error);
+            // Show error message to user
+            alert('Error loading assessment data. Please try again.');
         });
 }); 
