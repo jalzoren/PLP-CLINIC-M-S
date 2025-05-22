@@ -9,14 +9,14 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <link rel="stylesheet" href="patientrestyle.css" />
+    <link rel="stylesheet" href="../css/patientrestyle.css" />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -25,7 +25,7 @@
     <div class="sidebar">
       <div class="logo-content">
         <div class="logo" id="logo">
-          <img src="logo.png" alt="Logo" class="logo-img" />
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
           <div class="logo-name">PLPClinic</div>
         </div>
       </div>
@@ -127,7 +127,7 @@
           </thead>
           <tbody>
             <?php
-              require_once 'database.php';
+              require_once '../php/database.php';
 
               $db = new Database();
               $conn = $db->getConnection();
@@ -183,7 +183,7 @@
       document
         .getElementById("load-btn")
         .addEventListener("click", function () {
-          fetch("popup-assess.html")
+          fetch("../popup-forms/popup-assess.html")
             .then((response) => response.text())
             .then((data) => {
               const container = document.getElementById("pop-up-med");
@@ -219,7 +219,7 @@
           button.addEventListener("click", function () {
               const patientId = this.getAttribute("data-patient-id");
               // Redirect to the medrecView.html page with patient_id in the query string
-              window.location.href = "medrecView.html?patient_id=" + patientId;
+              window.location.href = "medrecviewrec.html?patient_id=" + patientId;
           });
       });
   });
@@ -232,7 +232,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`patientrec.php?patient_id=${patientId}`)
+            fetch(`../php/patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
