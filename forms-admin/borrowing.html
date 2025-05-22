@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="../css/borrowstyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
-
+    <!-- Add SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Add SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="sidebar">
@@ -278,27 +281,39 @@
       // Filter functionality
       let currentFilter = '';
       function filterTable() {
+        const filterOptions = {
+          '': 'All Status',
+          'Borrowed': 'Borrowed',
+          'Returned (Good Condition)': 'Returned (Good Condition)',
+          'Returned (Damage)': 'Returned (Damage)',
+          'Lost': 'Lost'
+        };
+
         Swal.fire({
           title: 'Filter by Status',
-          input: 'select',
-          inputOptions: {
-            '': 'All Status',
-            'Borrowed': 'Borrowed',
-            'Returned (Good Condition)': 'Returned (Good)',
-            'Returned (Damage)': 'Returned (Damage)',
-            'Lost': 'Lost'
-          },
-          inputValue: currentFilter,
+          html: `
+            <select id="statusFilter" class="swal2-select" style="width: 60%; padding: 8px; margin-top: 10px;">
+              ${Object.entries(filterOptions).map(([value, label]) => 
+                `<option value="${value}" ${value === currentFilter ? 'selected' : ''}>${label}</option>`
+              ).join('')}
+            </select>
+          `,
           showCancelButton: true,
-          inputValidator: (value) => {
-            currentFilter = value;
+          confirmButtonText: 'Apply Filter',
+          cancelButtonText: 'Cancel',
+          preConfirm: () => {
+            return document.getElementById('statusFilter').value;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            currentFilter = result.value;
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
-            if (!value && !searchTerm) {
+            if (!currentFilter && !searchTerm) {
               allRecords = [...originalRecords];
             } else {
               allRecords = originalRecords.filter(record => {
-                const matchesFilter = !value || record.Status === value;
+                const matchesFilter = !currentFilter || record.Status === currentFilter;
                 const matchesSearch = !searchTerm || 
                   record.FullName.toLowerCase().includes(searchTerm) ||
                   record.Item_Name.toLowerCase().includes(searchTerm) ||
