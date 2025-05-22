@@ -149,8 +149,13 @@ async function renderVisitChart(days = 7) {
         const counts = data.map(item => item.count);
 
         if (chartInstance) chartInstance.destroy();
-        
-        // Create chart using Chart.js
+
+        // Create gradient fill
+        const ctx = visitChartCanvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(46, 38, 109, 0.4)');
+        gradient.addColorStop(1, 'rgba(46, 38, 109, 0)');
+
         chartInstance = new Chart(visitChartCanvas, {
             type: "line",
             data: {
@@ -158,32 +163,76 @@ async function renderVisitChart(days = 7) {
                 datasets: [{
                     label: "Daily Visits",
                     data: counts,
-                    borderColor: "#4CAF50",
-                    backgroundColor: "rgba(76, 175, 80, 0.2)",
+                    borderColor: "#2e266d",
+                    backgroundColor: gradient,
                     fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
-                }],
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: "#fff",
+                    pointBorderColor: "#2e266d",
+                    pointBorderWidth: 2
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: "top" },
+                    legend: {
+                        position: "top",
+                        labels: {
+                            font: { family: 'Poppins', size: 14 },
+                            color: '#2e266d'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: `Visit Summary (Last ${days} Days)`,
+                        text: `(Last ${days} Days)`,
+                        font: { family: 'Poppins', size: 16, weight: '600' },
+                        color: '#2e266d'
                     },
+                    tooltip: {
+                        backgroundColor: '#2e266d',
+                        titleFont: { family: 'Poppins', size: 14 },
+                        bodyFont: { family: 'Poppins', size: 12 },
+                        callbacks: {
+                            label: function(context) {
+                                return `Visits: ${context.raw}`;
+                            }
+                        }
+                    }
                 },
                 scales: {
-                    x: { title: { display: true, text: "Date" } },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date",
+                            font: { family: 'Poppins', size: 14 },
+                            color: '#2e266d'
+                        },
+                        grid: { display: false },
+                        ticks: { color: '#2e266d' }
+                    },
                     y: {
                         beginAtZero: true,
-                        title: { display: true, text: "Number of Visits" },
-                        ticks: { stepSize: 1 },
-                    },
+                        title: {
+                            display: true,
+                            text: "No. of Visits",
+                            font: { family: 'Poppins', size: 14 },
+                            color: '#2e266d'
+                        },
+                        grid: { color: 'rgba(46, 38, 109, 0.1)' },
+                        ticks: {
+                            stepSize: 1,
+                            color: '#2e266d'
+                        }
+                    }
                 },
-            },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            }
         });
     } catch (error) {
         console.error("Error rendering visit chart:", error);

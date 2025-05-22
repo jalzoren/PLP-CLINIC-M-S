@@ -303,7 +303,7 @@ body {
 .item_summary .item_title{
   display: flex;
   justify-content: space-between;
-  background-color: antiquewhite;
+
 }
 
 .item_summary .item_title p{
@@ -326,13 +326,11 @@ body {
 }
 
 .item_summary .item_chart{
-
   width: 100%;
   max-width: 100%;
   height: 160px;
 
   overflow-x: auto;
-
 }
 
 
@@ -353,7 +351,6 @@ body {
 .notification .notif_title{
   display: flex;
   justify-content: space-between;
-  background-color: antiquewhite;
 }
 
 .notification .notif_title p{
@@ -384,14 +381,60 @@ body {
   grid-column: 1 /span 3;
   grid-row: 3;
   height: 140%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.patient_summary{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.patient_summary > div{
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.category_total,
+.category_student,
+.category_teaching{
+  border-right: 2px solid #000b5c;
 }
 
 .patient_title{
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.patient_title p{
   color: #2e266d;
   font-size: 18px;
   font-weight: 600;
-  padding: 6px;
+  padding-top: 6px;
+  padding-left: 10px;
 }
+
+.patient_title a{
+  color: #2e266d;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.patient_title a:hover{
+  text-decoration: underline;
+  transition: all 0.5s ease;
+}
+
 
 /* HOTLINE */
 
@@ -453,7 +496,6 @@ body {
 .visit_summary .visit_title{
   display: flex;
   justify-content: space-between;
-  background-color: antiquewhite;
 }
 
 .visit_summary .visit_title p{
@@ -493,7 +535,6 @@ body {
   height: 170px;
   padding: 0px 10px;
   overflow-y: auto;
-
 }
 
 .timedin_table table{
@@ -501,11 +542,8 @@ body {
   height: 170px;
   text-align: center;
   
-  border: 2px solid #212161;
   border-collapse: collapse;
   top: 0;
-  
-  
 }
 
 .timedin_table table caption{
@@ -519,14 +557,29 @@ body {
 .timedin_table table thead th{
   position: sticky;
   top: 0px;
-  background-color: #212161;
-  color: white;
+  padding: 5px;
+  border-bottom: 1px solid #212161;
+  color: #212161;
+  background-color: white;
 }
 
 .timedin_table table td{
   padding: 5px 0px;
 }
 
+.timedin_table table button{
+  padding: 3px;
+  border: 1px outset #212161;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timedin_table table button:hover{
+  background-color: #212161;
+  color: white;
+  font-weight: 600;
+}
 
 
 /* TABLE PASIG EMERGENCY HOTLINES*/
@@ -808,6 +861,7 @@ body {
     font-size: 14px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    margin-left: -30%;
 }
 
 .visit_chart {
