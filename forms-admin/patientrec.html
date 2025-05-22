@@ -1,38 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patient Records / PLP Clinic Monitoring System</title>
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/png" href="logo.png" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="../css/patientrestyle.css" />
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  </head>
-  <body>
+</head>
+<body>
     <div class="sidebar">
-      <div class="logo-content">
-        <div class="logo" id="logo">
-          <img src="logo.png" alt="Logo" class="logo-img" />
-          <div class="logo-name">PLPClinic</div>
+        <div class="logo-content">
+            <div class="logo" id="logo">
+                <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+                <div class="logo-name">PLPClinic</div>
+            </div>
         </div>
-      </div>
 
       <ul class="nav-list">
         <li>
           <a
             href="admindashboard.html"
+            class="active"
             class="transition-link"
           >
             <i class="bx bxs-grid-alt bx-rotate-180"></i>
@@ -42,7 +36,7 @@
         </li>
 
         <li>
-            <a href="medrecords.html" class="active">
+            <a href="medrecords.html" class="transition-link">
             <i class='bx bxs-file' ></i>               
             <span class="link-name">Records</span>
           </a>
@@ -64,35 +58,34 @@
             <span class="tooltip">Borrow Form</span>
         </li>
 
-        <li>
-          <a href="admintransac.html" class="transition-link">
-            <i class="bx bxs-info-square"></i>
-            <span class="link-name">Transactions</span>
-          </a>
-          <span class="tooltip">Daily Transaction</span>
-        </li>
-        <li>
-          <a href="adminiteminv.html" class="transition-link">
-            <i class="bx bxs-book-content"></i>
-            <span class="link-name">Inventory</span>
-          </a>
-          <span class="tooltip">Item Inventory</span>
-        </li>
-      </ul>
-      <ul>
-        <li class="log-out">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-
-          <a href="#">
-            <i class="bx bx-log-out bx-rotate-180"></i>
-            <span class="link-name">Logout</span>
-          </a>
-        </li>
-      </ul>
+            <li>
+                <a href="admintransac.html" class="transition-link">
+                    <i class="material-icons">perm_contact_calendar</i>
+                    <span class="link-name">Transactions</span>
+                </a>
+                <span class="tooltip">Daily Visit Records</span>
+            </li>
+            <li>
+                <a href="adminiteminv.html" class="transition-link">
+                    <i class="material-icons">storage</i>
+                    <span class="link-name">Inventory</span>
+                </a>
+                <span class="tooltip">Item Inventory</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="log-out">
+                <br />
+                <br />
+                <br />
+                <br />
+                
+                <a href="../php/logout.php">
+                    <i class="material-icons">exit_to_app</i>
+                    <span class="link-name">Logout</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div class="header-content">
@@ -166,7 +159,7 @@
                       echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
                       echo "<td>Medical Record Form</td>";
                       echo "<td class='action-cell'>
-                              <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+                              <a href='../forms-admin/patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
                                   <button type='button' class='view-btn'>View</button>
                               </a>
                             </td>";
@@ -228,7 +221,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`patientrec.php?patient_id=${patientId}`)
+            fetch(`../php/patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {

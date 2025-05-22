@@ -34,9 +34,9 @@
     </header>
      <nav class="container1">
   <div class="navigation_main">
-    <button class="dashb " data-url="../form-try/usernewdashb.html">Dashboard</button>
-    <button class="medrec" data-url="../form-try/usermedhist.html">Medical Records</button>
-    <button class="borrow active" data-url="../form-try/usermedborrow.html">Borrow</button>
+    <button class="dashb " data-url="../forms-user/usernewdashb.html">Dashboard</button>
+    <button class="medrec active" data-url="../forms-user/usermedhist.html">Medical Records</button>
+    <button class="borrow " data-url="../forms-user/usermedborrow.html">Borrow</button>
   </div>
 
   <script>
@@ -49,7 +49,7 @@
 
         const url = this.getAttribute('data-url');
         if (url) {
-          window.location.href = url; // redirect to the new page
+          window.location.href = url; 
         }
       });
     });
@@ -91,7 +91,6 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-          <!-- Sample data for testing -->
           <tr>
             <td data-label="No.">1</td>
             <td data-label="Identification Number">2023-001</td>
@@ -120,34 +119,7 @@
             <td data-label="Photo (Borrowed)">[Photo]</td>
             <td data-label="Photo (Returned)"></td>
           </tr>
-          <tr>
-            <td data-label="No.">3</td>
-            <td data-label="Identification Number">2023-003</td>
-            <td data-label="Full Name">Alice Marie Johnson</td>
-            <td data-label="Category">Student</td>
-            <td data-label="Department/Course Yr. & Sec.">BSN 2-B</td>
-            <td data-label="Date Borrowed">2025-05-05</td>
-            <td data-label="Date Returned">2025-05-12</td>
-            <td data-label="Borrowed Item (specify)">Blood Pressure Monitor</td>
-            <td data-label="Qty.">1</td>
-            <td data-label="Status">Returned</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)">[Photo]</td>
-          </tr>
-          <tr>
-            <td data-label="No.">4</td>
-            <td data-label="Identification Number">2023-004</td>
-            <td data-label="Full Name">Bob Andrew Williams</td>
-            <td data-label="Category">Staff</td>
-            <td data-label="Department/Course Yr. & Sec.">Admin</td>
-            <td data-label="Date Borrowed">2025-05-01</td>
-            <td data-label="Date Returned"></td>
-            <td data-label="Borrowed Item (specify)">First Aid Kit</td>
-            <td data-label="Qty.">1</td>
-            <td data-label="Status">Overdue</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)"></td>
-          </tr>
+         
         </tbody>
       </table>
     </div>
