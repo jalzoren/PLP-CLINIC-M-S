@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User / PLP Clinic Monitoring System</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css-user/returnuserstyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+  </head>
+  <body>
+    <div class="background"></div>
+
+    <div class="sidebar">
+      <div class="logo-content">
+        <div class="logo" id="logo">
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <div class="logo-name">PLPClinic</div>
+        </div>
+      </div>
+
+      <ul class="nav-list">
+        <li>
+          <a href="../forms-user/userdashboard.html">
+            <i class="bx bxs-grid-alt bx-rotate-180"></i>
+            <span class="link-name">Dashboard</span>
+          </a>
+          <span class="tooltip">B & R History</span>
+        </li>
+
+        <li>
+          <a href="../forms-user/userborrow.html">
+            <i class="bx bxs-cabinet"></i>
+            <span class="link-name">Borrow</span>
+          </a>
+          <span class="tooltip">Borrow Items</span>
+        </li>
+        <li>
+          <a href="../forms-user/userreturn.html" class="active">
+            <i class="bx bx-cabinet"></i>
+            <span class="link-name">Return</span>
+          </a>
+          <span class="tooltip">Return Items</span>
+        </li>
+        <li>
+          <a href="../forms-user/medhistory.html">
+            <i class="bx bx-file"></i>
+            <span class="link-name">Medical</span>
+          </a>
+          <span class="tooltip">Medical History</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="log-out">
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+          <a href="../php/logout.php">
+            <i class="bx bx-log-out bx-rotate-180"></i>
+            <span class="link-name">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="header-content">
+      <div class="text">RETURN FORM</div>
+      <div class="email-container">
+        <div class="email"><p><strong></strong> <span id="patient-email">Loading...</span></p>
+</div>
+        <div class="icon"><i class="fas fa-user-circle"></i></div>
+      </div>
+    </div>
+    <div id="cameraModal" class="modal">
+      <div class="modal-content" id="draggableModal">
+        <div class="modal-header" id="modalHeader">Borrow Camera</div>
+        <video id="video" autoplay playsinline></video>
+        <button id="takePhoto">Take Photo</button>
+        <button id="closeModal">Close</button>
+      </div>
+    </div>
+
+    <div class="home-content">
+<div class="header-name" id="greeting" style="display: none;"></div>
+
+      <div class="status-and-controls">
+        <div class="status-container" id="patient-info">
+  <aside class="status-box">
+    <div class="status-row">
+      <div class="status-column">
+        <p><strong>Patient Name:</strong> <span id="patient-name">Loading...</span></p>
+        <p><strong>Birthdate:</strong> <span id="patient-id">Loading...</span></p>
+      </div>
+      <div class="status-column">
+        <p><strong>Role:</strong> <span id="patient-role">Loading...</span></p>
+        <p><strong>Age:</strong> <span id="patient-age">Loading...</span></p>
+
+      </div>
+      <div class="status-column">
+        <p><strong>Sex:</strong> <span id="patient-sex">Loading...</span></p>
+      </div>
+    </div>
+  </aside>
+</div>
+        
+      <div class="main-container">
+        <div class="borrow-container">
+          <div class="take_photo">
+            <div class="image-captured" id="capturedImage"></div>
+            <button type="button" class="capture" id="openCamera">
+              Capture Photo
+            </button>
+          </div>
+
+          <form id="returnForm" class="return-form" action="../php/return_item.php" method="POST">
+            <div class="form_container">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Borrowed Item:</label>
+                  <select name="item_id" id="item_id">
+                    <option value="" disabled selected>Select Item</option>
+                  </select>
+                  <br />
+                  <label>Status of Borrowed Item:</label>
+                  <select name="item_status">
+                    <option value="" disabled selected>Select Item</option>
+                    <option value="Returned (Good)">Returned (Good)</option>
+                    <option value="Returned (Damage)">Returned (Damage)</option>
+                    <option value="Lost">Lost</option>
+                  </select>
+                </div>
+              </div>
+              <input type="hidden" name="photo_returned" id="photo_returned">
+              <button class="submit" type="submit" id="returnItemBtn">
+                Return Item
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="../js/time.js"></script>
+
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+      fetch('../php/userinterfacefetch.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const p = data.patient;
+
+            document.getElementById('patient-name').textContent = `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
+            document.getElementById('patient-id').textContent = p.Birthdate;
+            document.getElementById('patient-role').textContent = p.Category;
+            document.getElementById('patient-sex').textContent = p.Sex;
+            document.getElementById('patient-age').textContent = data.age;
+            document.getElementById('patient-email').textContent = data.email;
+
+            updateGreeting(`${p.First_Name} ${p.Last_Name}`);
+          } else {
+            document.getElementById('patient-info').innerHTML =
+              `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching patient data:", error);
+          document.getElementById('patient-info').innerHTML =
+            "<p>Error loading data. Please try again later.</p>";
+        });
+
+      function updateGreeting(name) {
+        const now = new Date();
+        const philTime = new Date(
+          now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
+        );
+        const hours = philTime.getHours();
+
+        let greeting;
+        if (hours >= 5 && hours < 12) {
+          greeting = "Good Morning";
+        } else if (hours >= 12 && hours < 18) {
+          greeting = "Good Afternoon";
+        } else {
+          greeting = "Good Evening";
+        }
+
+        document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+      }
+    });
+</script>
+
+    <script>
+      let btn = document.querySelector("#logo");
+      let sidebar = document.querySelector(".sidebar");
+
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+
+      const modal = document.getElementById("cameraModal");
+      const modalContent = document.querySelector(".modal-content");
+      const modalHeader = document.getElementById("modalHeader");
+      const openBtn = document.getElementById("openCamera");
+      const closeBtn = document.getElementById("closeModal");
+      const video = document.getElementById("video");
+      const takePhotoBtn = document.getElementById("takePhoto");
+      const capturedImageDiv = document.getElementById("capturedImage");
+
+      let stream;
+
+      openBtn.addEventListener("click", async () => {
+        modal.style.display = "block";
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+        } catch (err) {
+          alert("Camera not available.");
+        }
+      });
+
+      closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+        }
+      });
+
+      takePhotoBtn.addEventListener("click", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL("image/png");
+
+        capturedImageDiv.innerHTML = `<img src="${imageData}" alt="Captured Photo" style="width: 100%; height: 100%; object-fit: cover;" />`;
+        document.getElementById("photo_returned").value = imageData;
+
+        modal.style.display = "none";
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+        }
+      });
+
+      function makeDraggable(modalEl, handleEl) {
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        handleEl.addEventListener("mousedown", (e) => {
+          isDragging = true;
+          offsetX = e.clientX - modalEl.offsetLeft;
+          offsetY = e.clientY - modalEl.offsetTop;
+          document.body.style.userSelect = "none";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+          if (isDragging) {
+            modalEl.style.left = `${e.clientX - offsetX}px`;
+            modalEl.style.top = `${e.clientY - offsetY}px`;
+          }
+        });
+
+        document.addEventListener("mouseup", () => {
+          isDragging = false;
+          document.body.style.userSelect = "";
+        });
+      }
+
+      makeDraggable(modalContent, modalHeader);
+    </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("../php/fetch_items.php")
+      .then(response => response.json())
+      .then(data => {
+        const itemSelect = document.getElementById("item_id");
+
+        data.forEach(item => {
+          // If you're showing all items for returning, no filtering:
+          const option = document.createElement("option");
+          option.value = item.Item_ID;
+          option.textContent = `${item.Item_Name} (${item.Status})`;
+          itemSelect.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching items:", error);
+      });
+  });
+</script>
+
+
+  </body>
+</html>

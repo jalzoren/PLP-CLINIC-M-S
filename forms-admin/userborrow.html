@@ -119,6 +119,10 @@
           <form id="borrowForm" method="POST" action="../php/submit_borrow.php" enctype="multipart/form-data">
             <div class="form_container">
                 <div class="form-row">
+                  <div class="form-group">
+                        <label>ID Number:</label>
+                        <input type="number" name="user_id" placeholder="Enter ID Number" />
+                    </div>
                     <div class="form-group">
                         <label>Item:</label>
                         <select name="item_id" id="item_id">
@@ -131,11 +135,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Reason:</label>
+                    <label>Due Date</label>
                     <textarea class="textarea-reason" name="reason"></textarea>
                 </div>
                 <input type="hidden" name="photo_borrowed" id="photo_borrowed">
-                <button class="submit" type="submit">Borrow Item</button>
+              
          
               </div>
             </div>
