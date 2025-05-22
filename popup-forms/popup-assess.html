@@ -146,7 +146,16 @@
                     title: 'Success!',
                     text: 'Assessment has been saved successfully!',
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'swal-overlay',
+                        popup: 'swal-popup'
+                    },
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3085d6'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Try different methods to close the window
@@ -166,7 +175,16 @@
                     title: 'Error!',
                     text: data.message || 'There was an error saving the assessment.',
                     icon: 'error',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'swal-overlay',
+                        popup: 'swal-popup'
+                    },
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#d33'
                 });
             }
         })
@@ -175,10 +193,34 @@
                 title: 'Error!',
                 text: 'An unexpected error occurred.',
                 icon: 'error',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                customClass: {
+                    container: 'swal-overlay',
+                    popup: 'swal-popup'
+                },
+                backdrop: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: true,
+                confirmButtonColor: '#d33'
             });
         });
     });
+
+    // Add custom styles for SweetAlert
+    const style = document.createElement('style');
+    style.textContent = `
+        .swal-overlay {
+            z-index: 9999 !important;
+        }
+        .swal-popup {
+            z-index: 10000 !important;
+        }
+        .swal2-backdrop-show {
+            background: rgba(0, 0, 0, 0.4) !important;
+        }
+    `;
+    document.head.appendChild(style);
   </script>
 
 <script>
