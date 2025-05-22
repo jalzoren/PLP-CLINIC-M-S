@@ -112,20 +112,22 @@
       <div class="container">
         <h3>Daily Visit Records</h3>
         <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Date</th>
-              <th>Time In</th>
-              <th>Full Name</th>
-              <th>Category</th>
-              <th>Department/Course Yr. & Sec.</th>
-              <th>Reason</th>
-              <th>Medication</th>
-              <th>Qty.</th>
-              <th>Remarks</th>
-            </tr>
-          </thead>
+         <thead>
+  <tr>
+    <th>No.</th>
+    <th>Date</th>
+    <th>Time In</th>
+    <th>Time Out</th>
+    <th>Full Name</th>
+    <th>Category</th>
+    <th>Department/Course Yr. & Sec.</th>
+    <th>Reason</th>
+    <th>Medication</th>
+    <th>Qty.</th>
+    <th>Remarks</th>
+  </tr>
+</thead>
+
           <tbody id="visitTableBody">
             <!-- Data will be populated here -->
           </tbody>
@@ -159,30 +161,34 @@
           });
       }
 
-      function populateVisitTable(data) {
-        const tbody = document.getElementById('visitTableBody');
-        tbody.innerHTML = ''; // Clear existing rows
-        if (data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10">No records found</td></tr>';
-          return;
-        }
-        data.forEach((row, index) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${row.date || ''}</td>
-            <td>${row.time_in || ''}</td>
-            <td>${row.full_name || ''}</td>
-            <td>${row.category || ''}</td>
-            <td>${row.department || ''}</td>
-            <td>${row.reason || ''}</td>
-            <td>${row.medication || ''}</td>
-            <td>${row.quantity || 0}</td>
-            <td>${row.remarks || ''}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
+    function populateVisitTable(data) {
+  const tbody = document.getElementById('visitTableBody');
+  tbody.innerHTML = ''; // Clear existing rows
+
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
+    return;
+  }
+
+  data.forEach((row, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${row.date || ''}</td>
+      <td>${row.time_in || ''}</td>
+      <td>${row.time_out || ''}</td>
+      <td>${row.full_name || ''}</td>
+      <td>${row.category || ''}</td>
+      <td>${row.department || ''}</td>
+      <td>${row.reason || ''}</td>
+      <td>${row.medication || ''}</td>
+      <td>${row.quantity || 0}</td>
+      <td>${row.remarks || ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
 
       function searchTable() {
         const input = document.getElementById('searchInput').value.toLowerCase();
