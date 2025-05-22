@@ -71,7 +71,7 @@ if ($stmt->num_rows === 1) {
 
         // Define redirect based on role
         $redirect = match (strtolower($role)) {
-            'user' => 'form-try/usernewdashb.html',
+            'user' => 'forms-user/usernewdashb.html',
             'admin' => 'forms-admin/admindashboard.html',
             default => ''
         };

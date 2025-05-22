@@ -7,10 +7,17 @@ try {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $sql = "SELECT vr.Visit_ID, vr.Time_In, 
-                CONCAT(p.Last_Name, ', ', p.First_Name, ' ', p.Middle_Name) AS Full_Name
+    $sql = "SELECT 
+                vr.Visit_ID, 
+                vr.Time_In, 
+                vr.Patient_ID,
+                COALESCE(
+                    CONCAT(p.Last_Name, ', ', p.First_Name, ' ', COALESCE(p.Middle_Name, '')),
+                    CONCAT('Unknown Patient (ID: ', vr.Patient_ID, ')')
+                ) AS Full_Name,
+                p.Category
             FROM visit_records vr
-            JOIN patient p ON vr.Patient_ID = p.Patient_ID
+            LEFT JOIN patient p ON vr.Patient_ID = p.Patient_ID
             WHERE vr.Time_Out IS NULL
             ORDER BY vr.Time_In DESC";
 
@@ -22,9 +29,13 @@ try {
         }
     }
 
-    $db->close(); // Clean up
+    $db->close();
 
 } catch (Exception $e) {
-    die("Error: " . $e->getMessage());
+    error_log("Error in get_current_timedin.php: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['error' => 'Failed to fetch timed-in data: ' . $e->getMessage()]);
+    exit;
 }
+
 ?>

@@ -4,89 +4,85 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Borrowing Forms / PLP Clinic Monitoring System</title>
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../css/borrowstyle.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
 
   </head>
   <body>
     <div class="sidebar">
-      <div class="logo-content">
-        <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
-          <div class="logo-name">PLPClinic</div>
+        <div class="logo-content">
+            <div class="logo" id="logo">
+                <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+                <div class="logo-name">PLPClinic</div>
+            </div>
         </div>
-      </div>
 
-      <ul class="nav-list">
-        <li>
-            <a href="../forms-admin/admindashboard.html" class="transition-link">
-            <i class='bx bxs-grid-alt bx-rotate-180' ></i>
-            <span class="link-name">Dashboard</span>
-            </a>
-            <span class="tooltip">Dashboard</span>
-        </li>
-       
-        <li>
-            <a href="../forms/medrecords.html" class="transition-link">
-            <i class='bx bxs-file' ></i>               
-            <span class="link-name">Records</span>
-          </a>
-          <span class="tooltip">Patient Records</span>
-        </li>
-        <li>
-          <a href="../forms/borrowing.html?role=admin" class="transition-link">
-          <i class='bx bxs-cabinet'></i>
-          <span class="link-name">Borrow</span>
-          </a>
-          <span class="tooltip">Borrowing Records</span>
-        </li>
-        
-        <li>
-            <a href="../forms-admin/userborrow.html" class="transition-link">
-            <i class="bx bxs-file-plus"></i>
-            <span class="link-name">Borrow</span>
-            </a>
-            <span class="tooltip">Borrow Form</span>
-        </li>
-        <li>
-            <a href="../forms-admin/admintransac.html" class="transition-link">
-            <i class='bx bxs-info-square' ></i>
-            <span class="link-name">Visit</span>
-            </a>
-            <span class="tooltip">Visit Records</span>
-        </li>
-        <li>
-          <a href="../forms-admin/adminiteminv.html" class="transition-link">
-            <i class='bx bxs-book-content'></i>
-          <span class="link-name">Inventory</span>
-          </a>
-          <span class="tooltip">Item Inventory</span>
-        </li>
-      </ul>
-      <ul>
-        <li class="log-out">
-          <br />
-          <br />
-          <br />
-          <br /> 
-          <br />
-        
-     
+        <ul class="nav-list">
+            <li>
+                <a
+                href="admindashboard.html"
+                class="active"
+                class="transition-link"
+                >
+                    <i class="material-icons">dashboard</i>
+                    <span class="link-name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
 
-          <a href="#">
-            <i class="bx bx-log-out bx-rotate-180"></i>
-            <span class="link-name">Logout</span>
-          </a>
-        </li>
-      </ul>
+            <li>
+                <a href="medrecords.html" class="transition-link">
+                <i class="material-icons">folder_shared</i>             
+                <span class="link-name">Records</span>
+                </a>
+                <span class="tooltip">Patient Records</span>
+            </li>
+            <li>
+                <a href="borrowing.html" class="transition-link">
+                <i class="material-icons">dns</i>
+                <span class="link-name">Borrow</span>
+                </a>
+                <span class="tooltip">Borrowing Records</span>
+            </li>
+
+            <li>
+                <a href="userborrow.html" class="transition-link">
+                <i class="material-icons">assignment</i>
+                <span class="link-name">Borrow</span>
+                </a>
+                <span class="tooltip">Borrow Form</span>
+            </li>
+
+            <li>
+                <a href="admintransac.html" class="transition-link">
+                    <i class="material-icons">perm_contact_calendar</i>
+                    <span class="link-name">Transactions</span>
+                </a>
+                <span class="tooltip">Daily Visit Records</span>
+            </li>
+            <li>
+                <a href="adminiteminv.html" class="transition-link">
+                    <i class="material-icons">storage</i>
+                    <span class="link-name">Inventory</span>
+                </a>
+                <span class="tooltip">Item Inventory</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="log-out">
+                <br />
+                <br />
+                <br />
+                <br />
+                
+                <a href="../php/logout.php">
+                    <i class="material-icons">exit_to_app</i>
+                    <span class="link-name">Logout</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div class="header-content">

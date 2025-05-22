@@ -73,6 +73,14 @@ document.querySelector(".timedin_table").addEventListener("click", (e) => {
         const id = e.target.dataset.visitId;
         const name = e.target.dataset.fullName;
         openTimedOutPopup(id, name);
+    } else if (e.target.classList.contains("assess")) {
+        const patientId = e.target.dataset.patientId;
+        const category = e.target.dataset.category;
+        if (patientId && patientId !== 'null') {
+            window.location.href = `../forms-admin/patientrec.html?patient_id=${patientId}`;
+        } else {
+            Swal.fire("Error", "Invalid or missing patient ID.", "error");
+        }
     }
 });
 
