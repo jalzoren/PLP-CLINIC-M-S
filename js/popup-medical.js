@@ -148,9 +148,6 @@ function goToFamilyHistoPopUp() {
 
 }
 
-window.onload = function() {
-  document.getElementById("popupContainer").style.display = "block"; 
-}
 
 function initializePopupFormLogic(){
   const studentCheckbox = document.getElementById("studentCheckbox");
@@ -492,6 +489,11 @@ function generateEmail() {
 document.getElementById("lastname").addEventListener("input", generateEmail);
 document.getElementById("firstname").addEventListener("input", generateEmail);
 
+
+window.onload = function() {
+  document.getElementById("popupContainer").style.display = "block"; 
+}
+
 function submitMedicalRecordForm(e) {
     e.preventDefault(); 
 
@@ -661,7 +663,7 @@ function submitMedicalRecordForm(e) {
                 console.log("Condition matched: success");
                 console.log("Patient ID from server:", data.patientID);
                 generatePDFAndUpload(data.patientID);
-                //document.getElementById("SuccessPopup").style.display = "block";
+                document.getElementById("SuccessPopup").style.display = "block";
             }
         } catch (e) {
             console.error("Invalid JSON response:", text);

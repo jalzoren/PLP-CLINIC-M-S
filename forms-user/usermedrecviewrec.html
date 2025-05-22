@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User / PLP Clinic Monitoring System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css-user/usermedrec.css">
+  </head>
+  <body>
+         <div class="background"></div>
+    <header class="head">
+      <div class="logo-container">
+        <img src="../pictures/logo_user.png" alt="Logo" class="logo">
+      </div>
+      <div class="user-info">
+        <span class="email">user@example.com</span>
+        <a href="../php/logout.php">
+          <span class="material-icons" id="logout-btn">logout</span>
+        </a>
+      </div>
+    </header>
+
+    <nav class="container1">
+      <div class="navigation_main">
+        <button class="dashb" data-url="../forms-user/usernewdashb.html">Dashboard</button>
+        <button class="medrec active" data-url="../forms-user/usermedhist.html">Medical Records</button>
+        <button class="borrow" data-url="../forms-user/usermedborrow.html">Borrow</button>
+      </div>
+    </nav>
+
+    <div class="home-content">
+      <div class="breadcrumbs">
+        <p class="p-rec">
+                  <a href="medrecords.html"><i class="bx bx-arrow-back"></i></a>
+
+            <strong>Patient Records &lt;<span id="patient-name-placeholder"></span></strong>
+        </p>
+    </div>
+      <div class="title-container">
+        <div class="title">MEDICAL RECORD FORM</div>
+      </div>
+
+      <div class="user-type">
+        <label><input type="checkbox" id="studentCheckbox" name="user" value="student" disabled /> Student</label>
+        <label><input type="checkbox" id="personnelCheckbox" name="user" value="personnel" disabled /> Personnel</label>
+      </div>
+
+      <div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
+        <div id="studentFields" style="flex: 1; min-width: 300px;">
+          <div class="field-group">
+            <label for="collegeDepartment">College Department</label>
+            <select id="collegeDepartment" name="collegeDepartment" disabled>
+              <option value="">-- Select Department --</option>
+              <option value="CON">College of Nursing (CON)</option>
+              <option value="CIHM">College of International Hospitality Management (CIHM)</option>
+              <option value="CBA">College of Business Administration (CBA)</option>
+              <option value="CCS">College of Computer Studies (CCS)</option>
+              <option value="COE">College of Engineering (COE)</option>
+              <option value="COED">College of Education (COED)</option>
+              <option value="CAS">College of Arts and Sciences (CAS)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="collegeProgram">Degree Program</label>
+            <select id="collegeProgram" name="collegeProgram" disabled>
+              <option value="">-- Select Program --</option>
+              <option value="BSN">Bachelor of Science in Nursing (BSN)</option>
+              <option value="BSHM">Bachelor of Science in Hospitality Management (BSHM)</option>
+              <option value="BSBA">Bachelor of Science in Business Administration (BSBA)</option>
+              <option value="BSA">Bachelor of Science in Accountancy (BSA)</option>
+              <option value="BSENT">Bachelor of Science in Entrepreneurship (BSENT)</option>
+              <option value="BSIT">Bachelor of Science in Information Technology (BSIT)</option>
+              <option value="BSCS">Bachelor of Science in Computer Science (BSCS)</option>
+              <option value="BSECE">Bachelor of Science in Electronics and Communications Engineering (BSECE)</option>
+              <option value="BSED">Bachelor of Secondary Education (BSED)</option>
+              <option value="AB PSYCHOLOGY">Bachelor of Arts in Psychology (AB PSYCHOLOGY)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="batch">Batch</label>
+            <input type="number" id="batch" name="batch" placeholder="Enter Batch (e.g., 2024)" disabled />
+          </div>
+        </div>
+
+        <div id="personnelFields" style="flex: 1; min-width: 300px;">
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="teaching" name="teaching" disabled /> Teaching</label>
+            <label><input type="checkbox" id="nonTeaching" name="nonTeaching" disabled /> Non-teaching</label>
+          </div>
+          <div class="field-group">
+            <label for="departmentPersonnel">Department</label>
+            <select id="departmentPersonnel" name="departmentPersonnel" disabled>
+              <option value="">-- Select Department --</option>
+              <option>HR</option>
+              <option>Finance</option>
+              <option>Maintenance</option>
+              <option>IT</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Patient's Data</div>
+      <table>
+        <tr>
+          <td>
+            <label for="identification">Identification Number</label>
+            <input type="text" id="identification" name="identification" placeholder="Enter Identification Number" disabled />
+          </td>
+          <td>
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Enter Last Name" disabled />
+          </td>
+          <td>
+            <label for="firstname">First Name</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Enter First Name" disabled />
+          </td>
+          <td>
+            <label for="middlename">Middle Name</label>
+            <input type="text" id="middlename" name="middlename" placeholder="Enter Middle Name" disabled />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="gender">Sex</label>
+            <select id="gender" name="gender" disabled>
+              <option value="">-- Select Sex --</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </td>
+          <td>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" placeholder="Enter Age" disabled />
+          </td>
+          <td>
+            <label for="birthdate">Birthdate</label>
+            <input type="date" id="birthdate" name="birthdate" disabled />
+          </td>
+          <td>
+            <label for="religion">Religion</label>
+            <input type="text" id="religion" name="religion" placeholder="Enter Religion" disabled />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" name="nationality" placeholder="Enter Nationality" disabled />
+          </td>
+          <td>
+            <label for="contact">Contact Number</label>
+            <input type="number" id="contact" name="contact" placeholder="Enter Contact Number" disabled />
+          </td>
+          <td>
+            <label for="civilstatus">Civil Status</label>
+            <select id="civilstatus" name="civilstatus" disabled>
+              <option value="">-- Select Civil Status --</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Divorced</option>
+              <option>Widowed</option>
+              <option>Separated</option>
+            </select>
+          </td>
+          <td>
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="No. Street, Village/Subdivision, Barangay" disabled />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" placeholder="Enter City" disabled />
+          </td>
+          <td>
+            <label for="province">Province</label>
+            <input type="text" id="province" name="province" placeholder="Enter Province" disabled />
+          </td>
+          <td>
+            <label for="zipcode">Zip Code</label>
+            <input type="number" id="zipcode" name="zipcode" placeholder="Enter Zip Code" disabled />
+          </td>
+          <td>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" disabled />
+          </td>
+        </tr>
+      </table>
+
+      <div class="section-title">Person to contact in case of emergency</div>
+      <table>
+        <tr>
+          <td>
+            <label for="emergencyLastname">Last Name</label>
+            <input type="text" id="emergencyLastname" name="emergencyLastname" placeholder="Enter Last Name" disabled />
+          </td>
+          <td>
+            <label for="emergencyFirstname">First Name</label>
+            <input type="text" id="emergencyFirstname" name="emergencyFirstname" placeholder="Enter First Name" disabled />
+          </td>
+          <td>
+            <label for="emergencymiddlename">Middle Name</label>
+            <input type="text" id="emergencymiddlename" name="emergencymiddlename" placeholder="Enter Middle Name" disabled />
+          </td>
+          <td>
+            <label for="relationship">Relationship</label>
+            <input type="text" id="relationship" name="relationship" placeholder="Enter Relationship" disabled />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="emergencycontact">Contact Number</label>
+            <input type="number" id="emergencycontact" name="emergencycontact" placeholder="Enter Contact Number" disabled />
+          </td>
+          <td>
+            <label for="emergencyaddress">Address</label>
+            <input type="text" id="emergencyaddress" name="emergencyaddress" placeholder="No. Street, Village/Subdivision, Barangay" autocomplete="street-address" disabled />
+          </td>
+          <td>
+            <label for="emergencycity">City</label>
+            <input type="text" id="emergencycity" name="emergencycity" placeholder="Enter City" disabled />
+          </td>
+          <td>
+            <label for="emergencyprovince">Province</label>
+            <input type="text" id="emergencyprovince" name="emergencyprovince" placeholder="Enter Province" disabled />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="emergencyzipcode">Zip Code</label>
+            <input type="number" id="emergencyzipcode" name="emergencyzipcode" placeholder="Enter Zip Code" disabled />
+          </td>
+        </tr>
+      </table>
+
+      <div class="generalline-personal">
+        <div class="medicaltitle-underline">
+          <div class="section-medicaltitle">Medical</div>
+          <div class="underline4"></div>
+        </div>
+        <div class="maternaltitle-underline">
+          <div class="section-maternaltitle">Maternal (for Female patients)</div>
+          <div class="underline5"></div>
+        </div>
+      </div>
+
+      <div class="flex-wrapper2">
+        <table class="medical-table" id="medicalTable">
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="hypertension" name="hypertension" disabled /> Hypertension
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="tubercolosis" name="tubercolosis" disabled /> Tubercolosis
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="highCholesterol" name="highCholesterol" disabled /> High Cholesterol
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="allergies" name="allergies" disabled /> Allergies:
+                <input type="text" id="allergiesText" name="allergiesText" placeholder="Specify" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="diabetes" name="diabetes" disabled /> Diabetes
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="thyroidProblems" name="thyroidProblems" disabled /> Thyroid Problems
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="cancer" name="cancer" disabled /> Cancer
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="asthma" name="asthma" disabled /> Asthma
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="emphysema" name="emphysema" disabled /> Emphysema
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="otherMedical" name="otherMedical" disabled /> OTHERs/specify:
+                <input type="text" id="otherMedicalText" name="otherMedicalText" placeholder="Specify" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="maintenanceMedications">Maintenance Medication/s</label>
+              <textarea id="maintenanceMedications" name="maintenanceMedications" rows="4" placeholder="Enter Maintenance Medications" disabled></textarea>
+            </td>
+          </tr>
+        </table>
+
+        <table class="maternal" id="maternalTable">
+          <tr>
+            <td>
+              <label>
+                <span>Number of Pregnancies:</span>
+                <span class="separator">.................................................................................</span>
+                <input type="number" id="numberOfPreg" name="numberOfPreg" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <span>Number of Miscarriage/s:</span>
+                <span class="separator">..............................................................................</span>
+                <input type="number" id="numberOfMiscarriage" name="numberOfMiscarriage" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <span>Number of Term deliveries:</span>
+                <span class="separator">...........................................................................</span>
+                <input type="number" id="numberOfTermdeliveries" name="numberOfTermdeliveries" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <span>Number of Premature deliveries:</span>
+                <span class="separator">.............................................................</span>
+                <input type="number" id="numberOfPrematureDeliveries" name="numberOfPrematureDeliveries" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <span>Total Number of Children:</span>
+                <span class="separator">..............................................................................</span>
+                <input type="number" id="totalnumberofChildren" name="totalnumberofChildren" disabled />
+              </label>
+            </td>
+          </tr>
+        </table>
+
+        <div class="alcosur-personal">
+          <div class="alcoholtitle-underline">
+            <div class="section-alcoholtitle">Alcohol</div>
+            <div class="underline6"></div>
+          </div>
+          <div class="surgicaltitle-underline">
+            <div class="section-surgicaltitle">Surgical</div>
+            <div class="underline7"></div>
+          </div>
+        </div>
+
+        <table class="alcoholsugical-table" id="alcoholsugicalTable">
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="oncePerWeekalcohol" name="oncePerWeekalcohol" disabled /> Once per week
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="surgical" name="surgical" disabled /> Yes / specify
+                <input type="text" id="surgicalText" placeholder="Specify" name="surgicalText" disabled />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" id="moreThanonceperweekalcohol" name="moreThanonceperweekalcohol" disabled /> More Than Once Per Week
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" id="noneSurgery" name="noneSurgery" disabled /> None
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label>
+                Total estimated amount per consumption of alcohol
+                <input type="number" id="totalperconsupAlchoText" name="totalperconsupAlchoText" placeholder="Specify" disabled />
+              </label>
+            </td>
+          </tr>
+        </table>
+
+        <div class="smodrug-personal">
+          <div class="smokingtitle-underline">
+            <div class="section-smokingtitle">Smoking</div>
+            <div class="underline8"></div>
+          </div>
+          <div class="drugtitle-underline">
+            <div class="section-drugtitle">Prohibited/Regulated use of drugs or substance</div>
+            <div class="underline9"></div>
+          </div>
+        </div>
+
+        <div class="checkbox-wrapper">
+          <div class="smoke-checkbox">
+            <div class="checkbox-item">
+              <input type="checkbox" id="yesCheckbox" name="usageStatus" value="Yes" disabled />
+              <span>Yes and I use:</span>
+            </div>
+            <div id="flex-wrapper3">
+              <table>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="cigarette" name="smokingTypes[]" value="Cigarette" disabled />
+                    <label for="cigarette">Cigarette</label>
+                  </td>
+                  <td>
+                    <input type="checkbox" id="vape" name="smokingTypes[]" value="Vape" disabled />
+                    <label for="vape">Vape</label>
+                  </td>
+                  <td>
+                    <input type="checkbox" id="pipe" name="smokingTypes[]" value="Pipe" disabled />
+                    <label for="pipe">Pipe</label>
+                  </td>
+                </tr>
+                <tr id="cigaretteSticksRow">
+                  <td colspan="3">
+                    <label>
+                      If Cigarette, indicate no. of sticks per day:
+                      <input type="number" id="sticksperday" name="sticksperday" placeholder="Specify" disabled />
+                    </label>
+                  </td>
+                </tr>
+                <tr id="cigaretteStartedRow" style="display: none;">
+                  <td colspan="3">
+                    <label>
+                      I started since:
+                      <input type="date" id="cigaretteStartedDate" name="cigaretteStartedDate" disabled />
+                    </label>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="noCheckbox" name="usageStatus" value="never" disabled />
+              <span>Never</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="sometimesCheckbox" name="usageStatus" value="triedonce" disabled />
+              <span>I tried only once</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="preferNotCheckbox" name="usageStatus" value="stopped" disabled />
+              <span>I stopped already since:</span>
+              <input type="date" id="stoppedDate" name="stoppedDate" disabled />
+            </div>
+          </div>
+
+          <div class="drugs-checkbox">
+            <div class="checkbox-item">
+              <input type="checkbox" name="drugsStatus" id="yesDrugsCheckbox" value="Yes" disabled />
+              <span>Yes:</span>
+            </div>
+            <div id="flex-wrapper4">
+              <table>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="substances[]" id="shabu" value="shabu" disabled />
+                    <label for="shabu">Shabu</label>
+                  </td>
+                  <td>
+                    <input type="checkbox" name="substances[]" id="ecstasy" value="ecstasy" disabled />
+                    <label for="ecstasy">Ecstasy</label>
+                  </td>
+                  <td>
+                    <input type="checkbox" name="substances[]" id="othersub" value="othersub" disabled />
+                    <label for="othersub">Other</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="substances[]" id="marijuana" value="marijuana" disabled />
+                    <label for="marijuana">Marijuana</label>
+                  </td>
+                  <td>
+                    <input type="checkbox" name="substances[]" id="lsd" value="lsd" disabled />
+                    <label for="lsd">LSD</label>
+                  </td>
+                </tr>
+                <tr id="rehabilitation">
+                  <td colspan="3">
+                    <div class="rehab-wrapper">
+                      <span class="question-text">If yes, have you received or undergone rehabilitation?</span>
+                      <div class="answers-wrapper">
+                        <label>
+                          <input type="checkbox" name="rehabilitation" id="yesRehab" value="Yes" disabled />
+                          <span>Yes</span>
+                        </label>
+                        <label>
+                          <input type="checkbox" name="rehabilitation" id="noRehab" value="No" disabled />
+                          <span>No</span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" name="drugsStatus" id="NeverDrugsCheckbox" value="Never" disabled />
+              <span>Never</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" name="drugsStatus" id="TriedDrugsCheckbox" value="Tried" disabled />
+              <span>I have tried before and did not continue</span>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" name="drugsStatus" id="SometimesDrugsCheckbox" value="Sometimes" disabled />
+              <span>Sometimes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="FamHistorytitle-underline">
+          <div class="section-FamHistorytitle">Family History</div>
+          <div class="underline10"></div>
+        </div>
+        <div class="flex-wrapper5">
+          <table class="familyHistory-table" id="familyHistoryTable">
+            <tr>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHishypertension" name="family_history[]" value="Hypertension" disabled />
+                  <label for="FamHishypertension">Hypertension</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHisdiabetes" name="family_history[]" value="Diabetes" disabled />
+                  <label for="FamHisdiabetes">Diabetes</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHisallergiesCheckbox" disabled />
+                  <label for="FamHisallergiesCheckbox">Allergies:</label>
+                  <input type="text" id="FamHisallergiesText" placeholder="Specify" disabled />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHishighCholesterol" name="family_history[]" value="High Cholesterol" disabled />
+                  <label for="FamHishighCholesterol">High Cholesterol</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHiscancer" name="family_history[]" value="Cancer" disabled />
+                  <label for="FamHiscancer">Cancer</label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHisasthma" name="family_history[]" value="Asthma" disabled />
+                  <label for="FamHisasthma">Asthma</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHistubercolosis" name="family_history[]" value="Tubercolosis" disabled />
+                  <label for="FamHistubercolosis">Tubercolosis</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="SpecifyFamHisCheckbox" disabled />
+                  <label for="SpecifyFamHisCheckbox">OTHERs/specify:</label>
+                  <input type="text" id="SpecifyFamHisText" placeholder="Specify" disabled />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHisemphysema" name="family_history[]" value="Emphysema" disabled />
+                  <label for="FamHisemphysema">Emphysema</label>
+                </div>
+              </td>
+              <td>
+                <div class="checkbox-label-group">
+                  <input type="checkbox" id="FamHisthyroidProblems" name="family_history[]" value="Thyroid Problems" disabled />
+                  <label for="FamHisthyroidProblems">Thyroid Problems</label>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const buttons = document.querySelectorAll('.navigation_main button');
+      buttons.forEach(button => {
+        button.addEventListener('click', function () {
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          const url = this.getAttribute('data-url');
+          if (url) window.location.href = url;
+        });
+      });
+    </script>
+
+    <script src="../js-admin/usermedhist.js" defer></script>
+  </body>
+</html>

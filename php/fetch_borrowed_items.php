@@ -1,63 +1,88 @@
 <?php
 session_start();
+require_once __DIR__ . '/database.php';
 
-$db   = new Database();
+$db = new Database();
 $conn = $db->getConnection();
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Get the patient ID from the session
 $patient_id = isset($_SESSION['Patient_ID']) ? $_SESSION['Patient_ID'] : null;
+error_log('Patient_ID: ' . ($patient_id ?? 'NOT SET'));
 
-// Debug information
-error_log("Session data: " . print_r($_SESSION, true));
-error_log("Patient ID from session: " . $patient_id);
+error_log('Patient_ID: ' . ($_SESSION['Patient_ID'] ?? 'NOT SET'));
 
-if (!$patient_id) {
-    echo json_encode(['error' => 'No patient ID found in session']);
-    exit;
-}
-
-// Query to fetch borrowed items for the specific patient
+// Query to fetch borrowed items with patient and item details
 $sql = "SELECT 
     br.BorrowedItem_ID,
+    br.Item_ID,
     br.Date_Borrowed,
     br.Date_Returned,
-    i.Item_Name,
     br.Quantity,
     br.Status,
     br.Photo_Borrowed,
-    br.Photo_Returned
+    br.Photo_Returned,
+    i.Item_Name,
+    p.Patient_ID,
+    CONCAT(p.First_Name, ' ', COALESCE(p.Middle_Name, ''), ' ', p.Last_Name) as FullName,
+    p.Category,
+    CASE 
+        WHEN p.Category = 'student' THEN (
+            SELECT CONCAT(sp.Student_ID, ' - ', sp.Department, ' - ', sp.Program, ' ', sp.Batch)
+            FROM student_patient sp 
+            WHERE sp.Patient_ID = p.Patient_ID
+        )
+        WHEN p.Category IN ('teaching', 'non-teaching') THEN (
+            SELECT CONCAT(pp.Personnel_ID, ' - ', pp.Department)
+            FROM personnel_patient pp 
+            WHERE pp.Patient_ID = p.Patient_ID
+        )
+    END as DepartmentInfo
 FROM borroweditem_records br
 JOIN item i ON br.Item_ID = i.Item_ID
+JOIN patient p ON br.Patient_ID = p.Patient_ID
 WHERE br.Patient_ID = ?
 ORDER BY br.Date_Borrowed DESC";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $patient_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-error_log("Number of records found for patient {$patient_id}: " . $result->num_rows);
-
-$records = array();
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        // Format dates
-        $row['Date_Borrowed'] = date('Y-m-d H:i:s', strtotime($row['Date_Borrowed']));
-        if ($row['Date_Returned']) {
-            $row['Date_Returned'] = date('Y-m-d H:i:s', strtotime($row['Date_Returned']));
-        }
-        
-        $records[] = $row;
-    }
+if (!$stmt) {
+    error_log("Prepare failed: " . $conn->error);
+    echo json_encode(['success' => false, 'error' => 'Failed to prepare query: ' . $conn->error]);
+    exit;
 }
 
-echo json_encode($records);
+$stmt->bind_param("i", $patient_id);
+if (!$stmt->execute()) {
+    error_log("Execute failed: " . $stmt->error);
+    echo json_encode(['success' => false, 'error' => 'Query execution failed: ' . $stmt->error]);
+    $stmt->close();
+    exit;
+}
+
+$result = $stmt->get_result();
+$records = array();
+
+while ($row = $result->fetch_assoc()) {
+    // Format dates using Asia/Manila timezone
+    date_default_timezone_set('Asia/Manila');
+    $row['Date_Borrowed'] = date('Y-m-d H:i:s', strtotime($row['Date_Borrowed']));
+    if ($row['Date_Returned']) {
+        $row['Date_Returned'] = date('Y-m-d H:i:s', strtotime($row['Date_Returned']));
+    }
+    
+    // Split DepartmentInfo into ID_Number and other details
+    $departmentInfo = explode(' - ', $row['DepartmentInfo']);
+    $row['ID_Number'] = isset($departmentInfo[0]) ? $departmentInfo[0] : '';
+    $row['DepartmentInfo'] = implode(' - ', array_slice($departmentInfo, 1));
+    
+    // Handle photo paths
+    $row['Photo_Borrowed'] = $row['Photo_Borrowed'] ? '../uploads/' . $row['Photo_Borrowed'] : null;
+    $row['Photo_Returned'] = $row['Photo_Returned'] ? '../uploads/' . $row['Photo_Returned'] : null;
+    
+    $records[] = $row;
+}
+
+header('Content-Type: application/json');
+echo json_encode(['success' => true, 'items' => $records]);
+
 $stmt->close();
-$conn->close();
+$db->close();
 ?>

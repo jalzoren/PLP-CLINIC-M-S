@@ -1,92 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patient Records / PLP Clinic Monitoring System</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="icon" type="image/png" href="logo.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <link rel="stylesheet" href="../css/patientrestyle.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-
-</head>
-<body>
+  </head>
+  <body>
     <div class="sidebar">
-        <div class="logo-content">
-            <div class="logo" id="logo">
-                <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
-                <div class="logo-name">PLPClinic</div>
-            </div>
+      <div class="logo-content">
+        <div class="logo" id="logo">
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <div class="logo-name">PLPClinic</div>
         </div>
+      </div>
 
       <ul class="nav-list">
         <li>
-          <a
-            href="admindashboard.html"
-            class="transition-link"
-          >
-            <i class="material-icons">dashboard</i>
+          <a href="staffdashboard.html" class="transition-link">
+            <i class="bx bxs-grid-alt"></i>
             <span class="link-name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
         </li>
 
         <li>
-            <a href="medrecords.html" class="active">
-            <i class="material-icons">folder_shared</i>             
-            <span class="link-name">Records</span>
+          <a href="medrecords.html" class="active">
+            <i class="bx bxs-file"></i>
+            <span class="link-name">Medical</span>
           </a>
-          <span class="tooltip">Patient Records</span>
+          <span class="tooltip">Medical Records</span>
         </li>
         <li>
           <a href="borrowing.html" class="transition-link">
-          <i class="material-icons">dns</i>
-          <span class="link-name">Borrow</span>
+            <i class="bx bxs-cabinet"></i>
+            <span class="link-name">Borrowing</span>
           </a>
-          <span class="tooltip">Borrowing Records</span>
-        </li>
-        
-        <li>
-            <a href="userborrow.html" class="transition-link">
-            <i class="material-icons">assignment</i>
-            <span class="link-name">Borrow</span>
-            </a>
-            <span class="tooltip">Borrow Form</span>
+          <span class="tooltip">Borrowing Form</span>
         </li>
 
-            <li>
-                <a href="admintransac.html" class="transition-link">
-                    <i class="material-icons">perm_contact_calendar</i>
-                    <span class="link-name">Transactions</span>
-                </a>
-                <span class="tooltip">Daily Visit Records</span>
-            </li>
-            <li>
-                <a href="adminiteminv.html" class="transition-link">
-                    <i class="material-icons">storage</i>
-                    <span class="link-name">Inventory</span>
-                </a>
-                <span class="tooltip">Item Inventory</span>
-            </li>
-        </ul>
-        <ul>
-            <li class="log-out">
-                <br />
-                <br />
-                <br />
-                <br />
-                
-                <a href="../php/logout.php">
-              <i class="material-icons">exit_to_app</i>
-              <span class="link-name">Logout</span>
-                </a>
-            </li>
-        </ul>
+        <li>
+          <a href="transac.html" class="transition-link">
+            <i class="bx bxs-info-square"></i>
+            <span class="link-name">Transactions</span>
+          </a>
+          <span class="tooltip">Daily Transaction</span>
+        </li>
+        <li>
+          <a href="medinv.html" class="transition-link">
+            <i class="bx bxs-capsule"></i>
+            <span class="link-name">Inventory</span>
+          </a>
+          <span class="tooltip">Medicine Inventory</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="log-out">
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+          <a href="#">
+            <i class="bx bx-log-out bx-rotate-180"></i>
+            <span class="link-name">Logout</span>
+          </a>
+        </li>
+      </ul>
     </div>
 
     <div class="header-content">
@@ -95,9 +91,9 @@
 
     <div class="home-content">
      <div class="breadcrumbs">
-        <a href="../forms-admin/medrecords.html">  <i class="material-icons" style="color: #1a1259;">arrow_back</i></a>
+        <a href="medrecords.html"><i class="bx bx-arrow-back"></i></a>
         <p class="p-rec">
-            <strong>Patient Records &lt;<span></span><span id="patient-name-placeholder"></span></strong>
+            <strong>Patient Records &lt;<span id="patient-name-placeholder"></span></strong>
         </p>
     </div>
 
@@ -115,7 +111,7 @@
                 </div>
             </div>
         </aside>
-        <button class="add-btn" id="load-btn">Add Assessment Record</button>
+        <button type="button" class="add-btn" id="load-btn">Add Assessment Record</button>
       </div>
 
       <div class="container">
@@ -160,9 +156,7 @@
                       echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
                       echo "<td>Medical Record Form</td>";
                       echo "<td class='action-cell'>
-                              <a href='../forms-admin/patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
-                                  <button type='button' class='view-btn'>View</button>
-                              </a>
+                              <button type='button' class='view-btn' data-patient-id='" . $row['Patient_ID'] . "'>View</button>
                             </td>";
                       echo "</tr>";
                   }
@@ -176,6 +170,7 @@
     </div>
 
     <div id="pop-up-med"></div>
+    <div id="pop-up-record"></div>
 
     <script>
       let btn = document.querySelector("#logo");
@@ -185,37 +180,65 @@
         sidebar.classList.toggle("active");
       };
 
-      document
-        .getElementById("load-btn")
-        .addEventListener("click", function () {
-          fetch("../popup-forms/popup-assess.html")
-            .then((response) => response.text())
-            .then((data) => {
-              const container = document.getElementById("pop-up-med");
-              container.innerHTML = data;
+      document.getElementById("load-btn").addEventListener("click", function () {
+        const patientId = new URLSearchParams(window.location.search).get("patient_id");
+        if (!patientId) {
+          alert("Patient ID not found in URL.");
+          return;
+        }
 
-              const popupContainer = document.getElementById("popupContainer");
-              if (popupContainer) {
-                popupContainer.style.display = "block";
+        fetch("../popup-forms/popup-assess.html")
+          .then((response) => response.text())
+          .then((data) => {
+            const container = document.getElementById("pop-up-med");
+            container.innerHTML = data;
+
+            const popupContainer = document.getElementById("popupContainer");
+            if (popupContainer) {
+              popupContainer.style.display = "block";
+            }
+
+            // Set the patient ID into the popup form
+            const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
+            if (hiddenInput) {
+              hiddenInput.value = patientId;
+            }
+
+            // Re-run scripts
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach((oldScript) => {
+              const newScript = document.createElement("script");
+              if (oldScript.src) {
+                newScript.src = oldScript.src;
+              } else {
+                newScript.textContent = oldScript.textContent;
               }
+              document.body.appendChild(newScript);
+              oldScript.remove();
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading HTML:", error);
+          });
+      });
 
-              const scripts = container.querySelectorAll("script");
-              scripts.forEach((oldScript) => {
-                const newScript = document.createElement("script");
-                if (oldScript.src) {
-                  newScript.src = oldScript.src;
-                } else {
-                  newScript.textContent = oldScript.textContent;
-                }
-                document.body.appendChild(newScript);
-                oldScript.remove();
-              });
-            })
-            .catch((error) => {
-              console.error("Error loading HTML:", error);
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".view-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const patientId = this.getAttribute("data-patient-id");
+                // Redirect to the medrecView.html page with patient_id in the query string
+                window.location.href = "medrecviewrec.html?patient_id=" + patientId;
             });
         });
+    });
     </script>
+
+
+
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -245,5 +268,7 @@
             }
         });
     </script>
+
+    
   </body>
 </html>

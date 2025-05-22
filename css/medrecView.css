@@ -1,0 +1,1487 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+a{
+  text-decoration: none;
+  list-style: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 78px;
+  background: #fafafa;
+  padding: 6px 14px;
+  transition: all 0.5s ease;
+  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.20);
+  z-index: 10000;
+
+}
+
+.sidebar.active {
+  width: 240px;
+}
+
+.sidebar .logo-content .logo {
+  color: #1a1259;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.5s ease;
+
+}
+
+.sidebar.active .logo-content .logo {
+  opacity: 1;
+  margin-right: 1px;
+  pointer-events: auto;
+}
+
+.sidebar.active .logo-content .logo .logo-name {
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+
+
+
+.logo-content .logo .logo-name {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  margin-right: 5px;
+
+}
+
+.logo {
+    padding-left: 5px;
+  }
+
+.sidebar #btn {
+  position: absolute;
+  color: #fff;
+  left: 50%;
+  top: 6px;
+  font-size: 20px;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+  transform: translateX(-50%);
+}
+
+.sidebar.active #btn {
+  left: 90%;
+}
+
+.sidebar ul {
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  list-style: none;
+  height: 50px;
+  position: relative;
+  width: 100%;
+  margin: 0 5px;
+  line-height: 50px;
+  border-radius: 12px;
+  font-weight: 400;
+  margin: 0 5px 12px 5px;
+
+}
+
+.sidebar ul li .tooltip {
+    position: absolute;
+    height: 35px;
+    width: 170px;
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    left: 90px; 
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    line-height: 35px;
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+    z-index: 10001;
+  }
+
+
+
+  
+  .sidebar ul li:hover .tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+
+  }
+  
+  .sidebar.active ul li .tooltip {
+    left: 240px; 
+    z-index: 999;
+  }
+  
+
+.sidebar ul li:hover .tooltip {
+  transition: all 0.5s ease;
+  opacity: 1;
+  top: 50%;
+}
+
+
+
+
+.sidebar ul li a {
+  color: #1a1259;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  border-radius: 12px;
+}
+
+.sidebar ul li a:hover {
+  background: #1a1259;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.sidebar ul li a i {
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.sidebar .link-name {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+
+}
+
+.sidebar.active .link-name {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar a.active {
+  background-color: #1a1259;
+  color: #fff;
+}
+
+.header-content {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 78px);
+  left: 78px;
+  transition: all 0.5s ease;
+  z-index: 100;
+}
+.header-content .text {
+    font-size: 25px;
+    font-weight: 800;
+    font-style: italic;
+    color: #fff;
+    padding: 15px 20px;
+    margin: 10px auto;
+    background: #1a1259; 
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    letter-spacing: 1px;
+    width: 100%;
+    
+    box-sizing: border-box;
+}
+
+  
+.sidebar.active ~ .header-content{
+    width: calc(100% - 240px);
+    left: 240px;
+    transition: all 0.5s ease;
+    z-index: 0;
+
+
+}
+
+
+
+.home-content {
+  position: absolute;
+  top: 90px;
+  width: calc(80% - -205px);
+  left: 90px;
+  height: calc(100vh - 90px);
+  transition: all 0.5s ease;
+  z-index: 101;
+  top: 90px;
+  overflow-y: scroll;
+    overflow-x:hidden;
+    margin: 10px
+
+}
+
+
+.home-content .data {
+  font-size: 25px;
+  font-weight: 800;
+  font-style: italic;
+  color: #000000;
+  padding: 15px 20px;
+  margin: 10px auto;
+  background: #ffffff;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.sidebar.active ~ .home-content {
+  width: calc(80% - -45px);
+  left: 250px;
+  top: 90px; 
+  transition: all 0.5s ease;
+  z-index: 1;
+
+}
+
+body {
+  margin: 0;
+  background-color: #fdfdfd;
+}
+
+.status-container {
+  margin-left: 30px;
+  display: flex;
+
+}
+.status-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-right: 30px;
+  width: 85%;
+  background-color: #f0f4f7;
+  margin-left: 5px;
+  margin-top: 20px;
+  gap:20px;
+  border-radius: 20px;
+}
+
+.status-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.status-box li::before {
+  content: "• ";
+  color: #4a90e2;
+}
+
+.patient-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 30px;
+}
+
+.details-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.details-group p {
+  margin: 0;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.breadcrumbs {
+  font-size: 18px;
+  margin: 20px 0 10px 20px;
+  color: black;
+  margin: 10px 20px;
+  margin-left: 35px;
+  display: flex;
+}
+
+
+
+span{
+  font-weight: 400;
+}
+.p-rec{
+  font-size: 18px;
+  margin: 20px 0 10px 20px;
+  color: black;
+}
+
+
+.breadcrumbs p {
+  margin: 0;
+  margin-left: 10px;
+  font-weight: 500;
+
+} 
+
+.main-content {
+flex-grow: 1;
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.controls {
+  border-radius: 12px;
+  margin: 10px 20px;
+  gap: 10px;
+  margin-left: auto;
+  display: flex;
+  
+}
+
+.controls .filter,
+.controls .sort {
+  background: #f3e5dc;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+
+.container {
+  padding: 20px 20px;
+  margin: 10PX;
+  margin-left: 20px;
+
+}
+
+.add-btn {
+  color: #ffffff;
+  background-color: #1a1259;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  height: 70px;
+  margin-top: 30px;
+  margin-right: 30px;
+
+
+}
+
+.add-btn:hover {
+  background-color: #1a1259;
+  transform: scale(1.05);
+
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #1a1259;
+}
+
+thead {
+  background-color: #1a1259;
+  color: white;
+  font-size: 13px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+}
+
+tbody td {
+  height: 40px;
+}
+
+
+
+#pop-up-med{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+
+
+.form-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding-bottom: 30px;
+  margin: 10px;
+}
+
+.new-data {
+  position: fixed; 
+  top: 50%; 
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); 
+  width: 1200px; 
+  height: 600px; 
+  max-width: 1200px;
+  background: #e6ebef;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  padding: 20px;
+  justify-content: center;
+}
+
+.title {
+  font-weight: 200;
+  text-align: center;
+  width: 100%;
+  color: #1a1259;
+
+}
+
+.close-btn {
+  font-size: 24px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  width: 100%;
+}
+
+.items div {
+  padding: 15px 20px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.items div:hover {
+  background: #cbdffe;
+}
+
+.items .category-item {
+}
+
+
+.user-type {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  padding: 20px;
+  transform: translateX(30px);
+}
+
+label{
+  color: #000;
+}
+
+ span{
+  color: #000;
+}
+
+.user-type label {
+  font-size: 16px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+.user-type input[type="checkbox"] {
+  margin-right: 10px; 
+}
+
+.underline1 {
+  height: 2px;
+  background: #ccc;
+  margin: 10px 40px;
+}
+
+.field-group {
+  margin-bottom: 15px;
+}
+
+.field-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+.styled-checkbox {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.styled-checkbox span {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.submit-button {
+  position: absolute;
+  top: 509px;
+  right: 43px;
+  color: #010440;
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  background-color: #afb4db;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.submit-button:hover,
+.submit2-button:hover {
+  background-color: #40379a;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 20px 40px;
+}
+
+#studentFields,
+#personnelFields{
+  flex: 1;
+}
+/*POP-UP PATIENT DATA */
+
+#popupPatient {
+    display: none;
+  }
+  
+  .title-with-underline {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    padding-top: 25px;
+    padding-left: 50px; 
+  }
+  
+  .underline3 {
+    width: 85%;
+    height: 1px;
+    background-color: #000; 
+    
+  }
+
+  .underline11 {
+    width: 68%;
+    height: 0.5px;
+    background-color: #000; 
+  }
+  
+  .scrollable-table {
+    max-height: 450px; 
+    overflow-y: auto;
+    overflow-x: hidden; 
+  }
+  
+  
+  .data-patients {
+    width: 1000px;
+    max-width: 1000px;
+    margin-top: -20px;
+    margin-left: 100px;
+    background-color: transparent;
+    padding: 20px;
+  
+    border-collapse: separate;
+    border-spacing: -50px 15px;
+  }
+  
+  .data-patients td{
+    padding: 10px;
+    text-align: left;
+    width: 25%;
+  }
+  
+  .data-patients th {
+    background-color: #000000;
+    font-weight: 600;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  
+  .data-patients input[type="text"],
+  .data-patients input[type="date"],
+  .data-patients select {
+    width: 100%; 
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  
+  label {
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 5px; 
+    display: block; 
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fefefe;
+    transition: 0.2s ease;
+  }
+  
+  input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-row td {
+    flex: 1 1 200px;
+  }
+  
+  .item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
+    width: 100%;
+  }
+  
+  .item div {
+    padding: 15px 20px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .item div:hover {
+    background: #cbdffe;
+  }
+  
+  
+  .item .patient-item {
+    background: linear-gradient(to top, #afb4db, #e6e9f0); 
+  }
+  
+  .title-section-underline {
+    margin-top: -10px;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    padding: 25px;
+    padding-left: 50px;
+  }
+  
+  .emergencycont-table {
+    width: 1000px;
+    max-width: 1000px;
+    margin-top: -20px;
+    margin-left: 100px;
+    background-color: transparent;
+    padding: 20px;
+  
+    border-collapse: separate;
+    border-spacing: -50px 15px;
+  }
+  
+  
+  .emergencycont-table td{
+    padding: 10px;
+    text-align: left;
+    width: 25%;
+  }
+  
+  .emergencycont-table th {
+    background-color: #000000;
+    font-weight: 600;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  
+  .emergencycont-table input[type="text"],
+  .emergencycont-table input[type="date"],
+  .emergencycont-table select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .back-button {
+    position: relative;
+    top: 40px;
+    left: 830px;
+    color: #010440;
+    width: 150px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: #c8d9e6;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .submit2-button{
+    position: relative;
+    top: 40px;
+    left: 850px;
+    color: #010440;
+    width: 150px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: #afb4db;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .back-submit-patient{
+    margin-bottom: 80px ;
+    margin-top: -30px;
+  }
+  
+  
+  
+  .section {
+    white-space: nowrap;
+  }
+  
+  @media (max-width: 768px) {
+    .data-patients {
+        width: 100%;
+    }
+  
+    .form-row td {
+        display: block;
+        width: 100%;
+    }
+  }
+  
+  
+  /*POP-UP Personal History */
+
+  #popupPersonalHistory {
+    display: none;
+  }
+  
+  .item1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
+    width: 100%;
+  }
+  
+  .item1 div {
+    padding: 15px 20px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .item1 div:hover {
+    background: #cbdffe;
+  }
+  
+  .item1 .personal-item {
+    background: linear-gradient(to top, #afb4db, #e6e9f0); 
+  }
+  
+  .generalline-personal {
+    display: flex;             
+    gap: 600px;
+    margin-top: 20px; 
+    font-weight: bolder; 
+                   
+  }
+  
+  .medicaltitle-underline{
+    display: flex;              
+    align-items: center;        
+    gap: 10px;  
+    margin-left: 0px;                
+  }
+  
+  .maternaltitle-underline{
+    display: flex;            
+    align-items: center;        
+    gap: 10px;  
+    margin-left: -500px;                
+  }
+  
+  .section-medicaltitle,
+  .section-maternaltitle {
+    font-size: 16px;
+    white-space: nowrap;        
+    flex-shrink: 0;            
+  }
+  
+  .underline4 {
+    height: 1px;               
+    background-color: #000;    
+    width: 580px;             
+    display: block;          
+    margin-top: 3px;          
+  }
+  
+  
+  .underline5 {
+    height: 1px;               
+    background-color: #000;     
+    width: 450px;               
+    display: block;            
+    margin-top: 3px;          
+  }
+  
+  .flex-wrapper2 {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-start;     
+    width: 100%;              
+    padding: 10px;              
+    margin-top: 20px;       
+  }
+  
+  .medical-table {
+    width: 55%;                  
+    border-collapse: collapse;   
+    margin-top: -20px;
+    margin-left: 50px;              
+  }
+  
+  .medical-table tr {
+    padding: 10px 0;
+    vertical-align: middle;      
+  }
+  
+  .medical-table td {
+    padding: 10px;
+    text-align: left;           
+    vertical-align: top;      
+  }
+  
+  .medical-table label {
+    display: inline-flex;
+    align-items: center;         
+    gap: 1px;  
+    font-size: 13px;    
+    white-space: nowrap;                
+  }
+  
+  .medical-table input[type="checkbox"] {
+    margin-right: 5px;          
+    margin-bottom: 5px;           
+  }
+  
+  .medical-table input[type="text"] {
+    width: 100px;
+    height: 20px;                 
+    padding: 5px;                 
+    margin-left: 10px;           
+    border: 1px solid #ccc;      
+    border-radius: 4px;
+    font-size: 10px;           
+  }
+  
+  .medical-table textarea {
+    width: 450px;                
+    height: 50px;                 
+    padding: 10px;                
+    border: 1px solid #ccc;       
+    border-radius: 4px;           
+    resize: vertical;
+    font-size: 13px;             
+  }
+  
+  .medical-table td[colspan="2"] {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .maternal {
+    width: 60%;
+    height: 10%;                 
+    border-collapse: collapse;    
+    margin-top: -15px;
+    margin-left: 350px; 
+    position: relative;           
+    padding-bottom: 40px;             
+  }
+  
+  .maternal td {
+    padding: 2px;
+  }
+  
+  .maternal label {
+    display: flex;
+    align-items: center;          
+    gap: 10px;  
+    white-space: nowrap;                  
+  }
+  
+  .maternal label span {
+    font-size: 13px;
+  }
+  
+  .maternal input[type="number"] {
+    width: 70px;
+    height: 20px;                
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 10px;
+  }
+  
+  .maternal .separator {
+    font-size: 13px;
+    margin-left: 10px;  
+    font-weight: normal;         
+  }
+  
+  .alcosur-personal {
+    display: flex;                  
+    justify-content: space-between; 
+    position: relative;            
+    top: 200px;                        
+    width: 50%;
+    height: 20%;                   
+    padding: 10px 0;                
+    margin-left: -590px;
+    margin-right: 130px;
+  }
+  
+  .alcoholtitle-underline {
+    display: flex;                  
+    flex-direction: row;           
+    align-items: center;            
+    margin-right: 30px;          
+  }
+  
+  .section-alcoholtitle {
+    font-size: 16px;
+    margin-right: 10px;            
+  }
+  
+  .underline6 {
+    width: 170px;                
+    height: 0.5px;
+    background-color: #000; 
+    margin-top: 3px;       
+  }
+  
+  .surgicaltitle-underline {
+    display: flex;                  
+    flex-direction: row;           
+    align-items: center; 
+    margin-right: 200px; 
+    margin-left: 15px;         
+  }
+  
+  .section-surgicaltitle {
+    font-size: 16px;
+    margin-right: 10px;             
+  }
+  
+  .underline7 {
+    width: 180px;                  
+    height: 0.5px;
+    background-color: #000; 
+    margin-top: 3px; 
+    font-weight: normal;        
+  }
+  
+  
+  
+  
+  .alcoholsugical-table {
+    position: relative;
+    margin-left: -700px;
+    margin-right: 250px; 
+    top: 250px;
+    width: 90%;
+    left: -90px;
+    height: 50%;
+    border-collapse: collapse;
+  }
+  
+  .alcoholsugical-table td {
+    padding: 10px;
+    vertical-align: top;
+  }
+  
+  .alcoholsugical-table label {
+    font-size: 13px;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    white-space: nowrap;  
+  }
+  
+  .alcoholsugical-table input[type="text"] {
+    width: 100px;
+    height: 20px;  
+    padding: 4px;
+    font-size: 13px;
+  }
+  #surgicalText,
+  #totalperconsupAlchoText{
+    font-size: 10px;
+  }
+  
+  
+  
+  .smodrug-personal {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 100px;              
+    padding: 10px 50px;                   
+  }
+  
+  .smokingtitle-underline{
+    display: flex;
+    align-items: center;
+    gap: 10px;               
+  }
+  
+  .drugtitle-underline{
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-left: 100px;     
+    margin-right: 30px;         
+  }
+  
+  .section-smokingtitle {
+    font-size: 16px;     
+  }
+
+  .section-drugtitle{
+    font-size: 16px;
+    white-space: nowrap;     
+  }
+  
+  .underline8 {
+    height: 0.5px;               
+    background-color: #000;    
+    width: 370px;             
+    display: block;          
+    margin-top: 3px;          
+  }
+  
+  
+  .underline9 {
+    height: 0.5px;               
+    background-color: #000;     
+    width: 140px;               
+    display: block;            
+    margin-top: 3px;          
+  }
+
+
+
+
+
+
+  .checkbox-wrapper {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    gap: 40px;
+    margin-top: 20px;
+    width: 100%;
+    position: relative; 
+  }
+  
+
+  .smoke-checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex:none;
+    text-align: left;
+    width: 100%; 
+    flex: none; 
+    align-items: flex-start;
+    margin-left: 80px;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;  
+  }
+  
+  .checkbox-item span {
+    font-size: 13px;
+    white-space: nowrap;
+    margin-left: 0;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  
+  #flex-wrapper3 table {
+    width: 100%;
+    margin-left: 30px;
+    margin-top: -10px ;
+  }
+  
+  #flex-wrapper3 table tr:first-child {
+    display: flex;      
+    justify-content: start; 
+    gap: 30px;           
+  }
+  
+  #flex-wrapper3 table td {
+    padding: 5px 10px;
+    font-size: 13px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #flex-wrapper3 table td label {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #sticksperday,
+  #cigaretteStartedDate,
+  #stoppedDate {
+    width: 100px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .drugs-checkbox {
+    position: absolute; 
+    top: -1px; 
+    left: 65%; 
+    transform: translateX(-50%); 
+    width: 250px; 
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  #flex-wrapper4 table {
+    position: relative;
+    width: 400px;
+    margin-top: -45px;
+    margin-left: 80px;
+    height: 200px;
+
+  }
+
+  #flex-wrapper4 table tr {
+    display: flex;            
+    justify-content: flex-start; 
+    gap: 30px;               
+  }
+  
+
+  #flex-wrapper4 table td label {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #flex-wrapper4 table td {
+    padding: 15px 10px;
+    font-size: 13px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap:10px;
+  }
+
+  .rehab-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    
+  }
+  
+  .question-text {
+    font-weight: bold;
+    margin-top: 50px;
+  }
+  
+  .answers-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px; 
+    gap: 5px;
+  }
+  
+  .answers-wrapper label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .back-submit-personalhistory {
+    margin-left: -645px;
+    padding-bottom: 80px;
+  }
+
+
+
+/*POP-UP Family History */
+
+#popupFamilyHistory {
+  display: none;
+}
+
+.item2 {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  width: 100%;
+}
+
+.item2 div {
+  padding: 15px 20px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  flex: 1;
+  text-align: center;
+}
+
+.item2 div:hover {
+  background: #cbdffe;
+}
+
+.item2 .family-item {
+  background: linear-gradient(to top, #afb4db, #e6e9f0); 
+}
+
+.FamHistorytitle-underline{
+  display: flex;              
+  align-items: center;        
+  gap: 10px;  
+  margin-top: 100px;
+  margin-left: 50px;                
+}
+
+.section-FamHistorytitle {
+  font-size: 16px;
+  white-space: nowrap;        
+  flex-shrink: 0;            
+}
+
+.underline10 {
+  width: 85%;
+  height: 1px;
+  background-color: #000;         
+}
+
+
+.flex-wrapper5 {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+}
+
+.familyHistory-table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-left: 140px; 
+  margin-top: 10px;
+}
+
+.familyHistory-table label {
+  white-space: nowrap;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.familyHistory-table td {
+  padding-left: 100px;
+  padding-bottom: 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.familyHistory-table .checkbox-label-group {
+  display: inline-flex; 
+  align-items: center;
+  gap: 10px; 
+}
+
+.checkbox-label-group input[type="text"] {
+  display: inline-block;
+}
+
+
+.familyHistory-table input[type="text"] {
+  width: 100px;
+  height: 20px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.back-submit-familyhistory {
+  position: absolute;
+  margin-left: -10px;
+  margin-top: 280px;
+  padding-bottom: 80px;
+}
+
+
+/* This targets all popups including #emptyFieldPopup */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  width: 300px;
+  margin: 20% auto;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px black;
+}
+
+.popup button {
+  margin-top: 10px;
+  background-color: #022a6c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background-color: #012156;
+}
+
+
+
+
+
+
+
+
+
+  
+
+  
+
