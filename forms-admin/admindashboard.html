@@ -110,7 +110,25 @@
                     <p>Total of Patients</p>
                     <a href="medrecords.html">See All</a>
                 </div>
-                <div class="patient_summary"></div>
+                <div class="patient_summary">
+                    <div class="category_total">
+                        <h2>0</h2>
+                        <p>Total of Patients</p>
+                    </div>
+                    
+                    <div class="category_student">
+                        <h2>0</h2>
+                        <p>Students</p>
+                    </div>
+                    <div class="category_teaching">
+                        <h2>0</h2>
+                        <p>Teaching Personnel</p>
+                    </div>
+                    <div class="category_nonteaching">
+                        <h2>0</h2>
+                        <p>Non-Teaching Personnel</p>
+                    </div>
+                </div>
             </div>
             <div class="emergency_hotline">
                 <a href="#" class="hotlines" onclick="openForm()">PASIG CITY EMERGENCY HOTLINES</a>
@@ -121,7 +139,6 @@
                     <select id="timeRange">
                         <option value="7">Last 7 Days</option>
                         <option value="30">Last 30 Days</option>
-                        <option value="90">Last 90 Days</option>
                     </select>
                     <a href="admintransac.html">See All</a>
                 </div>
@@ -235,6 +252,7 @@
     </div>
 
     <script src="../js-admin/item_charts.js"></script>
+    <script src="../js-admin/patient_charts.js"></script>
     <script src="../js-admin/admin-dashboard.js"></script>
 </body>
 </html>
