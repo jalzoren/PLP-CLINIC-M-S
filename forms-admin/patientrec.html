@@ -272,20 +272,52 @@
     </script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".view-btn2").forEach(button => {
-        button.addEventListener("click", function () {
-          const patientId = this.getAttribute("data-patient-id");
-          if (patientId && patientId.toLowerCase() !== "null") {
-            window.location.href = "assessviewrec.html?patient_id=" + patientId;
-          } else {
-            alert("Invalid patient ID. Cannot view assessment.");
-            console.error("Invalid patient ID on button:", this);
-          }
-        });
-      });
-    });
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".view-btn2").forEach(button => {
+                button.addEventListener("click", function () {
+                    const patientId = this.getAttribute("data-patient-id");
+                    if (patientId && patientId.toLowerCase() !== "null") {
+                        // Load the assessment view as a popup
+                        fetch("assessview.html")
+                            .then(response => response.text())
+                            .then(data => {
+                                const container = document.getElementById("pop-up-med");
+                                container.innerHTML = data;
 
+                                const popupContainer = document.getElementById("popupContainer");
+                                if (popupContainer) {
+                                    popupContainer.style.display = "block";
+                                }
+
+                                // Set the patient ID into the popup form
+                                const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
+                                if (hiddenInput) {
+                                    hiddenInput.value = patientId;
+                                }
+
+                                // Re-run scripts
+                                const scripts = container.querySelectorAll("script");
+                                scripts.forEach((oldScript) => {
+                                    const newScript = document.createElement("script");
+                                    if (oldScript.src) {
+                                        newScript.src = oldScript.src;
+                                    } else {
+                                        newScript.textContent = oldScript.textContent;
+                                    }
+                                    document.body.appendChild(newScript);
+                                    oldScript.remove();
+                                });
+                            })
+                            .catch(error => {
+                                console.error("Error loading HTML:", error);
+                            });
+                    } else {
+                        alert("Invalid patient ID. Cannot view assessment.");
+                        console.error("Invalid patient ID on button:", this);
+                    }
+                });
+            });
+        });
     </script>
 
 
