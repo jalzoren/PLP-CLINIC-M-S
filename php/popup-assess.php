@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert into patient_assessment table
         $sql = "INSERT INTO patient_assessment (
                     Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
-                    Blood_Pressure, Physician_Note, Nurse_Note, Recorded_At
+                    Blood_Pressure, Physicians_Note, Nurse_Note, Recorded_At
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $conn->prepare($sql);

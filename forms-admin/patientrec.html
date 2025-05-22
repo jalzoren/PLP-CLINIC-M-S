@@ -180,50 +180,63 @@
         sidebar.classList.toggle("active");
       };
 
-      document
-        .getElementById("load-btn")
-        .addEventListener("click", function () {
-          fetch("../popup-forms/popup-assess.html")
-            .then((response) => response.text())
-            .then((data) => {
-              const container = document.getElementById("pop-up-med");
-              container.innerHTML = data;
+      document.getElementById("load-btn").addEventListener("click", function () {
+        const patientId = new URLSearchParams(window.location.search).get("patient_id");
+        if (!patientId) {
+          alert("Patient ID not found in URL.");
+          return;
+        }
 
-              const popupContainer = document.getElementById("popupContainer");
-              if (popupContainer) {
-                popupContainer.style.display = "block";
+        fetch("../popup-forms/popup-assess.html")
+          .then((response) => response.text())
+          .then((data) => {
+            const container = document.getElementById("pop-up-med");
+            container.innerHTML = data;
+
+            const popupContainer = document.getElementById("popupContainer");
+            if (popupContainer) {
+              popupContainer.style.display = "block";
+            }
+
+            // Set the patient ID into the popup form
+            const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
+            if (hiddenInput) {
+              hiddenInput.value = patientId;
+            }
+
+            // Re-run scripts
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach((oldScript) => {
+              const newScript = document.createElement("script");
+              if (oldScript.src) {
+                newScript.src = oldScript.src;
+              } else {
+                newScript.textContent = oldScript.textContent;
               }
-
-              const scripts = container.querySelectorAll("script");
-              scripts.forEach((oldScript) => {
-                const newScript = document.createElement("script");
-                if (oldScript.src) {
-                  newScript.src = oldScript.src;
-                } else {
-                  newScript.textContent = oldScript.textContent;
-                }
-                document.body.appendChild(newScript);
-                oldScript.remove();
-              });
-            })
-            .catch((error) => {
-              console.error("Error loading HTML:", error);
+              document.body.appendChild(newScript);
+              oldScript.remove();
             });
-        });
+          })
+          .catch((error) => {
+            console.error("Error loading HTML:", error);
+          });
+      });
+
     </script>
 
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".view-btn").forEach(button => {
-          button.addEventListener("click", function () {
-              const patientId = this.getAttribute("data-patient-id");
-              // Redirect to the medrecView.html page with patient_id in the query string
-              window.location.href = "medrecviewrec.html?patient_id=" + patientId;
-          });
-      });
-  });
+        document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".view-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const patientId = this.getAttribute("data-patient-id");
+                // Redirect to the medrecView.html page with patient_id in the query string
+                window.location.href = "medrecviewrec.html?patient_id=" + patientId;
+            });
+        });
+    });
     </script>
+
 
 
 
