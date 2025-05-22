@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assessment Records / PLP Clinic Monitoring System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <img src="../pictures/logo.png" alt="Logo" class="logo-icon">
+            <span class="logo_name">PLP Clinic</span>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a href="dashboard.html">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="patientrec.html">
+                    <i class='bx bx-user'></i>
+                    <span class="links_name">Patient Records</span>
+                </a>
+                <span class="tooltip">Patient Records</span>
+            </li>
+            <li>
+                <a href="appointment.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="links_name">Appointments</span>
+                </a>
+                <span class="tooltip">Appointments</span>
+            </li>
+            <li>
+                <a href="inventory.html">
+                    <i class='bx bx-package'></i>
+                    <span class="links_name">Inventory</span>
+                </a>
+                <span class="tooltip">Inventory</span>
+            </li>
+            <li>
+                <a href="reports.html">
+                    <i class='bx bx-bar-chart-alt-2'></i>
+                    <span class="links_name">Reports</span>
+                </a>
+                <span class="tooltip">Reports</span>
+            </li>
+            <li>
+                <a href="settings.html">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Settings</span>
+                </a>
+                <span class="tooltip">Settings</span>
+            </li>
+            <li class="profile">
+                <div class="profile-details">
+                    <img src="../pictures/profile.jpg" alt="Profile">
+                    <div class="name-job">
+                        <div class="profile_name">Admin</div>
+                        <div class="job">Administrator</div>
+                    </div>
+                </div>
+                <a href="../index.html"><i class='bx bx-log-out' id="log_out"></i></a>
+            </li>
+        </ul>
+    </div>
+
+    <section class="home-section">
+        <div class="header">
+            <div class="text">Assessment Records</div>
+            <div class="user-profile">
+                <img src="../pictures/profile.jpg" alt="Profile">
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="back-button">
+                    <a href="patientrec.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Back to Patient Records
+                    </a>
+                </div>
+
+                <div class="form-container">
+                    <h2>Patient Assessment Details</h2>
+                    
+                    <!-- Hidden inputs for patient data -->
+                    <input type="hidden" name="patient_id" id="patient_id" />
+                    <input type="hidden" name="patient_type" id="patient_type" />
+                    <input type="hidden" name="student_id" id="student_id" />
+                    <input type="hidden" name="personnel_id" id="personnel_id" />
+                    <input type="hidden" name="patient_name" id="patient_name" />
+                    <input type="hidden" name="sex" id="sex" />
+                    <input type="hidden" name="age" id="age" />
+                    <input type="hidden" name="department" id="department" />
+
+                    <div class="section">
+                        <h3>Vital Signs</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Temperature (°C)</label>
+                                <input type="number" step="0.1" name="temperature" id="temperature" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Respiratory Rate (breaths/min)</label>
+                                <input type="number" name="rr" id="rr" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Height (cm)</label>
+                                <input type="number" step="0.1" name="height" id="height" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" step="0.1" name="weight" id="weight" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>BMI</label>
+                                <input type="number" step="0.1" name="bmi" id="bmi" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Pulse (beats/min)</label>
+                                <input type="number" name="pulse" id="pulse" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Blood Pressure (mmHg)</label>
+                                <input type="text" name="bp" id="bp" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Additional Notes</h3>
+                        <div class="form-group">
+                            <label>Physician's Notes</label>
+                            <textarea name="physician_notes" id="physician_notes" readonly></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Nurse Notes</label>
+                            <textarea name="nurse_notes" id="nurse_notes" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/script.js"></script>
+    <script src="../js-admin/get_assessment_data.js"></script>
+  </body>
+</html> 
