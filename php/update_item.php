@@ -1,9 +1,10 @@
 <?php
-require_once '/database.php';
+require_once 'database.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($data['id']) || !isset($data['name']) || !isset($data['category']) || !isset($data['quantity'])) {
+    http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
     exit;
 }
@@ -16,14 +17,17 @@ try {
     $stmt->bind_param("ssii", $data['name'], $data['category'], $data['quantity'], $data['id']);
 
     if ($stmt->execute()) {
-        echo json_encode(['status' => 'success']);
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'message' => 'Item updated successfully']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to update item']);
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update item: ' . $stmt->error]);
     }
 
     $stmt->close();
     $conn->close();
 } catch (Exception $e) {
+    http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Server error: ' . $e->getMessage()]);
 }
 ?>
