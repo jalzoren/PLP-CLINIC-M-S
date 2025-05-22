@@ -335,17 +335,6 @@ body {
 
 }
 
-.try{
-  width: 100%;
-  max-width: 600px;  /* Optional */
-  height: 200px;
-  box-sizing: border-box;
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  z-index: 12;
-  background-color: rgb(156, 91, 91);
-}
 
 #itemChart {
   width: 100%;
