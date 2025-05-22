@@ -132,3 +132,11 @@ Stack trace:
 [22-May-2025 19:32:54 Asia/Manila] Visit recorded for Patient_ID: 4
 [22-May-2025 22:18:39 Asia/Manila] Raw input received.
 [22-May-2025 22:18:39 Asia/Manila] JSON decode error: Syntax error
+[23-May-2025 03:36:40 Asia/Manila] Raw input received.
+[23-May-2025 03:36:40 Asia/Manila] Database connected successfully
+[23-May-2025 03:36:40 Asia/Manila] Patient_ID query result: 1
+[23-May-2025 03:36:40 Asia/Manila] Visit recorded for Patient_ID: 1
+[23-May-2025 03:40:10 Asia/Manila] Raw input received.
+[23-May-2025 03:40:10 Asia/Manila] Database connected successfully
+[23-May-2025 03:40:10 Asia/Manila] Patient_ID query result: 12
+[23-May-2025 03:40:10 Asia/Manila] Visit recorded for Patient_ID: 12

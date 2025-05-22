@@ -571,6 +571,8 @@ body {
   padding: 3px;
   border: 1px outset #212161;
   border-radius: 5px;
+  margin: 2px;
+  width: 80px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
