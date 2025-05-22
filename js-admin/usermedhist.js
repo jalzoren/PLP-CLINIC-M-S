@@ -1,13 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const patientId = params.get("patient_id");
-
-    if (!patientId) {
-        console.warn("No patient_id in URL");
-        return;
-    }
-
-    fetch("../php/usermedhist.php?patient_id=" + patientId)
+    fetch("../php/usermedhist.php")
         .then(response => response.json())
         .then(data => {
             // Populate general patient fields
@@ -134,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Cancer": "cancer",
                 "Asthma": "asthma",
                 "Emphysema": "emphysema",
-                "Other Medical": "otherMedical"
+                "Others": "otherMedical"
             };
 
             // Uncheck all condition checkboxes

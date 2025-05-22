@@ -158,121 +158,18 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".view-btn").forEach(button => {
             button.addEventListener("click", function () {
-                const patientId = this.getAttribute("data-patient-id");
-                // Redirect to the medrecView.html page with patient_id in the query string
-                window.location.href = "usermedrecviewrec.html?patient_id=" + patientId;
+                window.location.href = "usermedrecviewrec.html";
             });
         });
     });
+
     </script>
-<!--
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Fetch user info for header
-        fetch('../php/userinterfacefetch.php')
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              const p = data.patient;
-              document.getElementById('patient-name').textContent = `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
-              document.getElementById('patient-role').textContent = p.Category;
-              document.getElementById('patient-sex').textContent = p.Sex;
-              document.getElementById('patient-age').textContent = data.age;
-              document.getElementById('patient-email').textContent = data.email;
-              updateGreeting(`${p.First_Name} ${p.Last_Name}`);
-            } else {
-              document.getElementById('patient-info').innerHTML =
-                `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching patient data:", error);
-            document.getElementById('patient-info').innerHTML =
-              "<p>Error loading data. Please try again later.</p>";
-          });
 
-        // Fetch table data
-        fetch('../php/fetch_borrowed_items.php')
-          .then(response => response.json())
-          .then(data => {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = '';
-            if (data.success && data.items.length > 0) {
-              data.items.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                  <td data-label="No.">${index + 1}</td>
-                  <td data-label="Identification Number">${item.identification_number || 'N/A'}</td>
-                  <td data-label="Full Name">${item.full_name || 'N/A'}</td>
-                  <td data-label="Category">${item.category || 'N/A'}</td>
-                  <td data-label="Department/Course Yr. & Sec.">${item.department || 'N/A'}</td>
-                  <td data-label="Date Borrowed">${item.date_borrowed || 'N/A'}</td>
-                  <td data-label="Date Returned">${item.date_returned || ''}</td>
-                  <td data-label="Borrowed Item (specify)">${item.borrowed_item || 'N/A'}</td>
-                  <td data-label="Qty.">${item.quantity || 'N/A'}</td>
-                  <td data-label="Status">${item.status || 'N/A'}</td>
-                  <td data-label="Photo (Borrowed)">${item.photo_borrowed ? '[Photo]' : ''}</td>
-                  <td data-label="Photo (Returned)">${item.photo_returned ? '[Photo]' : ''}</td>
-                `;
-                tableBody.appendChild(row);
-              });
-            } else {
-              tableBody.innerHTML = `
-                <tr>
-                  <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
-                </tr>
-              `;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching table data:", error);
-            document.getElementById('tableBody').innerHTML = `
-              <tr>
-                <td colspan="12" style="text-align: center; padding: 20px;">Error loading data. Please try again later.</td>
-              </tr>
-            `;
-          });
+ 
 
-        function updateGreeting(name) {
-          const now = new Date();
-          const philTime = new Date(
-            now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
-          );
-          const hours = philTime.getHours();
-          let greeting;
-          if (hours >= 5 && hours < 12) {
-            greeting = "Good Morning";
-          } else if (hours >= 12 && hours < 18) {
-            greeting = "Good Afternoon";
-          } else {
-            greeting = "Good Evening";
-          }
-          document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
-        }
-      });
 
-      // Search function
-      function searchTable() {
-        const input = document.getElementById("searchInput").value.toLowerCase();
-        const rows = document.querySelectorAll("#tableBody tr");
-        rows.forEach(row => {
-          const text = row.textContent.toLowerCase();
-          row.style.display = text.includes(input) ? "" : "none";
-        });
-      }
-
-      // Filter function
-      function filterTable(status) {
-        const rows = document.querySelectorAll("#tableBody tr");
-        rows.forEach(row => {
-          const rowStatus = row.querySelector("td:nth-child(10)").textContent.toLowerCase();
-          row.style.display = status === "" || rowStatus === status.toLowerCase() ? "" : "none";
-        });
-      }
-    </script>
-    -->
   </body>
 </html>

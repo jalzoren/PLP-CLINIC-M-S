@@ -1,10 +1,11 @@
 <?php
-error_reporting(E_ERROR | E_PARSE); // Only report fatal errors & parse errors
-ini_set('display_errors', 0);      // Do not display errors in output
-ini_set('log_errors', 1);          // Log errors instead to error log
-ini_set('error_log', __DIR__ . '/php-error.log');  // Define error log file
+session_start();
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php-error.log');
 
-require 'database.php'; // Your DB connection ($conn)
+require 'database.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -16,16 +17,28 @@ try {
     exit;
 }
 
-if (!isset($_GET['patient_id'])) {
-    echo json_encode(["error" => "Missing patient_id parameter"]);
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(["error" => "User not logged in"]);
     exit;
 }
 
-$patient_id = filter_var($_GET['patient_id'], FILTER_VALIDATE_INT);
-if ($patient_id === false) {
-    echo json_encode(["error" => "Invalid patient_id parameter"]);
+$user_id = $_SESSION['user_id'];
+
+// Get Patient_ID from users table
+$stmt = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+
+if (!$user || !$user['Patient_ID']) {
+    echo json_encode(["error" => "No associated patient record found"]);
     exit;
 }
+
+$patient_id = $user['Patient_ID']; // Now use this for all queries below
+
 
 // 1. Fetch patient main info (without patient_condition join)
 $sqlPatient = "
