@@ -602,7 +602,6 @@ body {
   pad: 10px;  
 }
 
-
 /* Main Popup Background */
 .form-content {
   display: none; /* Initially hidden */
@@ -687,8 +686,11 @@ body {
   color: #333;
 }
 
+/* Unified input, textarea, and select styles */
 .field-group input,
-.field-group textarea {
+.field-group textarea,
+.field-group select,
+.itemType {
   padding: 12px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -696,10 +698,13 @@ body {
   background-color: #fafafa;
   transition: border-color 0.3s ease;
   resize: vertical;
+  font-family: inherit;
 }
 
+/* Focus effect */
 .field-group input:focus,
-.field-group textarea:focus {
+.field-group textarea:focus,
+.field-group select:focus {
   border-color: #1a1259;
   outline: none;
 }
@@ -721,6 +726,7 @@ body {
   background-color: #1a1259;
   transform: translateY(-2px);
 }
+
 
 /*------------------------------------- VIEW FORM OF MEDICINE
 */
