@@ -462,7 +462,10 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 10px;
+  
 }
+
+
 
 .item-content {
   flex-grow: 1;

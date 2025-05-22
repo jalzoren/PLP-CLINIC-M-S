@@ -662,14 +662,6 @@ function submitMedicalRecordForm(e) {
                 console.log("Patient ID from server:", data.patientID);
                 generatePDFAndUpload(data.patientID);
                 //document.getElementById("SuccessPopup").style.display = "block";
-            } else {
-              if (data.message === 'duplicate_student_id') {
-                  document.getElementById('DuplicatePopup').style.display = 'block';
-              } else if (data.message === 'duplicate_personnel_id') {
-                  document.getElementById('DuplicatePopup').style.display = 'block';
-              } else {
-                  alert("Error: " + data.message); 
-              }
             }
         } catch (e) {
             console.error("Invalid JSON response:", text);

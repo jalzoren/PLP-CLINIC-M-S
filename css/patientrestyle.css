@@ -546,6 +546,7 @@ tbody td {
     display: flex;
     justify-content: space-evenly;
     gap: 120px;
+    border: 1px solid black;
   }
   
   .status-column {
@@ -560,4 +561,27 @@ tbody td {
   .status-column strong {
     font-weight: 800;
   }
+
+
   
+
+  
+.view-btn {
+  color: #ffffff;
+  background-color: #1a1259;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.view-btn:hover {
+  background-color: #1a1259;
+  transform: scale(1.05);
+
+}

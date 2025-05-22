@@ -11,6 +11,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
 
 </head>
 <body>
@@ -28,7 +30,7 @@
             href="admindashboard.html"
             class="transition-link"
           >
-            <i class="bx bxs-grid-alt bx-rotate-180"></i>
+            <i class="material-icons">dashboard</i>
             <span class="link-name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
@@ -36,14 +38,14 @@
 
         <li>
             <a href="medrecords.html" class="active">
-            <i class='bx bxs-file' ></i>               
+            <i class="material-icons">folder_shared</i>             
             <span class="link-name">Records</span>
           </a>
           <span class="tooltip">Patient Records</span>
         </li>
         <li>
           <a href="borrowing.html" class="transition-link">
-          <i class='bx bxs-cabinet'></i>
+          <i class="material-icons">dns</i>
           <span class="link-name">Borrow</span>
           </a>
           <span class="tooltip">Borrowing Records</span>
@@ -51,7 +53,7 @@
         
         <li>
             <a href="userborrow.html" class="transition-link">
-            <i class="bx bxs-file-plus"></i>
+            <i class="material-icons">assignment</i>
             <span class="link-name">Borrow</span>
             </a>
             <span class="tooltip">Borrow Form</span>
@@ -80,8 +82,8 @@
                 <br />
                 
                 <a href="../php/logout.php">
-                    <i class="material-icons">exit_to_app</i>
-                    <span class="link-name">Logout</span>
+              <i class="material-icons">exit_to_app</i>
+              <span class="link-name">Logout</span>
                 </a>
             </li>
         </ul>
@@ -93,9 +95,9 @@
 
     <div class="home-content">
      <div class="breadcrumbs">
-        <a href="../forms/medrecords.html"><i class="bx bx-arrow-back"></i></a>
+        <a href="../forms/medrecords.html">  <i class="material-icons" style="color: #1a1259;">arrow_back</i></a>
         <p class="p-rec">
-            <strong>Patient Records &lt;<span id="patient-name-placeholder"></span></strong>
+            <strong>Patient Records &lt;<span></span><span id="patient-name-placeholder"></span></strong>
         </p>
     </div>
 
