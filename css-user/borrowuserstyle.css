@@ -679,7 +679,9 @@ button.btn:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 50px;
+  width: 70%;
 }
 .photo-and-form-row {
   display: flex;
