@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../popup-styles/popup-assessstyle.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <form id="assessmentForm">
@@ -86,11 +87,55 @@
 
     <script src="../js/time-assessp.js"></script>
     <script src="../js-admin/get_assessment_data.js"></script>
-
     <script>
         function closePopup() {
             window.close();
         }
+
+        // Function to load assessment data
+        function loadAssessmentData(patientId) {
+            fetch(`../php/get_assessment.php?patient_id=${patientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error:', data.error);
+                        return;
+                    }
+
+                    // Populate the form fields with the fetched data
+                    document.getElementById('temperature').value = data.temperature || '';
+                    document.getElementById('rr').value = data.respiratory_rate || '';
+                    document.getElementById('height').value = data.height || '';
+                    document.getElementById('weight').value = data.weight || '';
+                    document.getElementById('bmi').value = data.bmi || '';
+                    document.getElementById('pulse').value = data.pulse || '';
+                    document.getElementById('bp').value = data.blood_pressure || '';
+                    document.getElementById('physician_notes').value = data.physicians_note || '';
+                    document.getElementById('nurse_notes').value = data.nurse_note || '';
+
+                    // Set hidden fields
+                    document.getElementById('patient_id').value = data.patient_id || '';
+                    document.getElementById('patient_type').value = data.patient_type || '';
+                    document.getElementById('student_id').value = data.student_id || '';
+                    document.getElementById('personnel_id').value = data.personnel_id || '';
+                    document.getElementById('patient_name').value = data.patient_name || '';
+                    document.getElementById('sex').value = data.sex || '';
+                    document.getElementById('age').value = data.age || '';
+                    document.getElementById('department').value = data.department || '';
+                })
+                .catch(error => {
+                    console.error('Error fetching assessment data:', error);
+                });
+        }
+
+        // Get patient ID from URL when the popup loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('patient_id');
+            if (patientId) {
+                loadAssessmentData(patientId);
+            }
+        });
     </script>
   </body>
 </html> 
