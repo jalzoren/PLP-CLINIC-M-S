@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="../popup-styles/popup-assessstyle.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     if (!window.jspdf) {
       const script = document.createElement('script');
@@ -125,7 +126,60 @@
             document.querySelector('input[name="bmi"]').value = bmi;
         }
     }
-</script>
+
+    // Form submission handling
+    document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Submit form using fetch
+        fetch('../php/popup-assess.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Assessment has been saved successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Try different methods to close the window
+                        try {
+                            window.close();
+                            // If window.close() doesn't work, try to close the popup container
+                            document.getElementById('popupContainer').style.display = 'none';
+                            // If that doesn't work, try to remove the form
+                            document.getElementById('assessmentForm').style.display = 'none';
+                        } catch (error) {
+                            console.error('Error closing window:', error);
+                        }
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message || 'There was an error saving the assessment.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+  </script>
 
 <script>
   
