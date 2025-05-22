@@ -135,87 +135,87 @@
       </div>
     </div>
 
-    <script>
-      let btn = document.querySelector("#logo");
-      let sidebar = document.querySelector(".sidebar");
+   <script>
+  let btn = document.querySelector("#logo");
+  let sidebar = document.querySelector(".sidebar");
 
-      btn.onclick = function () {
-        sidebar.classList.toggle("active");
-      };
+  btn.onclick = function () {
+    sidebar.classList.toggle("active");
+  };
 
-      function fetchData() {
-        const days = document.getElementById('daysFilter').value;
-        fetch(`../php/fetch_visits.php?days=${days}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.status === 'success') {
-              populateVisitTable(data.data.details);
-            } else {
-              console.error('Error fetching data:', data.message);
-              document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="10">Error loading data</td></tr>';
-            }
-          })
-          .catch(error => {
-            console.error('Fetch error:', error);
-            document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="10">Error loading data</td></tr>';
-          });
-      }
-
-    function populateVisitTable(data) {
-  const tbody = document.getElementById('visitTableBody');
-  tbody.innerHTML = ''; // Clear existing rows
-
-  if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
-    return;
+  function fetchData() {
+    const days = document.getElementById('daysFilter').value;
+    fetch(`../php/fetch_visits.php?days=${days}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          populateVisitTable(data.data.details);
+        } else {
+          console.error('Error fetching data:', data.message);
+          document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="11">Error loading data</td></tr>';
+        }
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        document.getElementById('visitTableBody').innerHTML = '<tr><td colspan="11">Error loading data</td></tr>';
+      });
   }
 
-  data.forEach((row, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${row.date || ''}</td>
-      <td>${row.time_in || ''}</td>
-      <td>${row.time_out || ''}</td>
-      <td>${row.full_name || ''}</td>
-      <td>${row.category || ''}</td>
-      <td>${row.department || ''}</td>
-      <td>${row.reason || ''}</td>
-      <td>${row.medication || ''}</td>
-      <td>${row.quantity || 0}</td>
-      <td>${row.remarks || ''}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
+  function populateVisitTable(data) {
+    const tbody = document.getElementById('visitTableBody');
+    tbody.innerHTML = ''; // Clear previous content
 
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
+      return;
+    }
 
-      function searchTable() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#visitTableBody tr');
-        rows.forEach(row => {
-          const cells = row.querySelectorAll('td');
-          const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-          row.style.display = rowText.includes(input) ? '' : 'none';
-        });
-      }
+    data.forEach((row, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${row.date || ''}</td>
+        <td>${row.time_in || ''}</td>
+        <td>${row.time_out || ''}</td>
+        <td>${row.full_name || ''}</td>
+        <td>${row.category || ''}</td>
+        <td>${row.department || ''}</td>
+        <td>${row.reason || ''}</td>
+        <td>${row.medication || ''}</td>
+        <td>${row.quantity || 0}</td>
+        <td>${row.remarks || ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 
-      let sortDirection = 1;
-      function sortTable() {
-        const tbody = document.getElementById('visitTableBody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        rows.sort((a, b) => {
-          const aDate = a.cells[1].textContent;
-          const bDate = b.cells[1].textContent;
-          return sortDirection * aDate.localeCompare(bDate);
-        });
-        sortDirection *= -1;
-        tbody.innerHTML = '';
-        rows.forEach(row => tbody.appendChild(row));
-      }
+  function searchTable() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#visitTableBody tr');
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+      row.style.display = rowText.includes(input) ? '' : 'none';
+    });
+  }
 
-      // Initial data fetch
-      fetchData();
-    </script>
+  let sortDirection = 1;
+  function sortTable() {
+    const tbody = document.getElementById('visitTableBody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort((a, b) => {
+      const aDate = a.cells[1].textContent.trim();
+      const bDate = b.cells[1].textContent.trim();
+      return sortDirection * aDate.localeCompare(bDate);
+    });
+    sortDirection *= -1;
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+  }
+
+  // Load data on page load
+  fetchData();
+</script>
+
   </body>
 </html>
