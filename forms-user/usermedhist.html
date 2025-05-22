@@ -79,51 +79,71 @@
         <thead>
           <tr>
             <th>No.</th>
-            <th>Identification Number</th>
-            <th>Full Name</th>
-            <th>Category</th>
-            <th>Department/Course Yr. & Sec.</th>
-            <th>Date Borrowed</th>
-            <th>Date Returned</th>
-            <th>Borrowed Item<br />(specify)</th>
-            <th>Qty.</th>
-            <th>Status</th>
-            <th>Photo<br />(Borrowed)</th>
-            <th>Photo<br />(Returned)</th>
+            <th>Date</th>
+            <th>File Name</th>
+            <th>Action</th>
           </tr>
         </thead>
-        <tbody id="tableBody">
-          <tr>
-            <td data-label="No.">1</td>
-            <td data-label="Identification Number">2023-001</td>
-            <td data-label="Full Name">John Michael Doe</td>
-            <td data-label="Category">Student</td>
-            <td data-label="Department/Course Yr. & Sec.">BSIT 3-A</td>
-            <td data-label="Date Borrowed">2025-05-15</td>
-            <td data-label="Date Returned">2025-05-20</td>
-            <td data-label="Borrowed Item (specify)">Stethoscope</td>
-            <td data-label="Qty.">1</td>
-            <td data-label="Status">Returned</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)">[Photo]</td>
-          </tr>
-          <tr>
-            <td data-label="No.">2</td>
-            <td data-label="Identification Number">2023-002</td>
-            <td data-label="Full Name">Jane Elizabeth Smith</td>
-            <td data-label="Category">Faculty</td>
-            <td data-label="Department/Course Yr. & Sec.">Nursing Dept.</td>
-            <td data-label="Date Borrowed">2025-05-10</td>
-            <td data-label="Date Returned"></td>
-            <td data-label="Borrowed Item (specify)">Thermometer</td>
-            <td data-label="Qty.">2</td>
-            <td data-label="Status">Borrowed</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)"></td>
-          </tr>
-         
+        <tbody>
+          <?php
+          session_start();
+          require_once '../php/database.php';
+          
+          $db = new Database();
+          $conn = $db->getConnection();
+          
+          $patient_id = null;
+          
+          // Step 1: Check session for user_id and get corresponding patient_id
+          if (isset($_SESSION['user_id'])) {
+              $user_id = $_SESSION['user_id'];
+          
+              $stmt = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
+              $stmt->bind_param("i", $user_id);
+              $stmt->execute();
+              $stmt->bind_result($patient_id);
+              $stmt->fetch();
+              $stmt->close();
+          }
+          
+          // Step 2: Fallback to URL if not found in session
+          if (!$patient_id && isset($_GET['patient_id'])) {
+              $patient_id = (int)$_GET['patient_id'];
+          }
+          
+          // Step 3: Fetch records if a valid patient_id exists
+          if ($patient_id) {
+              $sql = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
+              $stmt = $conn->prepare($sql);
+              $stmt->bind_param("i", $patient_id);
+              $stmt->execute();
+              $result = $stmt->get_result();
+          } else {
+              echo "<tr><td colspan='4'>No patient selected.</td></tr>";
+              exit;
+          }
+          
+          // Step 4: Display results
+          $counter = 1;
+          if ($result && $result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo "<tr>";
+                  echo "<td>" . $counter++ . "</td>";
+                  echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
+                  echo "<td>Medical Record Form</td>";
+                  echo "<td class='action-cell'>
+                          <button type='button' class='view-btn' data-patient-id='" . $row['Patient_ID'] . "'>View</button>
+                        </td>";
+                  echo "</tr>";
+              }
+          } else {
+              echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
+          }
+          ?>
+          
         </tbody>
       </table>
+  
     </div>
     
       <div class="pagination">
