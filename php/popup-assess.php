@@ -6,6 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new Database();
         $conn = $database->getConnection();
 
+        // Get patient_id from URL instead of POST
+        $patient_id = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+
         // Collect POST data
         $patient_id = $_POST['patient_id'] ?? null;
         $temperature = $_POST['temperature'] ?? null;
