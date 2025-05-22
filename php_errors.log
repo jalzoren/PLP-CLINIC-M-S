@@ -110,3 +110,7 @@ Stack trace:
 [22-May-2025 17:32:36 Asia/Manila] Database connected successfully
 [22-May-2025 17:32:36 Asia/Manila] Patient_ID query result: 1
 [22-May-2025 17:32:36 Asia/Manila] Visit recorded for Patient_ID: 1
+[22-May-2025 17:56:39 Asia/Manila] Raw input received.
+[22-May-2025 17:56:39 Asia/Manila] Database connected successfully
+[22-May-2025 17:56:39 Asia/Manila] Patient_ID query result: 1
+[22-May-2025 17:56:39 Asia/Manila] Visit recorded for Patient_ID: 1

@@ -1,0 +1,90 @@
+[22-May-2025 11:45:12 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:12
+[22-May-2025 11:45:12 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:12 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:12 Europe/Berlin] Database object created
+[22-May-2025 11:45:12 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:12 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:12 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:12 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:12 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:12 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:12
+[22-May-2025 11:45:12 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:12 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:12 Europe/Berlin] Database object created
+[22-May-2025 11:45:12 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:12 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:12 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:12 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:12 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:12 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:12
+[22-May-2025 11:45:12 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:12 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:12 Europe/Berlin] Database object created
+[22-May-2025 11:45:12 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:12 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:12 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:12 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:12 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:12 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:12
+[22-May-2025 11:45:12 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:12 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:12 Europe/Berlin] Database object created
+[22-May-2025 11:45:12 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:12 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:12 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:12 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:12 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:13 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:13
+[22-May-2025 11:45:13 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:13 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:13 Europe/Berlin] Database object created
+[22-May-2025 11:45:13 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:13 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:13 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:13 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:13
+[22-May-2025 11:45:13 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:13 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:13 Europe/Berlin] Database object created
+[22-May-2025 11:45:13 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:13 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:13 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:13 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:13
+[22-May-2025 11:45:13 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:13 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:13 Europe/Berlin] Database object created
+[22-May-2025 11:45:13 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:13 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:13 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:13 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:13
+[22-May-2025 11:45:13 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:13 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:13 Europe/Berlin] Database object created
+[22-May-2025 11:45:13 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:13 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:13 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
+[22-May-2025 11:45:13 Europe/Berlin] fetch_visits.php started at 2025-05-22 11:45:13
+[22-May-2025 11:45:13 Europe/Berlin] database.php included successfully
+[22-May-2025 11:45:13 Europe/Berlin] Days parameter: 7
+[22-May-2025 11:45:13 Europe/Berlin] Database object created
+[22-May-2025 11:45:13 Europe/Berlin] Connection attempt made
+[22-May-2025 11:45:13 Europe/Berlin] Database connected successfully
+[22-May-2025 11:45:13 Europe/Berlin] Tables exist - proceeding with query
+[22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
+[22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
+#1 {main}
