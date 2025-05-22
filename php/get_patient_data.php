@@ -39,7 +39,9 @@ $sqlPatient = "
         m.No_ofPregnancy, m.No_ofMiscarriage, m.No_TermsofDelevery, 
         m.No_ofPrematureDelivery, m.TotalofChildren,
         ah.ESTperConsumption, ah.Frequency,
-        sh.HasSurgicalHistory, sh.Specify
+        sh.HasSurgicalHistory, sh.Specify,
+        u.Email AS user_email
+
     FROM patient p
     LEFT JOIN student_patient sp ON p.Patient_ID = sp.Patient_ID
     LEFT JOIN personnel_patient pp ON p.Patient_ID = pp.Patient_ID
@@ -47,6 +49,8 @@ $sqlPatient = "
     LEFT JOIN maternal m ON p.Patient_ID = m.Patient_ID
     LEFT JOIN alcohol_history ah ON p.Patient_ID = ah.Patient_ID
     LEFT JOIN surgical_history sh ON p.Patient_ID = sh.Patient_ID
+    LEFT JOIN users u ON p.Patient_ID = u.Patient_ID
+
     WHERE p.Patient_ID = ?
 ";
 
@@ -193,6 +197,7 @@ $response = [
     "city"                  => $patient['City'],
     "province"              => $patient['Province'],
     "zipcode"               => $patient['Zip_Code'],
+    "email"                 => $patient['user_email'] ?? "",
     "category"              => $patient['Category'],
     "personnel_type" => in_array($patient['Category'], ['teaching', 'non-teaching']) ? $patient['Category'] : "",
 

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             [
                 "identification", "lastname", "firstname", "middlename", "gender",
                 "age", "birthdate", "religion", "nationality", "contact", "civilstatus",
-                "address", "city", "province", "zipcode"
+                "address", "city", "province", "zipcode", "email"
             ].forEach(id => {
                 document.getElementById(id).value = data[id] || "";
             });
