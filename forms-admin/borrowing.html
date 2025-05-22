@@ -292,7 +292,7 @@
         Swal.fire({
           title: 'Filter by Status',
           html: `
-            <select id="statusFilter" class="swal2-select" style="width: 60%; padding: 8px; margin-top: 10px;">
+            <select id="statusFilter" class="swal2-select" style="width: 80%; padding: 8px; margin-top: 10px;">
               ${Object.entries(filterOptions).map(([value, label]) => 
                 `<option value="${value}" ${value === currentFilter ? 'selected' : ''}>${label}</option>`
               ).join('')}
