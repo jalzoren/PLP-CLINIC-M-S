@@ -196,15 +196,15 @@
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${start + index + 1}</td>
-            <td>${record.ID_Number}</td>
-            <td>${record.FullName}</td>
-            <td>${record.Category}</td>
-            <td>${record.DepartmentInfo}</td>
+            <td>${record.ID_Number || 'N/A'}</td>
+            <td>${record.FullName || 'N/A'}</td>
+            <td>${record.Category || 'N/A'}</td>
+            <td>${record.DepartmentInfo || 'N/A'}</td>
             <td>${formatDate(record.Date_Borrowed)}</td>
             <td>${record.Date_Returned ? formatDate(record.Date_Returned) : '-'}</td>
-            <td>${record.Item_Name}</td>
-            <td>${record.Quantity}</td>
-            <td>${record.Status}</td>
+            <td>${record.Item_Name || 'N/A'}</td>
+            <td>${record.Quantity || 'N/A'}</td>
+            <td>${record.Status || 'N/A'}</td>
             <td>${record.Photo_Borrowed ? `<img src="${record.Photo_Borrowed}" width="60" alt="Borrowed"/>` : '-'}</td>
             <td>${record.Photo_Returned ? `<img src="${record.Photo_Returned}" width="60" alt="Returned"/>` : '-'}</td>
           `;
@@ -259,11 +259,12 @@
 
       // Format date
       function formatDate(dateString) {
+        if (!dateString) return 'N/A';
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
+        return date.toLocaleString('en-US', {
           year: 'numeric',
-          month: 'short',
-          day: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
           hour: '2-digit',
           minute: '2-digit'
         });
@@ -287,6 +288,16 @@
       window.location.href = "admin-dashboard.html";
     }
   });
+    </script>
+
+    <!-- Add a note for the user to refresh borrowing.html after a return, or implement a reload button for instant update. -->
+    <!-- Optionally, you can add a button: <button onclick="fetchRecords()">Reload Records</button> -->
+
+    <!-- Add a function to reload the page from other scripts if needed -->
+    <script>
+      function reloadBorrowingPage() {
+        window.location.reload();
+      }
     </script>
   </body>
 </html>
