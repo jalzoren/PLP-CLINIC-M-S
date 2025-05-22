@@ -37,14 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(
             "issssssddddddssss",
+            $assessment_ID,
             $patient_id,
-            $patient_type,
-            $student_id,
-            $personnel_id,
-            $patient_name,
-            $sex,
-            $age,
-            $department,
             $temperature,
             $rr,
             $height,
