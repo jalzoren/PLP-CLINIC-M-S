@@ -3,6 +3,8 @@ require_once 'database.php';
 
 header('Content-Type: application/json');
 
+
+
 $days = isset($_GET['days']) ? intval($_GET['days']) : 7;
 
 try {
@@ -29,6 +31,7 @@ try {
         WHERE vr.Time_In >= DATE_SUB(NOW(), INTERVAL ? DAY)
         ORDER BY vr.Time_In DESC
     ");
+
     $stmt->bind_param("i", $days);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -59,6 +62,7 @@ try {
 
     $stmt->close();
     $db->close();
+
 } catch (Exception $e) {
     error_log("Error in fetch_visits.php: " . $e->getMessage());
     echo json_encode([
