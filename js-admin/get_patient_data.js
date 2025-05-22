@@ -234,6 +234,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        // Combine full name (adjust spacing if needed)
+        const fullName = `${data.firstname} ${data.middlename} ${data.lastname}`.trim();
+
+        // Insert into placeholder
+        document.getElementById("patient-name-placeholder").textContent = fullName;
+
+
+
 
         })
         .catch(err => console.error("Error loading data:", err));
