@@ -117,7 +117,7 @@
             </button>
           </div>
           <button class="control-button" onclick="filterTable()">
-              <i class='bx bx-filter'></i>
+            <i class="material-icons">filter_list</i>
           </button>
           <button class="control-button" onclick="sortTable()">
               <i class='bx bx-sort-alt-2' ></i>
@@ -169,6 +169,7 @@
       let currentPage = 1;
       const recordsPerPage = 10;
       let allRecords = [];
+      let originalRecords = []; // Store original records for reset
 
       // Fetch records from the server
       async function fetchRecords() {
@@ -176,6 +177,7 @@
           const response = await fetch('../php/borrowing_records.php');
           const data = await response.json();
           allRecords = data;
+          originalRecords = [...data]; // Keep a copy of original records
           displayRecords();
           setupPagination();
         } catch (error) {
@@ -191,6 +193,11 @@
         const start = (currentPage - 1) * recordsPerPage;
         const end = start + recordsPerPage;
         const paginatedRecords = allRecords.slice(start, end);
+
+        if (paginatedRecords.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="12" style="text-align: center;">No records found</td></tr>';
+          return;
+        }
 
         paginatedRecords.forEach((record, index) => {
           const row = document.createElement('tr');
@@ -243,18 +250,68 @@
       // Search functionality
       function searchTable() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const filteredRecords = allRecords.filter(record => 
-          record.FullName.toLowerCase().includes(searchTerm) ||
-          record.Item_Name.toLowerCase().includes(searchTerm) ||
-          record.Status.toLowerCase().includes(searchTerm) ||
-          record.ID_Number.toLowerCase().includes(searchTerm) ||
-          record.DepartmentInfo.toLowerCase().includes(searchTerm)
-        );
+        
+        // If search term is empty and no filter is active, restore original records
+        if (!searchTerm && !currentFilter) {
+          allRecords = [...originalRecords];
+        } else {
+          // Filter based on search term
+          allRecords = originalRecords.filter(record => {
+            const matchesSearch = !searchTerm || 
+              record.FullName.toLowerCase().includes(searchTerm) ||
+              record.Item_Name.toLowerCase().includes(searchTerm) ||
+              record.ID_Number.toLowerCase().includes(searchTerm);
+
+            // If there's an active filter, combine with search results
+            if (currentFilter) {
+              return matchesSearch && record.Status === currentFilter;
+            }
+            return matchesSearch;
+          });
+        }
         
         currentPage = 1;
-        allRecords = filteredRecords;
         displayRecords();
         setupPagination();
+      }
+
+      // Filter functionality
+      let currentFilter = '';
+      function filterTable() {
+        Swal.fire({
+          title: 'Filter by Status',
+          input: 'select',
+          inputOptions: {
+            '': 'All Status',
+            'Borrowed': 'Borrowed',
+            'Returned (Good Condition)': 'Returned (Good)',
+            'Returned (Damage)': 'Returned (Damage)',
+            'Lost': 'Lost'
+          },
+          inputValue: currentFilter,
+          showCancelButton: true,
+          inputValidator: (value) => {
+            currentFilter = value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!value && !searchTerm) {
+              allRecords = [...originalRecords];
+            } else {
+              allRecords = originalRecords.filter(record => {
+                const matchesFilter = !value || record.Status === value;
+                const matchesSearch = !searchTerm || 
+                  record.FullName.toLowerCase().includes(searchTerm) ||
+                  record.Item_Name.toLowerCase().includes(searchTerm) ||
+                  record.ID_Number.toLowerCase().includes(searchTerm);
+                return matchesFilter && matchesSearch;
+              });
+            }
+            
+            currentPage = 1;
+            displayRecords();
+            setupPagination();
+          }
+        });
       }
 
       // Format date
@@ -269,6 +326,9 @@
           minute: '2-digit'
         });
       }
+
+      // Add event listener for search input
+      document.getElementById('searchInput').addEventListener('input', searchTable);
 
       // Load records when page loads
       document.addEventListener('DOMContentLoaded', fetchRecords);
