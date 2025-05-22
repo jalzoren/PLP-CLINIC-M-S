@@ -155,7 +155,7 @@
       position: absolute;
       width: 30px;
       right: 20px;
-      top: 100px;
+      top: 90px;
       cursor: pointer;
     }
 
@@ -315,4 +315,37 @@
         margin: 40% auto;
         padding: 15px;
       }
+    }
+
+    /* QR Scanner Styling */
+    #qr-video-container {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    #qr-video {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      max-height: 90%;
+      border: 2px solid #fff;
+    }
+    #qr-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
     }
