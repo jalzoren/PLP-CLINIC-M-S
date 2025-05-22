@@ -6,38 +6,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $database = new Database();
         $conn = $database->getConnection();
 
-        // Collect and sanitize POST data
+        // Collect POST data
         $patient_id = $_POST['patient_id'] ?? null;
-        $patient_type = $_POST['patient_type'] ?? null;
-        $student_id = $_POST['student_id'] ?? null;
-        $personnel_id = $_POST['personnel_id'] ?? null;
-        $patient_name = $_POST['patient_name'] ?? null;
-        $sex = $_POST['sex'] ?? null;
-        $age = $_POST['age'] ?? null;
-        $department = $_POST['department'] ?? null;
         $temperature = $_POST['temperature'] ?? null;
-        $rr = $_POST['rr'] ?? null;
+        $rr = $_POST['rr'] ?? null; // Respiratory Rate
         $height = $_POST['height'] ?? null;
         $weight = $_POST['weight'] ?? null;
         $bmi = $_POST['bmi'] ?? null;
         $pulse = $_POST['pulse'] ?? null;
-        $bp = $_POST['bp'] ?? null;
+        $bp = $_POST['bp'] ?? null; // Blood Pressure
         $physician_notes = $_POST['physician_notes'] ?? null;
         $nurse_notes = $_POST['nurse_notes'] ?? null;
 
-        // Prepare and execute SQL insert
+        // Prepare the SQL INSERT statement
         $sql = "INSERT INTO patient_assessment (
-                    Assessment_ID, Patient_ID, Temperature, Pulse,  Respiratory_Rate,
-                    Blood_Pressure, Height, Weight, BMI, 
-                    Physician_Notes, Nurse_Notes, Recorded_At
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
-                )";
+                    Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
+                    Blood_Pressure, Physician_Notes, Nurse_Notes, Recorded_At
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement: " . $conn->error);
+        }
+
+        // Bind parameters to the statement
         $stmt->bind_param(
-            "issssssddddddssss",
-            $assessment_ID,
+            "idddddddss",
             $patient_id,
             $temperature,
             $rr,
@@ -50,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nurse_notes
         );
 
+        // Execute and check for success
         if ($stmt->execute()) {
             echo "Assessment record saved successfully.";
         } else {
