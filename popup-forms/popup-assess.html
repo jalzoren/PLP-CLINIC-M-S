@@ -149,13 +149,22 @@
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.close(); // Close the popup window
+                        // Try different methods to close the window
+                        try {
+                            window.close();
+                            // If window.close() doesn't work, try to close the popup container
+                            document.getElementById('popupContainer').style.display = 'none';
+                            // If that doesn't work, try to remove the form
+                            document.getElementById('assessmentForm').style.display = 'none';
+                        } catch (error) {
+                            console.error('Error closing window:', error);
+                        }
                     }
                 });
             } else {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'There was an error saving the assessment.',
+                    text: data.message || 'There was an error saving the assessment.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
