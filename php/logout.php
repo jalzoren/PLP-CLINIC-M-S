@@ -13,6 +13,6 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 // Redirect to login page
-header("Location: ../forms/login.html"); // Adjust path if needed
+header("Location: ../login.html"); // Adjust path if needed
 exit();
 ?>
