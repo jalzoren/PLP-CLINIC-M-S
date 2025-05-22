@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Assessment Receipt</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      max-width: 450px;
+      margin: 30px auto;
+      background: #fff;
+      border: 2px dashed #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    #error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Patient Assessment</h2>
+  <div id="content"></div>
+  <div id="error"></div>
+
+  <script>
+    // Utility to get URL parameter
+    function getParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+  
+    const patientId = getParam("patient_id");
+  
+    if (!patientId || patientId.toLowerCase() === "null") {
+      document.getElementById("error").textContent = "No valid patient ID specified in URL.";
+    } else {
+      fetch(`../php/get_patient_assessment.php?patient_id=${patientId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+          }
+          return response.text();  // Read as text first to safely parse below
+        })
+        .then(text => {
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch (e) {
+            document.getElementById("error").textContent = "Failed to parse response JSON.";
+            console.error("Parsing error:", e, "Response text:", text);
+            return;
+          }
+  
+          // Check if data is valid array and has records
+          if (!data || !Array.isArray(data) || data.length === 0 || !data[0]) {
+            document.getElementById("error").textContent = "No assessment found for this patient.";
+            return;
+          }
+  
+          const assessment = data[0]; // Assuming one record per patient
+  
+          // Helper function to display only meaningful fields
+          function formatField(label, value) {
+            if (value === null || value === "" || value === "1" || value === "1.0" || value === "999.9") return "";
+            return `<div class="field"><span class="label">${label}:</span> ${value}</div>`;
+          }
+  
+          const html = [
+            formatField("Patient ID", assessment.Patient_ID),
+            formatField("Temperature", assessment.Temperature),
+            formatField("Pulse", assessment.Pulse),
+            formatField("Respiratory Rate", assessment.Respiratory_Rate),
+            formatField("Blood Pressure", assessment.Blood_Pressure),
+            formatField("Height", assessment.Height),
+            formatField("Weight", assessment.Weight),
+            formatField("BMI", assessment.BMI),
+            formatField("Recorded At", assessment.Recorded_at),
+            formatField("Physician's Note", assessment.Physicians_Note),
+            formatField("Nurse Note", assessment.Nurse_Note)
+          ].join("");
+  
+          document.getElementById("content").innerHTML = html;
+        })
+        .catch(err => {
+          document.getElementById("error").textContent = "Failed to load assessment.";
+          console.error("Fetch error:", err);
+        });
+    }
+  </script>
+  
+</body>
+</html>

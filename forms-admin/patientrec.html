@@ -174,8 +174,6 @@
                           </td>";
                     echo "</tr>";
                 }
-            } else {
-                echo "<tr><td colspan='4'>No patient record found.</td></tr>";
             }
             
             // Output patient_assessment records next
@@ -186,12 +184,12 @@
                     echo "<td>" . date('Y-m-d', strtotime($row['Recorded_At'])) . "</td>";
                     echo "<td>Patient Assessment</td>";
                     echo "<td class='action-cell'>
-                            <button type='button' class='view-btn' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
+                      <button type='button' class='view-btn2' data-patient-id='" . $row['Patient_ID'] . "'>View</button>
                           </td>";
                     echo "</tr>";
                 }
-            } else {
-                echo "<tr><td colspan='4'>No assessment records found for this patient.</td></tr>";
+            }  else {
+                echo "<tr><td colspan='4'>No patient record found.</td></tr>";
             }
             
             $stmtPatient->close();
@@ -271,6 +269,55 @@
             });
         });
     });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".view-btn2").forEach(button => {
+                button.addEventListener("click", function () {
+                    const patientId = this.getAttribute("data-patient-id");
+                    if (patientId && patientId.toLowerCase() !== "null") {
+                        // Load the assessment view as a popup
+                        fetch("assessview.html")
+                            .then(response => response.text())
+                            .then(data => {
+                                const container = document.getElementById("pop-up-med");
+                                container.innerHTML = data;
+
+                                const popupContainer = document.getElementById("popupContainer");
+                                if (popupContainer) {
+                                    popupContainer.style.display = "block";
+                                }
+
+                                // Set the patient ID into the popup form
+                                const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
+                                if (hiddenInput) {
+                                    hiddenInput.value = patientId;
+                                }
+
+                                // Re-run scripts
+                                const scripts = container.querySelectorAll("script");
+                                scripts.forEach((oldScript) => {
+                                    const newScript = document.createElement("script");
+                                    if (oldScript.src) {
+                                        newScript.src = oldScript.src;
+                                    } else {
+                                        newScript.textContent = oldScript.textContent;
+                                    }
+                                    document.body.appendChild(newScript);
+                                    oldScript.remove();
+                                });
+                            })
+                            .catch(error => {
+                                console.error("Error loading HTML:", error);
+                            });
+                    } else {
+                        alert("Invalid patient ID. Cannot view assessment.");
+                        console.error("Invalid patient ID on button:", this);
+                    }
+                });
+            });
+        });
     </script>
 
 

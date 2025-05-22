@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assessment Records / PLP Clinic Monitoring System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="../popup-styles/popup-assessstyle.css" />
+    <link rel="icon" type="image/png" href="../pictures/logo.png">
+  </head>
+  <body>
+    <form id="assessmentForm">
+        <div class="form-content" id="popupContainer">
+            <div class="new-data">
+                <div class="text">
+                    <div class="title-container">
+                        <div class="title">ASSESSMENT OF PATIENT</div>
+                        <button class="close-btn" onclick="closePopup()">×</button>
+                    </div>
+
+                    <div class="time-box-wrapper">
+                        <div class="time-box">
+                            <div id="live-time">00 : 00 : 00</div>
+                            <small id="live-date">MON DD / MM / YYYY</small>
+                        </div>
+                    </div>
+
+                    <div class="main-container">
+                        <!-- Hidden inputs for patient data -->
+                        <input type="hidden" name="patient_id" id="patient_id" />
+                        <input type="hidden" name="patient_type" id="patient_type" />
+                        <input type="hidden" name="student_id" id="student_id" />
+                        <input type="hidden" name="personnel_id" id="personnel_id" />
+                        <input type="hidden" name="patient_name" id="patient_name" />
+                        <input type="hidden" name="sex" id="sex" />
+                        <input type="hidden" name="age" id="age" />
+                        <input type="hidden" name="department" id="department" />
+
+                        <div class="section-heading">Vital Signs</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Temperature (°C)</label>
+                                <input type="number" step="0.1" name="temperature" id="temperature" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Respiratory Rate (breaths/min)</label>
+                                <input type="number" name="rr" id="rr" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Height (cm)</label>
+                                <input type="number" step="0.1" name="height" id="height" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" step="0.1" name="weight" id="weight" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>BMI</label>
+                                <input type="number" step="0.1" name="bmi" id="bmi" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Pulse (beats/min)</label>
+                                <input type="number" name="pulse" id="pulse" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label>Blood Pressure (mmHg)</label>
+                                <input type="text" name="bp" id="bp" readonly />
+                            </div>
+                        </div>
+
+                        <div class="section-heading">Additional Notes</div>
+                        <div class="textarea-group">
+                            <label>Physician's Notes</label>
+                            <textarea name="physician_notes" id="physician_notes" readonly></textarea>
+                        </div>
+                        <div class="textarea-group">
+                            <label>Nurse Notes</label>
+                            <textarea name="nurse_notes" id="nurse_notes" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="../js/time-assessp.js"></script>
+    <script src="../js-admin/get_assessment_data.js"></script>
+
+    <script>
+        function closePopup() {
+            window.close();
+        }
+    </script>
+  </body>
+</html> 
