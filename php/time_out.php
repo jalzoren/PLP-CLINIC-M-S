@@ -39,21 +39,6 @@ if (!$visit_id || !is_numeric($visit_id)) {
     ]));
 }
 
-if ($quantity < 1) {
-    error_log("Invalid quantity: " . $quantity);
-    exit(json_encode([
-        'status' => 'error',
-        'message' => 'Quantity must be a positive number.'
-    ]));
-}
-
-if (empty($medicine)) {
-    error_log("Missing medicine field");
-    exit(json_encode([
-        'status' => 'error',
-        'message' => 'Medicine field is required.'
-    ]));
-}
 
 // Prepare and execute query
 $stmt = $conn->prepare(
