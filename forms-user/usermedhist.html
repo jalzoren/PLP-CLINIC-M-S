@@ -154,6 +154,20 @@
         <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
       </div>
     </div>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".view-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const patientId = this.getAttribute("data-patient-id");
+                // Redirect to the medrecView.html page with patient_id in the query string
+                window.location.href = "usermedrecviewrec.html?patient_id=" + patientId;
+            });
+        });
+    });
+    </script>
 <!--
     <script>
       document.addEventListener("DOMContentLoaded", function () {
