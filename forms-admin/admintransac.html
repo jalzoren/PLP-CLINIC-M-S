@@ -98,8 +98,7 @@
           </button>
         </div>
         <select id="categoryFilter" onchange="applyFilters()">
-          <option value="">All Categories</option>
-          <option value="Student">Student</option>
+          <option value="Student" selected>Student</option>
           <option value="Personnel">Personnel</option>
         </select>
         <select id="daysFilter" onchange="fetchData()">
@@ -139,7 +138,9 @@
           </tbody>
         </table>
         <div class="pagination">
-          <!-- Pagination buttons will be populated here -->
+          <button class="page-btn" onclick="changePage('prev')">«</button>
+          <span id="pagination-numbers"></span>
+          <button class="page-btn" onclick="changePage('next')">»</button>
         </div>
       </div>
     </div>
@@ -157,11 +158,9 @@
       };
 
       function startAutoRefresh() {
-        // Clear any existing interval to prevent duplicates
         if (autoRefreshInterval) {
           clearInterval(autoRefreshInterval);
         }
-        // Set interval to refresh every 30 seconds (30000 ms)
         autoRefreshInterval = setInterval(fetchData, 30000);
       }
 
@@ -190,14 +189,14 @@
               console.error("Error fetching data:", data.message);
               document.getElementById("visitTableBody").innerHTML =
                 '<tr><td colspan="11">Error loading data: ' + data.message + "</td></tr>";
-              document.getElementById("pagination").innerHTML = "";
+              document.getElementById("pagination-numbers").innerHTML = "";
             }
           })
           .catch((error) => {
             console.error("Fetch error:", error);
             document.getElementById("visitTableBody").innerHTML =
               '<tr><td colspan="11">Error loading data</td></tr>';
-            document.getElementById("pagination").innerHTML = "";
+            document.getElementById("pagination-numbers").innerHTML = "";
           })
           .finally(() => {
             loadingIndicator.style.display = "none";
@@ -227,7 +226,7 @@
 
         if (data.length === 0) {
           tbody.innerHTML = '<tr><td colspan="11">No records found</td></tr>';
-          document.getElementById("pagination").innerHTML = "";
+          document.getElementById("pagination-numbers").innerHTML = "";
           return;
         }
 
@@ -258,22 +257,40 @@
       }
 
       function renderPagination(totalPages) {
-        const pagination = document.getElementById("pagination");
-        pagination.innerHTML = "";
+        const paginationNumbers = document.getElementById("pagination-numbers");
+        paginationNumbers.innerHTML = "";
 
-        const prevButton = document.createElement("button");
-        prevButton.textContent = "Previous";
+        const maxPagesToShow = 10;
+        let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+        let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+        if (endPage - startPage + 1 < maxPagesToShow) {
+          startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+
+        const prevButton = document.querySelector("button[onclick=\"changePage('prev')\"]");
         prevButton.disabled = currentPage === 1;
         prevButton.className = "page-btn" + (currentPage === 1 ? " disabled" : "");
-        prevButton.onclick = () => {
-          if (currentPage > 1) {
-            currentPage--;
-            applyFilters();
-          }
-        };
-        pagination.appendChild(prevButton);
 
-        for (let i = 1; i <= totalPages; i++) {
+        if (startPage > 1) {
+          const firstPage = document.createElement("span");
+          firstPage.textContent = "1";
+          firstPage.style.cursor = "pointer";
+          firstPage.onclick = () => {
+            currentPage = 1;
+            applyFilters();
+          };
+          paginationNumbers.appendChild(firstPage);
+
+          if (startPage > 2) {
+            const ellipsis = document.createElement("span");
+            ellipsis.textContent = "...";
+            ellipsis.className = "ellipsis";
+            paginationNumbers.appendChild(ellipsis);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
           const pageSpan = document.createElement("span");
           pageSpan.textContent = i;
           pageSpan.style.cursor = "pointer";
@@ -282,20 +299,40 @@
             currentPage = i;
             applyFilters();
           };
-          pagination.appendChild(pageSpan);
+          paginationNumbers.appendChild(pageSpan);
         }
 
-        const nextButton = document.createElement("button");
-        nextButton.textContent = "Next";
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement("span");
+            ellipsis.textContent = "...";
+            ellipsis.className = "ellipsis";
+            paginationNumbers.appendChild(ellipsis);
+          }
+
+          const lastPage = document.createElement("span");
+          lastPage.textContent = totalPages;
+          lastPage.style.cursor = "pointer";
+          lastPage.onclick = () => {
+            currentPage = totalPages;
+            applyFilters();
+          };
+          paginationNumbers.appendChild(lastPage);
+        }
+
+        const nextButton = document.querySelector("button[onclick=\"changePage('next')\"]");
         nextButton.disabled = currentPage === totalPages;
         nextButton.className = "page-btn" + (currentPage === totalPages ? " disabled" : "");
-        nextButton.onclick = () => {
-          if (currentPage < totalPages) {
-            currentPage++;
-            applyFilters();
-          }
-        };
-        pagination.appendChild(nextButton);
+      }
+
+      function changePage(direction) {
+        const totalPages = Math.ceil(allData.length / recordsPerPage);
+        if (direction === "prev" && currentPage > 1) {
+          currentPage--;
+        } else if (direction === "next" && currentPage < totalPages) {
+          currentPage++;
+        }
+        applyFilters();
       }
 
       let sortDirection = 1;
@@ -310,11 +347,8 @@
         applyFilters();
       }
 
-      // Initialize data fetch and start auto-refresh
       fetchData();
       startAutoRefresh();
-
-      // Stop auto-refresh when the page is unloaded to prevent memory leaks
       window.addEventListener("unload", stopAutoRefresh);
     </script>
   </body>
