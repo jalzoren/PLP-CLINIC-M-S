@@ -23,7 +23,6 @@ logoBtn?.addEventListener("click", () => {
     sidebar.classList.toggle("active");
 });
 
-// Emergency hotlines popup
 function openForm() {
     hotlinesPopup.classList.add("show");
     overlay.classList.add("show");

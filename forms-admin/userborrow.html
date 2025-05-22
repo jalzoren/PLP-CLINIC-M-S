@@ -106,94 +106,72 @@
       <div class="header-name" id="greeting"></div>
         -->
 
-      <div class="main-container">
-        <div class="borrow-container">
-          <div class="take_photo">
-            <div class="image-captured" id="capturedImage"></div>
-            <button type="button" class="capture" id="openCamera">
-              Capture Photo
-            </button>
-          </div>
-
-          <form id="borrowForm" method="POST" action="../php/submit_borrow.php" enctype="multipart/form-data">
-            <div class="form_container">
+      <div class="main-container borrow-flex-row">
+        <div class="borrow-form-panel">
+          <div class="photo-and-form-row">
+            <div class="photo-section">
+              <div class="image-captured" id="capturedImage"></div>
+              <button type="button" class="capture" id="openCamera">Take Photo</button>
+            </div>
+            <form id="borrowForm" method="POST" action="../php/submit_borrow.php" enctype="multipart/form-data">
+              <div class="form-fields">
                 <div class="form-row">
                   <div class="form-group">
-                        <label>ID Number:</label>
-                        <input type="number" name="user_id" placeholder="Enter ID Number" />
-                    </div>
-                    <div class="form-group">
-                        <label>Item:</label>
-                        <select name="item_id" id="item_id">
-                          <option value="" disabled selected>Select Item</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity:</label>
-                        <input type="number" name="quantity" placeholder="Select Quantity" min="1" />
-                    </div>
+                    <label for="user_id">ID Number</label>
+                    <input type="number" name="user_id" id="user_id" placeholder="Enter ID Number" />
+                  </div>
+                  <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="Select Quantity" min="1" />
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label>Due Date</label>
-                    <textarea class="textarea-reason" name="reason"></textarea>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="item_id">Select Item</label>
+                    <select name="item_id" id="item_id">
+                      <option value="" disabled selected>Select Item</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" name="due_date" id="due_date" required />
+                  </div>
                 </div>
                 <input type="hidden" name="photo_borrowed" id="photo_borrowed">
-              
-         
+                <div class="button-row">
+                  <button type="submit" class="btn-submit">SUBMIT BORROW</button>
+                </div>
               </div>
-            </div>
-         </form>
-
-
-      <div class="status-and-controls">
-        <div class="controls-container">
-          <div class="form-group">
-            <input type="text" id="searchInput" placeholder="Search..." />
-            <button class="icon-btn" onclick="searchTable()">
-              <i class="fa fa-search"></i>
-            </button>
+            </form>
           </div>
-
-          <div class="form-group">
-            <select class="icon-select" onchange="filterTable(this.value)">
-              <option value="">Filter</option>
-              <option value="Borrowed">Borrowed</option>
-              <option value="Returned">Returned</option>
-              <option value="Overdue">Overdue</option>
-              <option value="Lost">Lost</option>
-              <option value="Damage">Damage (Returned)</option>
-            </select>
+        </div>
+        <div class="available-items-panel">
+          <div class="available-items-header">AVAILABLE ITEMS</div>
+          <div class="available-items-list" id="availableItemsList">
+            <!-- Items will be loaded here by JS -->
           </div>
         </div>
       </div>
-      </div>
 
+      <!-- Borrowed Items Table -->
       <div class="container">
-        <!-- Now the table is directly below the controls -->
         <table>
           <thead>
             <tr>
               <th>No.</th>
-              <th>Item Name</th>
+              <th>Identification Number</th>
+              <th>Full Name</th>
               <th>Category</th>
-              <th>Status</th>
-              <th>Quantity</th>
-
+              <th>Department/Course Yr. & Sec.</th>
+              <th>Date Borrowed</th>
+              <th>Borrowed Item (specify)</th>
+              <th>Qty.</th>
+              <th>Photo (Borrowed)</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody id="itemTableBody">
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
-            <tr>
-              <td colspan="12">&nbsp;</td>
-            </tr>
+          <tbody id="borrowedTableBody">
+            <tr><td colspan="10">&nbsp;</td></tr>
           </tbody>
         </table>
       </div>
@@ -405,6 +383,69 @@
   });
 </script>
 
+<script>
+  // Dynamically load available items for the right panel
+  function loadAvailableItems() {
+    fetch('../php/fetch_items.php')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('availableItemsList');
+        list.innerHTML = '';
+        data.forEach(item => {
+          const statusClass = item.Status === 'Available' ? 'status-available' : 'status-unavailable';
+          const statusText = item.Status === 'Available' ? 'AVAILABLE' : 'NOT AVAILABLE';
+          const row = document.createElement('div');
+          row.className = 'available-item-row';
+          row.innerHTML = `
+            <span class="status-indicator ${statusClass}">${statusText}</span>
+            <span>${item.Item_Name} (${item.Quantity})</span>
+          `;
+          list.appendChild(row);
+        });
+      })
+      .catch(error => {
+        document.getElementById('availableItemsList').innerHTML = '<div style="color:red">Failed to load items.</div>';
+      });
+  }
+  // Call on load
+  window.addEventListener('DOMContentLoaded', loadAvailableItems);
+
+  // Dynamically load borrowed items for the table
+  function loadBorrowedItems() {
+    fetch('../php/borrowing_records.php')
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.getElementById('borrowedTableBody');
+        tbody.innerHTML = '';
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="10">No borrowed items found.</td></tr>';
+          return;
+        }
+        data.forEach((item, idx) => {
+          const photo = item.Photo_Borrowed ? `<img src="${item.Photo_Borrowed}" alt="Photo" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">` : '';
+          tbody.innerHTML += `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${item.ID_Number || ''}</td>
+              <td>${item.FullName || ''}</td>
+              <td>${item.Category || ''}</td>
+              <td>${item.DepartmentInfo || ''}</td>
+              <td>${item.Date_Borrowed || ''}</td>
+              <td>${item.Item_Name || ''}</td>
+              <td>${item.Quantity || ''}</td>
+              <td>${photo}</td>
+              <td><button class="return-btn">RETURN</button></td>
+            </tr>
+          `;
+        });
+      })
+      .catch(error => {
+        document.getElementById('borrowedTableBody').innerHTML = '<tr><td colspan="10" style="color:red">Failed to load borrowed items.</td></tr>';
+      });
+  }
+  // Call on load
+  window.addEventListener('DOMContentLoaded', loadBorrowedItems);
+</script>
 
   </body>
 </html>

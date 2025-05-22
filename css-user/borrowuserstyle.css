@@ -693,3 +693,227 @@ button.btn:hover {
   background-color: #1a1259;
   color: white;
 }
+
+/* --- FLEX LAYOUT FOR TOP SECTION --- */
+.borrow-flex-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.borrow-form-panel {
+  background: #d2e2f2;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50PX;
+}
+.photo-and-form-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.photo-section {
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  border: 3px solid #2d2d6e;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+
+.borrow-container .take_photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #afb4db;
+  border: 2px solid #1a1259;
+  border-radius: 8px;
+  padding: 12px;
+  width: 200px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.borrow-container .take_photo .image-captured {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 2px dashed #1a1259;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.borrow-container .take_photo .capture {
+  width: 100%;
+  height: 50px;
+  background-color: #c8d9e6;
+  color: #1a1259;
+  font-size: 13px;
+  font-weight: bold;
+  border: 2px outset #1a1259;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.borrow-container .take_photo .capture:hover {
+  background-color: #e0ecf3;
+}
+
+.borrow-container .form_container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-fields {
+  flex: 1;
+}
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #222;
+}
+.form-group input,
+.form-group select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1.5px solid #b0b0b0;
+  font-size: 1rem;
+  background: #fff;
+}
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.btn-submit {
+  background: #2d2d6e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-submit:hover {
+  background: #1a1259;
+}
+
+/* --- AVAILABLE ITEMS PANEL --- */
+.available-items-panel {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.07);
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  min-width: 260px;
+  max-width: 700px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+.available-items-header {
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+.available-items-list {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.available-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.status-indicator {
+  display: inline-block;
+  width: 70px;
+  font-size: 10PX;
+  font-weight: 700;
+  border-radius: 8px;
+  text-align: center;
+}
+.status-available {
+  background: #c6f7d0;
+  color: #1a7f37;
+  border: 1.5px solid #1a7f37;
+}
+.status-unavailable {
+  background: #ffd6d6;
+  color: #b91c1c;
+  border: 1.5px solid #b91c1c;
+}
+
+/* --- TABLE STYLES --- */
+.container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.07);
+}
+.container th, .container td {
+  padding: 0.7rem 0.6rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+.container th {
+  background: #2d2d6e;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.container tr:last-child td {
+  border-bottom: none;
+}
+.container td {
+  font-size: 0.98rem;
+}
+.return-btn {
+  background: #2d2d6e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.return-btn:hover {
+  background: #1a1259;
+}
