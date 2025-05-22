@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User / PLP Clinic Monitoring System</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css-user/userintstyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="icon" type="image/png" href="../pictures/logo.png" />
+  </head>
+  <body>
+    <div class="background"></div>
+
+    <div class="sidebar">
+      <div class="logo-content">
+        <div class="logo" id="logo">
+          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+          <div class="logo-name">PLPClinic</div>
+        </div>
+      </div>
+
+      <ul class="nav-list">
+        <li>
+          <a href="../forms-user/userdashboard.html" class="active">
+            <i class="bx bxs-grid-alt bx-rotate-180"></i>
+            <span class="link-name">Dashboard</span>
+          </a>
+          <span class="tooltip">B & R History</span>
+        </li>
+
+        <li>
+          <a href="../forms-user/userborrow.html" class="transition-link">
+            <i class="bx bxs-cabinet"></i>
+            <span class="link-name">Borrow</span>
+          </a>
+          <span class="tooltip">Borrow Items</span>
+        </li>
+        <li>
+          <a href="../forms-user/userreturn.html" class="transition-link">
+            <i class="bx bx-cabinet"></i>
+            <span class="link-name">Return</span>
+          </a>
+          <span class="tooltip">Return Items</span>
+        </li>
+        <li>
+          <a href="../forms-user/medhistory.html">
+            <i class="bx bx-file"></i>
+            <span class="link-name">Medical</span>
+          </a>
+          <span class="tooltip">Medical History</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="log-out">
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+          <a href="../php/logout.php">
+            <i class="bx bx-log-out bx-rotate-180"></i>
+            <span class="link-name">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="header-content">
+      <div class="text">BORROW AND RETURN HISTORY</div>
+      <div class="email-container">
+
+        <div class="email">
+
+
+          <p><strong></strong> <span id="patient-email">Loading...</span></p> <!-- New Email field -->
+        </div>
+        <div class="icon"><i class="fas fa-user-circle"></i></div>
+      </div>
+    </div>
+
+    <div class="home-content">
+      <div class="header-name" id="greeting"></div>
+
+      <div class="status-and-controls">
+         <div class="status-container" id="patient-info">
+  <aside class="status-box">
+    <div class="status-row">
+      <div class="status-column">
+        <p><strong>Patient Name:</strong> <span id="patient-name">Loading...</span></p>
+        <p><strong>Birthdate:</strong> <span id="patient-id">Loading...</span></p>
+      </div>
+      <div class="status-column">
+        <p><strong>Role:</strong> <span id="patient-role">Loading...</span></p>
+        <p><strong>Age:</strong> <span id="patient-age">Loading...</span></p>
+
+      </div>
+      <div class="status-column">
+        <p><strong>Sex:</strong> <span id="patient-sex">Loading...</span></p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+
+        <div class="controls-container vertical-controls">
+          <div class="form-group">
+            <input type="text" id="searchInput" placeholder="Search..." />
+            <button class="icon-btn" onclick="searchTable()">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+
+          <div class="form-group">
+            <select class="icon-select" onchange="filterTable(this.value)">
+              <option value="">Filter</option>
+              <option value="Borrowed">.</option>
+              <option value="Returned">.</option>
+              <option value="Overdue">.</option>
+              <option value="Lost">.</option>
+              <option value="Damage">. (Returned)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <table id="borrowedItemsTable">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Date Borrowed</th>
+              <th>Date Returned</th>
+              <th>Borrowed Item<br />(specify)</th>
+              <th>Qty.</th>
+              <th>Status</th>
+              <th>Photo<br />(Borrowed)</th>
+              <th>Photo<br />(Returned)</th>
+            </tr>
+          </thead>
+          <tbody id="borrowedItemsBody">
+            <!-- Data will be populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
+        <button class="page-btn active" onclick="goToPage(1)">1</button>
+        <button class="page-btn" onclick="goToPage(2)">2</button>
+        <button class="page-btn" onclick="goToPage(3)">3</button>
+        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
+      </div>
+    </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Fetch patient data
+  fetch('userdashboard.php')
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const p = data.patient;
+
+        document.getElementById('patient-name').textContent =
+          `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
+        document.getElementById('patient-id').textContent = p.Birthdate;
+        document.getElementById('patient-role').textContent = p.Category;
+        document.getElementById('patient-sex').textContent = p.Sex;
+        document.getElementById('patient-age').textContent = data.age;
+        document.getElementById('patient-email').textContent = data.email;
+
+        // Update greeting
+        updateGreeting(`${p.First_Name} ${p.Last_Name}`);
+
+        // Initialize table with borrowed items
+        allItems = data.borrowedItems;
+        renderTablePage(1);
+        updatePaginationButtons();
+      } else {
+        document.getElementById('patient-info').innerHTML =
+          `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching patient data:", error);
+      document.getElementById('patient-info').innerHTML =
+        "<p>Error loading data. Please try again later.</p>";
+    });
+
+  function updateGreeting(name) {
+    const now = new Date();
+    const philTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
+    );
+    const hours = philTime.getHours();
+
+    let greeting;
+    if (hours >= 5 && hours < 12) {
+      greeting = "Good Morning";
+    } else if (hours >= 12 && hours < 18) {
+      greeting = "Good Afternoon";
+    } else {
+      greeting = "Good Evening";
+    }
+
+    document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+  }
+});
+
+// Table pagination and rendering code
+let allItems = [];
+const itemsPerPage = 5;
+let currentPage = 1;
+
+function renderTablePage(page) {
+  const tbody = document.getElementById("borrowedItemsBody");
+  tbody.innerHTML = "";
+
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedItems = allItems.slice(start, end);
+
+  if (paginatedItems.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td></tr>`;
+    document.querySelector('.pagination').style.display = 'none';
+    return;
+  }
+
+  document.querySelector('.pagination').style.display = 'flex';
+  paginatedItems.forEach((item, index) => {
+    let borrowedImg = item.Photo_Borrowed || 'no-image.png';
+    let returnedImg = item.Photo_Returned;
+
+    const row = `<tr>
+      <td>${start + index + 1}</td>
+      <td>${item.Date_Borrowed ? new Date(item.Date_Borrowed).toLocaleString() : "-"}</td>
+      <td>${item.Date_Returned ? new Date(item.Date_Returned).toLocaleString() : "-"}</td>
+      <td>${item.Item_Name}</td>
+      <td>${item.Quantity}</td>
+      <td>
+        ${item.Status === 'Returned-Undamaged' ? 'Returned (Good)' :
+          item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
+          item.Status || '-'}
+      </td>
+      <td><img src="../uploads/${borrowedImg}" width="60" onerror="this.src='../pictures/no-image.png'"></td>
+      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60" onerror="this.src='../pictures/no-image.png'">` : 'Not yet returned'}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+function updatePaginationButtons() {
+  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+  const buttons = document.querySelectorAll(".page-btn");
+  buttons.forEach(btn => {
+    if (!isNaN(btn.textContent)) {
+      const pageNum = parseInt(btn.textContent);
+      btn.style.display = pageNum <= totalPages ? '' : 'none';
+      btn.classList.toggle("active", pageNum === currentPage);
+    }
+  });
+}
+
+window.goToPage = function(page) {
+  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+
+  if (page === 'prev') {
+    if (currentPage > 1) currentPage--;
+  } else if (page === 'next') {
+    if (currentPage < totalPages) currentPage++;
+  } else {
+    currentPage = page;
+  }
+
+  updatePaginationButtons();
+  renderTablePage(currentPage);
+};
+
+// Search and filter functions
+function searchTable() {
+  const searchInput = document.getElementById('searchInput').value.toLowerCase();
+  const filteredItems = allItems.filter(item => 
+    item.Item_Name.toLowerCase().includes(searchInput) ||
+    item.Status.toLowerCase().includes(searchInput)
+  );
+  allItems = filteredItems;
+  currentPage = 1;
+  renderTablePage(currentPage);
+  updatePaginationButtons();
+}
+
+function filterTable(status) {
+  if (!status) {
+    // Reset to original data
+    fetch('userdashboard.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          allItems = data.borrowedItems;
+          currentPage = 1;
+          renderTablePage(currentPage);
+          updatePaginationButtons();
+        }
+      });
+    return;
+  }
+
+  const filteredItems = allItems.filter(item => item.Status === status);
+  allItems = filteredItems;
+  currentPage = 1;
+  renderTablePage(currentPage);
+  updatePaginationButtons();
+}
+</script>
+
+
+
+    <script>
+      let btn = document.querySelector("#logo");
+      let sidebar = document.querySelector(".sidebar");
+
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+
+      
+    </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tbody = document.getElementById("borrowedItemsBody");
+  const itemsPerPage = 5;
+  let currentPage = 1;
+  let allItems = [];
+
+  function renderTablePage(page) {
+    tbody.innerHTML = "";
+
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedItems = allItems.slice(start, end);
+
+    if (paginatedItems.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">No borrowed items found.</td></tr>`;
+      document.querySelector('.pagination').style.display = 'none';
+      return;
+    }
+
+    document.querySelector('.pagination').style.display = 'flex';
+    paginatedItems.forEach((item, index) => {
+      let borrowedImg = item.Photo_Borrowed || 'no-image.png';
+      let returnedImg = item.Photo_Returned;
+
+      const row = `<tr>
+      <td>${start + index + 1}</td>
+      <td>${item.Date_Borrowed || "-"}</td>
+      <td>${item.Date_Returned || "-"}</td>
+      <td>${item.Item_Name}</td>
+      <td>${item.Quantity}</td>
+      <td>
+        ${item.Status === 'Returned-Undamaged' ? 'Returned (Good)' :
+          item.Status === 'Returned-Damaged' ? 'Returned (Damage)' :
+          item.Status || '-'}
+      </td>
+      <td><img src="../uploads/${borrowedImg}" width="60" onerror="this.src='../pictures/no-image.png'"></td>
+      <td>${returnedImg ? `<img src="../uploads/${returnedImg}" width="60" onerror="this.src='../pictures/no-image.png'">` : 'Not yet returned'}</td>
+    </tr>`;
+      tbody.innerHTML += row;
+    });
+  }
+
+  // Fetch borrowed items directly using session Patient_ID
+  fetch("../php/fetch_borrowed_items.php")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      allItems = data;
+      renderTablePage(currentPage);
+      updatePaginationButtons();
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px;">
+        ${err.message || 'Error loading data. Please try again later.'}</td></tr>`;
+      document.querySelector('.pagination').style.display = 'none';
+    });
+
+  function updatePaginationButtons() {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+    const buttons = document.querySelectorAll(".page-btn");
+    buttons.forEach(btn => {
+      if (!isNaN(btn.textContent)) {
+        const pageNum = parseInt(btn.textContent);
+        btn.style.display = pageNum <= totalPages ? '' : 'none';
+        btn.classList.toggle("active", pageNum === currentPage);
+      }
+    });
+  }
+
+  // Expose to global for button onclicks
+  window.goToPage = function(page) {
+    const totalPages = Math.ceil(allItems.length / itemsPerPage);
+
+    if (page === 'prev') {
+      if (currentPage > 1) currentPage--;
+    } else if (page === 'next') {
+      if (currentPage < totalPages) currentPage++;
+    } else {
+      currentPage = page;
+    }
+
+    updatePaginationButtons();
+    renderTablePage(currentPage);
+  };
+});
+
+</script>
+
+
+
+  </body>
+</html>

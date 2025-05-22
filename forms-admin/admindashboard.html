@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 
 </head>
 <body>
@@ -165,15 +166,14 @@
                                         <td><?= htmlspecialchars($row['Full_Name']) ?></td>
                                         <td><?= date("m/d/Y h:i A", strtotime($row['Time_In'])) ?></td>
                                         <td>
-                                            <form method="POST" action="php/time_out.php">
+                                            <form method="POST" action="../php/time_out.php">
                                                 <input type="hidden" name="visit_id" value="<?= $row['Visit_ID'] ?>">
                                                 <button class="timedout" type="submit">Time Out</button>
                                             </form>
                                             <button class="assess" 
                                                     data-visit-id="<?= $row['Visit_ID'] ?>" 
                                                     data-patient-id="<?= $row['Patient_ID'] ?>" 
-                                                    data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>" 
-                                                    data-category="<?= htmlspecialchars($row['Category'] ?? '') ?>">Assess</button>
+                                                    data-full-name="<?= htmlspecialchars($row['Full_Name']) ?>">Assess</button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

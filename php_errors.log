@@ -52,3 +52,21 @@ Stack trace:
 [21-May-2025 14:34:52 Europe/Berlin] Database connected successfully
 [21-May-2025 14:34:52 Europe/Berlin] Patient_ID query result: 1
 [21-May-2025 14:34:52 Europe/Berlin] Visit recorded for Patient_ID: 1
+[22-May-2025 07:13:47 Europe/Berlin] Raw input received.
+[22-May-2025 07:13:47 Europe/Berlin] Database connected successfully
+[22-May-2025 07:13:47 Europe/Berlin] Patient_ID query result: 4
+[22-May-2025 07:13:47 Europe/Berlin] Visit recorded for Patient_ID: 4
+[22-May-2025 13:49:20 Asia/Manila] Raw input received.
+[22-May-2025 13:49:20 Asia/Manila] Database connected successfully
+[22-May-2025 13:49:20 Asia/Manila] Patient_ID query result: 4
+[22-May-2025 13:49:20 Asia/Manila] Visit recorded for Patient_ID: 4
+[22-May-2025 14:14:04 Asia/Manila] Raw input received.
+[22-May-2025 14:14:04 Asia/Manila] JSON decode error: Syntax error
+[22-May-2025 15:41:57 Asia/Manila] Raw input received.
+[22-May-2025 15:41:57 Asia/Manila] Database connected successfully
+[22-May-2025 15:41:57 Asia/Manila] Patient_ID query result: 4
+[22-May-2025 15:41:57 Asia/Manila] Visit recorded for Patient_ID: 4
+[22-May-2025 16:00:10 Asia/Manila] Raw input received.
+[22-May-2025 16:00:10 Asia/Manila] Database connected successfully
+[22-May-2025 16:00:10 Asia/Manila] Patient_ID query result: 4
+[22-May-2025 16:00:10 Asia/Manila] Visit recorded for Patient_ID: 4
