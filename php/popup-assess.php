@@ -23,10 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Patient ID is required");
         }
 
-        $query = "SELECT p.Patient_ID, p.First_Name, p.Last_Name
-                  FROM patient_assessment pa
-                  LEFT JOIN patient p ON pa.Patient_ID = p.Patient_ID
-                  WHERE p.Patient_ID = ?";
+        $query = "SELECT Patient_ID FROM patient WHERE Patient_ID = ?";
         $stmt_check = $conn->prepare($query);
         $stmt_check->bind_param("i", $patient_id);
         $stmt_check->execute();
@@ -61,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert into patient_assessment table
         $sql = "INSERT INTO patient_assessment (
                     Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
-                    Blood_Pressure, Physician_Notes, Nurse_Notes, Recorded_At
+                    Blood_Pressure, Physician_Note, Nurse_Note, Recorded_At
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $conn->prepare($sql);
