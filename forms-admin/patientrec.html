@@ -372,7 +372,7 @@
           return;
         }
 
-        fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
+        fetch(`../php-admin/get_assessment_details.php?assessment_id=${assessmentId}`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`Network response was not ok: ${response.statusText}`);
