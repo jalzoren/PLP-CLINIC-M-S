@@ -6,7 +6,7 @@ ini_set('error_log', __DIR__ . '/php_errors.log');
 error_reporting(E_ALL);
 ob_start();
 
-require_once 'php/database.php';
+require_once 'database.php';
 header("Content-Type: application/json");
 
 function sendError($msg) {

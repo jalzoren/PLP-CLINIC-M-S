@@ -2,7 +2,7 @@
 ini_set('session.cookie_httponly', 1); // Prevent JavaScript access to session cookies
 ini_set('session.cookie_secure', 1); // HTTPS-only cookies (if using HTTPS)
 session_start();
-require_once 'database.php';
+require_once '/database.php';
 
 header('Content-Type: application/json');
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../php/db_connect.php';
+require_once '../php/database.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['Patient_ID'])) {
