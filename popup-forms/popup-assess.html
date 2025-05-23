@@ -158,16 +158,10 @@
                     confirmButtonColor: '#3085d6'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Try different methods to close the window
-                        try {
-                            window.close();
-                            // If window.close() doesn't work, try to close the popup container
-                            document.getElementById('popupContainer').style.display = 'none';
-                            // If that doesn't work, try to remove the form
-                            document.getElementById('assessmentForm').style.display = 'none';
-                        } catch (error) {
-                            console.error('Error closing window:', error);
-                        }
+                        // Close the popup
+                        document.getElementById('popupContainer').style.display = 'none';
+                        // Refresh the parent page's table
+                        window.parent.location.reload();
                     }
                 });
             } else {
