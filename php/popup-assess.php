@@ -20,7 +20,18 @@ try {
     $physicians_note = $_POST['physician_notes'];
     $nurse_note = $_POST['nurse_notes'];
 
-    // Prepare SQL statement
+    // Check for existing assessments today for this patient
+    $check_sql = "SELECT COUNT(*) as count FROM patient_assessment 
+                  WHERE Patient_ID = ? 
+                  AND DATE(Recorded_At) = CURDATE()";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $patient_id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $row = $result->fetch_assoc();
+    $assessment_count = $row['count'] + 1; // Add 1 for the new assessment
+
+    // Prepare SQL statement for new assessment
     $sql = "INSERT INTO patient_assessment (
         Patient_ID, Temperature, Pulse, Respiratory_Rate, 
         Blood_Pressure, Height, Weight, BMI, 
@@ -49,7 +60,8 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Assessment record added successfully',
-        'assessment_id' => $assessment_id
+        'assessment_id' => $assessment_id,
+        'assessment_count' => $assessment_count
     ]);
 
 } catch (Exception $e) {
@@ -62,6 +74,9 @@ try {
 
 if (isset($stmt)) {
     $stmt->close();
+}
+if (isset($check_stmt)) {
+    $check_stmt->close();
 }
 if (isset($conn)) {
     $conn->close();

@@ -120,10 +120,8 @@
           $resultAssessment = $stmtAssessment->get_result();
           
           $counter = 1;
-          
-          // Output patient records first
-          if ($resultPatient && $resultPatient->num_rows > 0) {
-              while ($row = $resultPatient->fetch_assoc()) {
+          if ($result && $result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
                   echo "<tr>";
                   echo "<td>" . $counter++ . "</td>";
                   echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
@@ -133,29 +131,10 @@
                         </td>";
                   echo "</tr>";
               }
-          }
-          
-          // Output patient_assessment records next
-          if ($resultAssessment && $resultAssessment->num_rows > 0) {
-              while ($row = $resultAssessment->fetch_assoc()) {
-                  echo "<tr>";
-                  echo "<td>" . $counter++ . "</td>";
-                  echo "<td>" . date('Y-m-d', strtotime($row['Recorded_At'])) . "</td>";
-                  echo "<td>Patient Assessment (" . date('Y-m-d', strtotime($row['Recorded_At'])) . ")</td>";
-                  echo "<td class='action-cell'>
-                    <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
-                        </td>";
-                  echo "</tr>";
-              }
           } else {
-              echo "<tr><td colspan='4'>No assessment records found.</td></tr>";
+              echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
           }
-          
-          $stmtPatient->close();
-          $stmtAssessment->close();
-          $conn->close();
           ?>
-          
         </tbody>
       </table>
   
@@ -170,48 +149,222 @@
       </div>
     </div>
 
+    <div id="pop-up-med"></div>
+    <div id="pop-up-record"></div>
 
+    <!-- Assessment View Modal -->
+    <div id="assessmentModal" class="assessment-modal">
+      <div class="assessment-modal-content">
+        <div class="assessment-modal-header">
+          <h2>Patient Assessment</h2>
+          <button class="assessment-modal-close" onclick="closeAssessmentModal()">&times;</button>
+        </div>
+        <div id="assessmentContent"></div>
+        <div id="assessmentError" class="assessment-error"></div>
+      </div>
+    </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".view-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                window.location.href = "usermedrecviewrec.html";
-            });
+      // Sidebar toggle
+      let btn = document.querySelector("#logo");
+      let sidebar = document.querySelector(".sidebar");
+
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+
+      // Navigation buttons
+      document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('.navigation_main button');
+        buttons.forEach(button => {
+          button.addEventListener('click', function () {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            const url = this.getAttribute('data-url');
+            if (url) {
+              window.location.href = url;
+            }
+          });
         });
-    });
+
+        // View medical record button handler
+        document.querySelectorAll(".view-btn").forEach(button => {
+          button.addEventListener("click", function () {
+            const patientId = this.getAttribute("data-patient-id");
+            fetch("../popup-forms/popup-medrec.html")
+              .then((response) => response.text())
+              .then((data) => {
+                const container = document.getElementById("pop-up-record");
+                container.innerHTML = data;
+
+                const popupContainer = document.getElementById("popupContainer2");
+                if (popupContainer) {
+                  popupContainer.style.display = "block";
+                }
+
+                // Set the patient ID into the popup form
+                const hiddenInput = document.querySelector("#pop-up-record input[name='patient_id']");
+                if (hiddenInput) {
+                  hiddenInput.value = patientId;
+                }
+
+                // Re-run scripts
+                const scripts = container.querySelectorAll("script");
+                scripts.forEach((oldScript) => {
+                  const newScript = document.createElement("script");
+                  if (oldScript.src) {
+                    newScript.src = oldScript.src;
+                  } else {
+                    newScript.textContent = oldScript.textContent;
+                  }
+                  document.body.appendChild(newScript);
+                  oldScript.remove();
+                });
+              })
+              .catch((error) => {
+                console.error("Error loading HTML:", error);
+              });
+          });
+        });
 
     </script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-   document.querySelectorAll(".view-btn2").forEach(button => {
+   document.querySelectorAll(".view-btn").forEach(button => {
        button.addEventListener("click", function () {
            window.location.href = "usermedrecviewrec.html";
        });
    });
 
-   // Fetch and update user email
-   fetch('../php/userinterfacefetch.php')
-     .then(response => response.json())
-     .then(data => {
-       if (data.success) {
-         const p = data.patient;
-         document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
-       } else {
-         document.getElementById('user-email').textContent = 'Unable to load email';
-       }
-     })
-     .catch(error => {
-       console.error("Error fetching user data:", error);
-       document.getElementById('user-email').textContent = 'Error loading email';
-     });
-});
+        // Fetch and update user email
+        fetch('../php/userinterfacefetch.php')
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const p = data.patient;
+              document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
+            } else {
+              document.getElementById('user-email').textContent = 'Unable to load email';
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching user data:", error);
+            document.getElementById('user-email').textContent = 'Error loading email';
+          });
+      });
 
-</script>
+      // Assessment Modal Functions
+      function showAssessmentModal(assessmentId) {
+        document.getElementById('assessmentModal').style.display = 'block';
+        loadAssessmentDetails(assessmentId);
+      }
 
- 
+      function closeAssessmentModal() {
+        document.getElementById('assessmentModal').style.display = 'none';
+      }
 
+      function loadAssessmentDetails(assessmentId) {
+        if (!assessmentId || assessmentId.toLowerCase() === "null") {
+          document.getElementById("assessmentError").textContent = "No valid assessment ID specified.";
+          return;
+        }
 
+        fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (!data.success) {
+              throw new Error(data.error || 'Failed to load assessment data');
+            }
+
+            const assessment = data.assessment;
+            
+            function formatField(label, value) {
+              if (value === null || value === "" || value === "1" || value === "1.0" || value === "999.9") return "";
+              return `<div class="assessment-field"><span class="assessment-label">${label}:</span> ${value}</div>`;
+            }
+
+            const html = [
+              formatField("Patient Name", assessment.patient_name),
+              formatField("ID Number", assessment.id_number),
+              formatField("Department", assessment.department),
+              formatField("Temperature", assessment.temperature),
+              formatField("Pulse", assessment.pulse),
+              formatField("Respiratory Rate", assessment.respiratory_rate),
+              formatField("Blood Pressure", assessment.blood_pressure),
+              formatField("Height", assessment.height),
+              formatField("Weight", assessment.weight),
+              formatField("BMI", assessment.bmi),
+              formatField("Recorded At", assessment.recorded_at),
+              formatField("Physician's Note", assessment.physicians_note),
+              formatField("Nurse Note", assessment.nurse_note)
+            ].join("");
+
+            document.getElementById("assessmentContent").innerHTML = html;
+            document.getElementById("assessmentError").textContent = "";
+          })
+          .catch(err => {
+            document.getElementById("assessmentError").textContent = "Failed to load assessment: " + err.message;
+            console.error("Fetch error:", err);
+          });
+      }
+    </script>
+
+    <style>
+      /* Modal Styles */
+      .assessment-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+      }
+
+      .assessment-modal-content {
+        background: white;
+        width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: monospace;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .assessment-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .assessment-modal-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .assessment-field {
+        margin-bottom: 10px;
+      }
+
+      .assessment-label {
+        font-weight: bold;
+      }
+
+      .assessment-error {
+        color: red;
+        text-align: center;
+      }
+    </style>
   </body>
 </html>

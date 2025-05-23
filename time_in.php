@@ -53,6 +53,7 @@ try {
 
     error_log("Database connected successfully");
 
+    // First check student_patient table
     $stmt = $conn->prepare("SELECT Patient_ID FROM student_patient WHERE Student_ID = ?");
     if (!$stmt) {
         error_log("Prepare failed: " . $conn->error);
@@ -64,6 +65,22 @@ try {
     $stmt->bind_result($patient_id);
     $stmt->fetch();
     $stmt->close();
+
+    // If not found in student_patient, check personnel_patient table
+    if (!$patient_id) {
+        $stmt = $conn->prepare("SELECT Patient_ID FROM personnel_patient WHERE Personnel_ID = ?");
+        if (!$stmt) {
+            error_log("Prepare failed: " . $conn->error);
+            sendError("Database query preparation failed.");
+        }
+
+        $stmt->bind_param("s", $id_number);
+        $stmt->execute();
+        $stmt->bind_result($patient_id);
+        $stmt->fetch();
+        $stmt->close();
+    }
+
     error_log("Patient_ID query result: " . ($patient_id ? $patient_id : "none"));
 
     if ($patient_id) {
@@ -81,8 +98,8 @@ try {
 
         echo json_encode(["status" => "success", "message" => "Time in recorded successfully."]);
     } else {
-        error_log("Student not found for ID: " . $id_number);
-        sendError("Student not found.");
+        error_log("ID not found: " . $id_number);
+        sendError("ID number not found in our records.");
     }
 
     $db->close();
