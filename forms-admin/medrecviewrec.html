@@ -96,7 +96,10 @@
 
      <div class="home-content">
      <div class="breadcrumbs">
-        <a href="../forms-admin/medrecords.html">  <i class="material-icons" style="color: #1a1259;">arrow_back</i></a>
+<a href="javascript:void(0);" onclick="history.back();">
+  <i class="material-icons" style="color: #1a1259;">arrow_back</i>
+</a>
+
         <p class="p-rec">
             <strong>Patient Records &lt;<span></span><span id="patient-name-placeholder"></span></strong>
         </p>
@@ -784,5 +787,34 @@
       
 
 </script>
+
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const patientId = new URLSearchParams(window.location.search).get("patient_id");
+            if (!patientId) return;
+        
+            fetch(`../php/patientrec.php?patient_id=${patientId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        console.warn("Server returned error:", data.error);
+                        return;
+                    }
+        
+                    setText("patient-name-placeholder", data.full_name);
+                    setText("patient-name-display", data.full_name);
+                    setText("patient-role", data.role);
+                    setText("patient-id", data.id_number);
+                    setText("patient-dept", data.department);
+
+                })
+                .catch(err => console.error("Fetch error:", err));
+        
+            function setText(id, text) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text || "N/A";
+            }
+        });
+    </script>
   </body>
 </html>

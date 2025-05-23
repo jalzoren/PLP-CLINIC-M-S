@@ -86,71 +86,42 @@
         </thead>
         <tbody>
           <?php
-          session_start();
           require_once '../php/database.php';
           
           $db = new Database();
           $conn = $db->getConnection();
           
-          $patient_id = null;
+          // Get patient_id from the URL (cast to int for safety)
+          $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
           
-          // Step 1: Check session for user_id and get corresponding patient_id
-          if (isset($_SESSION['user_id'])) {
-              $user_id = $_SESSION['user_id'];
-          
-              $stmt = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
-              $stmt->bind_param("i", $user_id);
-              $stmt->execute();
-              $stmt->bind_result($patient_id);
-              $stmt->fetch();
-              $stmt->close();
-          }
-          
-          // Step 2: Fallback to URL if not found in session
-          if (!$patient_id && isset($_GET['patient_id'])) {
-              $patient_id = (int)$_GET['patient_id'];
-          }
-          
-          if (!$patient_id) {
+          if (!$filterId) {
               echo "<tr><td colspan='4'>No patient selected.</td></tr>";
               exit;
           }
-
-          // Query patient table for medical records
+          
+          // Query patient table
           $sqlPatient = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
           $stmtPatient = $conn->prepare($sqlPatient);
           if (!$stmtPatient) {
               die("Prepare failed for patient: (" . $conn->errno . ") " . $conn->error);
           }
-          $stmtPatient->bind_param("i", $patient_id);
+          $stmtPatient->bind_param("i", $filterId);
           $stmtPatient->execute();
           $resultPatient = $stmtPatient->get_result();
-
-          // Query patient_assessment table for assessments
-          $sqlAssessment = "SELECT 
-              Assessment_ID, 
-              Patient_ID, 
-              Recorded_At,
-              (SELECT COUNT(*) 
-               FROM patient_assessment pa2 
-               WHERE pa2.Patient_ID = pa.Patient_ID 
-               AND DATE(pa2.Recorded_At) = DATE(pa.Recorded_At)
-               AND pa2.Assessment_ID <= pa.Assessment_ID) as assessment_count
-          FROM patient_assessment pa 
-          WHERE Patient_ID = ?";
+          
+          // Query patient_assessment table
+          $sqlAssessment = "SELECT Assessment_ID, Patient_ID, Recorded_At FROM patient_assessment WHERE Patient_ID = ?";
           $stmtAssessment = $conn->prepare($sqlAssessment);
           if (!$stmtAssessment) {
               die("Prepare failed for patient_assessment: (" . $conn->errno . ") " . $conn->error);
           }
-          $stmtAssessment->bind_param("i", $patient_id);
+          $stmtAssessment->bind_param("i", $filterId);
           $stmtAssessment->execute();
           $resultAssessment = $stmtAssessment->get_result();
-
+          
           $counter = 1;
-
-          // Output patient records first
-          if ($resultPatient && $resultPatient->num_rows > 0) {
-              while ($row = $resultPatient->fetch_assoc()) {
+          if ($result && $result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
                   echo "<tr>";
                   echo "<td>" . $counter++ . "</td>";
                   echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
@@ -160,34 +131,9 @@
                         </td>";
                   echo "</tr>";
               }
-          }
-
-          // Output patient_assessment records next
-          if ($resultAssessment && $resultAssessment->num_rows > 0) {
-              while ($row = $resultAssessment->fetch_assoc()) {
-                  $date = date('Y-m-d', strtotime($row['Recorded_At']));
-                  $fileName = $row['assessment_count'] > 1 ? 
-                             "Patient Assessment " . $row['assessment_count'] . " (" . $date . ")" :
-                             "Patient Assessment (" . $date . ")";
-                  
-                  echo "<tr>";
-                  echo "<td>" . $counter++ . "</td>";
-                  echo "<td>" . $date . "</td>";
-                  echo "<td>" . $fileName . "</td>";
-                  echo "<td class='action-cell'>
-                        <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
-                        </td>";
-                  echo "</tr>";
-              }
-          }
-
-          if ($counter === 1) {
+          } else {
               echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
           }
-
-          $stmtPatient->close();
-          $stmtAssessment->close();
-          $conn->close();
           ?>
         </tbody>
       </table>
@@ -281,61 +227,15 @@
           });
         });
 
-        // View assessment button handler
-        document.querySelectorAll(".view-btn2").forEach(button => {
-          button.addEventListener("click", function (e) {
-            e.preventDefault();
-            const assessmentId = this.getAttribute("data-assessment-id");
-            if (assessmentId && assessmentId.toLowerCase() !== "null") {
-              showAssessmentModal(assessmentId);
-            } else {
-              alert("Invalid assessment ID. Cannot view assessment.");
-            }
-          });
-        });
+    </script>
 
-        // Add Assessment button handler
-        document.getElementById("load-btn").addEventListener("click", function () {
-          const patientId = new URLSearchParams(window.location.search).get("patient_id");
-          if (!patientId) {
-            alert("Patient ID not found in URL.");
-            return;
-          }
-
-          fetch("../popup-forms/popup-assess.html")
-            .then((response) => response.text())
-            .then((data) => {
-              const container = document.getElementById("pop-up-med");
-              container.innerHTML = data;
-
-              const popupContainer = document.getElementById("popupContainer");
-              if (popupContainer) {
-                popupContainer.style.display = "block";
-              }
-
-              // Set the patient ID into the popup form
-              const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
-              if (hiddenInput) {
-                hiddenInput.value = patientId;
-              }
-
-              // Re-run scripts
-              const scripts = container.querySelectorAll("script");
-              scripts.forEach((oldScript) => {
-                const newScript = document.createElement("script");
-                if (oldScript.src) {
-                  newScript.src = oldScript.src;
-                } else {
-                  newScript.textContent = oldScript.textContent;
-                }
-                document.body.appendChild(newScript);
-                oldScript.remove();
-              });
-            })
-            .catch((error) => {
-              console.error("Error loading HTML:", error);
-            });
-        });
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+   document.querySelectorAll(".view-btn").forEach(button => {
+       button.addEventListener("click", function () {
+           window.location.href = "usermedrecviewrec.html";
+       });
+   });
 
         // Fetch and update user email
         fetch('../php/userinterfacefetch.php')

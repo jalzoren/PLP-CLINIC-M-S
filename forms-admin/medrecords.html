@@ -1,3 +1,7 @@
+<?php
+require_once '../php/medrecsfetch.php'; // this gives you $result
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="../css/medrecstyle.css" />
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="../pictures/logo.clear.png">
    
 
 
@@ -119,25 +123,54 @@
               
               
       
-              <div class="table-data">
-                <table class="styled-table" id="dataTable">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Identification Number</th>
-                      <th>Full Name</th>
-                      <th>Category</th>
-                      <th>Sex</th>
-                      <th>Department</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="patient-records-body">
-                 </tbody>
-                </table>
-              </div>
+             <div class="table-data">
+<table class="styled-table" id="dataTable">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Identification Number</th>
+      <th>Full Name</th>
+      <th>Category</th>
+      <th>Sex</th>
+      <th>Department</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    if ($result && $result->num_rows > 0) {
+        $i = 1;
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $i++ . "</td>";
+            echo "<td>" . ($row['Student_ID'] ? $row['Student_ID'] . " (Student)" : $row['Personnel_ID'] . " (Personnel)") . "</td>";
+            echo "<td>" . $row['First_Name'] . ' ' . $row['Middle_Name'] . ' ' . $row['Last_Name'] . "</td>";
+            echo "<td>" . $row['Category'] . "</td>";
+            echo "<td>" . $row['Sex'] . "</td>";
+            echo "<td>";
+            if ($row['student_department']) echo "Student: " . $row['student_department'];
+            if ($row['personnel_department']) {
+                if ($row['student_department']) echo "<br>";
+                echo "Personnel: " . $row['personnel_department'];
+            }
+            echo "</td>";
+          echo "<td class='action-cell'>
+        <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+            <button type='button' class='view-btn'>View</button>
+        </a>
+      </td>";
+      echo "</tr>";
+
+        }
+    } else {
+        echo "<tr><td colspan='7'>No records found.</td></tr>";
+    }
+    $database->close();
+    ?>
+  </tbody>
+</table>
+</div>
               
-        </div>
        
 
         <div id="pop-up-med"></div>
@@ -156,10 +189,7 @@
           .then(data => {
             document.getElementById("patient-records-body").innerHTML = data;
           })
-          .catch(error => {
-            console.error("Error loading medical records:", error);
-            alert("Failed to load records.");
-          });
+         
       });
 
 

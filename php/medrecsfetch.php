@@ -20,58 +20,5 @@ $sql = "
 $result = $conn->query($sql);
 
 if (!$result) {
-    die("Error with the SQL query: " . $conn->error);
+    die("Query error: " . $conn->error);
 }
-
-$i = 1;
-$output = "";
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $output .= "<tr>
-            <td>{$i}</td>
-            <td>";
-
-        if ($row['Student_ID']) {
-            $output .= "{$row['Student_ID']} (Student)";
-        } elseif ($row['Personnel_ID']) {
-            $output .= "{$row['Personnel_ID']} (Personnel)";
-        }
-
-        $output .= "</td>
-            <td>{$row['First_Name']} {$row['Middle_Name']} {$row['Last_Name']}</td>
-            <td>{$row['Category']}</td>
-            <td>{$row['Sex']}</td>
-            <td>";
-
-        if ($row['student_department']) {
-            $output .= "Student Department: {$row['student_department']}";
-        }
-        if ($row['personnel_department']) {
-            if ($row['student_department']) {
-                $output .= "<br>";
-            }
-            $output .= "Personnel Department: {$row['personnel_department']}";
-        }
-
-            $output .= "</td>
-            <td class='action-cell'>
-                <a href='patientrec.html?patient_id={$row['Patient_ID']}'>
-                    <button type='button' class='view-btn'>
-                        View
-                    </button>
-                </a>
-            </td>
-        </tr>";
-
-
-$i++;
-
-    }
-} else {
-    $output = "<tr><td colspan='7'>No records found.</td></tr>";
-}
-
-echo $output;
-$database->close();
-?>
