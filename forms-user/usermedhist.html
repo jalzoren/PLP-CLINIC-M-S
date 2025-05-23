@@ -90,16 +90,32 @@
         <tbody>
           <?php
           require_once '../php/database.php';
+          session_start();
           
           $db = new Database();
           $conn = $db->getConnection();
           
-          $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
-          
-          if (!$filterId) {
-              echo "<tr><td colspan='4'>No patient selected.</td></tr>";
+          if (!isset($_SESSION['user_id'])) {
+              echo "<tr><td colspan='4'>User not logged in.</td></tr>";
               exit;
           }
+          
+          $user_id = $_SESSION['user_id'];
+          
+          // Get Patient_ID from users table
+          $stmtUser = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
+          $stmtUser->bind_param("i", $user_id);
+          $stmtUser->execute();
+          $resultUser = $stmtUser->get_result();
+          $user = $resultUser->fetch_assoc();
+          $stmtUser->close();
+          
+          if (!$user || !$user['Patient_ID']) {
+              echo "<tr><td colspan='4'>No associated patient record found.</td></tr>";
+              exit;
+          }
+          
+          $patientId = $user['Patient_ID'];
           
           // Fetch patient base record
           $sqlPatient = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
@@ -107,7 +123,7 @@
           if (!$stmtPatient) {
               die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
           }
-          $stmtPatient->bind_param("i", $filterId);
+          $stmtPatient->bind_param("i", $patientId);
           $stmtPatient->execute();
           $resultPatient = $stmtPatient->get_result();
           
@@ -127,36 +143,38 @@
           if (!$stmtAssessment) {
               die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
           }
-          $stmtAssessment->bind_param("i", $filterId);
+          $stmtAssessment->bind_param("i", $patientId);
           $stmtAssessment->execute();
           $resultAssessment = $stmtAssessment->get_result();
           
           $counter = 1;
           
-          // Output the base patient record
+          // Output patient record
           if ($resultPatient && $resultPatient->num_rows > 0) {
               while ($row = $resultPatient->fetch_assoc()) {
                   echo "<tr>";
                   echo "<td>" . $counter++ . "</td>";
-                  echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
+                  echo "<td>" . htmlspecialchars(date('Y-m-d', strtotime($row['Created_At']))) . "</td>";
                   echo "<td>Medical Record Form</td>";
-                  echo "<td class='action-cell'><button class='view-btn' data-patient-id='" . $row['Patient_ID'] . "'>View</button></td>";
+                  echo "<td class='action-cell'><button class='view-btn' data-patient-id='" . htmlspecialchars($row['Patient_ID']) . "'>View</button></td>";
                   echo "</tr>";
               }
+          } else {
+              echo "<tr><td colspan='4'>No patient record found.</td></tr>";
           }
           
           // Output assessment records
           if ($resultAssessment && $resultAssessment->num_rows > 0) {
               while ($row = $resultAssessment->fetch_assoc()) {
                   $date = date('Y-m-d', strtotime($row['Recorded_At']));
-                  $label = $row['assessment_count'] > 1 
-                      ? "Patient Assessment " . $row['assessment_count'] . " ($date)" 
+                  $label = $row['assessment_count'] > 1
+                      ? "Patient Assessment " . $row['assessment_count'] . " ($date)"
                       : "Patient Assessment ($date)";
                   echo "<tr>";
                   echo "<td>" . $counter++ . "</td>";
-                  echo "<td>" . $date . "</td>";
-                  echo "<td>" . $label . "</td>";
-                  echo "<td class='action-cell'><button class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button></td>";
+                  echo "<td>" . htmlspecialchars($date) . "</td>";
+                  echo "<td>" . htmlspecialchars($label) . "</td>";
+                  echo "<td class='action-cell'><button class='view-btn2' data-assessment-id='" . htmlspecialchars($row['Assessment_ID']) . "'>View</button></td>";
                   echo "</tr>";
               }
           } else {
@@ -167,6 +185,8 @@
           $stmtAssessment->close();
           $conn->close();
           ?>
+          
+          
           </tbody>
           
       </table>
