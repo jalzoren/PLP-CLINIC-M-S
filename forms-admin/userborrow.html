@@ -749,9 +749,8 @@ document.getElementById('returnForm').onsubmit = function(e) {
 <script>
 function formatDateAsia(dateString) {
   if (!dateString) return 'N/A';
-  const date = new Date(dateString + ' UTC');
-  return date.toLocaleString('en-PH', {
-    timeZone: 'Asia/Manila',
+  const date = new Date(dateString);
+  return date.toLocaleString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
