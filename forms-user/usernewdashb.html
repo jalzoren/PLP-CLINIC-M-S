@@ -156,7 +156,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // Fetch user info
-  fetch('../php/userinterfacefetch.php')
+  fetch('../php-user/userinterfacefetch.php')
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     // Fetch items
-    fetch('../php/fetch_items.php')
+    fetch('../php-admin/fetch_items.php')
       .then(response => response.json())
       .then(items => {
         const itemsGrid = document.querySelector('.items');
