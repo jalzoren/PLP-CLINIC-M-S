@@ -11,13 +11,13 @@ function closeEmptyFieldPopup() {
 }
 
 function closeDuplicationPopup() {
-   document.getElementById("DuplicatePopup").style.display = "none";
-   document.getElementById("popupPatient").style.display = "block";
+  document.getElementById("DuplicatePopup").style.display = "none";
+  document.getElementById("popupPatient").style.display = "block";
 }
 
 function closeSurgicalPopup() {
-   document.getElementById("SurgicalPopup").style.display = "none";
-   document.getElementById("popupPersonalHistory").style.display = "block";
+  document.getElementById("SurgicalPopup").style.display = "none";
+  document.getElementById("popupPersonalHistory").style.display = "block";
 }
 
 function closeSmokingPopup() {
