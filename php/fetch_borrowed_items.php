@@ -65,7 +65,8 @@ while ($row = $result->fetch_assoc()) {
     date_default_timezone_set('Asia/Manila');
     $row['Date_Borrowed'] = date('Y-m-d H:i:s', strtotime($row['Date_Borrowed']));
     if ($row['Date_Returned']) {
-        $row['Date_Returned'] = date('Y-m-d H:i:s', strtotime($row['Date_Returned']));
+        $dt = new DateTime($row['Date_Returned']);
+        $row['Date_Returned'] = $dt->format('m/d/Y, h:i A');
     }
     
     // Split DepartmentInfo into ID_Number and other details
