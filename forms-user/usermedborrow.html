@@ -23,9 +23,9 @@
         <img src="../pictures/logo_user.png" alt="Logo" class="logo">
       </div>
       <div class="user-info">
-        <span class="email">user@example.com</span>
+        <span class="email" id="user-email">Loading...</span>
         <span class="material-icons" id="user-info">
-          account_circle
+        account_circle
         </span>
         <a href="../php/logout.php">
           <span class="material-icons" id="logout-btn">
@@ -65,11 +65,10 @@
       <div class="form-group">
         <select class="icon-select" onchange="filterTable(this.value)">
           <option value="">Filter</option>
-          <option value="Borrowed">Borrowed</option>
-          <option value="Returned">Returned</option>
+          <option value="Returned (Good Condition)">Returned (Good Condition)</option>
+          <option value="Returned (Damage)">Returned (Damage)</option>
           <option value="Overdue">Overdue</option>
           <option value="Lost">Lost</option>
-          <option value="Damage">Damaged (Returned)</option>
         </select>
       </div>
     </div>
@@ -155,11 +154,11 @@
     </div>
     
       <div class="pagination">
-        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
+        <button class="page-btn" onclick="goToPage('prev')">«</button>
         <button class="page-btn active" onclick="goToPage(1)">1</button>
         <button class="page-btn" onclick="goToPage(2)">2</button>
         <button class="page-btn" onclick="goToPage(3)">3</button>
-        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
+        <button class="page-btn" onclick="goToPage('next')">»</button>
       </div>
     </div>
 
@@ -170,6 +169,22 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       loadBorrowedItems();
+
+      // Fetch and update user email
+      fetch('../php/userinterfacefetch.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const p = data.patient;
+            document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
+          } else {
+            document.getElementById('user-email').textContent = 'Unable to load email';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching user data:", error);
+          document.getElementById('user-email').textContent = 'Error loading email';
+        });
     });
 
     function loadBorrowedItems() {
@@ -227,6 +242,7 @@
       });
     }
 
+    
     function submitReturnBtn() {
       const status = document.getElementById('modalItemStatus').value;
       const formData = new FormData();
@@ -305,8 +321,8 @@
       const paginationDiv = document.querySelector('.pagination');
       paginationDiv.innerHTML = '';
 
-      const prevButton = `<button class="page-btn" onclick="goToPage('prev')">&laquo;</button>`;
-      const nextButton = `<button class="page-btn" onclick="goToPage('next')">&raquo;</button>`;
+      const prevButton = `<button class="page-btn" onclick="goToPage('prev')">«</button>`;
+      const nextButton = `<button class="page-btn" onclick="goToPage('next')">»</button>`;
 
       paginationDiv.innerHTML += prevButton;
 

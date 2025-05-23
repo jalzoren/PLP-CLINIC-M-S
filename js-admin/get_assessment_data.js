@@ -8,47 +8,32 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Fetch assessment data from the server
-    fetch(`../php/get_assessment.php?patient_id=${patientId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+    // Fetch combined patient and assessment data
+    fetch(`../php/get_patient_assessment.php?patient_id=${patientId}`)
+        .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                console.error('Error:', data.error);
-                return;
+            if (data.success) {
+                // Set patient information display fields
+                document.getElementById('display_patient_name').textContent = data.patient_name;
+
+                // Set vital signs
+                document.getElementById('temperature').value = data.temperature;
+                document.getElementById('rr').value = data.respiratory_rate;
+                document.getElementById('height').value = data.height;
+                document.getElementById('weight').value = data.weight;
+                document.getElementById('bmi').value = data.bmi;
+                document.getElementById('pulse').value = data.pulse;
+                document.getElementById('bp').value = data.blood_pressure;
+
+                // Set notes
+                document.getElementById('physician_notes').value = data.physicians_note;
+                document.getElementById('nurse_notes').value = data.nurse_note;
+            } else {
+                throw new Error(data.error || 'Failed to load data');
             }
-
-            // Populate the form fields with the fetched data
-            document.getElementById('temperature').value = data.temperature || '';
-            document.getElementById('rr').value = data.respiratory_rate || '';
-            document.getElementById('height').value = data.height || '';
-            document.getElementById('weight').value = data.weight || '';
-            document.getElementById('bmi').value = data.bmi || '';
-            document.getElementById('pulse').value = data.pulse || '';
-            document.getElementById('bp').value = data.blood_pressure || '';
-            document.getElementById('physician_notes').value = data.physicians_note || '';
-            document.getElementById('nurse_notes').value = data.nurse_note || '';
-
-            // Set hidden fields
-            document.getElementById('patient_id').value = data.patient_id || '';
-            document.getElementById('patient_type').value = data.patient_type || '';
-            document.getElementById('student_id').value = data.student_id || '';
-            document.getElementById('personnel_id').value = data.personnel_id || '';
-            document.getElementById('patient_name').value = data.patient_name || '';
-            document.getElementById('sex').value = data.sex || '';
-            document.getElementById('age').value = data.age || '';
-            document.getElementById('department').value = data.department || '';
-
-            // Log success
-            console.log('Assessment data loaded successfully');
         })
         .catch(error => {
-            console.error('Error fetching assessment data:', error);
-            // Show error message to user
-            alert('Error loading assessment data. Please try again.');
+            console.error('Error:', error);
+            alert('Error loading data: ' + error.message);
         });
 }); 

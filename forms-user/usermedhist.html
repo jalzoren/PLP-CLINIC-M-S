@@ -23,9 +23,9 @@
         <img src="../pictures/logo_user.png" alt="Logo" class="logo">
       </div>
       <div class="user-info">
-        <span class="email">user@example.com</span>
+        <span class="email" id="user-email">Loading...</span>
         <span class="material-icons" id="user-info">
-          account_circle
+        account_circle
         </span>
         <a href="../php/logout.php">
           <span class="material-icons" id="logout-btn">
@@ -167,6 +167,33 @@
     });
 
     </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+   document.querySelectorAll(".view-btn").forEach(button => {
+       button.addEventListener("click", function () {
+           window.location.href = "usermedrecviewrec.html";
+       });
+   });
+
+   // Fetch and update user email
+   fetch('../php/userinterfacefetch.php')
+     .then(response => response.json())
+     .then(data => {
+       if (data.success) {
+         const p = data.patient;
+         document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
+       } else {
+         document.getElementById('user-email').textContent = 'Unable to load email';
+       }
+     })
+     .catch(error => {
+       console.error("Error fetching user data:", error);
+       document.getElementById('user-email').textContent = 'Error loading email';
+     });
+});
+
+</script>
 
  
 
