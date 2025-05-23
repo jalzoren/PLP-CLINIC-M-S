@@ -750,12 +750,14 @@ document.getElementById('returnForm').onsubmit = function(e) {
 function formatDateAsia(dateString) {
   if (!dateString) return 'N/A';
   const date = new Date(dateString);
-  return date.toLocaleString('en-US', {
+  return date.toLocaleString('en-PH', {
+    timeZone: 'Asia/Manila',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    hour12: true
   });
 }
 </script>
