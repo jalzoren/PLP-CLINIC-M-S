@@ -3,7 +3,7 @@ document.getElementById("popupContainer").style.display = "none";
 document.getElementById("viewPopup").style.display = "none";
 
 window.onload = function () {
-  loadItemsFromLocalStorage();
+  loadItemsWithFilters();
 };
 
 let medicines = [];
@@ -99,35 +99,48 @@ function showLayoutBox() {
       resetForm();
       closePopup();
       saveItemsToLocalStorage();
-      // Show success popup
-      document.getElementById('SuccessPopup').style.display = 'flex';
+        // Show SweetAlert success popup
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: result.message || 'Item added successfully'
+      });
     } else {
-      alert("Error saving to database: " + result.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: result.message || 'Error saving to database'
+      });
     }
   })
   .catch(error => {
     console.error("Error:", error);
-    alert("An error occurred while saving data.");
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while saving data.'
+    });
   });
 }
 
 function addGridItem(medicine, index) {
-   const inventory = document.getElementById('inventory');
-   const gridItem = document.createElement('div');
-   gridItem.className = 'grid-item';
-   gridItem.innerHTML = `
-      <div class="item-type">${medicine.type}</div>
-      <div class="item-content">
-        <div class="item-name">${medicine.name}</div>
-        <div class="item-qty">x${medicine.quantity}</div>
-      </div>
-      <div class="item-buttons">
-         <button class="view-button" onclick="viewItem(${index})">View</button>
-         <button class="delete-button" onclick="deleteItem(${index})">Delete</button>
-      </div>
-   `;
-   inventory.appendChild(gridItem);
-   inventory.style.display = 'grid';
+  const inventory = document.getElementById('inventory');
+  const gridItem = document.createElement('div');
+  gridItem.className = 'grid-item';
+  gridItem.setAttribute('data-id', medicine.id); // Store Item_ID in the DOM
+  gridItem.innerHTML = `
+    <div class="item-type">${medicine.type}</div>
+    <div class="item-content">
+      <div class="item-name">${medicine.name}</div>
+      <div class="item-qty">x${medicine.quantity}</div>
+    </div>
+    <div class="item-buttons">
+      <button class="view-button" onclick="viewItem(${medicine.id})">View</button>
+      <button class="delete-button" onclick="deleteItem(${medicine.id})">Delete</button>
+    </div>
+  `;
+  inventory.appendChild(gridItem);
+  inventory.style.display = 'grid';
 }
 
 function updateItemCount() {
@@ -142,8 +155,9 @@ function resetForm() {
   document.getElementById('itemDescription').value = '';
 }
 
-function viewItem(index) {
-  const medicine = medicines[index];
+function viewItem(id) {
+  const medicine = medicines.find(item => item.id == id);
+  const index = medicines.findIndex(item => item.id == id);
   const viewPopup = document.getElementById('viewPopup');
 
   if (!medicine || !viewPopup) return;
@@ -164,7 +178,7 @@ function viewItem(index) {
 
   document.getElementById('saveChangesBtn').onclick = function () {
     const updatedMedicine = {
-      id: medicines[index].id,
+      id: medicine.id,
       name: document.getElementById('viewItemName').value,
       category: document.getElementById('viewItemType').value,
       quantity: parseInt(document.getElementById('viewQuantityStock').value)
@@ -178,34 +192,48 @@ function viewItem(index) {
       },
       body: JSON.stringify(updatedMedicine)
     })
-    .then(response => response.json())
-    .then(result => {
-      if (result.status === 'success') {
-        // Only update frontend if backend update was successful
-        medicines[index] = { 
-          ...medicines[index],
-          name: updatedMedicine.name,
-          type: updatedMedicine.category,
-          quantity: updatedMedicine.quantity,
-          description: document.getElementById('viewDescription').value
-        };
-        updateGridItem(index, medicines[index]);
-        saveItemsToLocalStorage();
-        closeViewPopup();
-      } else {
-        alert("Failed to update database: " + result.message);
-      }
-    })
-    .catch(error => {
-      console.error("Update error:", error);
-      alert("An error occurred while updating the item.");
-    });
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: data.message || 'Item updated successfully'
+          });
+          // Update frontend
+          medicines[index] = {
+            ...medicines[index],
+            name: updatedMedicine.name,
+            type: updatedMedicine.category,
+            quantity: updatedMedicine.quantity,
+            description: document.getElementById('viewDescription').value
+          };
+          updateGridItem(id, medicines[index]);
+          saveItemsToLocalStorage();
+          closeViewPopup();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message || 'Failed to update item'
+          });
+        }
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.toString()
+        });
+      });
   };
 }
 
-function updateGridItem(index, medicine) {
+function updateGridItem(id, medicine) {
   const inventory = document.getElementById('inventory');
-  const gridItem = inventory.children[index];
+  const gridItem = Array.from(inventory.children).find(
+    item => item.getAttribute('data-id') == id
+  );
 
   if (!gridItem) return;
 
@@ -216,21 +244,16 @@ function updateGridItem(index, medicine) {
       <div class="item-qty">x${medicine.quantity}</div>
     </div>
     <div class="item-buttons">
-      <button class="view-button" onclick="viewItem(${index})">View</button>
-      <button class="delete-button" onclick="deleteItem(${index})">Delete</button>
+      <button class="view-button" onclick="viewItem(${medicine.id})">View</button>
+      <button class="delete-button" onclick="deleteItem(${medicine.id})">Delete</button>
     </div>
   `;
 }
 
-function deleteItem(index) {
-  const idToDelete = medicines[index].id;
+function deleteItem(id) {
+  const index = medicines.findIndex(item => item.id == id);
 
-  // Remove from frontend
-  medicines.splice(index, 1);
-  document.getElementById('inventory').children[index].remove();
-  updateItemCount();
-  rebuildGridButtons();
-  saveItemsToLocalStorage();
+  if (index === -1) return;
 
   // Remove from backend
   fetch('../php/delete_item.php', {
@@ -238,14 +261,40 @@ function deleteItem(index) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ id: idToDelete })
+    body: JSON.stringify({ id: id })
   })
-  .then(response => response.text())
-  .then(result => {
-    if (result.trim() !== 'success') {
-      alert("Failed to delete from database: " + result);
-    }
-  });
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: result.message || 'Item deleted successfully'
+        });
+        // Remove from frontend only after backend success
+        medicines.splice(index, 1);
+        const inventory = document.getElementById('inventory');
+        const gridItem = Array.from(inventory.children).find(
+          item => item.getAttribute('data-id') == id
+        );
+        if (gridItem) gridItem.remove();
+        updateItemCount();
+        saveItemsToLocalStorage();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: result.message || 'Failed to delete from database'
+        });
+      }
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.toString()
+      });
+    });
 }
 
 function rebuildGridButtons() {
@@ -253,11 +302,12 @@ function rebuildGridButtons() {
   const gridItems = inventory.children;
 
   for (let i = 0; i < gridItems.length; i++) {
+    const id = gridItems[i].getAttribute('data-id');
     const buttonsDiv = gridItems[i].querySelector('.item-buttons');
     if (buttonsDiv) {
       buttonsDiv.innerHTML = `
-        <button class="view-button" onclick="viewItem(${i})">View</button>
-        <button class="delete-button" onclick="deleteItem(${i})">Delete</button>
+        <button class="view-button" onclick="viewItem(${id})">View</button>
+        <button class="delete-button" onclick="deleteItem(${id})">Delete</button>
       `;
     }
   }
@@ -268,17 +318,76 @@ function saveItemsToLocalStorage() {
   localStorage.setItem('medicines', JSON.stringify(medicines));
 }
 
-// Placeholder functions
-function filterTable() {
-  alert("Filter function triggered.");
-}
-
-function sortTable() {
-  alert("Sort function triggered.");
-}
-
+// Search functionality
 function searchTable() {
-  alert("Search function triggered.");
+  const searchInput = document.getElementById('searchInput').value;
+  loadItemsWithFilters(searchInput, currentFilter);
+}
+
+// Filter functionality
+let currentFilter = '';
+function filterTable() {
+  // Create and show the filter dropdown
+  Swal.fire({
+    title: 'Filter by Category',
+    input: 'select',
+    inputOptions: {
+      '': 'All Categories',
+      'Supplies': 'Supplies',
+      'PPE': 'PPE',
+      'Equipment': 'Equipment',
+      'First Aid': 'First Aid'
+    },
+    inputValue: currentFilter,
+    showCancelButton: true,
+    inputValidator: (value) => {
+      currentFilter = value;
+      const searchInput = document.getElementById('searchInput').value;
+      loadItemsWithFilters(searchInput, value);
+    }
+  });
+}
+
+// Load items with search and filter
+function loadItemsWithFilters(search = '', category = '') {
+  let url = '../php/fetch_items.php';
+  const params = new URLSearchParams();
+  
+  if (search) params.append('search', search);
+  if (category) params.append('category', category);
+  
+  if (params.toString()) {
+    url += '?' + params.toString();
+  }
+
+  fetch(url)
+    .then(response => response.json())
+    .then(items => {
+      medicines = items.map(item => ({
+        id: item.Item_ID,
+        name: item.Item_Name,
+        type: item.Category,
+        quantity: item.Quantity,
+        description: item.Description || ''
+      }));
+      
+      // Clear the inventory before adding items
+      const inventory = document.getElementById('inventory');
+      inventory.innerHTML = '';
+      
+      medicines.forEach((medicine, index) => {
+        addGridItem(medicine, index);
+      });
+      updateItemCount();
+    })
+    .catch(error => {
+      console.error('Error loading items:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to load items. Please try again.'
+      });
+    });
 }
 
 // Add popup close functions
@@ -289,3 +398,8 @@ function closeSuccessPopup() {
 function closeEmptyFieldPopup() {
   document.getElementById('emptyFieldPopup').style.display = 'none';
 }
+
+// Add event listener for search input
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchTable();
+});

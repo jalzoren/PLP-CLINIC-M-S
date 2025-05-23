@@ -89,9 +89,10 @@
         <div class="notif">hi</div>
     </section>
 
-    <button class="emerg">
+    <button class="emerg" onclick="openForm()" >
         PASIG EMERGENCY HOTLINES
     </button>
+
 
  <section class="text">
     <div class="text-divider">AVAILABLE ITEMS</div>
@@ -100,6 +101,30 @@
  <div class="items">
   <!-- Items will be injected here by JS -->
 </div>
+
+
+        <div id="overlay" class="overlay"></div>
+        <div class="hotlines_table" id="hotlines_table_popup">
+            <a class="close_hotlines" onclick="closeForm()">x</a>
+            <table>
+                <caption>PASIG CITY EMERGENCY NUMBERS</caption>
+                <thead>
+                    <tr>
+                        <th>DEPARTMENT</th>
+                        <th>CONTACT NUMBER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Emergency Hotline</td><td>8643 0000</td></tr>
+                    <tr><td>Bureau of Fire Protection</td><td>8641-2815</td></tr>
+                    <tr><td>PNP Hotline</td><td>8477 7953</td></tr>
+                    <tr><td>Pasig City Children's Hospital</td><td>8643 2222</td></tr>
+                    <tr><td>Pasig City General Hospital</td><td>8643 3333<br>8642 7379<br>8642 7381</td></tr>
+                    <tr><td>National Emergency Hotline</td><td>911</td></tr>
+                </tbody>
+            </table>
+        </div>
+
   </body>
 
   <script>
@@ -181,6 +206,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 </script>
 
+    <script>
+        // HOTLINES
+        const hotlinesPopup = document.getElementById("hotlines_table_popup");
+        const overlay = document.getElementById("overlay");
 
-  </body>
+        function openForm() {
+            hotlinesPopup.classList.add("show");
+            overlay.classList.add("show");
+        }
+        
+        function closeForm() {
+            hotlinesPopup.classList.remove("show");
+            overlay.classList.remove("show");
+        }
+    </script>
+</body>
 </html>

@@ -85,20 +85,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
-            // Add returned quantity back to stock and update item status
-            $update_qty_sql = "UPDATE item 
-                               SET Quantity = Quantity + ?, 
-                                   Status = CASE WHEN Quantity + ? > 0 THEN 'Available' ELSE 'Unavailable' END 
-                               WHERE Item_ID = ?";
-            $update_qty_stmt = $conn->prepare($update_qty_sql);
-            $update_qty_stmt->bind_param('iii', $borrowed_qty, $borrowed_qty, $item_id);
-            
-            if ($update_qty_stmt->execute()) {
-                $update_qty_stmt->close();
-                echo json_encode(['success' => true]);
+            // Only update inventory if the item is not marked as lost
+            if ($item_status !== 'Lost') {
+                // Add returned quantity back to stock and update item status
+                $update_qty_sql = "UPDATE item 
+                                   SET Quantity = Quantity + ?, 
+                                       Status = CASE WHEN Quantity + ? > 0 THEN 'Available' ELSE 'Unavailable' END 
+                                   WHERE Item_ID = ?";
+                $update_qty_stmt = $conn->prepare($update_qty_sql);
+                $update_qty_stmt->bind_param('iii', $borrowed_qty, $borrowed_qty, $item_id);
+                
+                if ($update_qty_stmt->execute()) {
+                    $update_qty_stmt->close();
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'error' => 'Failed to update item quantity: ' . $update_qty_stmt->error]);
+                    $update_qty_stmt->close();
+                }
             } else {
-                echo json_encode(['success' => false, 'error' => 'Failed to update item quantity: ' . $update_qty_stmt->error]);
-                $update_qty_stmt->close();
+                // If item is lost, just return success without updating inventory
+                echo json_encode(['success' => true]);
             }
         } else {
             echo json_encode(['success' => false, 'error' => 'No matching borrowed record found']);
