@@ -1,6 +1,6 @@
 <?php
 // Include database class
-require_once 'database.php';
+require_once '../php/database.php';
 
 header('Content-Type: application/json');
 

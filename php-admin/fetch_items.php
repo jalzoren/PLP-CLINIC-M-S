@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once 'Database.php';
+require_once '../php/database.php';
 
 try {
     $database = new Database();

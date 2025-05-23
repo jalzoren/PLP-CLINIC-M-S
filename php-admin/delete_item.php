@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php';
+require_once '../php/database.php';
 
 // Get the raw POST data
 $data = json_decode(file_get_contents('php://input'), true);
