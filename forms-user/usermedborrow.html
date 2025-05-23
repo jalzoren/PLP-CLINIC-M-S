@@ -272,21 +272,18 @@
 
     // In loadBorrowedItems, format dates using Asia/Manila timezone
     function formatDateAsia(dateString) {
-  if (!dateString) return 'N/A';
-  // Append '+08:00' if not present
-  let dateWithTZ = dateString;
-  if (!dateString.endsWith('+08:00')) {
-    dateWithTZ = dateString.replace(' ', 'T') + '+08:00';
-  }
-  const date = new Date(dateWithTZ);
-  return date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-}
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleString('en-PH', {
+        timeZone: 'Asia/Manila',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
 
     function renderTablePage(page) {
       const tableBody = document.getElementById('tableBody');

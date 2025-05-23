@@ -210,8 +210,8 @@
             <td>${record.FullName || 'N/A'}</td>
             <td>${record.Category || 'N/A'}</td>
             <td>${record.DepartmentInfo || 'N/A'}</td>
-            <td>${formatDate(record.Date_Borrowed)}</td>
-            <td>${record.Date_Returned ? formatDate(record.Date_Returned) : '-'}</td>
+            <td>${formatDateAsia(record.Date_Borrowed)}</td>
+            <td>${record.Date_Returned ? formatDateAsia(record.Date_Returned) : '-'}</td>
             <td>${record.Item_Name || 'N/A'}</td>
             <td>${record.Quantity || 'N/A'}</td>
             <td>${record.Status || 'N/A'}</td>
@@ -330,15 +330,17 @@
       }
 
       // Format date
-      function formatDate(dateString) {
+      function formatDateAsia(dateString) {
         if (!dateString) return 'N/A';
         const date = new Date(dateString);
-        return date.toLocaleString('en-US', {
+        return date.toLocaleString('en-PH', {
+          timeZone: 'Asia/Manila',
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
           hour: '2-digit',
-          minute: '2-digit'
+          minute: '2-digit',
+          hour12: true
         });
       }
 
