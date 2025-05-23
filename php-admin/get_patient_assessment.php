@@ -1,5 +1,5 @@
 <?php
-require 'database.php';  // adjust path if needed
+require '../php/database.php';  // adjust path if needed
 
 header('Content-Type: application/json');
 

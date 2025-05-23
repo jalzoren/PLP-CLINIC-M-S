@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php';
+require_once '../php/database.php';
 
 // Prevent caching
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");

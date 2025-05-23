@@ -4,7 +4,7 @@ ini_set('display_errors', 0);      // Do not display errors in output
 ini_set('log_errors', 1);          // Log errors instead to error log
 ini_set('error_log', __DIR__ . '/php-error.log');  // Define error log file
 
-require 'database.php'; // Your DB connection ($conn)
+require '../php/database.php'; // Your DB connection ($conn)
 
 header('Content-Type: application/json; charset=utf-8');
 
