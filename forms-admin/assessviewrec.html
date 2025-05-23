@@ -50,7 +50,7 @@
     if (!assessmentId || assessmentId.toLowerCase() === "null") {
       document.getElementById("error").textContent = "No valid assessment ID specified in URL.";
     } else {
-      fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
+      fetch(`../php-admin/get_assessment_details.php?assessment_id=${assessmentId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);

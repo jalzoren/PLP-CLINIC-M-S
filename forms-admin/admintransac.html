@@ -117,7 +117,7 @@
         const loadingIndicator = document.getElementById("loadingIndicator");
         loadingIndicator.style.display = "inline-block";
 
-        fetch(`../php/fetch_visits.php?days=${days}`)
+        fetch(`../php-admin/fetch_visits.php?days=${days}`)
           .then((response) => response.json())
           .then((data) => {
             if (data.status === "success") {
