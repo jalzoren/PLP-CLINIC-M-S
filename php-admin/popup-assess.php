@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php';
+require_once '../php/database.php';
 
 // Set header to return JSON response
 header('Content-Type: application/json');

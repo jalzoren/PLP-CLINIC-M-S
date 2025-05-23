@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/database.php';
+require_once __DIR__ . '../php/database.php';
 
 try {
     $conn = (new Database())->getConnection();
