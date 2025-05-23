@@ -2,13 +2,25 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("../php/usermedhist.php")
         .then(response => response.json())
         .then(data => {
+            // Helper function to set value if element exists
+            function setValue(id, value) {
+                const el = document.getElementById(id);
+                if (el) el.value = value;
+            }
+
+            // Helper function to set checked if element exists
+            function setChecked(id, checked) {
+                const el = document.getElementById(id);
+                if (el) el.checked = checked;
+            }
+
             // Populate general patient fields
             [
                 "identification", "lastname", "firstname", "middlename", "gender",
                 "age", "birthdate", "religion", "nationality", "contact", "civilstatus",
                 "address", "city", "province", "zipcode", "email"
             ].forEach(id => {
-                document.getElementById(id).value = data[id] || "";
+                setValue(id, data[id] || "");
             });
 
             // Emergency contact
@@ -17,105 +29,98 @@ document.addEventListener("DOMContentLoaded", function () {
                 "relationship", "emergencycontact", "emergencyaddress", "emergencycity",
                 "emergencyprovince", "emergencyzipcode"
             ].forEach(id => {
-                document.getElementById(id).value = data[id] || "";
+                setValue(id, data[id] || "");
             });
 
             // Student Info
             if (data.student_department?.trim()) {
-                document.getElementById("collegeDepartment").value = data.student_department;
-                document.getElementById("collegeProgram").value = data.program || "";
-                document.getElementById("batch").value = data.batch || "";
+                setValue("collegeDepartment", data.student_department);
+                setValue("collegeProgram", data.program || "");
+                setValue("batch", data.batch || "");
             } else {
                 ["collegeDepartment", "collegeProgram", "batch"].forEach(id => {
-                    document.getElementById(id).value = "";
+                    setValue(id, "");
                 });
             }
 
             // Personnel Info
             if (data.personnel_department?.trim()) {
-                document.getElementById("departmentPersonnel").value = data.personnel_department;
+                setValue("departmentPersonnel", data.personnel_department);
             } else if (!data.student_department?.trim()) {
-                document.getElementById("departmentPersonnel").value = "";
+                setValue("departmentPersonnel", "");
             }
 
             // Student/Personnel Category Checkboxes
-            document.getElementById("studentCheckbox").checked = false;
-            document.getElementById("personnelCheckbox").checked = false;
-            document.getElementById("teaching").checked = false;
-            document.getElementById("nonTeaching").checked = false;
-            
+            setChecked("studentCheckbox", false);
+            setChecked("personnelCheckbox", false);
+            setChecked("teaching", false);
+            setChecked("nonTeaching", false);
+
             if (data.category === "student") {
-                document.getElementById("studentCheckbox").checked = true;
+                setChecked("studentCheckbox", true);
             } else if (data.category === "teaching" || data.category === "non-teaching") {
-                document.getElementById("personnelCheckbox").checked = true;
-            
+                setChecked("personnelCheckbox", true);
+
                 if (data.personnel_type === "teaching") {
-                    document.getElementById("teaching").checked = true;
+                    setChecked("teaching", true);
                 } else if (data.personnel_type === "non-teaching") {
-                    document.getElementById("nonTeaching").checked = true;
+                    setChecked("nonTeaching", true);
                 }
             }
-            
-
 
             // Smoking History
             const smokingUsageStatus = (data.smoking_usage_status || "").toLowerCase();
             const smokingStartDate = data.smoking_start_date || "";
             const smokingStopDate = data.smoking_stop_date || "";
             const smokingTypesUsed = data.smoking_types_used || [];
-        
+
             document.querySelectorAll('input[name="usageStatus"]').forEach(input => {
-                input.checked = input.value.toLowerCase() === smokingUsageStatus;
+                if(input) input.checked = input.value.toLowerCase() === smokingUsageStatus;
             });
-        
-            document.getElementById("stoppedDate").value = smokingStopDate;
-        
+
+            setValue("stoppedDate", smokingStopDate);
+
             ["cigarette", "vape", "pipe"].forEach(type => {
                 const cb = document.getElementById(type);
                 if (cb) cb.checked = false;
             });
-            document.getElementById("sticksperday").value = "";
-            document.getElementById("cigaretteStartedDate").value = "";
-        
+            setValue("sticksperday", "");
+            setValue("cigaretteStartedDate", "");
+
             smokingTypesUsed.forEach(typeObj => {
                 const type = (typeObj.type || "").toLowerCase();
                 const cb = document.getElementById(type);
                 if (cb) {
                     cb.checked = true;
                     if (type === "cigarette") {
-                        document.getElementById("sticksperday").value = typeObj.sticks_per_day || "";
-                        document.getElementById("cigaretteStartedDate").value = smokingStartDate;
+                        setValue("sticksperday", typeObj.sticks_per_day || "");
+                        setValue("cigaretteStartedDate", smokingStartDate);
                     }
                 }
             });
-        
-
 
             // Maternal History
-            document.getElementById("numberOfPreg").value = data.no_of_pregnancy || "";
-            document.getElementById("numberOfMiscarriage").value = data.no_of_miscarriage || "";
-            document.getElementById("numberOfTermdeliveries").value = data.no_terms_of_delivery || "";
-            document.getElementById("numberOfPrematureDeliveries").value = data.no_of_premature_delivery || "";
-            document.getElementById("totalnumberofChildren").value = data.total_children || "";
+            setValue("numberOfPreg", data.no_of_pregnancy || "");
+            setValue("numberOfMiscarriage", data.no_of_miscarriage || "");
+            setValue("numberOfTermdeliveries", data.no_terms_of_delivery || "");
+            setValue("numberOfPrematureDeliveries", data.no_of_premature_delivery || "");
+            setValue("totalnumberofChildren", data.total_children || "");
 
             // Alcohol
-            document.getElementById("totalperconsupAlchoText").value = data.estimated_per_consumption || "";
-            if (data.alcohol_frequency === "Once per week") {
-                document.getElementById("oncePerWeekalcohol").checked = true;
-            } else if (data.alcohol_frequency === "More than once per week") {
-                document.getElementById("moreThanonceperweekalcohol").checked = true;
-            }
+            setValue("totalperconsupAlchoText", data.estimated_per_consumption || "");
+            setChecked("oncePerWeekalcohol", data.alcohol_frequency === "Once per week");
+            setChecked("moreThanonceperweekalcohol", data.alcohol_frequency === "More than once per week");
 
             // Surgical History
             if (data.has_surgical_history === "none") {
-                document.getElementById("noneSurgery").checked = true;
+                setChecked("noneSurgery", true);
+                setValue("surgicalText", "");
             } else {
-                document.getElementById("surgical").checked = true;
-                document.getElementById("surgicalText").value = data.surgical_specify || "";
+                setChecked("surgical", true);
+                setValue("surgicalText", data.surgical_specify || "");
             }
 
-
-            // --- Handle medical_conditions from same response ---
+            // Medical Conditions
             const conditionMap = {
                 "Hypertension": "hypertension",
                 "Tubercolosis": "tubercolosis",
@@ -129,14 +134,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Others": "otherMedical"
             };
 
-            // Uncheck all condition checkboxes
             Object.values(conditionMap).forEach(id => {
-                const checkbox = document.getElementById(id);
-                if (checkbox) checkbox.checked = false;
-            }); 
-            document.getElementById("allergiesText").value = "";
-            document.getElementById("otherMedicalText").value = "";
-            document.getElementById("maintenanceMedications").value = "";
+                setChecked(id, false);
+            });
+            setValue("allergiesText", "");
+            setValue("otherMedicalText", "");
+            setValue("maintenanceMedications", "");
 
             if (Array.isArray(data.medical_conditions)) {
                 data.medical_conditions.forEach(item => {
@@ -144,19 +147,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     const matchKey = Object.keys(conditionMap).find(key => key.toLowerCase() === conditionName);
                     if (matchKey) {
                         const checkboxId = conditionMap[matchKey];
-                        const checkbox = document.getElementById(checkboxId);
-                        if (checkbox) checkbox.checked = true;
+                        setChecked(checkboxId, true);
 
                         if (checkboxId === "allergies") {
-                            document.getElementById("allergiesText").value = item.Details || "";
+                            setValue("allergiesText", item.Details || "");
                         }
                         if (checkboxId === "otherMedical") {
-                            document.getElementById("otherMedicalText").value = item.Details || "";
+                            setValue("otherMedicalText", item.Details || "");
                         }
                     }
 
                     if (item.Med_Maintenance) {
-                        document.getElementById("maintenanceMedications").value = item.Med_Maintenance;
+                        setValue("maintenanceMedications", item.Med_Maintenance);
                     }
                 });
             }
@@ -164,77 +166,65 @@ document.addEventListener("DOMContentLoaded", function () {
             // Drugs
             const drugsUsageStatus = (data.drugs_usage_status || "").toLowerCase();
             document.querySelectorAll('input[name="drugsStatus"]').forEach(cb => {
-                cb.checked = (cb.value.toLowerCase() === drugsUsageStatus);
+                if(cb) cb.checked = (cb.value.toLowerCase() === drugsUsageStatus);
             });
 
-            // Substances Used (checkboxes with name="substances[]")
             const substancesUsed = (data.drugs_substances_used || []).map(s => s.toLowerCase());
             document.querySelectorAll('input[name="substances[]"]').forEach(cb => {
-                cb.checked = substancesUsed.includes(cb.value.toLowerCase());
+                if(cb) cb.checked = substancesUsed.includes(cb.value.toLowerCase());
             });
 
-            // Rehabilitation Status (checkboxes with name="rehabilitation")
             const rehabStatus = (data.rehabilitation_status || "").toLowerCase();
             document.querySelectorAll('input[name="rehabilitation"]').forEach(cb => {
-                cb.checked = (cb.value.toLowerCase() === rehabStatus);
+                if(cb) cb.checked = (cb.value.toLowerCase() === rehabStatus);
             });
 
+            // Family History
+            const familyConditionMap = {
+                "Hypertension": "FamHishypertension",
+                "Diabetes": "FamHisdiabetes",
+                "Allergies": "FamHisallergiesCheckbox",
+                "High Cholesterol": "FamHishighCholesterol",
+                "Cancer": "FamHiscancer",
+                "Asthma": "FamHisasthma",
+                "Tubercolosis": "FamHistubercolosis",
+                "Emphysema": "FamHisemphysema",
+                "Thyroid Problems": "FamHisthyroidProblems",
+                "Other": "SpecifyFamHisCheckbox"
+            };
 
-        // Family History
-        // Family History
-        const familyConditionMap = {
-            "Hypertension": "FamHishypertension",
-            "Diabetes": "FamHisdiabetes",
-            "Allergies": "FamHisallergiesCheckbox",
-            "High Cholesterol": "FamHishighCholesterol",
-            "Cancer": "FamHiscancer",
-            "Asthma": "FamHisasthma",
-            "Tubercolosis": "FamHistubercolosis",
-            "Emphysema": "FamHisemphysema",
-            "Thyroid Problems": "FamHisthyroidProblems",
-            "Other": "SpecifyFamHisCheckbox"
-        };
-
-        // Uncheck all family history checkboxes and clear text fields
-        Object.values(familyConditionMap).forEach(id => {
-            const checkbox = document.getElementById(id);
-            if (checkbox) checkbox.checked = false;
-        });
-        document.getElementById("FamHisallergiesText").value = "";
-        document.getElementById("SpecifyFamHisText").value = "";
-
-        if (Array.isArray(data.family_history)) {
-            data.family_history.forEach(item => {
-                const conditionName = item.Medical_Condition?.trim().toLowerCase();
-                const matchKey = Object.keys(familyConditionMap).find(
-                    key => key.toLowerCase() === conditionName
-                );
-                if (matchKey) {
-                    const checkboxId = familyConditionMap[matchKey];
-                    const checkbox = document.getElementById(checkboxId);
-                    if (checkbox) checkbox.checked = true;
-
-                    // Handle text input for Allergies and Other
-                    if (checkboxId === "FamHisallergiesCheckbox") {
-                        document.getElementById("FamHisallergiesText").value = item.Details || "";
-                    }
-                    if (checkboxId === "SpecifyFamHisCheckbox") {
-                        document.getElementById("SpecifyFamHisText").value = item.Details || "";
-                    }
-                }
+            Object.values(familyConditionMap).forEach(id => {
+                setChecked(id, false);
             });
-        }
+            setValue("FamHisallergiesText", "");
+            setValue("SpecifyFamHisText", "");
 
+            if (Array.isArray(data.family_history)) {
+                data.family_history.forEach(item => {
+                    const conditionName = item.Medical_Condition?.trim().toLowerCase();
+                    const matchKey = Object.keys(familyConditionMap).find(
+                        key => key.toLowerCase() === conditionName
+                    );
+                    if (matchKey) {
+                        const checkboxId = familyConditionMap[matchKey];
+                        setChecked(checkboxId, true);
 
-        // Combine full name (adjust spacing if needed)
-        const fullName = `${data.firstname} ${data.middlename} ${data.lastname}`.trim();
+                        if (checkboxId === "FamHisallergiesCheckbox") {
+                            setValue("FamHisallergiesText", item.Details || "");
+                        }
+                        if (checkboxId === "SpecifyFamHisCheckbox") {
+                            setValue("SpecifyFamHisText", item.Details || "");
+                        }
+                    }
+                });
+            }
 
-        // Insert into placeholder
-        document.getElementById("patient-name-placeholder").textContent = fullName;
-
-
-
-
+            // Full name placeholder
+            const namePlaceholder = document.getElementById("patient-name-placeholder");
+            if (namePlaceholder) {
+                const fullName = `${data.firstname || ""} ${data.middlename || ""} ${data.lastname || ""}`.trim();
+                namePlaceholder.textContent = fullName;
+            }
         })
         .catch(err => console.error("Error loading data:", err));
 });
