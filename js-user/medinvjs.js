@@ -11,7 +11,7 @@ let medicines = [];
 // Load saved items from localStorage
 function loadItemsFromLocalStorage() {
   // Instead of loading from localStorage, fetch from server
-  fetch('../php/fetch_items.php')
+  fetch('../php-admin/fetch_items.php')
     .then(response => response.json())
     .then(items => {
       medicines = items.map(item => ({
@@ -78,7 +78,7 @@ function showLayoutBox() {
   formData.append('category', type);
   formData.append('quantity', quantity);
 
-  fetch('../php/add_item.php', {
+  fetch('../php-admin/add_item.php', {
     method: 'POST',
     body: formData
   })
@@ -185,7 +185,7 @@ function viewItem(id) {
     };
 
     // Update backend first
-    fetch('../php/update_item.php', {
+    fetch('../php-admin/update_item.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -256,7 +256,7 @@ function deleteItem(id) {
   if (index === -1) return;
 
   // Remove from backend
-  fetch('../php/delete_item.php', {
+  fetch('../php-admin/delete_item.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -350,7 +350,7 @@ function filterTable() {
 
 // Load items with search and filter
 function loadItemsWithFilters(search = '', category = '') {
-  let url = '../php/fetch_items.php';
+  let url = '../php-admin/fetch_items.php';
   const params = new URLSearchParams();
   
   if (search) params.append('search', search);
