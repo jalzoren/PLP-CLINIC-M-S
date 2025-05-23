@@ -173,63 +173,31 @@ require_once '../php-admin/medrecsfetch.php'; // this gives you $result
         <div id="pop-up-med"></div>
 
 
-
         <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("../php-admin/medrecsfetch.php")
-          .then(response => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then(data => {
-            document.getElementById("patient-records-body").innerHTML = data;
-          })
-      });
-
-
-
-            function loadPatientRecords() {
-          $.ajax({
-            url: '../php-admin/medrecsfetch.php',
-            method: 'POST',
-            success: function(response) {
-              $('#patient-records-body').html(response); 
-            },
-            error: function() {
-              alert("Error loading patient records.");
-            }
-          });
-        }
-
-        $(document).ready(function() {
-          loadPatientRecords(); 
-
-          setInterval(loadPatientRecords, 1000);
-        });
-      </script>
-
-        <script>
+          // Remove the fetch and ajax calls related to 'patient-records-body'
+        
+          // Sidebar toggle button
           let btn = document.querySelector("#logo");
           let sidebar = document.querySelector(".sidebar");
-
+        
           btn.onclick = function () {
             sidebar.classList.toggle("active");
           };
-  
+        
+          // Load popup medical record form
           document.getElementById('load-btn').addEventListener('click', function() {
             fetch('../popup-forms/popup-medicalrec.html')
               .then(response => response.text())
               .then(data => {
                 const container = document.getElementById('pop-up-med'); 
                 container.innerHTML = data;
-
+        
                 const popupContainer = document.getElementById("popupContainer");
                 if (popupContainer) {
                   popupContainer.style.display = "block";
                 }
-
+        
+                // Re-run scripts inside the loaded HTML
                 const scripts = container.querySelectorAll('script');
                 scripts.forEach(oldScript => {
                   const newScript = document.createElement('script');
@@ -243,12 +211,11 @@ require_once '../php-admin/medrecsfetch.php'; // this gives you $result
                 });
               })
               .catch(error => {
-                console.error('Error loading  HTML:', error);
+                console.error('Error loading HTML:', error);
               });
           });
         </script>
-
-    
+        
 
 
   </body>
