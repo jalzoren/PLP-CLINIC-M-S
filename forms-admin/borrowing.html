@@ -177,7 +177,7 @@
       // Fetch records from the server
       async function fetchRecords() {
         try {
-          const response = await fetch('../php/borrowing_records.php');
+          const response = await fetch('../php-admin/borrowing_records.php');
           const data = await response.json();
           allRecords = data;
           originalRecords = [...data]; // Keep a copy of original records

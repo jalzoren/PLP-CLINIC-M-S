@@ -1,5 +1,5 @@
 <?php
-require_once '../php/medrecsfetch.php'; // this gives you $result
+require_once '../php-admin/medrecsfetch.php'; // this gives you $result
 ?>
 
 <!DOCTYPE html>
@@ -176,7 +176,7 @@ require_once '../php/medrecsfetch.php'; // this gives you $result
 
         <script>
       document.addEventListener("DOMContentLoaded", function () {
-        fetch("../php/medrecsfetch.php")
+        fetch("../php-admin/medrecsfetch.php")
           .then(response => {
             if (!response.ok) {
               throw new Error("Network response was not ok");
@@ -192,7 +192,7 @@ require_once '../php/medrecsfetch.php'; // this gives you $result
 
             function loadPatientRecords() {
           $.ajax({
-            url: '../php/medrecsfetch.php',
+            url: '../php-admin/medrecsfetch.php',
             method: 'POST',
             success: function(response) {
               $('#patient-records-body').html(response); 
