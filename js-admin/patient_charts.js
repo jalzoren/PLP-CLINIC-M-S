@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    fetch('../php/get_patient_summary.php')
+    fetch('../php-admin/get_patient_summary.php')
     .then(response => {
         console.log("Fetch response received:", response);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);

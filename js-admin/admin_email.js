@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show loading state immediately
     emailElement.innerHTML = `<span><i class="material-icons" style="font-size: tiny;">account_circle</i></span> Loading...`;
 
-    fetch('../php/admin.php')
+    fetch('../php-admin/admin.php')
     .then(response => {
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         return response.json();
