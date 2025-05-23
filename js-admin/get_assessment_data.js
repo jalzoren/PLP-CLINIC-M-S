@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fetch combined patient and assessment data
-    fetch(`../php/get_patient_assessment.php?patient_id=${patientId}`)
+    fetch(`../php-admin/get_patient_assessment.php?patient_id=${patientId}`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {

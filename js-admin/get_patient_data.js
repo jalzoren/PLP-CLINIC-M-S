@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    fetch("../php/get_patient_data.php?patient_id=" + patientId)
+    fetch("../php-admin/get_patient_data.php?patient_id=" + patientId)
         .then(response => response.json())
         .then(data => {
             // Populate general patient fields

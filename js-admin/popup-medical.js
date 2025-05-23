@@ -646,7 +646,7 @@ function submitMedicalRecordForm(e) {
     }
 
     // Submit the form
-    fetch("../php/submit_patient.php", {
+    fetch("../php-admin/submit_patient.php", {
       method: "POST",
       body: formData
     })

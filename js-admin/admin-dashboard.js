@@ -130,7 +130,7 @@ async function renderVisitChart(days = 7) {
     }
 
     try {
-        const res = await fetch(`../php/get_visit_summary.php?days=${days}`);
+        const res = await fetch(`../php-admin/get_visit_summary.php?days=${days}`);
         const response = await res.json();
         console.log("Visit summary response:", response);
 

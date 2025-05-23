@@ -1,4 +1,4 @@
-fetch('../php/item_summary.php')
+fetch('../php-admin/item_summary.php')
 .then(response => {
     if (!response.ok) throw new Error("HTTP error! status: " + response.status);
     return response.json();
