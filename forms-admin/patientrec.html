@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patient Records / PLP Clinic Monitoring System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/png" href="../pictures/logo.png" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -18,71 +15,132 @@
     />
     <link rel="stylesheet" href="../css/patientrestyle.css" />
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+    <style>
+      /* Modal Styles */
+      .assessment-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+      }
+
+      .assessment-modal-content {
+        background: white;
+        width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: monospace;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .assessment-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .assessment-modal-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .assessment-field {
+        margin-bottom: 10px;
+      }
+
+      .assessment-label {
+        font-weight: bold;
+      }
+
+      .assessment-error {
+        color: red;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <div class="sidebar">
-      <div class="logo-content">
-        <div class="logo" id="logo">
-          <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
-          <div class="logo-name">PLPClinic</div>
+        <div class="logo-content">
+            <div class="logo" id="logo">
+                <img src="../pictures/logo.png" alt="Logo" class="logo-img" />
+                <div class="logo-name">PLPClinic</div>
+            </div>
         </div>
-      </div>
 
-      <ul class="nav-list">
-        <li>
-          <a href="staffdashboard.html" class="transition-link">
-            <i class="bx bxs-grid-alt"></i>
-            <span class="link-name">Dashboard</span>
-          </a>
-          <span class="tooltip">Dashboard</span>
-        </li>
+        <ul class="nav-list">
+            <li>
+                <a
+                href="admindashboard.html"
+                class="transition-link"
+                >
+                    <i class="material-icons">dashboard</i>
+                    <span class="link-name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
 
-        <li>
-          <a href="medrecords.html" class="active">
-            <i class="bx bxs-file"></i>
-            <span class="link-name">Medical</span>
-          </a>
-          <span class="tooltip">Medical Records</span>
-        </li>
-        <li>
-          <a href="borrowing.html" class="transition-link">
-            <i class="bx bxs-cabinet"></i>
-            <span class="link-name">Borrowing</span>
-          </a>
-          <span class="tooltip">Borrowing Form</span>
-        </li>
+            <li>
+                <a href="medrecords.html" class="active">
+                <i class="material-icons">folder_shared</i>             
+                <span class="link-name">Records</span>
+                </a>
+                <span class="tooltip">Patient Records</span>
+            </li>
+            <li>
+                <a href="borrowing.html" class="transition-link">
+                <i class="material-icons">dns</i>
+                <span class="link-name">Borrow</span>
+                </a>
+                <span class="tooltip">Borrowing Records</span>
+            </li>
 
-        <li>
-          <a href="transac.html" class="transition-link">
-            <i class="bx bxs-info-square"></i>
-            <span class="link-name">Transactions</span>
-          </a>
-          <span class="tooltip">Daily Transaction</span>
-        </li>
-        <li>
-          <a href="medinv.html" class="transition-link">
-            <i class="bx bxs-capsule"></i>
-            <span class="link-name">Inventory</span>
-          </a>
-          <span class="tooltip">Medicine Inventory</span>
-        </li>
-      </ul>
-      <ul>
-        <li class="log-out">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+            <li>
+                <a href="userborrow.html" class="transition-link">
+                <i class="material-icons">assignment</i>
+                <span class="link-name">Borrow</span>
+                </a>
+                <span class="tooltip">Borrow Form</span>
+            </li>
 
-          <a href="#">
-            <i class="bx bx-log-out bx-rotate-180"></i>
-            <span class="link-name">Logout</span>
-          </a>
-        </li>
-      </ul>
+            <li>
+                <a href="admintransac.html" class="transition-link">
+                    <i class="material-icons">perm_contact_calendar</i>
+                    <span class="link-name">Transactions</span>
+                </a>
+                <span class="tooltip">Daily Visit Records</span>
+            </li>
+            <li>
+                <a href="adminiteminv.html" class="transition-link">
+                    <i class="material-icons">storage</i>
+                    <span class="link-name">Inventory</span>
+                </a>
+                <span class="tooltip">Item Inventory</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="log-out">
+                <br />
+                <br />
+                <br />
+                <br />
+                
+                <a href="../php/logout.php">
+                    <i class="material-icons">exit_to_app</i>
+                    <span class="link-name">Logout</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div class="header-content">
@@ -151,7 +209,17 @@
             $resultPatient = $stmtPatient->get_result();
             
             // Query patient_assessment table
-            $sqlAssessment = "SELECT Assessment_ID, Patient_ID, Recorded_At FROM patient_assessment WHERE Patient_ID = ?";
+            $sqlAssessment = "SELECT 
+                Assessment_ID, 
+                Patient_ID, 
+                Recorded_At,
+                (SELECT COUNT(*) 
+                 FROM patient_assessment pa2 
+                 WHERE pa2.Patient_ID = pa.Patient_ID 
+                 AND DATE(pa2.Recorded_At) = DATE(pa.Recorded_At)
+                 AND pa2.Assessment_ID <= pa.Assessment_ID) as assessment_count
+            FROM patient_assessment pa 
+            WHERE Patient_ID = ?";
             $stmtAssessment = $conn->prepare($sqlAssessment);
             if (!$stmtAssessment) {
                 die("Prepare failed for patient_assessment: (" . $conn->errno . ") " . $conn->error);
@@ -179,12 +247,17 @@
             // Output patient_assessment records next
             if ($resultAssessment && $resultAssessment->num_rows > 0) {
                 while ($row = $resultAssessment->fetch_assoc()) {
+                    $date = date('Y-m-d', strtotime($row['Recorded_At']));
+                    $fileName = $row['assessment_count'] > 1 ? 
+                               "Patient Assessment " . $row['assessment_count'] . " (" . $date . ")" :
+                               "Patient Assessment (" . $date . ")";
+                    
                     echo "<tr>";
                     echo "<td>" . $counter++ . "</td>";
-                    echo "<td>" . date('Y-m-d', strtotime($row['Recorded_At'])) . "</td>";
-                    echo "<td>Patient Assessment (" . date('Y-m-d', strtotime($row['Recorded_At'])) . ")</td>";
+                    echo "<td>" . $date . "</td>";
+                    echo "<td>" . $fileName . "</td>";
                     echo "<td class='action-cell'>
-                      <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
+                          <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
                           </td>";
                     echo "</tr>";
                 }
@@ -205,6 +278,18 @@
 
     <div id="pop-up-med"></div>
     <div id="pop-up-record"></div>
+
+    <!-- Assessment View Modal -->
+    <div id="assessmentModal" class="assessment-modal">
+      <div class="assessment-modal-content">
+        <div class="assessment-modal-header">
+          <h2>Patient Assessment</h2>
+          <button class="assessment-modal-close" onclick="closeAssessmentModal()">&times;</button>
+        </div>
+        <div id="assessmentContent"></div>
+        <div id="assessmentError" class="assessment-error"></div>
+      </div>
+    </div>
 
     <script>
       let btn = document.querySelector("#logo");
@@ -272,20 +357,81 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".view-btn2").forEach(button => {
-                button.addEventListener("click", function () {
-                    const assessmentId = this.getAttribute("data-assessment-id");
-                    if (assessmentId && assessmentId.toLowerCase() !== "null") {
-                        // Redirect to the assessviewrec.html page with assessment_id in the query string
-                        window.location.href = "assessviewrec.html?assessment_id=" + assessmentId;
-                    } else {
-                        alert("Invalid assessment ID. Cannot view assessment.");
-                        console.error("Invalid assessment ID on button:", this);
-                    }
-                });
-            });
+      // Assessment Modal Functions
+      function showAssessmentModal(assessmentId) {
+        document.getElementById('assessmentModal').style.display = 'block';
+        loadAssessmentDetails(assessmentId);
+      }
+
+      function closeAssessmentModal() {
+        document.getElementById('assessmentModal').style.display = 'none';
+      }
+
+      function loadAssessmentDetails(assessmentId) {
+        if (!assessmentId || assessmentId.toLowerCase() === "null") {
+          document.getElementById("assessmentError").textContent = "No valid assessment ID specified.";
+          return;
+        }
+
+        fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (!data.success) {
+              throw new Error(data.error || 'Failed to load assessment data');
+            }
+
+            const assessment = data.assessment;
+            
+            function formatField(label, value) {
+              if (value === null || value === "" || value === "1" || value === "1.0" || value === "999.9") return "";
+              return `<div class="assessment-field"><span class="assessment-label">${label}:</span> ${value}</div>`;
+            }
+
+            const html = [
+              formatField("Patient Name", assessment.patient_name),
+              formatField("ID Number", assessment.id_number),
+              formatField("Department", assessment.department),
+              formatField("Temperature", assessment.temperature),
+              formatField("Pulse", assessment.pulse),
+              formatField("Respiratory Rate", assessment.respiratory_rate),
+              formatField("Blood Pressure", assessment.blood_pressure),
+              formatField("Height", assessment.height),
+              formatField("Weight", assessment.weight),
+              formatField("BMI", assessment.bmi),
+              formatField("Recorded At", assessment.recorded_at),
+              formatField("Physician's Note", assessment.physicians_note),
+              formatField("Nurse Note", assessment.nurse_note)
+            ].join("");
+
+            document.getElementById("assessmentContent").innerHTML = html;
+            document.getElementById("assessmentError").textContent = "";
+          })
+          .catch(err => {
+            document.getElementById("assessmentError").textContent = "Failed to load assessment: " + err.message;
+            console.error("Fetch error:", err);
+          });
+      }
+
+      // Update the view button click handler
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".view-btn2").forEach(button => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const assessmentId = this.getAttribute("data-assessment-id");
+            if (assessmentId && assessmentId.toLowerCase() !== "null") {
+              showAssessmentModal(assessmentId);
+            } else {
+              alert("Invalid assessment ID. Cannot view assessment.");
+              console.error("Invalid assessment ID on button:", this);
+            }
+          });
         });
+      });
     </script>
 
 

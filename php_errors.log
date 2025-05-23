@@ -140,3 +140,11 @@ Stack trace:
 [23-May-2025 03:40:10 Asia/Manila] Database connected successfully
 [23-May-2025 03:40:10 Asia/Manila] Patient_ID query result: 12
 [23-May-2025 03:40:10 Asia/Manila] Visit recorded for Patient_ID: 12
+[23-May-2025 08:57:32 Asia/Manila] Raw input received.
+[23-May-2025 08:57:32 Asia/Manila] Database connected successfully
+[23-May-2025 08:57:32 Asia/Manila] Patient_ID query result: none
+[23-May-2025 08:57:32 Asia/Manila] ID not found: 2300190
+[23-May-2025 08:58:20 Asia/Manila] Raw input received.
+[23-May-2025 08:58:20 Asia/Manila] Database connected successfully
+[23-May-2025 08:58:20 Asia/Manila] Patient_ID query result: 32
+[23-May-2025 08:58:20 Asia/Manila] Visit recorded for Patient_ID: 32
