@@ -132,7 +132,7 @@
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    fetch('../php/fetch_items.php')
+    fetch('../php-admin/fetch_items.php')
       .then(response => response.json())
       .then(data => {
         itemsData = data;
@@ -151,7 +151,7 @@
 
  
   document.addEventListener("DOMContentLoaded", () => {
-    fetch("../php/fetch_items.php")
+    fetch("../php-admin/fetch_items.php")
       .then(response => response.json())
       .then(data => {
         const select = document.getElementById("item_id");
@@ -171,7 +171,7 @@
  
   // Dynamically load available items for the right panel
   function loadAvailableItems() {
-    fetch('../php/fetch_items.php')
+    fetch('../php-admin/fetch_items.php')
       .then(response => response.json())
       .then(data => {
         const list = document.getElementById('availableItemsList');
@@ -197,7 +197,7 @@
 
 // Dynamically load borrowed items for the table
 function loadBorrowedItems() {
-  fetch('../php/borrowing_records.php')
+  fetch('../php-admin/borrowing_records.php')
     .then(response => response.json())
     .then(data => {
       const tbody = document.getElementById('borrowedTableBody');
@@ -290,7 +290,7 @@ function submitReturnBtn() {
   formData.append('photo_returned', capturedPhotoData || '');
   formData.append('patient_id', currentReturnPatientId);
 
-  fetch('../php/return_item.php', {
+  fetch('../php-admin/return_item. php-admin', {
     method: 'POST',
     body: formData
   })
@@ -335,7 +335,7 @@ function attachReturnBtnListeners() {
       }
 
       try {
-        const response = await fetch(`../php/get_patient_id.php?id_number=${encodeURIComponent(idNumber)}`);
+        const response = await fetch(`../php-user/get_patient_id.php?id_number=${encodeURIComponent(idNumber)}`);
         const data = await response.json();
         console.log('get_patient_id.php response:', data); // Debug log
         if (data.success && data.patient_id) {
@@ -458,7 +458,7 @@ document.getElementById('borrowForm').addEventListener('submit', async function(
 
   try {
     // Patient ID lookup
-    const patientResponse = await fetch('../php/get_patient_id.php?id_number=' + encodeURIComponent(idNumber));
+    const patientResponse = await fetch('../php-user/get_patient_id.php?id_number=' + encodeURIComponent(idNumber));
     const patientData = await patientResponse.json();
 
     if (!patientData.success || !patientData.patient_id) {
@@ -481,7 +481,7 @@ document.getElementById('borrowForm').addEventListener('submit', async function(
     }
 
     // Submit via AJAX
-    const submitResponse = await fetch('../php/submit_borrow.php', {
+    const submitResponse = await fetch('../php-admin/submit_borrow.php', {
       method: 'POST',
       body: formData
     });
