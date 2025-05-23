@@ -372,7 +372,7 @@
           return;
         }
 
-        fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
+        fetch(`../php-admin/get_assessment_details.php?assessment_id=${assessmentId}`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -441,7 +441,7 @@
             const patientId = new URLSearchParams(window.location.search).get("patient_id");
             if (!patientId) return;
         
-            fetch(`../php/patientrec.php?patient_id=${patientId}`)
+            fetch(`../php-admin/patientrec.php?patient_id=${patientId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {

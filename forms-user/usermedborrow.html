@@ -171,7 +171,7 @@
       loadBorrowedItems();
 
       // Fetch and update user email
-      fetch('../php/userinterfacefetch.php')
+      fetch('../php-user/userinterfacefetch.php')
         .then(response => response.json())
         .then(data => {
           if (data.success) {
@@ -188,7 +188,7 @@
     });
 
     function loadBorrowedItems() {
-      fetch('../php/fetch_borrowed_items.php')
+      fetch('../php-user/fetch_borrowed_items.php')
         .then(response => response.json())
         .then(data => {
           if (data.success && data.items && data.items.length > 0) {
@@ -251,7 +251,7 @@
       formData.append('photo_returned', capturedPhotoData || '');
       formData.append('patient_id', currentReturnPatientId);
 
-      fetch('../php/return_item.php', {
+      fetch('../php-admin/return_item.php', {
         method: 'POST',
         body: formData
       })
