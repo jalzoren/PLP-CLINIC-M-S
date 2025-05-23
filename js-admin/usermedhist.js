@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    fetch("../php/usermedhist.php")
+    fetch("../php-user/usermedhist.php")
         .then(response => response.json())
         .then(data => {
             // Helper function to set value if element exists
