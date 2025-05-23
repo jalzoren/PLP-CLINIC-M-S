@@ -19,9 +19,9 @@ try {
 try {
     // Query to count patients by category
     $query = "SELECT Category, COUNT(*) as count 
-              FROM patient 
-              WHERE Category IN ('student', 'teaching', 'non-teaching') 
-              GROUP BY Category";
+            FROM patient 
+            WHERE Category IN ('student', 'teaching', 'non-teaching') 
+            GROUP BY Category";
     $result = $conn->query($query);
 
     if ($result === false) {
