@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
 
-require_once 'database.php';
+require_once '../php/database.php';
 require_once 'popup-medicalrec.php';
 
 try {

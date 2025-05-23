@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start session at the beginning
-require_once __DIR__ . '/database.php';
+require_once __DIR__ . '../php/database.php';
 
 $db = new Database();
 $conn = $db->getConnection();
