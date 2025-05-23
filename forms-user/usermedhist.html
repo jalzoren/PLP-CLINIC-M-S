@@ -86,47 +86,44 @@
         </thead>
         <tbody>
           <?php
-          session_start();
           require_once '../php/database.php';
           
           $db = new Database();
           $conn = $db->getConnection();
           
-          $patient_id = null;
+          // Get patient_id from the URL (cast to int for safety)
+          $filterId = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
           
-          // Step 1: Check session for user_id and get corresponding patient_id
-          if (isset($_SESSION['user_id'])) {
-              $user_id = $_SESSION['user_id'];
-          
-              $stmt = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
-              $stmt->bind_param("i", $user_id);
-              $stmt->execute();
-              $stmt->bind_result($patient_id);
-              $stmt->fetch();
-              $stmt->close();
-          }
-          
-          // Step 2: Fallback to URL if not found in session
-          if (!$patient_id && isset($_GET['patient_id'])) {
-              $patient_id = (int)$_GET['patient_id'];
-          }
-          
-          // Step 3: Fetch records if a valid patient_id exists
-          if ($patient_id) {
-              $sql = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
-              $stmt = $conn->prepare($sql);
-              $stmt->bind_param("i", $patient_id);
-              $stmt->execute();
-              $result = $stmt->get_result();
-          } else {
+          if (!$filterId) {
               echo "<tr><td colspan='4'>No patient selected.</td></tr>";
               exit;
           }
           
-          // Step 4: Display results
+          // Query patient table
+          $sqlPatient = "SELECT Patient_ID, Created_At FROM patient WHERE Patient_ID = ?";
+          $stmtPatient = $conn->prepare($sqlPatient);
+          if (!$stmtPatient) {
+              die("Prepare failed for patient: (" . $conn->errno . ") " . $conn->error);
+          }
+          $stmtPatient->bind_param("i", $filterId);
+          $stmtPatient->execute();
+          $resultPatient = $stmtPatient->get_result();
+          
+          // Query patient_assessment table
+          $sqlAssessment = "SELECT Assessment_ID, Patient_ID, Recorded_At FROM patient_assessment WHERE Patient_ID = ?";
+          $stmtAssessment = $conn->prepare($sqlAssessment);
+          if (!$stmtAssessment) {
+              die("Prepare failed for patient_assessment: (" . $conn->errno . ") " . $conn->error);
+          }
+          $stmtAssessment->bind_param("i", $filterId);
+          $stmtAssessment->execute();
+          $resultAssessment = $stmtAssessment->get_result();
+          
           $counter = 1;
-          if ($result && $result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
+          
+          // Output patient records first
+          if ($resultPatient && $resultPatient->num_rows > 0) {
+              while ($row = $resultPatient->fetch_assoc()) {
                   echo "<tr>";
                   echo "<td>" . $counter++ . "</td>";
                   echo "<td>" . date('Y-m-d', strtotime($row['Created_At'])) . "</td>";
@@ -136,9 +133,27 @@
                         </td>";
                   echo "</tr>";
               }
-          } else {
-              echo "<tr><td colspan='4'>No records found for this patient.</td></tr>";
           }
+          
+          // Output patient_assessment records next
+          if ($resultAssessment && $resultAssessment->num_rows > 0) {
+              while ($row = $resultAssessment->fetch_assoc()) {
+                  echo "<tr>";
+                  echo "<td>" . $counter++ . "</td>";
+                  echo "<td>" . date('Y-m-d', strtotime($row['Recorded_At'])) . "</td>";
+                  echo "<td>Patient Assessment (" . date('Y-m-d', strtotime($row['Recorded_At'])) . ")</td>";
+                  echo "<td class='action-cell'>
+                    <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
+                        </td>";
+                  echo "</tr>";
+              }
+          } else {
+              echo "<tr><td colspan='4'>No assessment records found.</td></tr>";
+          }
+          
+          $stmtPatient->close();
+          $stmtAssessment->close();
+          $conn->close();
           ?>
           
         </tbody>
@@ -170,7 +185,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-   document.querySelectorAll(".view-btn").forEach(button => {
+   document.querySelectorAll(".view-btn2").forEach(button => {
        button.addEventListener("click", function () {
            window.location.href = "usermedrecviewrec.html";
        });
