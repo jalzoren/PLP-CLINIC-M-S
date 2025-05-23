@@ -317,13 +317,11 @@
               popupContainer.style.display = "block";
             }
 
-            // Set the patient ID into the popup form
             const hiddenInput = document.querySelector("#pop-up-med input[name='patient_id']");
             if (hiddenInput) {
               hiddenInput.value = patientId;
             }
 
-            // Re-run scripts
             const scripts = container.querySelectorAll("script");
             scripts.forEach((oldScript) => {
               const newScript = document.createElement("script");
