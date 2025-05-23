@@ -19,7 +19,7 @@
 </head>
 
 <body>
-   <form action="../php/popup-assess.php" method="POST" id="assessmentForm">
+   <form action="../php-admin/popup-assess.php" method="POST" id="assessmentForm">
     <div class="form-content" id="popupContainer">
       <div class="new-data">
         <div class="text">
@@ -101,7 +101,6 @@
 
 
 ,
- <script src="../js/printassess.js"></script>
 
   <div id="emptyFieldPopup" class="popup" style="display: none;">
     <div class="popup-content">
@@ -135,7 +134,7 @@
         const formData = new FormData(this);
         
         // Submit form using fetch
-        fetch('../php/popup-assess.php', {
+        fetch('../php-admin/popup-assess.php', {
             method: 'POST',
             body: formData
         })
