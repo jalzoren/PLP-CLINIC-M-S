@@ -35,6 +35,7 @@ function handleLogin() {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['patient_id'] = $user['patient_id'];
+        $_SESSION['admin_email'] = $email;
 
         $redirect = match (strtolower($user['role'])) {
             'user' => '../PLP-CLINIC-M-S/forms-user/usernewdashb.html',

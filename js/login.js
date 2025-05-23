@@ -59,7 +59,7 @@ function validatePassword(password) {
 // Handle form submission
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const email = document.getElementById('Email').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
     if (!validateEmail(email)) {
@@ -74,17 +74,21 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     const formData = new FormData(this);
     try {
-        const response = await fetch('../PLP-CLINIC-M-S/php/login.php', {
+        console.log("Submitting login form to /PLP-CLINIC-M-S/php/login.php");
+        const response = await fetch('/PLP-CLINIC-M-S/php/login.php', {
             method: 'POST',
             body: formData
         });
         const data = await response.json();
+        console.log("Login response:", data);
         if (data.status === 'success') {
+            console.log("Redirecting to:", data.redirect);
             window.location.href = data.redirect;
         } else {
             Swal.fire('Error', data.message, 'error');
         }
     } catch (error) {
+        console.error("Fetch error:", error);
         Swal.fire('Error', 'An error occurred while logging in.', 'error');
     }
 });
