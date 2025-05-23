@@ -4,111 +4,66 @@ require_once 'database.php';
 // Set header to return JSON response
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $database = new Database();
-        $conn = $database->getConnection();
+try {
+    $db = new Database();
+    $conn = $db->getConnection();
 
-        // Get patient_id from URL instead of POST
-        $patient_id = isset($_GET['patient_id']) ? (int)$_GET['patient_id'] : null;
+    // Get form data
+    $patient_id = $_POST['patient_id'];
+    $temperature = $_POST['temperature'];
+    $pulse = $_POST['pulse'];
+    $respiratory_rate = $_POST['rr'];
+    $blood_pressure = $_POST['bp'];
+    $height = $_POST['height'];
+    $weight = $_POST['weight'];
+    $bmi = $_POST['bmi'];
+    $physicians_note = $_POST['physician_notes'];
+    $nurse_note = $_POST['nurse_notes'];
 
-        // Collect POST data
-        $patient_id = $_POST['patient_id'] ?? null;
-        $temperature = $_POST['temperature'] ?? null;
-        $rr = $_POST['rr'] ?? null; // Respiratory Rate
-        $height = $_POST['height'] ?? null;
-        $weight = $_POST['weight'] ?? null;
-        $bmi = $_POST['bmi'] ?? null;
-        $pulse = $_POST['pulse'] ?? null;
-        $bp = $_POST['bp'] ?? null; // Blood Pressure
-        $physician_notes = $_POST['physician_notes'] ?? null;
-        $nurse_notes = $_POST['nurse_notes'] ?? null;
+    // Prepare SQL statement
+    $sql = "INSERT INTO patient_assessment (
+        Patient_ID, Temperature, Pulse, Respiratory_Rate, 
+        Blood_Pressure, Height, Weight, BMI, 
+        Physicians_Note, Nurse_Note, Recorded_At
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
-        // Validate required fields
-        if (!$patient_id) {
-            throw new Exception("Patient ID is required");
-        }
-
-        $query = "SELECT Patient_ID FROM patient WHERE Patient_ID = ?";
-        $stmt_check = $conn->prepare($query);
-        $stmt_check->bind_param("i", $patient_id);
-        $stmt_check->execute();
-        $result = $stmt_check->get_result();
-
-        if ($result->num_rows === 0) {
-            throw new Exception("Patient ID not found in the database.");
-        }
-
-        $stmt_check->close();
-
-        // Validate numeric fields
-        if ($temperature !== null && !is_numeric($temperature)) {
-            throw new Exception("Temperature must be a number");
-        }
-        if ($rr !== null && !is_numeric($rr)) {
-            throw new Exception("Respiratory Rate must be a number");
-        }
-        if ($height !== null && !is_numeric($height)) {
-            throw new Exception("Height must be a number");
-        }
-        if ($weight !== null && !is_numeric($weight)) {
-            throw new Exception("Weight must be a number");
-        }
-        if ($bmi !== null && !is_numeric($bmi)) {
-            throw new Exception("BMI must be a number");
-        }
-        if ($pulse !== null && !is_numeric($pulse)) {
-            throw new Exception("Pulse must be a number");
-        }
-
-        // Insert into patient_assessment table
-        $sql = "INSERT INTO patient_assessment (
-                    Patient_ID, Temperature, Respiratory_Rate, Height, Weight, BMI, Pulse,
-                    Blood_Pressure, Physicians_Note, Nurse_Note, Recorded_At
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-
-        $stmt = $conn->prepare($sql);
-
-        if (!$stmt) {
-            throw new Exception("Failed to prepare statement: " . $conn->error);
-        }
-
-        $stmt->bind_param(
-            "idddddddss",
-            $patient_id,
-            $temperature,
-            $rr,
-            $height,
-            $weight,
-            $bmi,
-            $pulse,
-            $bp,
-            $physician_notes,
-            $nurse_notes
-        );
-
-        if ($stmt->execute()) {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Assessment record saved successfully.'
-            ]);
-        } else {
-            throw new Exception("Error saving record: " . $stmt->error);
-        }
-
-        $stmt->close();
-        $conn->close();
-
-    } catch (Exception $e) {
-        echo json_encode([
-            'success' => false,
-            'message' => $e->getMessage()
-        ]);
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Failed to prepare statement: " . $conn->error);
     }
-} else {
+
+    $stmt->bind_param(
+        "idddssddss",
+        $patient_id, $temperature, $pulse, $respiratory_rate,
+        $blood_pressure, $height, $weight, $bmi,
+        $physicians_note, $nurse_note
+    );
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to execute statement: " . $stmt->error);
+    }
+
+    // Get the inserted assessment ID
+    $assessment_id = $conn->insert_id;
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Assessment record added successfully',
+        'assessment_id' => $assessment_id
+    ]);
+
+} catch (Exception $e) {
+    http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Invalid request method.'
+        'message' => $e->getMessage()
     ]);
+}
+
+if (isset($stmt)) {
+    $stmt->close();
+}
+if (isset($conn)) {
+    $conn->close();
 }
 ?>

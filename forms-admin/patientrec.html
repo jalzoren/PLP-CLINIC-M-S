@@ -182,14 +182,14 @@
                     echo "<tr>";
                     echo "<td>" . $counter++ . "</td>";
                     echo "<td>" . date('Y-m-d', strtotime($row['Recorded_At'])) . "</td>";
-                    echo "<td>Patient Assessment</td>";
+                    echo "<td>Patient Assessment (" . date('Y-m-d', strtotime($row['Recorded_At'])) . ")</td>";
                     echo "<td class='action-cell'>
-                      <button type='button' class='view-btn2' data-patient-id='" . $row['Patient_ID'] . "'>View</button>
+                      <button type='button' class='view-btn2' data-assessment-id='" . $row['Assessment_ID'] . "'>View</button>
                           </td>";
                     echo "</tr>";
                 }
-            }  else {
-                echo "<tr><td colspan='4'>No patient record found.</td></tr>";
+            } else {
+                echo "<tr><td colspan='4'>No assessment records found.</td></tr>";
             }
             
             $stmtPatient->close();
@@ -275,13 +275,13 @@
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".view-btn2").forEach(button => {
                 button.addEventListener("click", function () {
-                    const patientId = this.getAttribute("data-patient-id");
-                    if (patientId && patientId.toLowerCase() !== "null") {
-                        // Redirect to the assessview.html page with patient_id in the query string
-                        window.location.href = "assessview.html?patient_id=" + patientId;
+                    const assessmentId = this.getAttribute("data-assessment-id");
+                    if (assessmentId && assessmentId.toLowerCase() !== "null") {
+                        // Redirect to the assessviewrec.html page with assessment_id in the query string
+                        window.location.href = "assessviewrec.html?assessment_id=" + assessmentId;
                     } else {
-                        alert("Invalid patient ID. Cannot view assessment.");
-                        console.error("Invalid patient ID on button:", this);
+                        alert("Invalid assessment ID. Cannot view assessment.");
+                        console.error("Invalid assessment ID on button:", this);
                     }
                 });
             });
