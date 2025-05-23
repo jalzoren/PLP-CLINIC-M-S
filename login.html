@@ -21,14 +21,8 @@
 
   <div class="login-box">
     <h2>LOG IN</h2>
-    <form id="loginForm" method="POST">
+    <form id="loginForm" method="POST" action="../PLP-CLINIC-M-S/php/login.php">
       <div class="row1">
-        <?php
-        session_start();
-        $csrf_token = bin2hex(random_bytes(32));
-        $_SESSION['csrf_token'] = $csrf_token;
-        ?>
-        <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
         <label for="Email">Email:</label>
         <input type="email" id="Email" name="email" placeholder="Enter Email Address" required aria-label="Email address">
 
@@ -49,109 +43,6 @@
     </form>
   </div>
 
-  <script>
-    // Clock and date
-    function updateClock() {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      document.getElementById('weekday').textContent = weekdays[now.getDay()];
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      document.getElementById('date').textContent = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
-
-    // Fade-in
-    window.addEventListener("DOMContentLoaded", () => {
-      document.body.classList.add("loaded");
-      console.log("Login page DOM loaded.");
-    });
-
-    // Transition links
-    document.querySelectorAll('a.transition-link').forEach(link => {
-      link.addEventListener("click", function (e) {
-        e.preventDefault();
-        const target = this.href;
-        document.body.classList.remove("loaded");
-        document.body.classList.add("fade-out");
-        setTimeout(() => {
-          window.location.href = target;
-        }, 500);
-      });
-    });
-
-    // Show/hide password
-    document.getElementById('show-password').addEventListener('change', function() {
-      const passwordField = document.getElementById('password');
-      if (this.checked) {
-        passwordField.type = 'text';
-        passwordField.classList.add('password-field');
-      } else {
-        passwordField.type = 'password';
-        passwordField.classList.remove('password-field');
-      }
-    });
-
-    // Client-side validation
-    function validateEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-
-    function validatePassword(password) {
-      return password.length >= 7;
-    }
-
-    // Handle form submission with validation
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      console.log("Login form submitted.");
-
-      const email = document.getElementById('Email').value.trim();
-      const password = document.getElementById('password').value;
-
-      // Client-side validation
-      if (!validateEmail(email)) {
-        Swal.fire('Error', 'Please enter a valid email address.', 'error');
-        console.log("Client validation failed: Invalid email format.");
-        return;
-      }
-
-      if (!validatePassword(password)) {
-        Swal.fire('Error', 'Password must be at least 7 characters long.', 'error');
-        console.log("Client validation failed: Password too short.");
-        return;
-      }
-
-      const formData = new FormData(this);
-      console.log("Sending login request with email:", email);
-
-      try {
-        const response = await fetch('php/login.php', {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.json();
-        console.log("Login response:", data);
-
-        if (data.status === 'success') {
-          console.log("Redirecting to:", data.redirect);
-          window.location.href = data.redirect;
-        } else {
-          Swal.fire('Error', data.message, 'error');
-          console.log("Server validation failed:", data.message);
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        Swal.fire('Error', 'An error occurred while logging in.', 'error');
-      }
-    });
-  </script>
+  <script src="../PLP-CLINIC-M-S/js/login.js"></script>
 </body>
 </html>
