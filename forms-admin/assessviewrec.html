@@ -45,64 +45,54 @@
       return urlParams.get(param);
     }
   
-    const patientId = getParam("patient_id");
+    const assessmentId = getParam("assessment_id");
   
-    if (!patientId || patientId.toLowerCase() === "null") {
-      document.getElementById("error").textContent = "No valid patient ID specified in URL.";
+    if (!assessmentId || assessmentId.toLowerCase() === "null") {
+      document.getElementById("error").textContent = "No valid assessment ID specified in URL.";
     } else {
-      fetch(`../php/get_patient_assessment.php?patient_id=${patientId}`)
+      fetch(`../php/get_assessment_details.php?assessment_id=${assessmentId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
           }
-          return response.text();  // Read as text first to safely parse below
+          return response.json();
         })
-        .then(text => {
-          let data;
-          try {
-            data = JSON.parse(text);
-          } catch (e) {
-            document.getElementById("error").textContent = "Failed to parse response JSON.";
-            console.error("Parsing error:", e, "Response text:", text);
-            return;
+        .then(data => {
+          if (!data.success) {
+            throw new Error(data.error || 'Failed to load assessment data');
           }
-  
-          // Check if data is valid array and has records
-          if (!data || !Array.isArray(data) || data.length === 0 || !data[0]) {
-            document.getElementById("error").textContent = "No assessment found for this patient.";
-            return;
-          }
-  
-          const assessment = data[0]; // Assuming one record per patient
-  
+
+          const assessment = data.assessment;
+          
           // Helper function to display only meaningful fields
           function formatField(label, value) {
             if (value === null || value === "" || value === "1" || value === "1.0" || value === "999.9") return "";
             return `<div class="field"><span class="label">${label}:</span> ${value}</div>`;
           }
-  
+
           const html = [
-            formatField("Patient ID", assessment.Patient_ID),
-            formatField("Temperature", assessment.Temperature),
-            formatField("Pulse", assessment.Pulse),
-            formatField("Respiratory Rate", assessment.Respiratory_Rate),
-            formatField("Blood Pressure", assessment.Blood_Pressure),
-            formatField("Height", assessment.Height),
-            formatField("Weight", assessment.Weight),
-            formatField("BMI", assessment.BMI),
-            formatField("Recorded At", assessment.Recorded_at),
-            formatField("Physician's Note", assessment.Physicians_Note),
-            formatField("Nurse Note", assessment.Nurse_Note)
+            formatField("Patient Name", assessment.patient_name),
+            formatField("ID Number", assessment.id_number),
+            formatField("Department", assessment.department),
+            formatField("Temperature", assessment.temperature),
+            formatField("Pulse", assessment.pulse),
+            formatField("Respiratory Rate", assessment.respiratory_rate),
+            formatField("Blood Pressure", assessment.blood_pressure),
+            formatField("Height", assessment.height),
+            formatField("Weight", assessment.weight),
+            formatField("BMI", assessment.bmi),
+            formatField("Recorded At", assessment.recorded_at),
+            formatField("Physician's Note", assessment.physicians_note),
+            formatField("Nurse Note", assessment.nurse_note)
           ].join("");
-  
+
           document.getElementById("content").innerHTML = html;
         })
         .catch(err => {
-          document.getElementById("error").textContent = "Failed to load assessment.";
+          document.getElementById("error").textContent = "Failed to load assessment: " + err.message;
           console.error("Fetch error:", err);
         });
     }
   </script>
-  
 </body>
 </html>

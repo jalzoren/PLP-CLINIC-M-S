@@ -379,7 +379,6 @@ body {
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  background-color: transparent;
 }
 
 .control-button:hover {
@@ -390,7 +389,6 @@ body {
 .control-button i {
   font-size: 25px; 
   transform: scale(1.05);
-
 
 }
 

@@ -218,6 +218,7 @@ body {
   z-index: 10;
   font-size: 14px;
   text-align: center;
+  cursor: pointer;
   transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out, background-color 0.4s ease-in-out, color 0.4s ease-in-out;
 }
 
@@ -552,4 +553,97 @@ body {
   .item-trend {
     font-size: 10px;
   }
+}
+
+
+/* TABLE PASIG EMERGENCY HOTLINES*/
+.hotlines_table{
+  width: 80%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: top 0ms ease-in-out 0ms,
+            opacity 300ms ease-in-out 0ms,
+            transform 250ms ease-in-out 0ms;
+
+  padding: 30px;
+  background-color: #ffffff;
+  border: 2px outset #2e266d;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.hotlines_table.show {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition: top 0ms ease-in-out 0ms,
+            opacity 300ms ease-in-out 0ms,
+            transform 250ms ease-in-out 0ms;
+}
+
+.hotlines_table table{
+  width: 100%;
+  text-align: center;
+  border: 1px solid #2e266d;
+  border-collapse: collapse;
+}
+
+.hotlines_table table caption{
+  font-weight: bold;
+  font-size: larger;
+  margin-bottom: 20px;
+}
+
+.hotlines_table table thead th{
+  background-color: #2e266d; 
+  padding: 10px;
+  font-weight: 500;
+  color: white;
+}
+
+.hotlines_table table td{
+  font-size: 18px;
+  padding: 15px 0px;
+}
+
+.hotlines_table table tr:nth-child(odd),
+.timedin_table table tr:nth-child(odd) {
+  background-color: #D6EEEE;
+}
+
+.hotlines_table .close_hotlines{
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-weight: bolder;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw ;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+  transform: scale(0);
+}
+
+.overlay.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hotlines_table {
+  z-index: 10; 
 }

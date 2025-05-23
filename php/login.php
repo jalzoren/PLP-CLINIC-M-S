@@ -1,4 +1,6 @@
 <?php
+ini_set('session.cookie_httponly', 1); // Prevent JavaScript access to session cookies
+ini_set('session.cookie_secure', 1); // HTTPS-only cookies (if using HTTPS)
 session_start();
 require_once 'database.php';
 
@@ -31,7 +33,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Password length validation (reinforce client-side)
+// Password length validation
 if (strlen($password) < 7) {
     echo json_encode(['status' => 'error', 'message' => 'Password must be at least 7 characters long.']);
     exit;
@@ -47,7 +49,7 @@ try {
     exit;
 }
 
-// Prepare SQL query to get user info including Patient_ID
+// Prepare SQL query
 $stmt = $conn->prepare("SELECT u.User_ID, u.Role, u.Password, u.Patient_ID FROM users u WHERE u.Email = ?");
 if (!$stmt) {
     error_log("Prepare failed: " . $conn->error);
@@ -68,8 +70,8 @@ if ($stmt->num_rows === 1) {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['role'] = $role;
         $_SESSION['Patient_ID'] = $patient_id;
+        $_SESSION['admin_email'] = $email;
 
-        // Define redirect based on role
         $redirect = match (strtolower($role)) {
             'user' => 'forms-user/usernewdashb.html',
             'admin' => 'forms-admin/admindashboard.html',

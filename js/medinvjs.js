@@ -3,7 +3,7 @@ document.getElementById("popupContainer").style.display = "none";
 document.getElementById("viewPopup").style.display = "none";
 
 window.onload = function () {
-  loadItemsFromLocalStorage();
+  loadItemsWithFilters();
 };
 
 let medicines = [];
@@ -318,17 +318,76 @@ function saveItemsToLocalStorage() {
   localStorage.setItem('medicines', JSON.stringify(medicines));
 }
 
-// Placeholder functions
-function filterTable() {
-  alert("Filter function triggered.");
-}
-
-function sortTable() {
-  alert("Sort function triggered.");
-}
-
+// Search functionality
 function searchTable() {
-  alert("Search function triggered.");
+  const searchInput = document.getElementById('searchInput').value;
+  loadItemsWithFilters(searchInput, currentFilter);
+}
+
+// Filter functionality
+let currentFilter = '';
+function filterTable() {
+  // Create and show the filter dropdown
+  Swal.fire({
+    title: 'Filter by Category',
+    input: 'select',
+    inputOptions: {
+      '': 'All Categories',
+      'Supplies': 'Supplies',
+      'PPE': 'PPE',
+      'Equipment': 'Equipment',
+      'First Aid': 'First Aid'
+    },
+    inputValue: currentFilter,
+    showCancelButton: true,
+    inputValidator: (value) => {
+      currentFilter = value;
+      const searchInput = document.getElementById('searchInput').value;
+      loadItemsWithFilters(searchInput, value);
+    }
+  });
+}
+
+// Load items with search and filter
+function loadItemsWithFilters(search = '', category = '') {
+  let url = '../php/fetch_items.php';
+  const params = new URLSearchParams();
+  
+  if (search) params.append('search', search);
+  if (category) params.append('category', category);
+  
+  if (params.toString()) {
+    url += '?' + params.toString();
+  }
+
+  fetch(url)
+    .then(response => response.json())
+    .then(items => {
+      medicines = items.map(item => ({
+        id: item.Item_ID,
+        name: item.Item_Name,
+        type: item.Category,
+        quantity: item.Quantity,
+        description: item.Description || ''
+      }));
+      
+      // Clear the inventory before adding items
+      const inventory = document.getElementById('inventory');
+      inventory.innerHTML = '';
+      
+      medicines.forEach((medicine, index) => {
+        addGridItem(medicine, index);
+      });
+      updateItemCount();
+    })
+    .catch(error => {
+      console.error('Error loading items:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to load items. Please try again.'
+      });
+    });
 }
 
 // Add popup close functions
@@ -339,3 +398,8 @@ function closeSuccessPopup() {
 function closeEmptyFieldPopup() {
   document.getElementById('emptyFieldPopup').style.display = 'none';
 }
+
+// Add event listener for search input
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchTable();
+});
