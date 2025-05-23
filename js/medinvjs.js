@@ -99,10 +99,10 @@ function showLayoutBox() {
       resetForm();
       closePopup();
       saveItemsToLocalStorage();
-        // Show SweetAlert success popup
+      // Show SweetAlert success popup
       Swal.fire({
         icon: 'success',
-        title: 'Success!',
+        title: 'Suc  cess!',
         text: result.message || 'Item added successfully'
       });
     } else {
