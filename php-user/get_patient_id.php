@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . 'php/database.php';
+include '../php/database.php';
 
 $db = new Database();
 $conn = $db->getConnection();

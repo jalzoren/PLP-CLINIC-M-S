@@ -1,7 +1,7 @@
 <?php
 session_start(); // Start session at the beginning
 // include the class definition
-require_once __DIR__ . '../php/database.php';
+require_once '../php/database.php';
 
 
 

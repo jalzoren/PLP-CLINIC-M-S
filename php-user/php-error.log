@@ -1,0 +1,16 @@
+[23-May-2025 17:52:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php/database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php:8
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php on line 8
+[23-May-2025 18:03:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php/database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php:8
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php on line 8
+[23-May-2025 18:03:24 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php/database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php:8
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php on line 8
+[23-May-2025 18:05:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'php/database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php:8
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\UPDATED-CLINIC\PLP-CLINIC-M-S\php-user\usermedhist.php on line 8
