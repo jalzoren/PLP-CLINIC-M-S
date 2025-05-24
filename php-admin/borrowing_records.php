@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '../php/database.php';
+require_once '../php/database.php';
 
 // Set timezone to Asia/Manila for all date operations
 date_default_timezone_set('Asia/Manila');
