@@ -184,48 +184,62 @@ function viewItem(id) {
       quantity: parseInt(document.getElementById('viewQuantityStock').value)
     };
 
-    // Update backend first
-    fetch('../php-admin/update_item.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedMedicine)
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: data.message || 'Item updated successfully'
+    // Show confirmation dialog before updating
+    Swal.fire({
+      title: 'Confirm Update',
+      text: 'Are you sure you want to update this item?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!',
+      zIndex: 9999 // Ensure SweetAlert appears above form-content
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Update backend
+        fetch('../php-admin/update_item.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedMedicine)
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              closeViewPopup(); // Close the view popup after successful update
+              Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: data.message || 'Item updated successfully'
+              });
+              // Update frontend
+              medicines[index] = {
+                ...medicines[index],
+                name: updatedMedicine.name,
+                type: updatedMedicine.category,
+                quantity: updatedMedicine.quantity,
+                description: document.getElementById('viewDescription').value
+              };
+              updateGridItem(id, medicines[index]);
+              saveItemsToLocalStorage();
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message || 'Failed to update item'
+              });
+            }
+          })
+          .catch(error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.toString()
+            });
           });
-          // Update frontend
-          medicines[index] = {
-            ...medicines[index],
-            name: updatedMedicine.name,
-            type: updatedMedicine.category,
-            quantity: updatedMedicine.quantity,
-            description: document.getElementById('viewDescription').value
-          };
-          updateGridItem(id, medicines[index]);
-          saveItemsToLocalStorage();
-          closeViewPopup();
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || 'Failed to update item'
-          });
-        }
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.toString()
-        });
-      });
+      }
+    });
   };
 }
 
@@ -255,46 +269,59 @@ function deleteItem(id) {
 
   if (index === -1) return;
 
-  // Remove from backend
-  fetch('../php-admin/delete_item.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ id: id })
-  })
-    .then(response => response.json())
-    .then(result => {
-      if (result.status === 'success') {
-        Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: result.message || 'Item deleted successfully'
+  // Show confirmation dialog before deleting
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Remove from backend
+      fetch('../php-admin/delete_item.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.status === 'success') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: result.message || 'Item deleted successfully'
+            });
+            // Remove from frontend only after backend success
+            medicines.splice(index, 1);
+            const inventory = document.getElementById('inventory');
+            const gridItem = Array.from(inventory.children).find(
+              item => item.getAttribute('data-id') == id
+            );
+            if (gridItem) gridItem.remove();
+            updateItemCount();
+            saveItemsToLocalStorage();
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: result.message || 'Failed to delete from database'
+            });
+          }
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.toString()
+          });
         });
-        // Remove from frontend only after backend success
-        medicines.splice(index, 1);
-        const inventory = document.getElementById('inventory');
-        const gridItem = Array.from(inventory.children).find(
-          item => item.getAttribute('data-id') == id
-        );
-        if (gridItem) gridItem.remove();
-        updateItemCount();
-        saveItemsToLocalStorage();
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: result.message || 'Failed to delete from database'
-        });
-      }
-    })
-    .catch(error => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.toString()
-      });
-    });
+    }
+  });
 }
 
 function rebuildGridButtons() {

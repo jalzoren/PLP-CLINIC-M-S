@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '../php/database.php';
+require_once __DIR__ . '/../php/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemName  = $_POST['itemName'] ?? '';
