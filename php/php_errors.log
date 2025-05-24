@@ -108,3 +108,18 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:33 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:33 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:37 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:37 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:13:01 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:13:01 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
