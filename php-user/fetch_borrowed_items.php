@@ -1,16 +1,35 @@
 <?php
 session_start();
-require_once __DIR__ . '../php/database.php';
+require_once '../php/database.php';
+
+header('Content-Type: application/json');
+
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'error' => 'User not logged in']);
+    exit;
+}
 
 $db = new Database();
 $conn = $db->getConnection();
 
-$patient_id = isset($_SESSION['Patient_ID']) ? $_SESSION['Patient_ID'] : null;
-error_log('Patient_ID: ' . ($patient_id ?? 'NOT SET'));
+$user_id = $_SESSION['user_id'];
 
-error_log('Patient_ID: ' . ($_SESSION['Patient_ID'] ?? 'NOT SET'));
+// Get Patient_ID from users table
+$stmt = $conn->prepare("SELECT Patient_ID FROM users WHERE User_ID = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
 
-// Query to fetch borrowed items with patient and item details
+if (!$user || !$user['Patient_ID']) {
+    echo json_encode(['success' => false, 'error' => 'No associated patient record found']);
+    exit;
+}
+
+$patient_id = $user['Patient_ID'];
+error_log('Patient_ID: ' . $patient_id);
+
 $sql = "SELECT 
     br.BorrowedItem_ID,
     br.Item_ID,
@@ -58,10 +77,9 @@ if (!$stmt->execute()) {
 }
 
 $result = $stmt->get_result();
-$records = array();
+$records = [];
 
 while ($row = $result->fetch_assoc()) {
-    // Format dates using Asia/Manila timezone
     date_default_timezone_set('Asia/Manila');
     $row['Date_Borrowed'] = date('Y-m-d H:i:s', strtotime($row['Date_Borrowed']));
     if ($row['Date_Returned']) {
@@ -69,19 +87,16 @@ while ($row = $result->fetch_assoc()) {
         $row['Date_Returned'] = $dt->format('m/d/Y, h:i A');
     }
     
-    // Split DepartmentInfo into ID_Number and other details
-    $departmentInfo = explode(' - ', $row['DepartmentInfo']);
+    $departmentInfo = explode(' - ', $row['DepartmentInfo'] ?? '');
     $row['ID_Number'] = isset($departmentInfo[0]) ? $departmentInfo[0] : '';
     $row['DepartmentInfo'] = implode(' - ', array_slice($departmentInfo, 1));
     
-    // Handle photo paths
-    $row['Photo_Borrowed'] = $row['Photo_Borrowed'] ? '../uploads/' . $row['Photo_Borrowed'] : null;
-    $row['Photo_Returned'] = $row['Photo_Returned'] ? '../uploads/' . $row['Photo_Returned'] : null;
+    $row['Photo_Borrowed'] = $row['Photo_Borrowed'] ? '../Uploads/' . $row['Photo_Borrowed'] : null;
+    $row['Photo_Returned'] = $row['Photo_Returned'] ? '../Uploads/' . $row['Photo_Returned'] : null;
     
     $records[] = $row;
 }
 
-header('Content-Type: application/json');
 echo json_encode(['success' => true, 'items' => $records]);
 
 $stmt->close();

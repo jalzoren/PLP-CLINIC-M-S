@@ -188,33 +188,36 @@
     });
 
     function loadBorrowedItems() {
-      fetch('../php-user/fetch_borrowed_items.php')
+    fetch('../php-user/fetch_borrowed_items.php')
         .then(response => response.json())
         .then(data => {
-          if (data.success && data.items && data.items.length > 0) {
-            allItems = data.items.slice().sort((a, b) => new Date(b.Date_Borrowed) - new Date(a.Date_Borrowed));
-            renderTablePage(currentPage);
-            setupPagination();
-          } else {
+            console.log('fetch_borrowed_items response:', data);
+            if (data.success && data.items && data.items.length > 0) {
+                allItems = data.items.slice().sort((a, b) => new Date(b.Date_Borrowed) - new Date(a.Date_Borrowed));
+                renderTablePage(currentPage);
+                setupPagination();
+            } else {
+                console.log('No records or error:', data);
+                document.getElementById('tableBody').innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
+                    </tr>
+                `;
+                allItems = [];
+                setupPagination();
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
             document.getElementById('tableBody').innerHTML = `
-              <tr>
-                <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
-              </tr>
+                <tr>
+                    <td colspan="12" style="text-align: center; padding: 20px; color: red;">Error loading records: ${error.message}</td>
+                </tr>
             `;
             allItems = [];
             setupPagination();
-          }
-        })
-        .catch(error => {
-          document.getElementById('tableBody').innerHTML = `
-            <tr>
-              <td colspan="12" style="text-align: center; padding: 20px; color: red;">Error loading records.</td>
-            </tr>
-          `;
-          allItems = [];
-          setupPagination();
         });
-    }
+}
 
     function searchTable() {
       const searchInput = document.getElementById('searchInput').value.toLowerCase();
