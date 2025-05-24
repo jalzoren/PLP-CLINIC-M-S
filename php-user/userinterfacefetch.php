@@ -33,7 +33,7 @@ if ($user && $user['Role'] === 'user' && $user['Patient_ID']) {
     echo json_encode([
         'success' => true,
         'patient' => $patient,
-        'age' => $patient['Age'],           // Get age from DB, not calculated
+        'age' => $patient['Age'],        
         'email' => $user['Email']
     ]);
 } else {
