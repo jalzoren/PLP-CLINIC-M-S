@@ -42,7 +42,6 @@ try {
 
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            // Ensure status is set correctly based on quantity
             if ($row['Quantity'] > 0) {
                 $row['Status'] = 'Available';
             } else {
