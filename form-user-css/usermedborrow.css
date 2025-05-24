@@ -583,3 +583,48 @@ button.btn:hover {
     font-size: 11px;
   }
 }
+
+
+.view-btn {
+  color: #ffffff !important;
+  background-color: #1a1259 !important;
+  border: none !important;
+  padding: 10px !important;
+  border-radius: 4px !important;
+  cursor: pointer;
+  font-size: 16px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: background-color 0.3s ease, transform 0.3s ease !important;
+}
+
+.view-btn:hover {
+  background-color: #0f0b3d !important;
+  transform: scale(1.05) !important;
+}
+.view-btn2 {
+  color: #ffffff !important;
+  background-color: #1a1259 !important;
+  border: none !important;
+  padding: 10px !important;
+  border-radius: 4px !important;
+  cursor: pointer;
+  font-size: 16px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: background-color 0.3s ease, transform 0.3s ease !important;
+}
+
+.view-btn2:hover {
+  background-color: #0f0b3d !important;
+  transform: scale(1.05) !important;
+}
+
+.action-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
