@@ -65,10 +65,8 @@
                 <input type="text" name="bp" id="bp" placeholder="e.g., 120/80" required />
               </div>
               <div class="form-group">
-                <label>
-                  <input type="checkbox" id="include_measurements" name="include_measurements" />
-                  Check BMI?
-                </label>
+                <label for="include_measurements" class="bmi-checkbox-label">Check BMI?</label>
+                <input type="checkbox" id="include_measurements" name="include_measurements" class="bmi-checkbox" />
               </div>
               <div class="form-group measurements-group" style="display: none;">
                 <label>Height (cm)</label>
@@ -119,6 +117,12 @@
 
 
   <script>
+    
+    function closePopup() {
+      document.getElementById('popupContainer').style.display = 'none';
+      window.parent.location.reload();
+    }
+
     // Toggle measurements fields visibility
     document.getElementById('include_measurements').addEventListener('change', function() {
         const measurementGroups = document.querySelectorAll('.measurements-group');
