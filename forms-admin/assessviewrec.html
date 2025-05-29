@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Assessment Receipt</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      max-width: 450px;
+      margin: 30px auto;
+      background: #fff;
+      border: 2px dashed #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    #error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Patient Assessment</h2>
+  <div id="content"></div>
+  <div id="error"></div>
+
+  <script>
+    // Utility to get URL parameter
+    function getParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+  
+    const assessmentId = getParam("assessment_id");
+  
+    if (!assessmentId || assessmentId.toLowerCase() === "null") {
+      document.getElementById("error").textContent = "No valid assessment ID specified in URL.";
+    } else {
+      fetch(`../php-admin/get_assessment_details.php?assessment_id=${assessmentId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data.success) {
+            throw new Error(data.error || 'Failed to load assessment data');
+          }
+
+          const assessment = data.assessment;
+          
+          // Helper function to display only meaningful fields
+          function formatField(label, value) {
+            if (value === null || value === "" || value === "1" || value === "1.0" || value === "999.9") return "";
+            return `<div class="field"><span class="label">${label}:</span> ${value}</div>`;
+          }
+
+          const html = [
+            formatField("Patient Name", assessment.patient_name),
+            formatField("ID Number", assessment.id_number),
+            formatField("Department", assessment.department),
+            formatField("Temperature", assessment.temperature),
+            formatField("Pulse", assessment.pulse),
+            formatField("Respiratory Rate", assessment.respiratory_rate),
+            formatField("Blood Pressure", assessment.blood_pressure),
+            formatField("Height", assessment.height),
+            formatField("Weight", assessment.weight),
+            formatField("BMI", assessment.bmi),
+            formatField("Recorded At", assessment.recorded_at),
+            formatField("Physician's Note", assessment.physicians_note),
+            formatField("Nurse Note", assessment.nurse_note)
+          ].join("");
+
+          document.getElementById("content").innerHTML = html;
+        })
+        .catch(err => {
+          document.getElementById("error").textContent = "Failed to load assessment: " + err.message;
+          console.error("Fetch error:", err);
+        });
+    }
+  </script>
+</body>
+</html>

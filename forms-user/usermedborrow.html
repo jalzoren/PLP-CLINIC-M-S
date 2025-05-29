@@ -23,9 +23,9 @@
         <img src="../pictures/logo_user.png" alt="Logo" class="logo">
       </div>
       <div class="user-info">
-        <span class="email">user@example.com</span>
+        <span class="email" id="user-email">Loading...</span>
         <span class="material-icons" id="user-info">
-          account_circle
+        account_circle
         </span>
         <a href="../php/logout.php">
           <span class="material-icons" id="logout-btn">
@@ -65,11 +65,10 @@
       <div class="form-group">
         <select class="icon-select" onchange="filterTable(this.value)">
           <option value="">Filter</option>
-          <option value="Borrowed">Borrowed</option>
-          <option value="Returned">Returned</option>
+          <option value="Returned (Good Condition)">Returned (Good Condition)</option>
+          <option value="Returned (Damage)">Returned (Damage)</option>
           <option value="Overdue">Overdue</option>
           <option value="Lost">Lost</option>
-          <option value="Damage">Damaged (Returned)</option>
         </select>
       </div>
     </div>
@@ -122,151 +121,206 @@
             <td data-label="Photo (Borrowed)">[Photo]</td>
             <td data-label="Photo (Returned)"></td>
           </tr>
-          <tr>
-            <td data-label="No.">3</td>
-            <td data-label="Identification Number">2023-003</td>
-            <td data-label="Full Name">Alice Marie Johnson</td>
-            <td data-label="Category">Student</td>
-            <td data-label="Department/Course Yr. & Sec.">BSN 2-B</td>
-            <td data-label="Date Borrowed">2025-05-05</td>
-            <td data-label="Date Returned">2025-05-12</td>
-            <td data-label="Borrowed Item (specify)">Blood Pressure Monitor</td>
-            <td data-label="Qty.">1</td>
-            <td data-label="Status">Returned</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)">[Photo]</td>
-          </tr>
-          <tr>
-            <td data-label="No.">4</td>
-            <td data-label="Identification Number">2023-004</td>
-            <td data-label="Full Name">Bob Andrew Williams</td>
-            <td data-label="Category">Staff</td>
-            <td data-label="Department/Course Yr. & Sec.">Admin</td>
-            <td data-label="Date Borrowed">2025-05-01</td>
-            <td data-label="Date Returned"></td>
-            <td data-label="Borrowed Item (specify)">First Aid Kit</td>
-            <td data-label="Qty.">1</td>
-            <td data-label="Status">Overdue</td>
-            <td data-label="Photo (Borrowed)">[Photo]</td>
-            <td data-label="Photo (Returned)"></td>
-          </tr>
+      
+   
         </tbody>
       </table>
     </div>
     
       <div class="pagination">
-        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
+        <button class="page-btn" onclick="goToPage('prev')">«</button>
         <button class="page-btn active" onclick="goToPage(1)">1</button>
         <button class="page-btn" onclick="goToPage(2)">2</button>
         <button class="page-btn" onclick="goToPage(3)">3</button>
-        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
+        <button class="page-btn" onclick="goToPage('next')">»</button>
       </div>
     </div>
-<!--
+
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Fetch user info for header
-        fetch('../php/userinterfacefetch.php')
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              const p = data.patient;
-              document.getElementById('patient-name').textContent = `${p.First_Name} ${p.Middle_Name || ''} ${p.Last_Name}`;
-              document.getElementById('patient-role').textContent = p.Category;
-              document.getElementById('patient-sex').textContent = p.Sex;
-              document.getElementById('patient-age').textContent = data.age;
-              document.getElementById('patient-email').textContent = data.email;
-              updateGreeting(`${p.First_Name} ${p.Last_Name}`);
-            } else {
-              document.getElementById('patient-info').innerHTML =
-                `<p>Unable to load patient data: ${data.message || 'Unknown error'}</p>`;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching patient data:", error);
-            document.getElementById('patient-info').innerHTML =
-              "<p>Error loading data. Please try again later.</p>";
-          });
+    let currentPage = 1;
+    const recordsPerPage = 10;
+    let allItems = [];
 
-        // Fetch table data
-        fetch('../php/fetch_borrowed_items.php')
-          .then(response => response.json())
-          .then(data => {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = '';
-            if (data.success && data.items.length > 0) {
-              data.items.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                  <td data-label="No.">${index + 1}</td>
-                  <td data-label="Identification Number">${item.identification_number || 'N/A'}</td>
-                  <td data-label="Full Name">${item.full_name || 'N/A'}</td>
-                  <td data-label="Category">${item.category || 'N/A'}</td>
-                  <td data-label="Department/Course Yr. & Sec.">${item.department || 'N/A'}</td>
-                  <td data-label="Date Borrowed">${item.date_borrowed || 'N/A'}</td>
-                  <td data-label="Date Returned">${item.date_returned || ''}</td>
-                  <td data-label="Borrowed Item (specify)">${item.borrowed_item || 'N/A'}</td>
-                  <td data-label="Qty.">${item.quantity || 'N/A'}</td>
-                  <td data-label="Status">${item.status || 'N/A'}</td>
-                  <td data-label="Photo (Borrowed)">${item.photo_borrowed ? '[Photo]' : ''}</td>
-                  <td data-label="Photo (Returned)">${item.photo_returned ? '[Photo]' : ''}</td>
-                `;
-                tableBody.appendChild(row);
-              });
-            } else {
-              tableBody.innerHTML = `
-                <tr>
-                  <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
-                </tr>
-              `;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching table data:", error);
-            document.getElementById('tableBody').innerHTML = `
-              <tr>
-                <td colspan="12" style="text-align: center; padding: 20px;">Error loading data. Please try again later.</td>
-              </tr>
-            `;
-          });
+    document.addEventListener('DOMContentLoaded', function() {
+      loadBorrowedItems();
 
-        function updateGreeting(name) {
-          const now = new Date();
-          const philTime = new Date(
-            now.toLocaleString("en-US", { timeZone: "Asia/Manila" })
-          );
-          const hours = philTime.getHours();
-          let greeting;
-          if (hours >= 5 && hours < 12) {
-            greeting = "Good Morning";
-          } else if (hours >= 12 && hours < 18) {
-            greeting = "Good Afternoon";
+      // Fetch and update user email
+      fetch('../php-user/userinterfacefetch.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const p = data.patient;
+            document.getElementById('user-email').textContent = data.email || p.Email || 'No email';
           } else {
-            greeting = "Good Evening";
+            document.getElementById('user-email').textContent = 'Unable to load email';
           }
-          document.getElementById("greeting").innerText = `${greeting}, ${name}!`;
+        })
+        .catch(error => {
+          console.error("Error fetching user data:", error);
+          document.getElementById('user-email').textContent = 'Error loading email';
+        });
+    });
+
+    function loadBorrowedItems() {
+    fetch('../php-user/fetch_borrowed_items.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log('fetch_borrowed_items response:', data);
+            if (data.success && data.items && data.items.length > 0) {
+                allItems = data.items.slice().sort((a, b) => new Date(b.Date_Borrowed) - new Date(a.Date_Borrowed));
+                renderTablePage(currentPage);
+                setupPagination();
+            } else {
+                console.log('No records or error:', data);
+                document.getElementById('tableBody').innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; padding: 20px;">No records found.</td>
+                    </tr>
+                `;
+                allItems = [];
+                setupPagination();
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            document.getElementById('tableBody').innerHTML = `
+                <tr>
+                    <td colspan="12" style="text-align: center; padding: 20px; color: red;">Error loading records: ${error.message}</td>
+                </tr>
+            `;
+            allItems = [];
+            setupPagination();
+        });
+}
+
+    function searchTable() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchInput) ? '' : 'none';
+      });
+    }
+
+    function filterTable(status) {
+      const rows = document.querySelectorAll('#tableBody tr');
+      
+      rows.forEach(row => {
+        if (!status) {
+          row.style.display = '';
+          return;
+        }
+        
+        const statusCell = row.querySelector('td[data-label="Status"]');
+        if (statusCell) {
+          row.style.display = statusCell.textContent.trim() === status ? '' : 'none';
         }
       });
+    }
 
-      // Search function
-      function searchTable() {
-        const input = document.getElementById("searchInput").value.toLowerCase();
-        const rows = document.querySelectorAll("#tableBody tr");
-        rows.forEach(row => {
-          const text = row.textContent.toLowerCase();
-          row.style.display = text.includes(input) ? "" : "none";
-        });
+    
+    function submitReturnBtn() {
+      const status = document.getElementById('modalItemStatus').value;
+      const formData = new FormData();
+      formData.append('item_id', currentReturnItemId);
+      formData.append('item_status', status);
+      formData.append('photo_returned', capturedPhotoData || '');
+      formData.append('patient_id', currentReturnPatientId);
+
+      fetch('../php-admin/return_item.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          closeReturnModal();
+          // Reload the table via AJAX
+          loadBorrowedItems();
+        } else {
+          alert('Return failed: ' + (response.error || 'Unknown error'));
+        }
+      })
+      .catch(err => {
+        alert('Network or server error: ' + err.message);
+      });
+    }
+
+    // In loadBorrowedItems, format dates using Asia/Manila timezone
+    function formatDateAsia(dateString) {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleString('en-PH', {
+        timeZone: 'Asia/Manila',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    function renderTablePage(page) {
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = '';
+      const start = (page - 1) * recordsPerPage;
+      const end = start + recordsPerPage;
+      const pageItems = allItems.slice(start, end);
+
+      if (pageItems.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='12'>No records found.</td></tr>";
+        return;
       }
 
-      // Filter function
-      function filterTable(status) {
-        const rows = document.querySelectorAll("#tableBody tr");
-        rows.forEach(row => {
-          const rowStatus = row.querySelector("td:nth-child(10)").textContent.toLowerCase();
-          row.style.display = status === "" || rowStatus === status.toLowerCase() ? "" : "none";
-        });
+      pageItems.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td data-label="No.">${start + index + 1}</td>
+          <td data-label="Identification Number">${item.ID_Number || 'N/A'}</td>
+          <td data-label="Full Name">${item.FullName || 'N/A'}</td>
+          <td data-label="Category">${item.Category || 'N/A'}</td>
+          <td data-label="Department/Course Yr. & Sec.">${item.DepartmentInfo || 'N/A'}</td>
+          <td data-label="Date Borrowed">${formatDateAsia(item.Date_Borrowed)}</td>
+          <td data-label="Date Returned">${formatDateAsia(item.Date_Returned)}</td>
+          <td data-label="Borrowed Item (specify)">${item.Item_Name || 'N/A'}</td>
+          <td data-label="Qty.">${item.Quantity || 'N/A'}</td>
+          <td data-label="Status">${item.Status || 'N/A'}</td>
+          <td data-label="Photo (Borrowed)">${item.Photo_Borrowed ? `<img src="${item.Photo_Borrowed}" width="60" alt="Borrowed"/>` : '-'}</td>
+          <td data-label="Photo (Returned)">${item.Photo_Returned ? `<img src="${item.Photo_Returned}" width="60" alt="Returned"/>` : '-'}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function setupPagination() {
+      const totalPages = Math.ceil(allItems.length / recordsPerPage);
+      const paginationDiv = document.querySelector('.pagination');
+      paginationDiv.innerHTML = '';
+
+      const prevButton = `<button class="page-btn" onclick="goToPage('prev')">«</button>`;
+      const nextButton = `<button class="page-btn" onclick="goToPage('next')">»</button>`;
+
+      paginationDiv.innerHTML += prevButton;
+
+      for (let i = 1; i <= totalPages; i++) {
+        paginationDiv.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
       }
+
+      paginationDiv.innerHTML += nextButton;
+    }
+
+    function goToPage(page) {
+      const totalPages = Math.ceil(allItems.length / recordsPerPage);
+
+      if (page === 'prev' && currentPage > 1) currentPage--;
+      else if (page === 'next' && currentPage < totalPages) currentPage++;
+      else if (typeof page === 'number') currentPage = page;
+
+      renderTablePage(currentPage);
+      setupPagination();
+    }
     </script>
-    -->
   </body>
 </html>

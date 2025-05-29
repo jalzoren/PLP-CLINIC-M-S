@@ -6,8 +6,7 @@
     <title>Medical Records / PLP Clinic Monitoring System</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="../popup-styles/popup-medicalrecstyle.css">
     
   </head>
 
@@ -93,10 +92,12 @@
                     <label for="departmentPersonnel">Department</label>
                     <select id="departmentPersonnel" name="departmentPersonnel">
                       <option value="">-- Select Department --</option>
-                      <option>HR</option>
-                      <option>Finance</option>
-                      <option>Maintenance</option>
-                      <option>IT</option>
+                      <option>Student Success Office (SSO)</option>
+                      <option>Health Service Department (HSD)</option>
+                      <option>Library Services (LS)</option>
+                      <option>MIS Department</option>
+                      <option>Administrative Affairs Department</option>
+                      <option>Academic Affair Department</option>
                     </select>
                   </div>
                 </div>
@@ -825,16 +826,8 @@
 
     <img id="myImage" src="logo.png" alt="Logo" style="display:none;" crossorigin="anonymous">
 
-    <script src="../js/popup-medical.js" defer></script>
-    <script src="pdf.js?v=1.0" defer></script>
+    <script src="../js-admin/popup-medical.js" defer></script>
 
-    <script>
-      if (!window.jspdf) {
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';
-        document.head.appendChild(script);
-      }
-    </script>
 
       </body>
   

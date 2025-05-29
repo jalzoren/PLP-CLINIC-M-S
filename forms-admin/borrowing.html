@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="../css/borrowstyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
-
+    <!-- Add SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Add SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="sidebar">
@@ -117,7 +120,7 @@
             </button>
           </div>
           <button class="control-button" onclick="filterTable()">
-              <i class='bx bx-filter'></i>
+            <i class="material-icons">filter_list</i>
           </button>
           <button class="control-button" onclick="sortTable()">
               <i class='bx bx-sort-alt-2' ></i>
@@ -169,13 +172,15 @@
       let currentPage = 1;
       const recordsPerPage = 10;
       let allRecords = [];
+      let originalRecords = []; // Store original records for reset
 
       // Fetch records from the server
       async function fetchRecords() {
         try {
-          const response = await fetch('../php/borrowing_records.php');
+          const response = await fetch('../php-admin/borrowing_records.php');
           const data = await response.json();
           allRecords = data;
+          originalRecords = [...data]; // Keep a copy of original records
           displayRecords();
           setupPagination();
         } catch (error) {
@@ -192,19 +197,24 @@
         const end = start + recordsPerPage;
         const paginatedRecords = allRecords.slice(start, end);
 
+        if (paginatedRecords.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="12" style="text-align: center;">No records found</td></tr>';
+          return;
+        }
+
         paginatedRecords.forEach((record, index) => {
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${start + index + 1}</td>
-            <td>${record.ID_Number}</td>
-            <td>${record.FullName}</td>
-            <td>${record.Category}</td>
-            <td>${record.DepartmentInfo}</td>
-            <td>${formatDate(record.Date_Borrowed)}</td>
-            <td>${record.Date_Returned ? formatDate(record.Date_Returned) : '-'}</td>
-            <td>${record.Item_Name}</td>
-            <td>${record.Quantity}</td>
-            <td>${record.Status}</td>
+            <td>${record.ID_Number || 'N/A'}</td>
+            <td>${record.FullName || 'N/A'}</td>
+            <td>${record.Category || 'N/A'}</td>
+            <td>${record.DepartmentInfo || 'N/A'}</td>
+            <td>${formatDateAsia(record.Date_Borrowed)}</td>
+            <td>${record.Date_Returned ? formatDateAsia(record.Date_Returned) : '-'}</td>
+            <td>${record.Item_Name || 'N/A'}</td>
+            <td>${record.Quantity || 'N/A'}</td>
+            <td>${record.Status || 'N/A'}</td>
             <td>${record.Photo_Borrowed ? `<img src="${record.Photo_Borrowed}" width="60" alt="Borrowed"/>` : '-'}</td>
             <td>${record.Photo_Returned ? `<img src="${record.Photo_Returned}" width="60" alt="Returned"/>` : '-'}</td>
           `;
@@ -243,31 +253,99 @@
       // Search functionality
       function searchTable() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const filteredRecords = allRecords.filter(record => 
-          record.FullName.toLowerCase().includes(searchTerm) ||
-          record.Item_Name.toLowerCase().includes(searchTerm) ||
-          record.Status.toLowerCase().includes(searchTerm) ||
-          record.ID_Number.toLowerCase().includes(searchTerm) ||
-          record.DepartmentInfo.toLowerCase().includes(searchTerm)
-        );
+        
+        // If search term is empty and no filter is active, restore original records
+        if (!searchTerm && !currentFilter) {
+          allRecords = [...originalRecords];
+        } else {
+          // Filter based on search term
+          allRecords = originalRecords.filter(record => {
+            const matchesSearch = !searchTerm || 
+              record.FullName.toLowerCase().includes(searchTerm) ||
+              record.Item_Name.toLowerCase().includes(searchTerm) ||
+              record.ID_Number.toLowerCase().includes(searchTerm);
+
+            // If there's an active filter, combine with search results
+            if (currentFilter) {
+              return matchesSearch && record.Status === currentFilter;
+            }
+            return matchesSearch;
+          });
+        }
         
         currentPage = 1;
-        allRecords = filteredRecords;
         displayRecords();
         setupPagination();
       }
 
-      // Format date
-      function formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
+      // Filter functionality
+      let currentFilter = '';
+      function filterTable() {
+        const filterOptions = {
+          '': 'All Status',
+          'Borrowed': 'Borrowed',
+          'Returned (Good Condition)': 'Returned (Good Condition)',
+          'Returned (Damage)': 'Returned (Damage)',
+          'Lost': 'Lost'
+        };
+
+        Swal.fire({
+          title: 'Filter by Status',
+          html: `
+            <select id="statusFilter" class="swal2-select" style="width: 80%; padding: 8px; margin-top: 10px;">
+              ${Object.entries(filterOptions).map(([value, label]) => 
+                `<option value="${value}" ${value === currentFilter ? 'selected' : ''}>${label}</option>`
+              ).join('')}
+            </select>
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Apply Filter',
+          cancelButtonText: 'Cancel',
+          preConfirm: () => {
+            return document.getElementById('statusFilter').value;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            currentFilter = result.value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!currentFilter && !searchTerm) {
+              allRecords = [...originalRecords];
+            } else {
+              allRecords = originalRecords.filter(record => {
+                const matchesFilter = !currentFilter || record.Status === currentFilter;
+                const matchesSearch = !searchTerm || 
+                  record.FullName.toLowerCase().includes(searchTerm) ||
+                  record.Item_Name.toLowerCase().includes(searchTerm) ||
+                  record.ID_Number.toLowerCase().includes(searchTerm);
+                return matchesFilter && matchesSearch;
+              });
+            }
+            
+            currentPage = 1;
+            displayRecords();
+            setupPagination();
+          }
         });
       }
+
+      // Format date
+      function formatDateAsia(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleString('en-PH', {
+          timeZone: 'Asia/Manila',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+      }
+
+      // Add event listener for search input
+      document.getElementById('searchInput').addEventListener('input', searchTable);
 
       // Load records when page loads
       document.addEventListener('DOMContentLoaded', fetchRecords);
@@ -287,6 +365,16 @@
       window.location.href = "admin-dashboard.html";
     }
   });
+    </script>
+
+    <!-- Add a note for the user to refresh borrowing.html after a return, or implement a reload button for instant update. -->
+    <!-- Optionally, you can add a button: <button onclick="fetchRecords()">Reload Records</button> -->
+
+    <!-- Add a function to reload the page from other scripts if needed -->
+    <script>
+      function reloadBorrowingPage() {
+        window.location.reload();
+      }
     </script>
   </body>
 </html>

@@ -88,3 +88,38 @@
 [22-May-2025 11:45:13 Europe/Berlin] ERROR in fetch_visits.php: Unknown column 'p.Department' in 'field list'
 [22-May-2025 11:45:13 Europe/Berlin] Stack trace: #0 D:\xampp\htdocs\PLP-CLINIC-M-S\php\fetch_visits.php(92): mysqli->prepare('\r\n        SELEC...')
 #1 {main}
+[24-May-2025 00:19:29 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:19:29 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:20:21 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:20:21 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:22:19 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:22:19 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:29:55 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 00:29:55 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='D:\xampp\php\PEAR') in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in D:\xampp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:33 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:33 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:37 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:11:37 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:13:01 Asia/Manila] PHP Warning:  require_once(../database.php): Failed to open stream: No such file or directory in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9
+[24-May-2025 09:13:01 Asia/Manila] PHP Fatal error:  Uncaught Error: Failed opening required '../database.php' (include_path='C:\xammp\php\PEAR') in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php:9
+Stack trace:
+#0 {main}
+  thrown in C:\xammp\htdocs\PLP-CLINIC-M-S\php\time_in.php on line 9

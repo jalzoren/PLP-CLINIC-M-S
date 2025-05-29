@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="../css-user/borrowuserstyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="icon" type="image/png" href="../pictures/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-
     <div class="sidebar">
         <div class="logo-content">
             <div class="logo" id="logo">
@@ -18,42 +18,35 @@
                 <div class="logo-name">PLPClinic</div>
             </div>
         </div>
-
         <ul class="nav-list">
             <li>
-                <a
-                href="admindashboard.html"
-                class="transition-link"
-                >
+                <a href="admindashboard.html" class="transition-link">
                     <i class="material-icons">dashboard</i>
                     <span class="link-name">Dashboard</span>
                 </a>
                 <span class="tooltip">Dashboard</span>
             </li>
-
             <li>
                 <a href="medrecords.html" class="transition-link">
-                <i class="material-icons">folder_shared</i>             
-                <span class="link-name">Records</span>
+                    <i class="material-icons">folder_shared</i>
+                    <span class="link-name">Records</span>
                 </a>
                 <span class="tooltip">Patient Records</span>
             </li>
             <li>
                 <a href="borrowing.html" class="transition-link">
-                <i class="material-icons">dns</i>
-                <span class="link-name">Borrow</span>
+                    <i class="material-icons">dns</i>
+                    <span class="link-name">Borrow</span>
                 </a>
                 <span class="tooltip">Borrowing Records</span>
             </li>
-
             <li>
                 <a href="userborrow.html" class="active">
-                <i class="material-icons">assignment</i>
-                <span class="link-name">Borrow</span>
+                    <i class="material-icons">assignment</i>
+                    <span class="link-name">Borrow</span>
                 </a>
                 <span class="tooltip">Borrow Form</span>
             </li>
-
             <li>
                 <a href="admintransac.html" class="transition-link">
                     <i class="material-icons">perm_contact_calendar</i>
@@ -71,11 +64,7 @@
         </ul>
         <ul>
             <li class="log-out">
-                <br />
-                <br />
-                <br />
-                <br />
-                
+                <br /><br /><br /><br />
                 <a href="../php/logout.php">
                     <i class="material-icons">exit_to_app</i>
                     <span class="link-name">Logout</span>
@@ -85,364 +74,587 @@
     </div>
 
     <div class="header-content">
-      <div class="text">BORROW FORM</div>
+        <div class="text">BORROW FORM</div>
     </div>
     <div id="cameraModal" class="modal">
-      <div class="modal-content" id="draggableModal">
-        <div class="modal-header" id="modalHeader">Borrow Camera</div>
-        <video id="video" autoplay playsinline></video>
-        <button id="takePhoto">Take Photo</button>
-        <button id="closeModal">Close</button>
-      </div>
+        <div class="modal-content" id="draggableModal">
+            <div class="modal-header" id="modalHeader">Borrow Camera</div>
+            <video id="video" autoplay playsinline></video>
+            <button id="takePhoto">Take Photo</button>
+            <button id="closeModal">Close</button>
+        </div>
     </div>
 
     <div class="home-content">
-      <!--
-      <div class="header-name" id="greeting"></div>
-        -->
-
-      <div class="main-container borrow-flex-row">
-        <div class="borrow-form-panel">
-          <div class="photo-and-form-row">
-            
-            <div class="photo-section">
-              <div class="image-captured" id="capturedImage"></div>
-              <button type="button" class="capture" id="openCamera">Take Photo</button>
+        <div class="main-container borrow-flex-row">
+            <div class="borrow-form-panel">
+                <div class="photo-and-form-row">
+                    <div class="photo-section">
+                        <div class="image-captured" id="capturedImage"></div>
+                        <button type="button" class="capture" id="openCamera">Take Photo</button>
+                    </div>
+                    <form id="borrowForm" method="POST" action="../php-admin/submit_borrow.php" enctype="multipart/form-data">
+                        <div class="form-fields">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user_id">ID Number</label>
+                                    <input type="number" name="user_id" id="user_id" placeholder="Enter ID Number" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" name="quantity" id="quantity" placeholder="Select Quantity" min="1" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="item_id">Select Item</label>
+                                    <select name="item_id" id="item_id">
+                                        <option value="" disabled selected>Select Item</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="due_date">Due Date</label>
+                                    <input type="date" name="due_date" id="due_date" required />
+                                </div>
+                            </div>
+                            <input type="hidden" name="photo_borrowed" id="photo_borrowed">
+                            <input type="hidden" name="patient_id" id="patient_id">
+                            <div class="button-row">
+                                <button type="submit" class="btn-submit">SUBMIT BORROW</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <form id="borrowForm" method="POST" action="../php/submit_borrow.php" enctype="multipart/form-data">
-              <div class="form-fields">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="user_id">ID Number</label>
-                    <input type="number" name="user_id" id="user_id" placeholder="Enter ID Number" />
-                  </div>
-                  <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" id="quantity" placeholder="Select Quantity" min="1" />
-                  </div>
+            <div class="available-items-panel">
+                <div class="available-items-header">AVAILABLE ITEMS</div>
+                <div class="available-items-list" id="availableItemsList">
+                    <!-- Items will be loaded here by JS -->
                 </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="item_id">Select Item</label>
-                    <select name="item_id" id="item_id">
-                      <option value="" disabled selected>Select Item</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="due_date">Due Date</label>
-                    <input type="date" name="due_date" id="due_date" required />
-                  </div>
-                </div>
-                <input type="hidden" name="photo_borrowed" id="photo_borrowed">
-                <div class="button-row">
-                  <button type="submit" class="btn-submit">SUBMIT BORROW</button>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-        <div class="available-items-panel">
-          <div class="available-items-header">AVAILABLE ITEMS</div>
-          <div class="available-items-list" id="availableItemsList">
-            <!-- Items will be loaded here by JS -->
-          </div>
+
+        <!-- Borrowed Items Table -->
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Identification Number</th>
+                        <th>Full Name</th>
+                        <th>Category</th>
+                        <th>Department/Course Yr. & Sec.</th>
+                        <th>Date Borrowed</th>
+                        <th>Borrowed Item (specify)</th>
+                        <th>Qty.</th>
+                        <th>Photo (Borrowed)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="borrowedTableBody">
+                    <tr><td colspan="10"> </td></tr>
+                </tbody>
+            </table>
         </div>
-      </div>
 
-      <!-- Borrowed Items Table -->
-      <div class="container">
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Identification Number</th>
-              <th>Full Name</th>
-              <th>Category</th>
-              <th>Department/Course Yr. & Sec.</th>
-              <th>Date Borrowed</th>
-              <th>Borrowed Item (specify)</th>
-              <th>Qty.</th>
-              <th>Photo (Borrowed)</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="borrowedTableBody">
-            <tr><td colspan="10">&nbsp;</td></tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="pagination">
+            <button class="page-btn" onclick="goToPage('prev')">«</button>
+            <button class="page-btn active" onclick="goToPage(1)">1</button>
+            <button class="page-btn" onclick="goToPage(2)">2</button>
+            <button class="page-btn" onclick="goToPage('next')">»</button>
+        </div>
+    </div>
 
-      <div class="pagination">
-        <button class="page-btn" onclick="goToPage('prev')">&laquo;</button>
-        <button class="page-btn active" onclick="goToPage(1)">1</button>
-        <button class="page-btn" onclick="goToPage(2)">2</button>
-        <button class="page-btn" onclick="goToPage('next')">&raquo;</button>
-      </div>
+    <!-- Return Modal -->
+    <div id="returnModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <form id="returnForm" style="background:#fff; border-radius:12px; padding:32px 24px; width:400px; max-width:90vw; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+            <button id="closeModalBtn" type="button" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer;">×</button>
+            <h2 style="text-align:center; color:#1a1259; font-weight:700; margin-bottom:16px;">RETURN</h2>
+            <div style="display:flex; justify-content:center; margin-bottom:16px;">
+                <video id="cameraPreview" width="250" height="180" autoplay style="background:#1a1259; border:3px solid #a47cff; border-radius:8px;"></video>
+                <canvas id="captureCanvas" width="250" height="180" style="display:none;"></canvas>
+            </div>
+            <div style="text-align:center; margin-bottom:8px;">
+                <span id="modalUserName" style="font-size:18px; font-weight:500; color:#222;"></span>
+            </div>
+            <div style="text-align:center; margin-bottom:16px;">
+                <span style="font-weight:600;">ITEM STATUS</span><br>
+                <select id="modalItemStatus" style="margin-top:4px; width:90%; padding:8px; border-radius:6px; border:1px solid #aaa;">
+                    <option value="Returned (Good Condition)">Returned (Good Condition)</option>
+                    <option value="Returned (Damage)">Returned (Damage)</option>
+                    <option value="Overdue">Overdue</option>
+                    <option value="Lost">Lost</option>
+                </select>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <button id="cancelReturnBtn" type="button" style="background:#bfc4e0; color:#222; border:none; border-radius:8px; padding:10px 28px; font-weight:600; font-size:16px; cursor:pointer;">CANCEL</button>
+                <button id="capturePhotoBtn" type="button" style="background:#1a1259; color:#fff; border:none; border-radius:8px; padding:10px 18px; font-weight:600; font-size:16px; cursor:pointer;">CAPTURE</button>
+                <button id="submitReturnBtn" type="submit" style="background:#c75a5a; color:#fff; border:none; border-radius:8px; padding:10px 28px; font-weight:600; font-size:16px; cursor:pointer;" disabled>SUBMIT</button>
+            </div>
+        </form>
     </div>
 
     <script>
-      let btn = document.querySelector("#logo");
-      let sidebar = document.querySelector(".sidebar");
+        let btn = document.querySelector("#logo");
+        let sidebar = document.querySelector(".sidebar");
 
-      btn.onclick = function () {
-        sidebar.classList.toggle("active");
-      };
+        btn.onclick = function () {
+            sidebar.classList.toggle("active");
+        };
 
-      const modal = document.getElementById("cameraModal");
-      const modalContent = document.querySelector(".modal-content");
-      const modalHeader = document.getElementById("modalHeader");
-      const openBtn = document.getElementById("openCamera");
-      const closeBtn = document.getElementById("closeModal");
-      const video = document.getElementById("video");
-      const takePhotoBtn = document.getElementById("takePhoto");
-      const capturedImageDiv = document.getElementById("capturedImage");
+        const modal = document.getElementById("cameraModal");
+        const modalContent = document.querySelector(".modal-content");
+        const modalHeader = document.getElementById("modalHeader");
+        const openBtn = document.getElementById("openCamera");
+        const closeBtn = document.getElementById("closeModal");
+        const video = document.getElementById("video");
+        const takePhotoBtn = document.getElementById("takePhoto");
+        const capturedImageDiv = document.getElementById("capturedImage");
 
-      let stream;
+        let stream;
 
-      openBtn.addEventListener("click", async () => {
-        modal.style.display = "block";
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          video.srcObject = stream;
-        } catch (err) {
-          alert("Camera not available.");
-        }
-      });
-
-      closeBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-        if (stream) {
-          stream.getTracks().forEach((track) => track.stop());
-        }
-      });
-
-      takePhotoBtn.addEventListener("click", () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = canvas.toDataURL("image/png");
-
-        capturedImageDiv.innerHTML = `<img src="${imageData}" alt="Captured Photo" style="width: 100%; height: 100%; object-fit: cover;" />`;
-        document.getElementById("photo_borrowed").value = imageData;
-
-        modal.style.display = "none";
-        if (stream) {
-          stream.getTracks().forEach((track) => track.stop());
-        }
-      });
-
-      function makeDraggable(modalEl, handleEl) {
-        let isDragging = false;
-        let offsetX = 0;
-        let offsetY = 0;
-
-        handleEl.addEventListener("mousedown", (e) => {
-          isDragging = true;
-          offsetX = e.clientX - modalEl.offsetLeft;
-          offsetY = e.clientY - modalEl.offsetTop;
-          document.body.style.userSelect = "none";
+        openBtn.addEventListener("click", async () => {
+            modal.style.display = "block";
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                alert("Camera not available.");
+            }
         });
 
-        document.addEventListener("mousemove", (e) => {
-          if (isDragging) {
-            modalEl.style.left = `${e.clientX - offsetX}px`;
-            modalEl.style.top = `${e.clientY - offsetY}px`;
-          }
+        closeBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+            if (stream) {
+                stream.getTracks().forEach((track) => track.stop());
+            }
         });
 
-        document.addEventListener("mouseup", () => {
-          isDragging = false;
-          document.body.style.userSelect = "";
-        });
-      }
+        takePhotoBtn.addEventListener("click", () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL("image/png");
 
-      makeDraggable(modalContent, modalHeader);
+            capturedImageDiv.innerHTML = `<img src="${imageData}" alt="Captured Photo" style="width: 100%; height: 100%; object-fit: cover;" />`;
+            document.getElementById("photo_borrowed").value = imageData;
+
+            modal.style.display = "none";
+            if (stream) {
+                stream.getTracks().forEach((track) => track.stop());
+            }
+        });
+
+        function makeDraggable(modalEl, handleEl) {
+            let isDragging = false;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            handleEl.addEventListener("mousedown", (e) => {
+                isDragging = true;
+                offsetX = e.clientX - modalEl.offsetLeft;
+                offsetY = e.clientY - modalEl.offsetTop;
+                document.body.style.userSelect = "none";
+            });
+
+            document.addEventListener("mousemove", (e) => {
+                if (isDragging) {
+                    modalEl.style.left = `${e.clientX - offsetX}px`;
+                    modalEl.style.top = `${e.clientY - offsetY}px`;
+                }
+            });
+
+            document.addEventListener("mouseup", () => {
+                isDragging = false;
+                document.body.style.userSelect = "";
+            });
+        }
+
+        makeDraggable(modalContent, modalHeader);
+
+        const rowsPerPage = 1;
+        let currentPage = 1;
+        let borrowedItemsData = [];
+
+        function renderTablePage(page) {
+            const tableBody = document.getElementById("borrowedTableBody");
+            tableBody.innerHTML = "";
+
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageItems = borrowedItemsData.slice(start, end);
+
+            if (pageItems.length === 0) {
+                tableBody.innerHTML = "<tr><td colspan='10'>No borrowed items found.</td></tr>";
+                return;
+            }
+
+            pageItems.forEach((item, index) => {
+                const photo = item.Photo_Borrowed ? `<img src="${item.Photo_Borrowed}" alt="Photo" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">` : '';
+                const row = document.createElement("tr");
+                row.setAttribute('data-patient-id', item.Patient_ID || '');
+                row.setAttribute('data-item-id', item.Item_ID || '');
+                row.setAttribute('data-id-number', item.ID_Number || '');
+                row.innerHTML = `
+                    <td>${start + index + 1}</td>
+                    <td>${item.ID_Number || ''}</td>
+                    <td>${item.FullName || ''}</td>
+                    <td>${item.Category || ''}</td>
+                    <td>${item.DepartmentInfo || ''}</td>
+                    <td>${formatDateAsia(item.Date_Borrowed)}</td>
+                    <td>${item.Item_Name || ''}</td>
+                    <td>${item.Quantity || ''}</td>
+                    <td>${photo}</td>
+                    <td><button class="return-btn" ${item.Status !== 'Borrowed' ? 'disabled' : ''}>${item.Status !== 'Borrowed' ? 'Returned' : 'RETURN'}</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            reloadReturnListeners();
+        }
+
+        function updatePaginationButtons() {
+            const paginationDiv = document.querySelector(".pagination");
+            paginationDiv.innerHTML = "";
+
+            const totalPages = Math.ceil(borrowedItemsData.length / rowsPerPage);
+
+            const prevButton = `<button class="page-btn" onclick="goToPage('prev')">«</button>`;
+            paginationDiv.innerHTML += prevButton;
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationDiv.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+
+            paginationDiv.innerHTML += `<button class="page-btn" onclick="goToPage('next')">»</button>`;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(borrowedItemsData.length / rowsPerPage);
+
+            if (page === 'prev' && currentPage > 1) currentPage--;
+            else if (page === 'next' && currentPage < totalPages) currentPage++;
+            else if (typeof page === 'number') currentPage = page;
+
+            renderTablePage(currentPage);
+            updatePaginationButtons();
+        }
+
+        function loadBorrowedItems() {
+            fetch('../php-admin/borrowing_records.php')
+                .then(response => response.json())
+                .then(data => {
+                    borrowedItemsData = data.filter(item => item.Status === 'Borrowed');
+                    currentPage = 1;
+                    renderTablePage(currentPage);
+                    updatePaginationButtons();
+                    // Proceed to next page if available
+                    if (borrowedItemsData.length > 1) {
+                        setTimeout(() => goToPage('next'), 500);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('borrowedTableBody').innerHTML = '<tr><td colspan="10" style="color:red">Failed to load borrowed items.</td></tr>';
+                });
+        }
+        window.addEventListener('DOMContentLoaded', loadBorrowedItems);
+
+        // Dynamically load available items for the right panel
+        function loadAvailableItems() {
+            fetch('../php-admin/fetch_items.php')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('availableItemsList');
+                    list.innerHTML = '';
+                    data.forEach(item => {
+                        const statusClass = item.Status === 'Available' ? 'status-available' : 'status-unavailable';
+                        const statusText = item.Status === 'Available' ? 'AVAILABLE' : 'NOT AVAILABLE';
+                        const row = document.createElement('div');
+                        row.className = 'available-item-row';
+                        row.innerHTML = `
+                            <span class="status-indicator ${statusClass}">${statusText}</span>
+                            <span>${item.Item_Name} (${item.Quantity})</span>
+                        `;
+                        list.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('availableItemsList').innerHTML = '<div style="color:red">Failed to load items.</div>';
+                });
+        }
+        window.addEventListener('DOMContentLoaded', loadAvailableItems);
+
+        // Dynamically load items for dropdown
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("../php-admin/fetch_items.php")
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("item_id");
+                    data.forEach(item => {
+                        const option = document.createElement("option");
+                        option.value = item.Item_ID;
+                        option.textContent = item.Item_Name;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Failed to load items for dropdown:", error);
+                });
+        });
+
+        // --- Modal and Camera Logic for Return ---
+        let currentReturnItemId = null;
+        let currentReturnUserName = '';
+        let capturedPhotoData = '';
+        let currentReturnPatientId = '';
+
+        function openReturnModal(itemId, userName, patientId) {
+            currentReturnItemId = itemId;
+            currentReturnUserName = userName;
+            currentReturnPatientId = patientId;
+            document.getElementById('modalUserName').textContent = userName;
+            document.getElementById('modalItemStatus').selectedIndex = 0;
+            document.getElementById('submitReturnBtn').disabled = true;
+            document.getElementById('capturePhotoBtn').disabled = false;
+            document.getElementById('captureCanvas').style.display = 'none';
+            document.getElementById('cameraPreview').style.display = 'block';
+            document.getElementById('returnModal').style.display = 'flex';
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(s => {
+                    stream = s;
+                    document.getElementById('cameraPreview').srcObject = stream;
+                });
+        }
+
+        function closeReturnModal() {
+            document.getElementById('returnModal').style.display = 'none';
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+
+        document.getElementById('closeModalBtn').onclick = closeReturnModal;
+        document.getElementById('cancelReturnBtn').onclick = closeReturnModal;
+
+        document.getElementById('capturePhotoBtn').onclick = function() {
+            const video = document.getElementById('cameraPreview');
+            const canvas = document.getElementById('captureCanvas');
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            capturedPhotoData = canvas.toDataURL('image/png');
+            canvas.style.display = 'block';
+            video.style.display = 'none';
+            document.getElementById('submitReturnBtn').disabled = false;
+            this.disabled = true;
+        };
+
+        function submitReturnBtn() {
+            const status = document.getElementById('modalItemStatus').value;
+            const formData = new FormData();
+            formData.append('item_id', currentReturnItemId);
+            formData.append('item_status', status);
+            formData.append('photo_returned', capturedPhotoData || '');
+            formData.append('patient_id', currentReturnPatientId);
+
+            fetch('../php-admin/return_item.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        closeReturnModal();
+                        loadBorrowedItems(); // Reload table with pagination
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.error || 'Unknown error'
+                        });
+                    }
+                })
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Network or server error: ' + err.message
+                    });
+                });
+        }
+
+        function attachReturnBtnListeners() {
+            document.querySelectorAll('.return-btn').forEach(btn => {
+                btn.onclick = async function() {
+                    const row = btn.closest('tr');
+                    const idNumber = row ? row.children[1].textContent.trim() : '';
+                    const itemId = row ? row.getAttribute('data-item-id') : '';
+                    const userName = row ? row.children[2].textContent : '';
+
+                    if (!idNumber || !itemId) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Missing Field',
+                            text: 'Error: Missing Identification Number or Item ID.'
+                        });
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(`../php-user/get_patient_id.php?id_number=${encodeURIComponent(idNumber)}`);
+                        const data = await response.json();
+                        if (data.success && data.patient_id) {
+                            const patientId = data.patient_id;
+                            openReturnModal(itemId, userName, patientId);
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'No User Found',
+                                text: 'No user found with Identification Number: ' + idNumber
+                            });
+                        }
+                    } catch (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error fetching user data: ' + error.message
+                        });
+                    }
+                };
+            });
+        }
+
+        function reloadReturnListeners() {
+            setTimeout(attachReturnBtnListeners, 500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(attachReturnBtnListeners, 1000);
+        });
+
+        document.getElementById('borrowForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const idNumber = document.getElementById('user_id').value.trim();
+            const quantity = document.getElementById('quantity').value.trim();
+            const itemId = document.getElementById('item_id').value;
+            const dueDate = document.getElementById('due_date').value;
+            const capturedImage = document.getElementById('capturedImage');
+
+            if (!idNumber) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Field',
+                    text: 'Please enter an ID Number.'
+                });
+                return;
+            }
+            if (!quantity || quantity < 1) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Field',
+                    text: 'Please enter a valid quantity.'
+                });
+                return;
+            }
+            if (!itemId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Field',
+                    text: 'Please select an item.'
+                });
+                return;
+            }
+            if (!dueDate) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Field',
+                    text: 'Please select a due date.'
+                });
+                return;
+            }
+            if (!capturedImage.querySelector('img')) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Photo',
+                    text: 'Please capture a photo before submitting the borrow.'
+                });
+                return;
+            }
+
+            try {
+                const patientResponse = await fetch('../php-user/get_patient_id.php?id_number=' + encodeURIComponent(idNumber));
+                const patientData = await patientResponse.json();
+
+                if (!patientData.success || !patientData.patient_id) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No User Found',
+                        text: 'No user found with that ID Number.'
+                    });
+                    return;
+                }
+
+                const formData = new FormData(this);
+                formData.set('patient_id', patientData.patient_id);
+
+                if (capturedImage.querySelector('img')) {
+                    const imgData = capturedImage.querySelector('img').src;
+                    formData.set('photo_borrowed', imgData);
+                }
+
+                const submitResponse = await fetch('../php-admin/submit_borrow.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await submitResponse.text();
+
+                if (result.includes('Error')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result
+                    });
+                } else {
+                    this.reset();
+                    document.getElementById('capturedImage').innerHTML = '';
+                    loadBorrowedItems();
+                    loadAvailableItems();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Item borrowed successfully!'
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while submitting the form.'
+                });
+            }
+        });
+
+        document.getElementById('returnForm').onsubmit = function(e) {
+            e.preventDefault();
+            submitReturnBtn();
+        };
+
+        function formatDateAsia(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleString('en-PH', {
+                timeZone: 'Asia/Manila',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        }
     </script>
-
-<script>
-  const rowsPerPage = 5;
-  let currentPage = 1;
-  let itemsData = [];
-
-  function renderTablePage(page) {
-    const tableBody = document.getElementById("itemTableBody");
-    tableBody.innerHTML = "";
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const pageItems = itemsData.slice(start, end);
-
-    if (pageItems.length === 0) {
-      tableBody.innerHTML = "<tr><td colspan='5'>No items found.</td></tr>";
-      return;
-    }
-
-    pageItems.forEach((item, index) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${start + index + 1}</td>
-        <td>${item.Item_Name}</td>
-        <td>${item.Category}</td>
-        <td>${item.Status}</td>
-        <td>${item.Quantity}</td>
-      `;
-      tableBody.appendChild(row);
-    });
-  }
-
-  function updatePaginationButtons() {
-    const paginationDiv = document.querySelector(".pagination");
-    paginationDiv.innerHTML = "";
-
-    const totalPages = Math.ceil(itemsData.length / rowsPerPage);
-
-    const prevButton = `<button class="page-btn" onclick="goToPage('prev')">&laquo;</button>`;
-    const nextButton = `<button class="page-btn" onclick="goToPage('next')">&raquo;</button>`;
-
-    paginationDiv.innerHTML += prevButton;
-
-    for (let i = 1; i <= totalPages; i++) {
-      paginationDiv.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-    }
-
-    paginationDiv.innerHTML += nextButton;
-  }
-
-  function goToPage(page) {
-    const totalPages = Math.ceil(itemsData.length / rowsPerPage);
-
-    if (page === 'prev' && currentPage > 1) currentPage--;
-    else if (page === 'next' && currentPage < totalPages) currentPage++;
-    else if (typeof page === 'number') currentPage = page;
-
-    renderTablePage(currentPage);
-    updatePaginationButtons();
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    fetch('../php/fetch_items.php')
-      .then(response => response.json())
-      .then(data => {
-        itemsData = data;
-        currentPage = 1;
-        renderTablePage(currentPage);
-        updatePaginationButtons();
-      })
-      .catch(error => {
-        console.error("Error fetching items:", error);
-      });
-  });
-</script>
-  
-
-<script>
-  let file = document.getElementById("photoInput").files[0];
-  let reader = new FileReader();
-
-  reader.onloadend = function () {
-    let photoData = reader.result.split(",")[1]; 
-
-    fetch('submit_borrow.php', {
-      method: 'POST',
-      body: new URLSearchParams({
-        item: item_id,
-        quantity: quantity,
-        reason: reason,
-        photo_borrowed: photoData   // ← changed here
-      })
-    });
-  };
-
-  
-
-  reader.readAsDataURL(file);
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    fetch("../php/fetch_items.php")
-      .then(response => response.json())
-      .then(data => {
-        const select = document.getElementById("item_id");
-        data.forEach(item => {
-          const option = document.createElement("option");
-          option.value = item.Item_ID;
-          option.textContent = item.Item_Name;
-          select.appendChild(option);
-        });
-      })
-      .catch(error => {
-        console.error("Failed to load items for dropdown:", error);
-      });
-  });
-</script>
-
-<script>
-  // Dynamically load available items for the right panel
-  function loadAvailableItems() {
-    fetch('../php/fetch_items.php')
-      .then(response => response.json())
-      .then(data => {
-        const list = document.getElementById('availableItemsList');
-        list.innerHTML = '';
-        data.forEach(item => {
-          const statusClass = item.Status === 'Available' ? 'status-available' : 'status-unavailable';
-          const statusText = item.Status === 'Available' ? 'AVAILABLE' : 'NOT AVAILABLE';
-          const row = document.createElement('div');
-          row.className = 'available-item-row';
-          row.innerHTML = `
-            <span class="status-indicator ${statusClass}">${statusText}</span>
-            <span>${item.Item_Name} (${item.Quantity})</span>
-          `;
-          list.appendChild(row);
-        });
-      })
-      .catch(error => {
-        document.getElementById('availableItemsList').innerHTML = '<div style="color:red">Failed to load items.</div>';
-      });
-  }
-  // Call on load
-  window.addEventListener('DOMContentLoaded', loadAvailableItems);
-
-  // Dynamically load borrowed items for the table
-  function loadBorrowedItems() {
-    fetch('../php/borrowing_records.php')
-      .then(response => response.json())
-      .then(data => {
-        const tbody = document.getElementById('borrowedTableBody');
-        tbody.innerHTML = '';
-        if (!data.length) {
-          tbody.innerHTML = '<tr><td colspan="10">No borrowed items found.</td></tr>';
-          return;
-        }
-        data.forEach((item, idx) => {
-          const photo = item.Photo_Borrowed ? `<img src="${item.Photo_Borrowed}" alt="Photo" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">` : '';
-          tbody.innerHTML += `
-            <tr>
-              <td>${idx + 1}</td>
-              <td>${item.ID_Number || ''}</td>
-              <td>${item.FullName || ''}</td>
-              <td>${item.Category || ''}</td>
-              <td>${item.DepartmentInfo || ''}</td>
-              <td>${item.Date_Borrowed || ''}</td>
-              <td>${item.Item_Name || ''}</td>
-              <td>${item.Quantity || ''}</td>
-              <td>${photo}</td>
-              <td><button class="return-btn">RETURN</button></td>
-            </tr>
-          `;
-        });
-      })
-      .catch(error => {
-        document.getElementById('borrowedTableBody').innerHTML = '<tr><td colspan="10" style="color:red">Failed to load borrowed items.</td></tr>';
-      });
-  }
-  // Call on load
-  window.addEventListener('DOMContentLoaded', loadBorrowedItems);
-</script>
-
-  </body>
+</body>
 </html>

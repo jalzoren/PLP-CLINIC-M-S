@@ -7,7 +7,7 @@ function updateClock() {
   const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
   document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
 
-  // Update date and weekday only if they’ve changed
+  // Update date and weekday only if they've changed
   const dateKey = now.toDateString();
   if (document.body.dataset.lastDate !== dateKey) {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -39,11 +39,11 @@ document.getElementById('timeInForm').addEventListener('submit', async e => {
 
   // Client-side validation
   if (!idNumber || isNaN(idNumber) || idNumber <= 0) {
-    Swal.fire('Error', 'Please enter a valid ID number.', 'error');
+    Swal.fire('Error', 'Please enter a valid Student/Personnel ID number.', 'error');
     return;
   }
   if (!reason) {
-    Swal.fire('Error', 'Please select a reason.', 'error');
+    Swal.fire('Error', 'Please select a reason for your visit.', 'error');
     return;
   }
   if (reason === 'Other Reason' && !otherReason.trim()) {
@@ -52,17 +52,28 @@ document.getElementById('timeInForm').addEventListener('submit', async e => {
   }
 
   try {
-    const response = await fetch('time_in.php', {
+    const response = await fetch('./php/time_in.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id_number: idNumber, reason, other_reason: otherReason })
     });
     const data = await response.json();
-    Swal.fire({
-      icon: data.status,
-      title: data.status === 'success' ? 'Success' : 'Error',
-      text: data.message
-    });
+    
+    if (data.status === 'error' && data.message.includes('not found')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'ID Not Found',
+        text: 'The ID number was not found in our records. Please make sure you entered your correct Student/Personnel ID.',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      Swal.fire({
+        icon: data.status,
+        title: data.status === 'success' ? 'Success' : 'Error',
+        text: data.message
+      });
+    }
+    
     if (data.status === 'success') {
       document.getElementById('timeInForm').reset();
       document.querySelector('.other').style.display = 'none';

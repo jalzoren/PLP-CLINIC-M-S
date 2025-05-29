@@ -1,10 +1,20 @@
-<?php include '../php/get_current_timedin.php'; ?>
-
+<?php
+session_start();
+// Redirect to login if not authenticated (optional, for security)
+if (!isset($_SESSION['admin_email'])) {
+    header('Location: ../login.html');
+    exit;
+}
+include '../php-admin/get_current_timedin.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Admin Dashboard / PLP Clinic Monitoring System</title>
     <link rel="stylesheet" href="../css/admin_dashbstyle.css">
     <link rel="icon" type="image/png" href="../pictures/logo.png">
@@ -12,6 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo-content">
@@ -82,7 +93,7 @@
                 <img src="../pictures/nurse.png" class="nurse">
                 <div class="greetings">
                     <h2 class="welcome">Welcome, Doc</h2>
-                    <p><span><i class="material-icons" style="font-size: tiny;">account_circle</i></span> loremipsum@plpasig.edu.ph</p>
+                    <p id="admin-email"><span><i class="material-icons" style="font-size: tiny;">account_circle</i></span> Loading...</p>
                     <p class="date" id="date">Date: 00/00/0000</p>
                     <p class="time" id="time">Monday | 00:00:00</p>
                 </div>
@@ -110,7 +121,25 @@
                     <p>Total of Patients</p>
                     <a href="medrecords.html">See All</a>
                 </div>
-                <div class="patient_summary"></div>
+                <div class="patient_summary">
+                    <div class="category_total">
+                        <h2>0</h2>
+                        <p>Total of Patients</p>
+                    </div>
+                    
+                    <div class="category_student">
+                        <h2>0</h2>
+                        <p>Students</p>
+                    </div>
+                    <div class="category_teaching">
+                        <h2>0</h2>
+                        <p>Teaching Personnel</p>
+                    </div>
+                    <div class="category_nonteaching">
+                        <h2>0</h2>
+                        <p>Non-Teaching Personnel</p>
+                    </div>
+                </div>
             </div>
             <div class="emergency_hotline">
                 <a href="#" class="hotlines" onclick="openForm()">PASIG CITY EMERGENCY HOTLINES</a>
@@ -121,7 +150,6 @@
                     <select id="timeRange">
                         <option value="7">Last 7 Days</option>
                         <option value="30">Last 30 Days</option>
-                        <option value="90">Last 90 Days</option>
                     </select>
                     <a href="admintransac.html">See All</a>
                 </div>
@@ -184,11 +212,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Emergency Hotline</td><td>(02) 8643 0000</td></tr>
+                    <tr><td>Emergency Hotline</td><td>8643 0000</td></tr>
                     <tr><td>Bureau of Fire Protection</td><td>8641-2815</td></tr>
-                    <tr><td>PNP Hotline</td><td>(02) 8477 7953</td></tr>
-                    <tr><td>Pasig City Children's Hospital</td><td>(02) 8643 2222</td></tr>
-                    <tr><td>Pasig City General Hospital</td><td>(02) 8643 3333<br>(02) 8642 7379<br>(02) 8642 7381</td></tr>
+                    <tr><td>PNP Hotline</td><td>8477 7953</td></tr>
+                    <tr><td>Pasig City Children's Hospital</td><td>8643 2222</td></tr>
+                    <tr><td>Pasig City General Hospital</td><td>8643 3333<br>8642 7379<br>8642 7381</td></tr>
                     <tr><td>National Emergency Hotline</td><td>911</td></tr>
                 </tbody>
             </table>
@@ -235,6 +263,15 @@
     </div>
 
     <script src="../js-admin/item_charts.js"></script>
-    <script src="../js-admin/admin-dashboard.js"></script>
+    <script src="../js-admin/patient_charts.js"></script>
+    <script src="../js-admin/admin_dashboard.js"></script>
+    <script src="../js-admin/admin_email.js"></script>
+    <script>
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
 </body>
 </html>

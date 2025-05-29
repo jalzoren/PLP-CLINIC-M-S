@@ -6,9 +6,9 @@
   <title>Medical Records / PLP Clinic Monitoring System</title>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="../js/popup-medical.js" defer></script>
   <link rel="stylesheet" href="../popup-styles/popup-assessstyle.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     if (!window.jspdf) {
       const script = document.createElement('script');
@@ -19,7 +19,7 @@
 </head>
 
 <body>
-   <form action="" method="POST" id="assessmentForm">
+   <form action="../php-admin/popup-assess.php" method="POST" id="assessmentForm">
     <div class="form-content" id="popupContainer">
       <div class="new-data">
         <div class="text">
@@ -101,7 +101,6 @@
 
 
 ,
- <script src="../js/printassess.js"></script>
 
   <div id="emptyFieldPopup" class="popup" style="display: none;">
     <div class="popup-content">
@@ -126,7 +125,96 @@
             document.querySelector('input[name="bmi"]').value = bmi;
         }
     }
-</script>
+
+    // Form submission handling
+    document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        
+        // Submit form using fetch
+        fetch('../php-admin/popup-assess.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Assessment has been saved successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'swal-overlay',
+                        popup: 'swal-popup'
+                    },
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Close the popup
+                        document.getElementById('popupContainer').style.display = 'none';
+                        // Refresh the parent page's table
+                        window.parent.location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message || 'There was an error saving the assessment.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        container: 'swal-overlay',
+                        popup: 'swal-popup'
+                    },
+                    backdrop: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                customClass: {
+                    container: 'swal-overlay',
+                    popup: 'swal-popup'
+                },
+                backdrop: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: true,
+                confirmButtonColor: '#d33'
+            });
+        });
+    });
+
+    // Add custom styles for SweetAlert
+    const style = document.createElement('style');
+    style.textContent = `
+        .swal-overlay {
+            z-index: 9999 !important;
+        }
+        .swal-popup {
+            z-index: 10000 !important;
+        }
+        .swal2-backdrop-show {
+            background: rgba(0, 0, 0, 0.4) !important;
+        }
+    `;
+    document.head.appendChild(style);
+  </script>
 
 <script>
   

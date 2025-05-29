@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    fetch("../php/get_patient_data.php?patient_id=" + patientId)
+    fetch("../php-admin/get_patient_data.php?patient_id=" + patientId)
         .then(response => response.json())
         .then(data => {
             // Populate general patient fields
             [
                 "identification", "lastname", "firstname", "middlename", "gender",
                 "age", "birthdate", "religion", "nationality", "contact", "civilstatus",
-                "address", "city", "province", "zipcode"
+                "address", "city", "province", "zipcode", "email"
             ].forEach(id => {
                 document.getElementById(id).value = data[id] || "";
             });
@@ -232,6 +232,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
+
+
+        // Combine full name (adjust spacing if needed)
+        const fullName = `${data.firstname} ${data.middlename} ${data.lastname}`.trim();
+
+        // Insert into placeholder
+        document.getElementById("patient-name-placeholder").textContent = fullName;
+
 
 
 

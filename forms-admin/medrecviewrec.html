@@ -10,8 +10,6 @@
 
     <link rel="stylesheet" href="../css/medrecView.css" />
     <link rel="icon" type="image/png" href="../pictures/logo.png">
-    <script src="../js/popup-medical.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 
 
@@ -98,7 +96,10 @@
 
      <div class="home-content">
      <div class="breadcrumbs">
-        <a href="../forms-admin/medrecords.html">  <i class="material-icons" style="color: #1a1259;">arrow_back</i></a>
+<a href="javascript:void(0);" onclick="history.back();">
+  <i class="material-icons" style="color: #1a1259;">arrow_back</i>
+</a>
+
         <p class="p-rec">
             <strong>Patient Records &lt;<span></span><span id="patient-name-placeholder"></span></strong>
         </p>
@@ -114,8 +115,8 @@
         
         
             <div class="user-type" style="margin-bottom: 20px;">
-              <label><input type="checkbox" id="studentCheckbox" name="user" value="student"  disabled /> Student</label>
-              <label><input type="checkbox" id="personnelCheckbox" name="user" value="personnel" disabled   /> Personnel</label>
+              <label><input type="checkbox" id="studentCheckbox" name="user" value="student"   /> Student</label>
+              <label><input type="checkbox" id="personnelCheckbox" name="user" value="personnel"    /> Personnel</label>
               </div>
           
               <div style="display: flex; gap: 30px; margin-bottom: 40px;">
@@ -123,7 +124,7 @@
               <div id="studentFields" style="flex: 1;">
                   <div class="field-group" style="margin-bottom: 10px;">
                   <label for="collegeDepartment">College Department</label>
-                  <select id="collegeDepartment" name="collegeDepartment" style="width: 100%;"  disabled>
+                  <select id="collegeDepartment" name="collegeDepartment" style="width: 100%;"  >
                       <option value="">-- Select Department --</option>
                       <option value="CON">College of Nursing (CON)</option>
                       <option value="CIHM">College of International Hospitality Management (CIHM)</option>
@@ -152,19 +153,19 @@
                   </div>
                   <div class="field-group" style="margin-bottom: 10px;">
                   <label for="batch">Batch</label>
-                  <input type="number" id="batch" name="batch" placeholder="Enter Batch (e.g., 2024)" style="width: 100%;" disabled  />
+                  <input type="number" id="batch" name="batch" placeholder="Enter Batch (e.g., 2024)" style="width: 100%;"   />
                   </div>
               </div>
           
               <!-- Personnel Fields -->
               <div id="personnelFields" style="flex: 1;">
                   <div class="checkbox-group" style="margin-bottom: 10px;">
-                  <label><input type="checkbox" id="teaching" name="teaching" disabled /> Teaching</label><br/>
-                  <label><input type="checkbox" id="nonTeaching" name="nonTeaching" disabled /> Non-teaching</label>
+                  <label><input type="checkbox" id="teaching" name="teaching"  /> Teaching</label><br/>
+                  <label><input type="checkbox" id="nonTeaching" name="nonTeaching"  /> Non-teaching</label>
                   </div>
                   <div class="field-group" style="margin-bottom: 10px;">
                   <label for="departmentPersonnel">Department</label>
-                  <select id="departmentPersonnel" name="departmentPersonnel" style="width: 100%;" disabled >
+                  <select id="departmentPersonnel" name="departmentPersonnel" style="width: 100%;" >
                       <option value="">-- Select Department --</option>
                       <option>HR</option>
                       <option>Finance</option>
@@ -183,22 +184,22 @@
               <tr>
                   <td style="padding: 5px;">
                   <label for="identification">Identification Number</label><br/>
-                  <input type="text" id="identification" name="identification" placeholder="Enter Identification Number" style="width: 100%;" disabled />
+                  <input type="text" id="identification" name="identification" placeholder="Enter Identification Number" style="width: 100%;"  />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="lastname">Last Name</label><br/>
-                  <input type="text" id="lastname" name="lastname" placeholder="Enter Last Name" style="width: 100%;" disabled  />
+                  <input type="text" id="lastname" name="lastname" placeholder="Enter Last Name" style="width: 100%;"   />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="firstname">First Name</label><br/>
-                  <input type="text" id="firstname" name="firstname" placeholder="Enter First Name" style="width: 100%;" disabled  />
+                  <input type="text" id="firstname" name="firstname" placeholder="Enter First Name" style="width: 100%;"   />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="middlename">Middle Name</label><br/>
-                  <input type="text" id="middlename" name="middlename" placeholder="Enter Middle Name" style="width: 100%;" disabled />
+                  <input type="text" id="middlename" name="middlename" placeholder="Enter Middle Name" style="width: 100%;"  />
                   </td>
               </tr>
               <tr>
@@ -218,18 +219,18 @@
           
                   <td style="padding: 5px;">
                   <label for="birthdate">Birthdate</label><br/>
-                  <input type="date" id="birthdate" name="birthdate" style="width: 100%;" disabled />
+                  <input type="date" id="birthdate" name="birthdate" style="width: 100%;"  />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="religion">Religion</label><br/>
-                  <input type="text" id="religion" name="religion" placeholder="Enter Religion" style="width: 100%;" disabled />
+                  <input type="text" id="religion" name="religion" placeholder="Enter Religion" style="width: 100%;"  />
                   </td>
               </tr>
               <tr>
                   <td style="padding: 5px;">
                   <label for="nationality">Nationality</label><br/>
-                  <input type="text" id="nationality" name="nationality" placeholder="Enter Nationality" style="width: 100%;" disabled />
+                  <input type="text" id="nationality" name="nationality" placeholder="Enter Nationality" style="width: 100%;"  />
                   </td>
           
                   <td style="padding: 5px;">
@@ -251,23 +252,23 @@
           
                   <td style="padding: 5px;">
                   <label for="address">Address</label><br/>
-                  <input type="text" id="address" name="address" placeholder="No. Street, Village/Subdivision, Barangay" style="width: 100%;" disabled  />
+                  <input type="text" id="address" name="address" placeholder="No. Street, Village/Subdivision, Barangay" style="width: 100%;"   />
                   </td>
               </tr>
               <tr>
                   <td style="padding: 5px;">
                   <label for="city">City</label><br/>
-                  <input type="text" id="city" name="city" placeholder="Enter City" style="width: 100%;"  disabled />
+                  <input type="text" id="city" name="city" placeholder="Enter City" style="width: 100%;"   />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="province">Province</label><br/>
-                  <input type="text" id="province" name="province" placeholder="Enter Province" style="width: 100%;"  disabled />
+                  <input type="text" id="province" name="province" placeholder="Enter Province" style="width: 100%;"   />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="zipcode">Zip Code</label><br/>
-                  <input type="number" id="zipcode" name="zipcode" placeholder="Enter Zip Code" style="width: 100%;" disabled />
+                  <input type="number" id="zipcode" name="zipcode" placeholder="Enter Zip Code" style="width: 100%;"  />
                   </td>
           
                   <td style="padding: 5px;">
@@ -294,12 +295,12 @@
           
                   <td style="padding: 5px;">
                   <label for="emergencymiddlename">Middle Name</label><br/>
-                  <input type="text" id="emergencymiddlename" name="emergencymiddlename" placeholder="Enter Middle Name" style="width: 100%;" disabled  />
+                  <input type="text" id="emergencymiddlename" name="emergencymiddlename" placeholder="Enter Middle Name" style="width: 100%;"   />
                   </td>
           
                   <td style="padding: 5px;">
                   <label for="relationship">Relationship</label><br/>
-                  <input type="text" id="relationship" name="relationship" placeholder="Enter Relationship" style="width: 100%;"  disabled/>
+                  <input type="text" id="relationship" name="relationship" placeholder="Enter Relationship" style="width: 100%;"  />
                   </td>
               </tr>
               <tr>
@@ -310,7 +311,7 @@
           
                   <td style="padding: 5px;">
                   <label for="emergencyaddress">Address</label><br/>
-                  <input type="text" id="emergencyaddress" name="emergencyaddress" placeholder="No. Street, Village/Subdivision, Barangay" autocomplete="street-address" style="width: 100%;"  disabled/>
+                  <input type="text" id="emergencyaddress" name="emergencyaddress" placeholder="No. Street, Village/Subdivision, Barangay" autocomplete="street-address" style="width: 100%;"  />
                   </td>
           
                   <td style="padding: 5px;">
@@ -385,7 +386,7 @@
         
                           <td>
                             <label>
-                              <input type="checkbox" id="thyroidProblems" name="thyroidProblems"  disabled/> Thyroid Problems
+                              <input type="checkbox" id="thyroidProblems" name="thyroidProblems"  /> Thyroid Problems
                             </label>
                           </td>
                         </tr>
@@ -393,13 +394,13 @@
                         <tr>
                           <td>
                             <label>
-                              <input type="checkbox" id="cancer" name="cancer"   disabled/> Cancer
+                              <input type="checkbox" id="cancer" name="cancer"   /> Cancer
                             </label>
                           </td>
         
                           <td>
                             <label>
-                              <input type="checkbox" id="asthma" name="asthma" disabled /> Asthma
+                              <input type="checkbox" id="asthma" name="asthma"  /> Asthma
                             </label>
                           </td>
                         </tr>
@@ -407,14 +408,14 @@
                         <tr>
                           <td>
                             <label>
-                              <input type="checkbox" id="emphysema" name="emphysema" disabled /> Emphysema
+                              <input type="checkbox" id="emphysema" name="emphysema"  /> Emphysema
                             </label>
                           </td>
         
                           <td>
                             <label>
-                              <input type="checkbox" id="otherMedical" name="otherMedical" disabled /> OTHERs/specify:
-                              <input type="text" id="otherMedicalText"  name="otherMedicalText" placeholder="Specify" disabled />
+                              <input type="checkbox" id="otherMedical" name="otherMedical"  /> OTHERs/specify:
+                              <input type="text" id="otherMedicalText"  name="otherMedicalText" placeholder="Specify"  />
                             </label>
                           </td>
                         </tr>
@@ -422,7 +423,7 @@
                         <tr>
                           <td colspan="2">
                             <label for="maintenanceMedications">Maintenance Medication/s</label>
-                            <textarea id="maintenanceMedications" name="maintenanceMedications" rows="4" placeholder="Enter Maintenance Medications" disabled ></textarea>
+                            <textarea id="maintenanceMedications" name="maintenanceMedications" rows="4" placeholder="Enter Maintenance Medications"  ></textarea>
                           </td>
                         </tr>
                     </table>
@@ -443,7 +444,7 @@
                               <label>
                                   <span>Number of Miscarriage/s:</span>
                                   <span class="separator">..............................................................................</span>
-                                  <input type="number" id="numberOfMiscarriage" name="numberOfMiscarriage" disabled />
+                                  <input type="number" id="numberOfMiscarriage" name="numberOfMiscarriage"  />
                               </label>
                           </td>
                       </tr>
@@ -453,7 +454,7 @@
                               <label>
                                   <span>Number of Term deliveries:</span>
                                   <span class="separator">...........................................................................</span>
-                                  <input type="number" id="numberOfTermdeliveries" name="numberOfTermdeliveries" disabled  />
+                                  <input type="number" id="numberOfTermdeliveries" name="numberOfTermdeliveries"   />
                               </label>
                           </td>
                       </tr>
@@ -500,8 +501,8 @@
                       </td>
                       <td>
                         <label>
-                          <input type="checkbox" id="surgical" name="surgical"  disabled/> Yes / specify
-                          <input type="text" id="surgicalText" placeholder="Specify" name="surgicalText"  disabled/>
+                          <input type="checkbox" id="surgical" name="surgical"  /> Yes / specify
+                          <input type="text" id="surgicalText" placeholder="Specify" name="surgicalText"  />
                         </label>
                       </td>
                     </tr>
@@ -509,13 +510,13 @@
                     <tr>
                       <td>
                         <label>
-                          <input type="checkbox" id="moreThanonceperweekalcohol" name="moreThanonceperweekalcohol"  disabled/> More Than Once Per Week
+                          <input type="checkbox" id="moreThanonceperweekalcohol" name="moreThanonceperweekalcohol"  /> More Than Once Per Week
                         </label>
                       </td>
         
                       <td>
                         <label>
-                          <input type="checkbox" id="noneSurgery" name="noneSurgery"   disabled/> None
+                          <input type="checkbox" id="noneSurgery" name="noneSurgery"   /> None
                         </label>
                       </td>
                     </tr>
@@ -546,7 +547,7 @@
                     <div class="checkbox-wrapper">
                         <div class="smoke-checkbox">
                           <div class="checkbox-item">
-                            <input type="checkbox" id="yesCheckbox" name="usageStatus" value="Yes" disabled >
+                            <input type="checkbox" id="yesCheckbox" name="usageStatus" value="Yes"  >
                             <span>Yes and I use:</span>
                           </div>
                         
@@ -554,15 +555,15 @@
                               <table>
                                 <tr>
                                   <td>
-                                    <input type="checkbox" id="cigarette" name="smokingTypes[]" value="Cigarette"  disabled/>
+                                    <input type="checkbox" id="cigarette" name="smokingTypes[]" value="Cigarette"  />
                                     <label for="cigarette">Cigarette</label>
                                   </td>
                                   <td>
-                                    <input type="checkbox" id="vape" name="smokingTypes[]" value="Vape"   disabled/>
+                                    <input type="checkbox" id="vape" name="smokingTypes[]" value="Vape"   />
                                     <label for="vape">Vape</label>
                                   </td>
                                   <td>
-                                    <input type="checkbox" id="pipe" name="smokingTypes[]" value="Pipe"  disabled/>
+                                    <input type="checkbox" id="pipe" name="smokingTypes[]" value="Pipe"  />
                                     <label for="pipe">Pipe</label>
                                   </td>
                                 </tr>
@@ -580,7 +581,7 @@
                                   <td colspan="3">
                                     <label>
                                       I started since:
-                                      <input type="date" id="cigaretteStartedDate" name="cigaretteStartedDate" disabled/>
+                                      <input type="date" id="cigaretteStartedDate" name="cigaretteStartedDate"  />
                                     </label>
                                   </td>
                                 </tr>
@@ -619,7 +620,7 @@
                                   <label for="marijuana">Shabu</label>
                                 </td>
                                 <td>
-                                  <input type="checkbox" name="substances[]" id="ecstasy" value="ecstasy"  disabled />
+                                  <input type="checkbox" name="substances[]" id="ecstasy" value="ecstasy"   />
                                   <label for="ecstasy">Ecstasy</label>
                                 </td>
                                 <td>
@@ -630,11 +631,11 @@
   
                               <tr>
                                 <td>
-                                  <input type="checkbox" name="substances[]" id="marijuana" value="marijuana"  disabled />
+                                  <input type="checkbox" name="substances[]" id="marijuana" value="marijuana"   />
                                   <label for="marijuana">Marijuana</label>
                                 </td>
                                 <td>
-                                  <input type="checkbox" name="substances[]" id="lsd" value="lsd" disabled />
+                                  <input type="checkbox" name="substances[]" id="lsd" value="lsd"  />
                                   <label for="lsd">LSD</label>
                                 </td>
                               </tr>
@@ -662,7 +663,7 @@
                           </div>
                         
                           <div class="checkbox-item">
-                            <input type="checkbox" name="drugsStatus" id="NeverDrugsCheckbox" value="Never" disabled >
+                            <input type="checkbox" name="drugsStatus" id="NeverDrugsCheckbox" value="Never"  >
                             <span>Never</span>
                           </div>
                         
@@ -697,15 +698,15 @@
                           </td>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHisdiabetes" name="family_history[]" value="Diabetes"  disabled/>
+                              <input type="checkbox" id="FamHisdiabetes" name="family_history[]" value="Diabetes"  />
                               <label for="FamHisdiabetes">Diabetes</label>
                               <div class="checkbox-label-group"></div>
                           </td>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHisallergiesCheckbox"  disabled/>
+                              <input type="checkbox" id="FamHisallergiesCheckbox"  />
                               <label for="FamHisallergiesCheckbox">Allergies:</label>
-                              <input type="text" id="FamHisallergiesText" placeholder="Specify" disabled />
+                              <input type="text" id="FamHisallergiesText" placeholder="Specify"  />
                               </div>
                           
                           </td>
@@ -720,7 +721,7 @@
                           </td>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHiscancer" name="family_history[]" value="Cancer" disabled  />
+                              <input type="checkbox" id="FamHiscancer" name="family_history[]" value="Cancer"   />
                               <label for="FamHiscancer">Cancer</label>
                               </div>
                           </td>
@@ -729,13 +730,13 @@
                           <tr>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHisasthma" name="family_history[]" value="Asthma" disabled  />
+                              <input type="checkbox" id="FamHisasthma" name="family_history[]" value="Asthma"   />
                               <label for="FamHisasthma">Asthma</label>
                               </div>
                           </td>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHistubercolosis" name="family_history[]" value="Tubercolosis" disabled />
+                              <input type="checkbox" id="FamHistubercolosis" name="family_history[]" value="Tubercolosis"  />
                               <label for="FamHistubercolosis">Tubercolosis</label>
                               </div>
                           </td>
@@ -743,7 +744,7 @@
                               <div class="checkbox-label-group">
                               <input type="checkbox" id="SpecifyFamHisCheckbox" disabled />
                               <label for="SpecifyFamHisCheckbox">OTHERs/specify:</label>
-                              <input type="text" id="SpecifyFamHisText" placeholder="Specify" disabled />
+                              <input type="text" id="SpecifyFamHisText" placeholder="Specify"  />
                               </div>
                           
                           </td>
@@ -752,13 +753,13 @@
                           <tr>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHisemphysema" name="family_history[]" value="Emphysema"  disabled />
+                              <input type="checkbox" id="FamHisemphysema" name="family_history[]" value="Emphysema"   />
                               <label for="FamHisemphysema">Emphysema</label>
                               </div>
                           </td>
                           <td>
                               <div class="checkbox-label-group">
-                              <input type="checkbox" id="FamHisthyroidProblems" name="family_history[]" value="Thyroid Problems" disabled  />
+                              <input type="checkbox" id="FamHisthyroidProblems" name="family_history[]" value="Thyroid Problems"   />
                               <label for="FamHisthyroidProblems">Thyroid Problems</label>
                               </div>
                           </td>
@@ -786,5 +787,34 @@
       
 
 </script>
+
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const patientId = new URLSearchParams(window.location.search).get("patient_id");
+            if (!patientId) return;
+        
+            fetch(`../php-admin/patientrec.php?patient_id=${patientId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        console.warn("Server returned error:", data.error);
+                        return;
+                    }
+        
+                    setText("patient-name-placeholder", data.full_name);
+                    setText("patient-name-display", data.full_name);
+                    setText("patient-role", data.role);
+                    setText("patient-id", data.id_number);
+                    setText("patient-dept", data.department);
+
+                })
+                .catch(err => console.error("Fetch error:", err));
+        
+            function setText(id, text) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text || "N/A";
+            }
+        });
+    </script>
   </body>
 </html>

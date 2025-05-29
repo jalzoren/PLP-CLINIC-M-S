@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="../css/medinvstyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/png" href="../pictures/logo.png">
-
-    
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -108,11 +106,7 @@
           </div>
   
           <button class="control-button" onclick="filterTable()">
-            <i class="bx bx-filter"></i>
-          </button>
-  
-          <button class="control-button" onclick="sortTable()">
-            <i class="bx bx-sort-alt-2"></i>
+            <i class="material-icons">filter_list</i>
           </button>
   
           <button class="add-med" onclick="showPopup()" id="addItemBtn">
@@ -123,38 +117,21 @@
   
       <div class="container-med">
         <section class="layout" id="inventory">
-          <!----
-          <div class="grid-item">
-            <div class="item-image">
-              <img src="../pictures/nurse.png" alt="Item Name">
-            </div>
-            <div class="item-name">Sword</div>
-            <div class="item-qty">x2</div>
-            <button class="view-button" onclick="viewItem(this)">View</button>
-          </div>
-          
-        --->
+
         </section>
       </div>
-      
-      
     </div>
   </div>
   
 
-
-
-
-
-        
-      
- <div class="form-content" id="popupContainer">
+<div class="form-content" id="popupContainer">
   <div class="new-data">
     <div class="title-container">
       <div class="title">ITEM INVENTORY</div>
       <button class="close-btn" onclick="closePopup()">×</button>
     </div>
 
+    <form id="addItemForm">
 
     <div class="medical-fields">
       <div class="field-group">
@@ -185,8 +162,10 @@
     </div>
 
     <div style="display: flex; justify-content: center;">
-      <button class="submit-button" onclick="showLayoutBox()">ADD ITEM</button>
+      <button type="submit" class="submit-button" onclick="showLayoutBox()">ADD ITEM</button>
     </div>
+
+    </form>
   </div>
 </div>
 
@@ -234,23 +213,9 @@
 </div>
 
 
-<!-- Empty Fields Popup -->
-<div id="emptyFieldPopup" class="popup">
-  <div class="popup-content">
-    <h3>Please fill out all required fields.</h3>
-    <button type="button" onclick="closeEmptyFieldPopup()">OK</button>
-  </div>
-</div>
 
-<!-- Success Popup -->
-<div id="SuccessPopup" class="popup">
-  <div class="popup-content">
-    <h3>Sumakses!!</h3>
-    <button type="button" onclick="closeSuccessPopup()">OK</button>
-  </div>
-</div>
+<script src="../js-user/iteminv.js"></script>
 
-<script src="../js/medinvjs.js"></script>
 <script>
     let btn = document.querySelector("#logo");
       let sidebar = document.querySelector(".sidebar");

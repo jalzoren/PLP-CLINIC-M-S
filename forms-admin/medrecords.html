@@ -1,3 +1,7 @@
+<?php
+require_once '../php-admin/medrecsfetch.php'; // this gives you $result
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,8 +13,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="../css/medrecstyle.css" />
-    <link rel="icon" type="image/png" href="logo.png">
-    <script src="../js/popup-medical.js"></script>
+    <link rel="icon" type="image/png" href="../pictures/logo.clear.png">
+   
 
 
   </head>
@@ -119,91 +123,81 @@
               
               
       
-              <div class="table-data">
-                <table class="styled-table" id="dataTable">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Identification Number</th>
-                      <th>Full Name</th>
-                      <th>Category</th>
-                      <th>Sex</th>
-                      <th>Department</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="patient-records-body">
-                 </tbody>
-                </table>
-              </div>
-              
-        </div>
-       
+             <div class="table-data">
+<table class="styled-table" id="dataTable">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Identification Number</th>
+      <th>Full Name</th>
+      <th>Category</th>
+      <th>Sex</th>
+      <th>Department</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    if ($result && $result->num_rows > 0) {
+        $i = 1;
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $i++ . "</td>";
+            echo "<td>" . ($row['Student_ID'] ? $row['Student_ID'] . " (Student)" : $row['Personnel_ID'] . " (Personnel)") . "</td>";
+            echo "<td>" . $row['First_Name'] . ' ' . $row['Middle_Name'] . ' ' . $row['Last_Name'] . "</td>";
+            echo "<td>" . $row['Category'] . "</td>";
+            echo "<td>" . $row['Sex'] . "</td>";
+            echo "<td>";
+            if ($row['student_department']) echo "Student: " . $row['student_department'];
+            if ($row['personnel_department']) {
+                if ($row['student_department']) echo "<br>";
+                echo "Personnel: " . $row['personnel_department'];
+            }
+            echo "</td>";
+          echo "<td class='action-cell'>
+        <a href='patientrec.html?patient_id=" . $row['Patient_ID'] . "'>
+            <button type='button' class='view-btn'>View</button>
+        </a>
+      </td>";
+      echo "</tr>";
 
+        }
+    } else {
+        echo "<tr><td colspan='7'>No records found.</td></tr>";
+    }
+    $database->close();
+    ?>
+  </tbody>
+</table>
+</div>   
         <div id="pop-up-med"></div>
 
 
-
         <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("../php/medrecsfetch.php")
-          .then(response => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then(data => {
-            document.getElementById("patient-records-body").innerHTML = data;
-          })
-          .catch(error => {
-            console.error("Error loading medical records:", error);
-            alert("Failed to load records.");
-          });
-      });
-
-
-
-            function loadPatientRecords() {
-          $.ajax({
-            url: '../php/medrecsfetch.php',
-            method: 'POST',
-            success: function(response) {
-              $('#patient-records-body').html(response); 
-            },
-            error: function() {
-              alert("Error loading patient records.");
-            }
-          });
-        }
-
-        $(document).ready(function() {
-          loadPatientRecords(); 
-
-          setInterval(loadPatientRecords, 1000);
-        });
-      </script>
-
-        <script>
+          // Remove the fetch and ajax calls related to 'patient-records-body'
+        
+          // Sidebar toggle button
           let btn = document.querySelector("#logo");
           let sidebar = document.querySelector(".sidebar");
-
+        
           btn.onclick = function () {
             sidebar.classList.toggle("active");
           };
-  
+        
+          // Load popup medical record form
           document.getElementById('load-btn').addEventListener('click', function() {
             fetch('../popup-forms/popup-medicalrec.html')
               .then(response => response.text())
               .then(data => {
                 const container = document.getElementById('pop-up-med'); 
                 container.innerHTML = data;
-
+        
                 const popupContainer = document.getElementById("popupContainer");
                 if (popupContainer) {
                   popupContainer.style.display = "block";
                 }
-
+        
+                // Re-run scripts inside the loaded HTML
                 const scripts = container.querySelectorAll('script');
                 scripts.forEach(oldScript => {
                   const newScript = document.createElement('script');
@@ -217,10 +211,11 @@
                 });
               })
               .catch(error => {
-                console.error('Error loading  HTML:', error);
+                console.error('Error loading HTML:', error);
               });
           });
         </script>
+        
 
 
   </body>
