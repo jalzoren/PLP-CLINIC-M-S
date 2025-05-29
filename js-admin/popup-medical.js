@@ -35,6 +35,11 @@ function closeAlcoholPopup() {
   document.getElementById("popupPersonalHistory").style.display = "block";
 }
 
+function closeSuccessPopup() {
+  document.getElementById("SuccessPopup").style.display = "none";
+  document.getElementById("popupContainer").style.display = "block"; 
+}
+
 function openPopupPatient() {
   var studentCheckbox = document.getElementById('studentCheckbox').checked;
   var personnelCheckbox = document.getElementById('personnelCheckbox').checked;
