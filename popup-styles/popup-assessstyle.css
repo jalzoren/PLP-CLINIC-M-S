@@ -175,3 +175,18 @@ body {
 .btn-next[hidden] {
   display: none;
 }
+
+.bmi-checkbox-label {
+  display: inline;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.bmi-checkbox {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: inline;
+  transform: scale(2);
+  margin-left: 10px;
+}
