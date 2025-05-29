@@ -652,51 +652,49 @@ function submitMedicalRecordForm(e) {
     for (let [key, value] of formData.entries()) {
       console.log(key + ': ' + value);
     }
+    // Show confirmation popup before submitting
+    // Show confirmation popup before submitting
+    const confirmPopup = document.getElementById("confirmPopup");
+    const yesBtn = document.getElementById("confirmYesBtn");
+    const noBtn = document.getElementById("confirmNoBtn");
 
-    // Submit the form
-    fetch("../php-admin/submit_patient.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text())
-    .then(text => {
-        console.log("Raw response text:", text);
-        try {
-            const data = JSON.parse(text);
+    // Cleanup old listeners before adding new ones to avoid duplicates
+    const newYesBtn = yesBtn.cloneNode(true);
+    const newNoBtn = noBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newYesBtn, yesBtn);
+    noBtn.parentNode.replaceChild(newNoBtn, noBtn);
 
-            if (data.status === "success") {
-              const confirmPopup = document.getElementById("confirmPopup");
-              confirmPopup.style.display = "block";
-  
-              const yesBtn = document.getElementById("confirmYesBtn");
-              const noBtn = document.getElementById("confirmNoBtn");
-  
-              function cleanup() {
-                  confirmPopup.style.display = "none";
-                  yesBtn.removeEventListener("click", onYes);
-                  noBtn.removeEventListener("click", onNo);
-              }
-  
-              function onYes() {
-                  cleanup();
-                  document.getElementById("SuccessPopup").style.display = "block";
-              }
-  
-              function onNo() {
-                  cleanup();
-              }
-  
-              yesBtn.addEventListener("click", onYes);
-              noBtn.addEventListener("click", onNo);
-          }
-        } catch (e) {
-            console.error("Invalid JSON response:", text);
-            console.error("JSON parse error:", e);
-            console.error("Response text causing error:", text);
-        }
-    })
-    .catch(error => {
-        console.error("Request failed", error);
+    confirmPopup.style.display = "block";
+
+    newYesBtn.addEventListener("click", function () {
+        confirmPopup.style.display = "none";
+
+        fetch("../php-admin/submit_patient.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(text => {
+            console.log("Raw response text:", text);
+            try {
+                const data = JSON.parse(text);
+                if (data.status === "success") {
+                    document.getElementById("SuccessPopup").style.display = "block";
+                }
+            } catch (e) {
+                console.error("Invalid JSON response:", text);
+                console.error("JSON parse error:", e);
+                console.error("Response text causing error:", text);
+            }
+        })
+        .catch(error => {
+            console.error("Request failed", error);
+        });
+    });
+
+    newNoBtn.addEventListener("click", function () {
+        confirmPopup.style.display = "none";
+        // Do nothing
     });
   }
 
