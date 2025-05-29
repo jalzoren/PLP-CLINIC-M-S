@@ -110,12 +110,42 @@ function goToPersonalHistoPopUp() {
 
   if (!allFilled) {
     document.getElementById("emptyFieldPopup").style.display = "block";
-  } else {
-    document.getElementById("popupPatient").style.display = "none"; 
-    document.getElementById("popupPersonalHistory").style.display = "block"; 
+    return;
   }
 
+  // Proceed to duplicate check
+  const category = document.querySelector("input[name='category']:checked")?.value;
+  const idValue = category === "student"
+    ? document.querySelector("input[name='Student_ID']")?.value.trim()
+    : document.querySelector("input[name='Personnel_ID']")?.value.trim();
+
+  if (!category || !idValue) {
+    alert("Category and Identification Number are required.");
+    return;
+  }
+
+  fetch("../php-admin/check_duplicate.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id_number: idValue, category: category })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "duplicate") {
+        document.getElementById("DuplicatePopup").style.display = "block";
+      } else {
+        // Open next popup only if no duplicate
+        document.getElementById("popupPatient").style.display = "none";
+        document.getElementById("popupPersonalHistory").style.display = "block";
+      }
+    })
+    .catch(error => {
+      console.error("Error checking for duplicate ID:", error);
+    });
 }
+
 
 function goToFamilyHistoPopUp() {
   const surgicalCheckbox = document.getElementById('surgical');
