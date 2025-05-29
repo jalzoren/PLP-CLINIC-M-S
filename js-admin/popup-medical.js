@@ -37,7 +37,7 @@ function closeAlcoholPopup() {
 
 function closeSuccessPopup() {
   document.getElementById("SuccessPopup").style.display = "none";
-  document.getElementById("popupContainer").style.display = "none"; 
+  document.getElementById("medicalRecordForm").style.display = "none"; 
 }
 
 function openPopupPatient() {
