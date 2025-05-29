@@ -131,18 +131,25 @@ function goToPersonalHistoPopUp() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id_number: idValue, category: category })
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === "duplicate") {
-      document.getElementById("DuplicatePopup").style.display = "block";
-    } else {
-      document.getElementById("popupPatient").style.display = "none";
-      document.getElementById("popupPersonalHistory").style.display = "block";
+  .then(response => response.text())
+  .then(text => {
+    console.log("Response text:", text);
+    try {
+      const data = JSON.parse(text);
+      if (data.status === "duplicate") {
+        document.getElementById("DuplicatePopup").style.display = "block";
+      } else {
+        document.getElementById("popupPatient").style.display = "none";
+        document.getElementById("popupPersonalHistory").style.display = "block";
+      }
+    } catch (e) {
+      console.error("JSON parse error:", e);
     }
   })
   .catch(error => {
     console.error("Error checking for duplicate ID:", error);
   });
+  
 }
 
 

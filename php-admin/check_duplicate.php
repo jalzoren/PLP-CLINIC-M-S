@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json');
+error_reporting(0); 
 require_once '../php/database.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -20,7 +22,7 @@ if ($category === "student") {
 }
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $id_number);
+$stmt->bind_param("s", $id_number);
 $stmt->execute();
 $stmt->bind_result($count);
 $stmt->fetch();
