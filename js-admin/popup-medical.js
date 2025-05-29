@@ -37,7 +37,7 @@ function closeAlcoholPopup() {
 
 function closeSuccessPopup() {
   document.getElementById("SuccessPopup").style.display = "none";
-  document.getElementById("popupContainer").style.display = "block"; 
+  document.getElementById("popupContainer").style.display = "none"; 
 }
 
 function openPopupPatient() {
