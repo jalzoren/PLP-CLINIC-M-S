@@ -494,6 +494,9 @@ window.onload = function() {
   document.getElementById("popupContainer").style.display = "block"; 
 }
 
+
+
+
 function submitMedicalRecordForm(e) {
     e.preventDefault(); 
 
@@ -655,14 +658,8 @@ function submitMedicalRecordForm(e) {
         console.log("Raw response text:", text);
         try {
             const data = JSON.parse(text);
-            console.log("Parsed JSON:", data);
-            console.log("data.status =", data.status);
-            console.log("data.patientID =", data.patientID);
 
             if (data.status === "success") {
-                console.log("Condition matched: success");
-                console.log("Patient ID from server:", data.patientID);
-                generatePDFAndUpload(data.patientID);
                 document.getElementById("SuccessPopup").style.display = "block";
             }
         } catch (e) {

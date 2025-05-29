@@ -12,8 +12,7 @@ try {
 
     // Base SQL query
     $sql = "SELECT Item_ID, Item_Name, Category, Status, Quantity FROM item WHERE 1=1";
-
-    // Add search condition if search parameter is provided
+    
     if (!empty($search)) {
         $search = "%{$search}%";
         $sql .= " AND Item_Name LIKE ?";

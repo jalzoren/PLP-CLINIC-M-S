@@ -40,10 +40,10 @@ $sql = "SELECT
     br.Status,
     br.Photo_Borrowed,
     br.Photo_Returned
-FROM borroweditem_records br
-JOIN patient p ON br.Patient_ID = p.Patient_ID
-JOIN item i ON br.Item_ID = i.Item_ID
-ORDER BY br.Date_Borrowed DESC";
+    FROM borroweditem_records br
+    JOIN patient p ON br.Patient_ID = p.Patient_ID
+    JOIN item i ON br.Item_ID = i.Item_ID
+    ORDER BY br.Date_Borrowed DESC";
 
 $result = $conn->query($sql);
 
