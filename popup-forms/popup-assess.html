@@ -57,24 +57,30 @@
                 <input type="number" name="rr" id="rr" placeholder="e.g., 16" required />
               </div>
               <div class="form-group">
-                <label>Height (cm)</label>
-                <input type="number" step="0.1" name="height" id="height" placeholder="e.g., 170.5" required />
-              </div>
-              <div class="form-group">
-                <label>Weight (kg)</label>
-                <input type="number" step="0.1" name="weight" id="weight" placeholder="e.g., 70.0" required />
-              </div>
-              <div class="form-group">
-                <label>BMI</label>
-                <input type="number" step="0.1" name="bmi" id="bmi" placeholder="e.g., 24.2" readonly />
-              </div>
-              <div class="form-group">
                 <label>Pulse (beats/min)</label>
                 <input type="number" name="pulse" id="pulse" placeholder="e.g., 72" required />
               </div>
               <div class="form-group">
                 <label>Blood Pressure (mmHg)</label>
                 <input type="text" name="bp" id="bp" placeholder="e.g., 120/80" required />
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="include_measurements" name="include_measurements" />
+                  Check BMI?
+                </label>
+              </div>
+              <div class="form-group measurements-group" style="display: none;">
+                <label>Height (cm)</label>
+                <input type="number" step="0.1" name="height" id="height" placeholder="e.g., 170.5" />
+              </div>
+              <div class="form-group measurements-group" style="display: none;">
+                <label>Weight (kg)</label>
+                <input type="number" step="0.1" name="weight" id="weight" placeholder="e.g., 70.0" />
+              </div>
+              <div class="form-group measurements-group" style="display: none;">
+                <label>BMI</label>
+                <input type="number" step="0.1" name="bmi" id="bmi" placeholder="e.g., 24.2" readonly />
               </div>
             </div>
 
@@ -113,6 +119,21 @@
 
 
   <script>
+    // Toggle measurements fields visibility
+    document.getElementById('include_measurements').addEventListener('change', function() {
+        const measurementGroups = document.querySelectorAll('.measurements-group');
+        measurementGroups.forEach(group => {
+            group.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Clear values when unchecked
+        if (!this.checked) {
+            document.getElementById('height').value = '';
+            document.getElementById('weight').value = '';
+            document.getElementById('bmi').value = '';
+        }
+    });
+
     // Auto-calculate BMI
     document.querySelector('input[name="height"]').addEventListener('input', calculateBMI);
     document.querySelector('input[name="weight"]').addEventListener('input', calculateBMI);
