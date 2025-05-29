@@ -1,9 +1,18 @@
 function closePopup() {
-  document.getElementById("popupContainer").style.display = "none";
-  document.getElementById("popupPatient").style.display = "none";
-  document.getElementById("popupPersonalHistory").style.display = "none";
-  document.getElementById("popupFamilyHistory").style.display = "none";
+  document.getElementById("exitConfirmPopup").style.display = "block";
 }
+
+function confirmExit(shouldExit) {
+  document.getElementById("exitConfirmPopup").style.display = "none";
+  
+  if (shouldExit) {
+    document.getElementById("popupContainer").style.display = "none";
+    document.getElementById("popupPatient").style.display = "none";
+    document.getElementById("popupPersonalHistory").style.display = "none";
+    document.getElementById("popupFamilyHistory").style.display = "none";
+  }
+}
+
 
 function closeEmptyFieldPopup() {
   document.getElementById('emptyFieldPopup').style.display = "none";
