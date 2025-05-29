@@ -115,6 +115,14 @@
     </div>
   </div>
 
+  <div id="exitConfirmPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <p>Are you sure you want to exit? All unsaved data will be lost.</p>
+      <button onclick="confirmExit(true)">Yes</button>
+      <button onclick="confirmExit(false)">No</button>
+    </div>
+  </div>
+
   <script src="../js/time-assessp.js"></script>
 
 
@@ -124,6 +132,19 @@
       document.getElementById('popupContainer').style.display = 'none';
       window.parent.location.reload();
     }
+
+    function closePopup() {
+      document.getElementById("exitConfirmPopup").style.display = "block";
+    }
+
+    function confirmExit(shouldExit) {
+      document.getElementById("exitConfirmPopup").style.display = "none";
+      
+      if (shouldExit) {
+        document.getElementById("popupContainer").style.display = "none";
+      }
+    }
+
 
     // Toggle measurements fields visibility
     document.getElementById('include_measurements').addEventListener('change', function() {
