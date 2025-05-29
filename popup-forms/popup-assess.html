@@ -133,19 +133,6 @@
       window.parent.location.reload();
     }
 
-    function closePopup() {
-      document.getElementById("exitConfirmPopup").style.display = "block";
-    }
-
-    function confirmExit(shouldExit) {
-      document.getElementById("exitConfirmPopup").style.display = "none";
-      
-      if (shouldExit) {
-        document.getElementById("popupContainer").style.display = "none";
-      }
-    }
-
-
     // Toggle measurements fields visibility
     document.getElementById('include_measurements').addEventListener('change', function() {
         const measurementGroups = document.querySelectorAll('.measurements-group');
