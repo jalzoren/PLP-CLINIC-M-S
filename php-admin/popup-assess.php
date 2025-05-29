@@ -14,9 +14,13 @@ try {
     $pulse = $_POST['pulse'];
     $respiratory_rate = $_POST['rr'];
     $blood_pressure = $_POST['bp'];
-    $height = $_POST['height'];
-    $weight = $_POST['weight'];
-    $bmi = $_POST['bmi'];
+    
+    // optional measurements
+    $include_measurements = isset($_POST['include_measurements']) && $_POST['include_measurements'] === 'on';
+    $height = $include_measurements ? $_POST['height'] : null;
+    $weight = $include_measurements ? $_POST['weight'] : null;
+    $bmi = $include_measurements ? $_POST['bmi'] : null;
+    
     $physicians_note = $_POST['physician_notes'];
     $nurse_note = $_POST['nurse_notes'];
 
