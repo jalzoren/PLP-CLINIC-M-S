@@ -115,10 +115,11 @@ function goToPersonalHistoPopUp() {
     return;
   }
 
-  const category = document.querySelector("input[name='category']:checked")?.value;
-  const idValue = category === "student"
-    ? document.querySelector("input[name='Student_ID']")?.value.trim()
-    : document.querySelector("input[name='Personnel_ID']")?.value.trim();
+  const category = document.querySelector("input[name='user']:checked")?.value;
+  const idValue = document.querySelector("input[name='identification']")?.value.trim();
+
+  console.log("Category:", category);
+  console.log("Identification Number:", idValue);
 
   if (!category || !idValue) {
     alert("Category and Identification Number are required.");
@@ -143,6 +144,7 @@ function goToPersonalHistoPopUp() {
     console.error("Error checking for duplicate ID:", error);
   });
 }
+
 
 
 
