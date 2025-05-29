@@ -665,8 +665,33 @@ function submitMedicalRecordForm(e) {
             const data = JSON.parse(text);
 
             if (data.status === "success") {
-                document.getElementById("SuccessPopup").style.display = "block";
-            }
+              // Show the confirmation popup first
+              const confirmPopup = document.getElementById("confirmPopup");
+              confirmPopup.style.display = "block";
+  
+              const yesBtn = document.getElementById("confirmYesBtn");
+              const noBtn = document.getElementById("confirmNoBtn");
+  
+              function cleanup() {
+                  confirmPopup.style.display = "none";
+                  yesBtn.removeEventListener("click", onYes);
+                  noBtn.removeEventListener("click", onNo);
+              }
+  
+              function onYes() {
+                  cleanup();
+                  // Show the success popup now
+                  document.getElementById("SuccessPopup").style.display = "block";
+              }
+  
+              function onNo() {
+                  cleanup();
+                  // Just close confirmation, do nothing else
+              }
+  
+              yesBtn.addEventListener("click", onYes);
+              noBtn.addEventListener("click", onNo);
+          }
         } catch (e) {
             console.error("Invalid JSON response:", text);
             console.error("JSON parse error:", e);
