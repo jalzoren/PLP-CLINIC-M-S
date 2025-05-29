@@ -103,6 +103,8 @@ function goToPersonalHistoPopUp() {
   let allFilled = true;
 
   requiredFields.forEach(field => {
+    if (field.name === "middlename" || field.name === "emergencymiddlename") return;
+
     if (field.value.trim() === "") {
       allFilled = false;
     }
@@ -113,7 +115,6 @@ function goToPersonalHistoPopUp() {
     return;
   }
 
-  // Proceed to duplicate check
   const category = document.querySelector("input[name='category']:checked")?.value;
   const idValue = category === "student"
     ? document.querySelector("input[name='Student_ID']")?.value.trim()
@@ -126,25 +127,24 @@ function goToPersonalHistoPopUp() {
 
   fetch("../php-admin/check_duplicate.php", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id_number: idValue, category: category })
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === "duplicate") {
-        document.getElementById("DuplicatePopup").style.display = "block";
-      } else {
-        // Open next popup only if no duplicate
-        document.getElementById("popupPatient").style.display = "none";
-        document.getElementById("popupPersonalHistory").style.display = "block";
-      }
-    })
-    .catch(error => {
-      console.error("Error checking for duplicate ID:", error);
-    });
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "duplicate") {
+      document.getElementById("DuplicatePopup").style.display = "block";
+    } else {
+      document.getElementById("popupPatient").style.display = "none";
+      document.getElementById("popupPersonalHistory").style.display = "block";
+    }
+  })
+  .catch(error => {
+    console.error("Error checking for duplicate ID:", error);
+  });
 }
+
+
 
 
 function goToFamilyHistoPopUp() {
