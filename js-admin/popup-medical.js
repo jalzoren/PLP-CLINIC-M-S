@@ -37,7 +37,7 @@ function closeAlcoholPopup() {
 
 function closeSuccessPopup() {
   document.getElementById("SuccessPopup").style.display = "none";
-  document.getElementById("popupContainer").style.display = "none"; 
+  document.getElementById("medicalRecordForm").style.display = "none"; 
 }
 
 function openPopupPatient() {
@@ -103,6 +103,8 @@ function goToPersonalHistoPopUp() {
   let allFilled = true;
 
   requiredFields.forEach(field => {
+    if (field.name === "middlename" || field.name === "emergencymiddlename") return;
+
     if (field.value.trim() === "") {
       allFilled = false;
     }
@@ -113,11 +115,11 @@ function goToPersonalHistoPopUp() {
     return;
   }
 
-  // Proceed to duplicate check
-  const category = document.querySelector("input[name='category']:checked")?.value;
-  const idValue = category === "student"
-    ? document.querySelector("input[name='Student_ID']")?.value.trim()
-    : document.querySelector("input[name='Personnel_ID']")?.value.trim();
+  const category = document.querySelector("input[name='user']:checked")?.value;
+  const idValue = document.querySelector("input[name='identification']")?.value.trim();
+
+  console.log("Category:", category);
+  console.log("Identification Number:", idValue);
 
   if (!category || !idValue) {
     alert("Category and Identification Number are required.");
@@ -126,25 +128,32 @@ function goToPersonalHistoPopUp() {
 
   fetch("../php-admin/check_duplicate.php", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id_number: idValue, category: category })
   })
-    .then(response => response.json())
-    .then(data => {
+  .then(response => response.text())
+  .then(text => {
+    console.log("Response text:", text);
+    try {
+      const data = JSON.parse(text);
       if (data.status === "duplicate") {
         document.getElementById("DuplicatePopup").style.display = "block";
       } else {
-        // Open next popup only if no duplicate
         document.getElementById("popupPatient").style.display = "none";
         document.getElementById("popupPersonalHistory").style.display = "block";
       }
-    })
-    .catch(error => {
-      console.error("Error checking for duplicate ID:", error);
-    });
+    } catch (e) {
+      console.error("JSON parse error:", e);
+    }
+  })
+  .catch(error => {
+    console.error("Error checking for duplicate ID:", error);
+  });
+  
 }
+
+
+
 
 
 function goToFamilyHistoPopUp() {
