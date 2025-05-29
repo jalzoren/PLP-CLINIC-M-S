@@ -177,19 +177,16 @@ body {
 }
 
 .bmi-checkbox-label {
-  display: inline-block;
-  margin-bottom: 8px;
+  display: inline;
+  margin-right: 10px;
   font-weight: 500;
-  text-align: center;
-  vertical-align: middle;
 }
 
 .bmi-checkbox {
   width: 50px;
   height: 50px;
   cursor: pointer;
-  display: inline-block;
-  margin: 0 0 0 10px;
+  display: inline;
   transform: scale(2);
-  vertical-align: middle;
+  margin-left: 10px;
 }
