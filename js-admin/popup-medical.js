@@ -665,7 +665,6 @@ function submitMedicalRecordForm(e) {
             const data = JSON.parse(text);
 
             if (data.status === "success") {
-              // Show the confirmation popup first
               const confirmPopup = document.getElementById("confirmPopup");
               confirmPopup.style.display = "block";
   
@@ -680,13 +679,11 @@ function submitMedicalRecordForm(e) {
   
               function onYes() {
                   cleanup();
-                  // Show the success popup now
                   document.getElementById("SuccessPopup").style.display = "block";
               }
   
               function onNo() {
                   cleanup();
-                  // Just close confirmation, do nothing else
               }
   
               yesBtn.addEventListener("click", onYes);
