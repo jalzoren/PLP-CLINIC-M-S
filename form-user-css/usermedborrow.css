@@ -628,3 +628,86 @@ button.btn:hover {
   align-items: center;
   margin: 10px;
 }
+
+.assessment-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Ensure modal is on top */
+  display: flex; /* Use Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  overflow: auto; /* Allow scrolling if content overflows */
+}
+
+/* Modal content box */
+.assessment-modal-content {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Maximum width */
+  min-height: 200px; /* Minimum height */
+  padding: 20px;
+  position: relative; /* For close button positioning */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+/* Modal header */
+.assessment-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.assessment-modal-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+/* Close button */
+.assessment-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.assessment-modal-close:hover {
+  color: #000;
+}
+
+/* Content area */
+#assessmentContent {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Error message */
+.assessment-error {
+  color: #d32f2f;
+  font-size: 0.9em;
+  min-height: 1.2em; /* Reserve space for error messages */
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .assessment-modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .assessment-modal-header h2 {
+    font-size: 1.2em;
+  }
+}
